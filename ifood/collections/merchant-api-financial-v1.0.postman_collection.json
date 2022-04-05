@@ -1,0 +1,436 @@
+{
+  "info": {
+    "_postman_id": "572ec6c3-1739-46d6-9e00-c6f61970dcb1",
+    "name": "Merchant-API - Financial v1.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "User Code",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "clientId",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{merchantApiHost}}/authentication/v1.0/oauth/userCode",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["authentication", "v1.0", "oauth", "userCode"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Session",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "grantType",
+                  "value": "{{grantType}}",
+                  "type": "text"
+                },
+                {
+                  "key": "clientId",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "{{clientSecret}}",
+                  "type": "text"
+                },
+                {
+                  "key": "authorizationCode",
+                  "value": "{{authorizationCode}}",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "authorizationCodeVerifier",
+                  "value": "{{authorizationCodeVerifier}}",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "refreshToken",
+                  "value": "{{refreshToken}}",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{merchantApiHost}}/authentication/v1.0/oauth/token",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["authentication", "v1.0", "oauth", "token"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Financial",
+      "item": [
+        {
+          "name": "Financial Products",
+          "item": [
+            {
+              "name": "Get gross revenue by month",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/financial/v1.0/merchants/{{merchantId}}/grossRevenue",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["financial", "v1.0", "merchants", "{{merchantId}}", "grossRevenue"]
+                },
+                "description": "Returns merchant information regarding gross revenue grouped by months"
+              },
+              "response": []
+            },
+            {
+              "name": "Get gross revenue by day",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/financial/v1.0/merchants/{{merchantId}}/dailyGrossRevenue",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["financial", "v1.0", "merchants", "{{merchantId}}", "dailyGrossRevenue"]
+                },
+                "description": "Returns merchant information regarding gross revenue grouped by day"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Conciliation",
+          "item": [
+            {
+              "name": "Get sales by merchant",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/financial/v1.0/merchants/{{merchantId}}/sales?beginLastProcessingDate=2021-02-01&endLastProcessingDate=2021-02-02",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["financial", "v1.0", "merchants", "{{merchantId}}", "sales"],
+                  "query": [
+                    {
+                      "key": "beginLastProcessingDate",
+                      "value": "2021-02-01"
+                    },
+                    {
+                      "key": "endLastProcessingDate",
+                      "value": "2021-02-02"
+                    },
+                    {
+                      "key": "beginOrderDate",
+                      "value": "2021-02-01",
+                      "disabled": true
+                    },
+                    {
+                      "key": "endOrderDate",
+                      "value": "2021-02-02",
+                      "disabled": true
+                    },
+                    {
+                      "key": "periodId",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "orderStatus",
+                      "value": "CONCLUDED",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Returns merchant information for sales conciliation by a range of dates or period"
+              },
+              "response": []
+            },
+            {
+              "name": "Get payments info",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/financial/v1.0/merchants/{{merchantId}}/payments?beginExpectedExecutionDate=2021-02-01&endExpectedExecutionDate=2021-02-02",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["financial", "v1.0", "merchants", "{{merchantId}}", "payments"],
+                  "query": [
+                    {
+                      "key": "beginExpectedExecutionDate",
+                      "value": "2021-02-01"
+                    },
+                    {
+                      "key": "endExpectedExecutionDate",
+                      "value": "2021-02-02"
+                    },
+                    {
+                      "key": "periodId",
+                      "value": "",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Returns merchant information regarding payments by range of dates or period"
+              },
+              "response": []
+            },
+            {
+              "name": "Get occurrences",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/financial/v1.0/merchants/{{merchantId}}/occurrences?transactionDateBegin=2021-02-01&transactionDateEnd=2021-02-02",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["financial", "v1.0", "merchants", "{{merchantId}}", "occurrences"],
+                  "query": [
+                    {
+                      "key": "transactionDateBegin",
+                      "value": "2021-02-01"
+                    },
+                    {
+                      "key": "transactionDateEnd",
+                      "value": "2021-02-02"
+                    },
+                    {
+                      "key": "periodId",
+                      "value": "",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Returns information regarding occurrences"
+              },
+              "response": []
+            },
+            {
+              "name": "Get maintenance fees",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/financial/v1.0/merchants/{{merchantId}}/maintenanceFees?transactionDateBegin=2021-02-01&transactionDateEnd=2021-02-02",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["financial", "v1.0", "merchants", "{{merchantId}}", "maintenanceFees"],
+                  "query": [
+                    {
+                      "key": "transactionDateBegin",
+                      "value": "2021-02-01"
+                    },
+                    {
+                      "key": "transactionDateEnd",
+                      "value": "2021-02-02"
+                    },
+                    {
+                      "key": "periodId",
+                      "value": "",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Returns information regarding maintenance fees"
+              },
+              "response": []
+            },
+            {
+              "name": "Get income taxes",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/financial/v1.0/merchants/{{merchantId}}/incomeTaxes?transactionDateBegin=2021-02-01&transactionDateEnd=2021-02-02",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["financial", "v1.0", "merchants", "{{merchantId}}", "incomeTaxes"],
+                  "query": [
+                    {
+                      "key": "transactionDateBegin",
+                      "value": "2021-02-01"
+                    },
+                    {
+                      "key": "transactionDateEnd",
+                      "value": "2021-02-02"
+                    },
+                    {
+                      "key": "periodId",
+                      "value": "",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Returns information regarding income taxes"
+              },
+              "response": []
+            },
+            {
+              "name": "Get charge cancellations",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/financial/v1.0/merchants/{{merchantId}}/chargeCancellations?transactionDateBegin=2021-02-01&transactionDateEnd=2021-02-02",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["financial", "v1.0", "merchants", "{{merchantId}}", "chargeCancellations"],
+                  "query": [
+                    {
+                      "key": "transactionDateBegin",
+                      "value": "2021-02-01"
+                    },
+                    {
+                      "key": "transactionDateEnd",
+                      "value": "2021-02-02"
+                    },
+                    {
+                      "key": "periodId",
+                      "value": "",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Returns information regarding charge cancellations"
+              },
+              "response": []
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{accessToken}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "id": "1f2da5a0-f552-4ac0-82a9-0b1bfa5fcee4",
+      "key": "merchantApiHost",
+      "value": "https://merchant-api.ifood.com.br"
+    }
+  ]
+}

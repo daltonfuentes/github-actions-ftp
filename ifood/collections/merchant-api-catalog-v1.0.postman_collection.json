@@ -1,0 +1,1185 @@
+{
+  "info": {
+    "_postman_id": "5a90544a-dee3-4a70-824e-ab420a9c108e",
+    "name": "Merchant-API - Catalog v1.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "User Code",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "clientId",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{merchantApiHost}}/authentication/v1.0/oauth/userCode",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["authentication", "v1.0", "oauth", "userCode"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Session",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "grantType",
+                  "value": "{{grantType}}",
+                  "type": "text"
+                },
+                {
+                  "key": "clientId",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "{{clientSecret}}",
+                  "type": "text"
+                },
+                {
+                  "key": "authorizationCode",
+                  "value": "{{authorizationCode}}",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "authorizationCodeVerifier",
+                  "value": "{{authorizationCodeVerifier}}",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "refreshToken",
+                  "value": "{{refreshToken}}",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{merchantApiHost}}/authentication/v1.0/oauth/token",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["authentication", "v1.0", "oauth", "token"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Catalog",
+      "item": [
+        {
+          "name": "Catalog",
+          "item": [
+            {
+              "name": "List catalogs",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/catalogs",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "catalogs"]
+                },
+                "description": "List all available catalogs given a Merchant Id"
+              },
+              "response": []
+            },
+            {
+              "name": "List changelogs",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/catalogs/{{catalogId}}/changelog?startDate=2020-03-01T00:00:00.000Z&endDate=2020-03-02T00:00:00.000Z",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "catalogs", "{{catalogId}}", "changelog"],
+                  "query": [
+                    {
+                      "key": "startDate",
+                      "value": "2020-03-01T00:00:00.000Z"
+                    },
+                    {
+                      "key": "endDate",
+                      "value": "2020-03-02T00:00:00.000Z"
+                    }
+                  ]
+                },
+                "description": "List all changes made to a catalog given a time window These changes are currently indexed at category level, which means, in case something is changed within a category, there will be a registry indicating something has changed. There will be two fields in the response body: modifiedAt (date and time which a change has been made) and changelogIngestedAt (date and time which a change has been processed by Changelog system). Registries will be queried based on changelogIngestedAt from newest to oldest"
+              },
+              "response": []
+            },
+            {
+              "name": "List unsellable items",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/catalogs/{{catalogId}}/unsellableItems",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "catalogs",
+                    "{{catalogId}}",
+                    "unsellableItems"
+                  ]
+                },
+                "description": "List all unsellable categories or categories containing unsellable items. That is, categories or items with violations, paused ones, etc"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Category",
+          "item": [
+            {
+              "name": "List categories",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/catalogs/{{catalogId}}/categories",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "catalogs", "{{catalogId}}", "categories"],
+                  "query": [
+                    {
+                      "key": "includeItems",
+                      "value": "true",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "List all categories within a specific catalog, which may include items within those categories"
+              },
+              "response": []
+            },
+            {
+              "name": "Create a category",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "id",
+                      "value": "",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "name",
+                      "value": "Default Category",
+                      "type": "text"
+                    },
+                    {
+                      "key": "externalCode",
+                      "value": "",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "AVAILABLE",
+                      "type": "text"
+                    },
+                    {
+                      "key": "index",
+                      "value": "",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "template",
+                      "value": "DEFAULT",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/catalogs/{{catalogId}}/categories",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "catalogs", "{{catalogId}}", "categories"]
+                },
+                "description": "Create a category within a catalog"
+              },
+              "response": []
+            },
+            {
+              "name": "Get a Category",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/catalogs/{{catalogId}}/categories/{{categoryId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "catalogs",
+                    "{{catalogId}}",
+                    "categories",
+                    "{{categoryId}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "includeItems",
+                      "value": "true",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "description": "Fetch a specific category, which may include items within that category"
+              },
+              "response": []
+            },
+            {
+              "name": "Edit a category",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "name",
+                      "value": "",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "externalCode",
+                      "value": "234",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "status",
+                      "value": "AVAILABLE",
+                      "type": "text"
+                    },
+                    {
+                      "key": "index",
+                      "value": "",
+                      "type": "text",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/catalogs/{{catalogId}}/categories/{{categoryId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "catalogs",
+                    "{{catalogId}}",
+                    "categories",
+                    "{{categoryId}}"
+                  ]
+                },
+                "description": "Edit a category. Unsent fields will preserve their former values"
+              },
+              "response": []
+            },
+            {
+              "name": "Delete a category",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/catalogs/{{catalogId}}/categories/{{categoryId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "catalogs",
+                    "{{catalogId}}",
+                    "categories",
+                    "{{categoryId}}"
+                  ]
+                },
+                "description": "Delete a category. All items within that category will also be deleted"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Product",
+          "item": [
+            {
+              "name": "List products",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/products?page=1&limit=10",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "products"],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    }
+                  ]
+                },
+                "description": "List all products registered to a given merchant"
+              },
+              "response": []
+            },
+            {
+              "name": "Create a product",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Default Product\",\r\n    \"description\": \"Default Description\",\r\n    \"serving\": \"SERVES_1\",\r\n    \"dietaryRestrictions\": [\r\n        \"ORGANIC\",\r\n        \"VEGAN\"\r\n    ],\r\n    \"shifts\": [\r\n        {\r\n            \"startTime\": \"00:00\",\r\n            \"endTime\": \"23:59\",\r\n            \"monday\": true,\r\n            \"tuesday\": true,\r\n            \"wednesday\": true,\r\n            \"thursday\": true,\r\n            \"friday\": true,\r\n            \"saturday\": true,\r\n            \"sunday\": true\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/products",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "products"]
+                },
+                "description": "Create a product. After being created, the product isn't yet available for sale. It is necessary to associate it to a category via item creation (association) API"
+              },
+              "response": []
+            },
+            {
+              "name": "Edit a product",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Default Product\",\r\n    \"description\": \"Default Description\",\r\n    \"serving\": \"SERVES_1\",\r\n    \"dietaryRestrictions\": [\r\n        \"ORGANIC\",\r\n        \"VEGAN\"\r\n    ],\r\n    \"shifts\": [\r\n        {\r\n            \"startTime\": \"00:00\",\r\n            \"endTime\": \"23:59\",\r\n            \"monday\": true,\r\n            \"tuesday\": true,\r\n            \"wednesday\": true,\r\n            \"thursday\": true,\r\n            \"friday\": true,\r\n            \"saturday\": true,\r\n            \"sunday\": true\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/products/{{productId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "products", "{{productId}}"]
+                },
+                "description": "Edit a product. Once updated, all items and options associated to that product will also be updated"
+              },
+              "response": []
+            },
+            {
+              "name": "Delete a product",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/products/{{productId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "products", "{{productId}}"]
+                },
+                "description": "Delete a product. All items and options associated to that product will also be deleted"
+              },
+              "response": []
+            },
+            {
+              "name": "Update a product's status",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "status",
+                      "value": "AVAILABLE",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/products/{{productId}}/status",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "products", "{{productId}}", "status"]
+                },
+                "description": "Update a product's status. All items and options associated to that product will also be updated"
+              },
+              "response": []
+            },
+            {
+              "name": "Batch update product's status",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[\r\n  {\r\n    \"productId\": \"string\",\r\n    \"status\": \"AVAILABLE\",\r\n    \"resources\": [\r\n      \"ITEM\",\r\n      \"OPTION\"\r\n    ]\r\n  }\r\n]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/products/status",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "products", "status"]
+                },
+                "description": "Batch update products' statuses. All items and options associated to all given products will also be updated. It is also possible to define if only items or options should be update. This functionality is executed asynchronously."
+              },
+              "response": []
+            },
+            {
+              "name": "Batch update product's price",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "productId",
+                      "value": "80943747-de7a-44d2-9479-0e2c3e44ed62",
+                      "type": "text"
+                    },
+                    {
+                      "key": "price.description",
+                      "value": "",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "price.value",
+                      "value": "1",
+                      "type": "text"
+                    },
+                    {
+                      "key": "resources[0]",
+                      "value": "",
+                      "type": "text",
+                      "disabled": true
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/products/price",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "products", "price"]
+                },
+                "description": "Batch update products' prices. All items and options associated to all given products will also be updated. It is also possible to define if only items or options should be update. This functionality is executed asynchronously"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Pizza Product",
+          "item": [
+            {
+              "name": "Create a pizza",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"sizes\": [\r\n        {\r\n            \"name\": \"Default Size\",\r\n            \"status\": \"AVAILABLE\",\r\n            \"slices\": 8,\r\n            \"acceptedFractions\": [\r\n                1,\r\n                2\r\n            ]\r\n        }\r\n    ],\r\n    \"crusts\": [\r\n        {\r\n            \"name\": \"Default Crust\",\r\n            \"status\": \"AVAILABLE\"\r\n        }\r\n    ],\r\n    \"edges\": [\r\n        {\r\n            \"name\": \"Default Edge\",\r\n            \"status\": \"AVAILABLE\"\r\n        }\r\n    ],\r\n    \"toppings\": [\r\n        {\r\n            \"name\": \"Default Topping\",\r\n            \"status\": \"AVAILABLE\"\r\n        }\r\n    ],\r\n    \"shifts\": [\r\n        {\r\n            \"startTime\": \"00:00\",\r\n            \"endTime\": \"23:59\",\r\n            \"monday\": true,\r\n            \"tuesday\": true,\r\n            \"wednesday\": true,\r\n            \"thursday\": true,\r\n            \"friday\": true,\r\n            \"saturday\": true,\r\n            \"sunday\": true\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/pizzas",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "pizzas"]
+                },
+                "description": "Create a pizza product. After being created, the pizza isn't yet available for sale"
+              },
+              "response": []
+            },
+            {
+              "name": "List pizzas",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/pizzas",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "pizzas"]
+                },
+                "description": "List all available pizzas within a merchant"
+              },
+              "response": []
+            },
+            {
+              "name": "Link a pizza to a category",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"catalogId\": \"42baaf3e-939c-4387-bab6-3561dcae4b4c\",\r\n  \"crusts\": [\r\n    {\r\n      \"id\": \"e9db166d-2f87-4fa2-9669-cceec689c269\",\r\n      \"price\": {\r\n          \"value\": 1,\r\n          \"originalValue\": 2\r\n      }\r\n    },\r\n    {\r\n      \"id\": \"125fdc0d-6d31-421e-bb2a-6b8d2c90f681\",\r\n      \"price\": {\r\n          \"value\": 1,\r\n          \"originalValue\": 2\r\n      }\r\n    }\r\n  ],\r\n  \"edges\": [\r\n    {\r\n      \"id\": \"44cfd6a2-72e3-45d3-9f13-e27d0b3c5733\",\r\n      \"price\": {\r\n          \"value\": 1,\r\n          \"originalValue\": 2\r\n      }\r\n    },\r\n    {\r\n      \"id\": \"82037e4e-cd7f-4981-b02e-e22fad6a3027\",\r\n      \"price\": {\r\n          \"value\": 1,\r\n          \"originalValue\": 2\r\n      }\r\n    }\r\n  ],\r\n  \"toppings\": [\r\n    {\r\n      \"id\": \"069e6692-8dcf-4d06-a4bb-0385cf3109c2\",\r\n      \"prices\": {\r\n        \"a8ef3d82-6e5d-498e-81a4-6ba25ae91073\": {\r\n          \"value\": 20,\r\n          \"originalValue\": 30\r\n        },\r\n        \"1c296c3c-e482-48d6-ba10-429f025a72fa\": {\r\n          \"value\": 20,\r\n          \"originalValue\": 30\r\n        }\r\n      }\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/pizzas/{{pizzaId}}/categories/{{categoryId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "pizzas",
+                    "{{pizzaId}}",
+                    "categories",
+                    "{{categoryId}}"
+                  ]
+                },
+                "description": "Associate a pizza product to a category with PIZZA template. At this moment, the pizza will be on sale with given prices"
+              },
+              "response": []
+            },
+            {
+              "name": "Unlink a pizza from a category",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/pizzas/{{pizzaId}}/categories/{{categoryId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "pizzas",
+                    "{{pizzaId}}",
+                    "categories",
+                    "{{categoryId}}"
+                  ]
+                },
+                "description": "Disassociate a pizza product from a category"
+              },
+              "response": []
+            },
+            {
+              "name": "Update a pizza",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"sizes\": [\r\n        {\r\n            \"name\": \"Default Size\",\r\n            \"status\": \"AVAILABLE\",\r\n            \"slices\": 8,\r\n            \"acceptedFractions\": [\r\n                1,\r\n                2\r\n            ]\r\n        }\r\n    ],\r\n    \"crusts\": [\r\n        {\r\n            \"name\": \"Default Crust\",\r\n            \"status\": \"AVAILABLE\"\r\n        }\r\n    ],\r\n    \"edges\": [\r\n        {\r\n            \"name\": \"Default Edge\",\r\n            \"status\": \"AVAILABLE\"\r\n        }\r\n    ],\r\n    \"toppings\": [\r\n        {\r\n            \"name\": \"Default Topping\",\r\n            \"status\": \"AVAILABLE\"\r\n        }\r\n    ],\r\n    \"shifts\": [\r\n        {\r\n            \"startTime\": \"00:00\",\r\n            \"endTime\": \"23:59\",\r\n            \"monday\": true,\r\n            \"tuesday\": true,\r\n            \"wednesday\": true,\r\n            \"thursday\": true,\r\n            \"friday\": true,\r\n            \"saturday\": true,\r\n            \"sunday\": true\r\n        }\r\n    ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/pizzas/{{pizzaId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "pizzas", "{{pizzaId}}"]
+                },
+                "description": "It is possible to add, edit or remove sizes, crusts, edges and topping within a pizza product. To add any of these resources, the id of the object must not be provided in the request. To edit, the id must be provided. It is important to notice that all existing resources not contained in the request will be deleted."
+              },
+              "response": []
+            },
+            {
+              "name": "Update a pizza's status",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"status\": \"AVAILABLE\",\r\n  \"sizeIds\": [\r\n    \"1c296c3c-e482-48d6-ba10-429f025a72fa\"\r\n  ],\r\n  \"crustIds\": [\r\n    \"125fdc0d-6d31-421e-bb2a-6b8d2c90f681\"\r\n  ],\r\n  \"edgeIds\": [\r\n    \"82037e4e-cd7f-4981-b02e-e22fad6a3027\"\r\n  ],\r\n  \"toppingIds\": [\r\n    \"11bbcb69-e3a0-442a-93c5-ba880047e813\"\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/pizzas/{{pizzaId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "pizzas", "{{pizzaId}}"]
+                },
+                "description": "Update a pizza product's status"
+              },
+              "response": []
+            },
+            {
+              "name": "Batch update pizza's price",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"catalogId\": \"42baaf3e-939c-4387-bab6-3561dcae4b4c\",\r\n  \"crusts\": [\r\n    {\r\n      \"id\": \"125fdc0d-6d31-421e-bb2a-6b8d2c90f681\",\r\n      \"price\": {\r\n          \"value\": 1,\r\n          \"originalValue\": 2\r\n      }\r\n    }\r\n  ],\r\n  \"edges\": [\r\n    {\r\n      \"id\": \"82037e4e-cd7f-4981-b02e-e22fad6a3027\",\r\n      \"price\": {\r\n          \"value\": 1,\r\n          \"originalValue\": 2\r\n      }\r\n    }\r\n  ],\r\n  \"toppings\": [\r\n    {\r\n      \"id\": \"11bbcb69-e3a0-442a-93c5-ba880047e813\",\r\n      \"prices\": {\r\n          \"value\": 20,\r\n          \"originalValue\": 30\r\n      }\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/pizzas/prices",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "pizzas", "prices"]
+                },
+                "description": "Batch update pizzas' prices within a catalog. It is possible to update topping prices by size, crusts and edges."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Item",
+          "item": [
+            {
+              "name": "Get an item",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/items/{{itemId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "items", "{{itemId}}"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Create an item",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"status\": \"AVAILABLE\",\r\n  \"price\": {\r\n    \"value\": 20,\r\n    \"originalValue\": 30\r\n  },\r\n  \"shifts\": [\r\n    {\r\n      \"startTime\": \"00:00\",\r\n      \"endTime\": \"23:59\",\r\n      \"monday\": true,\r\n      \"tuesday\": true,\r\n      \"wednesday\": true,\r\n      \"thursday\": true,\r\n      \"friday\": true,\r\n      \"saturday\": true,\r\n      \"sunday\": true\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/categories/{{categoryId}}/products/{{productId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "categories",
+                    "{{categoryId}}",
+                    "products",
+                    "{{productId}}"
+                  ]
+                },
+                "description": "Create an association between a product and a category. Can be interpreted as offering a product within a category"
+              },
+              "response": []
+            },
+            {
+              "name": "Edit an item",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"status\": \"AVAILABLE\",\r\n  \"price\": {\r\n    \"value\": 20,\r\n    \"originalValue\": 30\r\n  },\r\n  \"shifts\": [\r\n    {\r\n      \"startTime\": \"00:00\",\r\n      \"endTime\": \"23:59\",\r\n      \"monday\": true,\r\n      \"tuesday\": true,\r\n      \"wednesday\": true,\r\n      \"thursday\": true,\r\n      \"friday\": true,\r\n      \"saturday\": true,\r\n      \"sunday\": true\r\n    }\r\n  ]\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/categories/{{categoryId}}/products/{{productId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "categories",
+                    "{{categoryId}}",
+                    "products",
+                    "{{productId}}"
+                  ]
+                },
+                "description": "Edit an item. Unsent fields will preserve their former values"
+              },
+              "response": []
+            },
+            {
+              "name": "Delete an item",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/categories/{{categoryId}}/products/{{productId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "categories",
+                    "{{categoryId}}",
+                    "products",
+                    "{{productId}}"
+                  ]
+                },
+                "description": "Delete an item. Simply deletes an association between a product and a category. Does not apply any changes to the product or the category"
+              },
+              "response": []
+            },
+            {
+              "name": "Edit an item's status",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "status",
+                      "value": "AVAILABLE",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/items/{{itemId}}/status",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "items", "{{itemId}}", "status"]
+                },
+                "description": "Edit the status of a item. Unsent fields will preserve their former values"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Option Group",
+          "item": [
+            {
+              "name": "Create an option group",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "optionGroups"]
+                },
+                "description": "Create an option group. At first, it will not be associated to any item or option"
+              },
+              "response": []
+            },
+            {
+              "name": "List option groups",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "optionGroups"]
+                },
+                "description": "List all option groups within a merchant. It is possible to request for the options within each group"
+              },
+              "response": []
+            },
+            {
+              "name": "Update an option group",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups/{{optionGroupId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "optionGroups", "{{optionGroupId}}"]
+                },
+                "description": "Update option group info (Name)"
+              },
+              "response": []
+            },
+            {
+              "name": "Delete an option group",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups/{{optionGroupId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "optionGroups", "{{optionGroupId}}"]
+                },
+                "description": "Delete an option group. All products associated to the given option group won't receive it anymore"
+              },
+              "response": []
+            },
+            {
+              "name": "Associate option group to product",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups/{{optionGroupId}}/products/{{productId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "optionGroups",
+                    "{{optionGroupId}}",
+                    "products",
+                    "{{productId}}"
+                  ]
+                },
+                "description": "Associate an option group to a product. In case the given product is already associated to an item, the given option group will also go on sale"
+              },
+              "response": []
+            },
+            {
+              "name": "Update option group to product",
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups/{{optionGroupId}}/products/{{productId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "optionGroups",
+                    "{{optionGroupId}}",
+                    "products",
+                    "{{productId}}"
+                  ]
+                },
+                "description": "Update association info between an option group and a product"
+              },
+              "response": []
+            },
+            {
+              "name": "Disassociate option group to product",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups/{{optionGroupId}}/products/{{productId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "optionGroups",
+                    "{{optionGroupId}}",
+                    "products",
+                    "{{productId}}"
+                  ]
+                },
+                "description": "Disassociate an option group from a product. In case the given product is already associated to an item, the given option group will go out of sale"
+              },
+              "response": []
+            },
+            {
+              "name": "Update an option group's status",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups/{{optionGroupId}}/status",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "optionGroups",
+                    "{{optionGroupId}}",
+                    "status"
+                  ]
+                },
+                "description": "Update an option group's status. This operation affects all products that may be associated to the given option group"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Option",
+          "item": [
+            {
+              "name": "Create an option",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n  \"status\": \"AVAILABLE\",\r\n  \"price\": {\r\n    \"value\": 20\r\n  }\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups/{{optionGroupId}}/products/{{productId}}/option",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "optionGroups",
+                    "{{optionGroupId}}",
+                    "products",
+                    "{{productId}}",
+                    "option"
+                  ]
+                },
+                "description": "Create an option within an option group"
+              },
+              "response": []
+            },
+            {
+              "name": "Update an option",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups/{{optionGroupId}}/products/{{productId}}/option",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "optionGroups",
+                    "{{optionGroupId}}",
+                    "products",
+                    "{{productId}}",
+                    "option"
+                  ]
+                },
+                "description": "Update an option within an option group"
+              },
+              "response": []
+            },
+            {
+              "name": "Delete an option",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/optionGroups/{{optionGroupId}}/products/{{productId}}/option",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": [
+                    "catalog",
+                    "v1.0",
+                    "merchants",
+                    "{{merchantId}}",
+                    "optionGroups",
+                    "{{optionGroupId}}",
+                    "products",
+                    "{{productId}}",
+                    "option"
+                  ]
+                },
+                "description": "Delete an option from an option group"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Batch",
+          "item": [
+            {
+              "name": "List batch operation results",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/catalog/v1.0/merchants/{{merchantId}}/batch/{{batchId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["catalog", "v1.0", "merchants", "{{merchantId}}", "batch", "{{batchId}}"]
+                },
+                "description": "List all operation results within a specific batch, and whether all the operations were completed"
+              },
+              "response": []
+            }
+          ]
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{accessToken}}",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "id": "7566d711-f7ab-4de6-a179-550229199f3c",
+      "key": "merchantApiHost",
+      "value": "https://merchant-api.ifood.com.br"
+    }
+  ]
+}

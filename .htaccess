@@ -1,0 +1,22 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteCond %{REQUEST_FILENAME}\.php -f
+
+RewriteRule ^([0-9A-z_-]+)$ $1.php
+
+RewriteRule ^compra\/([0-9A-z_-]+)\/([0-9A-z_-]+)$ compra.php?cod=$1
+
+RewriteRule ^cozinha\/([0-9A-z_-]+)\/([0-9A-z_-]+)$ cardapio.php?cod=$1
+
+DirectoryIndex home.php home.html index.php index.html
+
+php_value memory_limit 30M
+php_value post_max_size 100M
+php_value upload_max_filesize 30M
+
+#<Directory /.well-known/acme-challenge/ >
+#     Order Deny,Allow
+#     Allow from All
+#</Directory>
+
+Options -Indexes 

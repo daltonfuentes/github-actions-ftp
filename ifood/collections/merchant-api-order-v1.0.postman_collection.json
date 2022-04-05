@@ -1,0 +1,562 @@
+{
+  "info": {
+    "_postman_id": "ec6c6190-015a-424d-bae9-cf98129814e3",
+    "name": "Merchant-API - Order v1.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "User Code",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "clientId",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{merchantApiHost}}/authentication/v1.0/oauth/userCode",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["authentication", "v1.0", "oauth", "userCode"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Session",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "grantType",
+                  "value": "{{grantType}}",
+                  "type": "text"
+                },
+                {
+                  "key": "clientId",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "{{clientSecret}}",
+                  "type": "text"
+                },
+                {
+                  "key": "authorizationCode",
+                  "value": "{{authorizationCode}}",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "authorizationCodeVerifier",
+                  "value": "{{authorizationCodeVerifier}}",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "refreshToken",
+                  "value": "{{refreshToken}}",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{merchantApiHost}}/authentication/v1.0/oauth/token",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["authentication", "v1.0", "oauth", "token"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "item": [
+        {
+          "name": "Events",
+          "item": [
+            {
+              "name": "Events Polling",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/events:polling",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "events:polling"]
+                },
+                "description": "Get unacked order events "
+              },
+              "response": []
+            },
+            {
+              "name": "Events Acknowledge",
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "[]",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/events/acknowledgment",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "events", "acknowledgment"]
+                },
+                "description": "Acknowledge events to confirm receipt"
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Details",
+          "item": [
+            {
+              "name": "Order Details",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "x-claims-aud",
+                    "value": "",
+                    "type": "text",
+                    "disabled": true
+                  }
+                ],
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/orders/{{orderId}}",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "orders", "{{orderId}}"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Actions",
+          "item": [
+            {
+              "name": "Confirm",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "x-subject-id",
+                    "value": "9c2ca623-b2bd-46a2-8c15-cca3fcd87bb4",
+                    "type": "text",
+                    "disabled": true
+                  },
+                  {
+                    "key": "x-merchant-scope-list",
+                    "value": "75e08a83-c4b8-4c88-834b-a927ca5cbc0f:order",
+                    "type": "text",
+                    "disabled": true
+                  }
+                ],
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/orders/{{orderId}}/confirm",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "orders", "{{orderId}}", "confirm"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Ready to pickup",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/orders/{{orderId}}/readyToPickup",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "orders", "{{orderId}}", "readyToPickup"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Dispatch",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/orders/{{orderId}}/dispatch",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "orders", "{{orderId}}", "dispatch"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Request Cancellation",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "x-client-id",
+                    "value": "75e08a83-c4b8-4c88-834b-a927ca5cbc0f",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"cancellationCode\": \"{{cancellationCode}}\",\n    \"reason\": \"{{cancellationReason}}\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/orders/{{orderId}}/requestCancellation",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "orders", "{{orderId}}", "requestCancellation"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Accept Cancellation Request",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/orders/{{orderId}}/acceptCancellation",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "orders", "{{orderId}}", "acceptCancellation"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Deny Cancellation Request",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/orders/{{orderId}}/denyCancellation",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "orders", "{{orderId}}", "denyCancellation"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Delivery",
+          "item": [
+            {
+              "name": "Tracking",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/orders/{{orderId}}/requestDriver",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "orders", "{{orderId}}", "requestDriver"]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "Request Driver",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{merchantApiHost}}/order/v1.0/orders/{{orderId}}/tracking",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["order", "v1.0", "orders", "{{orderId}}", "tracking"]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "merchantApiHost",
+      "value": "https://merchant-api.ifood.com.br"
+    }
+  ]
+}

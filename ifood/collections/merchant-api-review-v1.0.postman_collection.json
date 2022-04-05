@@ -1,0 +1,360 @@
+{
+  "info": {
+    "_postman_id": "8cbebdda-7ddf-4c58-9f98-2f4f730d409c",
+    "name": "Review-API - Review v1.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "User Code",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "clientId",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{merchantApiHost}}/authentication/v1.0/oauth/userCode",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["authentication", "v1.0", "oauth", "userCode"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "New Session",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "grantType",
+                  "value": "client_credentials",
+                  "type": "text"
+                },
+                {
+                  "key": "clientId",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "clientSecret",
+                  "value": "{{clientSecret}}",
+                  "type": "text"
+                },
+                {
+                  "key": "authorizationCode",
+                  "value": "{{authorizationCode}}",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "authorizationCodeVerifier",
+                  "value": "{{authorizationCodeVerifier}}",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{merchantApiHost}}/authentication/v1.0/oauth/token",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["authentication", "v1.0", "oauth", "token"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Review",
+      "item": [
+        {
+          "name": "Summary",
+          "item": [
+            {
+              "name": "Summary",
+              "event": [
+                {
+                  "listen": "prerequest",
+                  "script": {
+                    "exec": [""],
+                    "type": "text/javascript"
+                  }
+                }
+              ],
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{accessToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "x-subject-id",
+                    "value": "9c2ca623-b2bd-46a2-8c15-cca3fcd87bb4",
+                    "type": "text",
+                    "disabled": true
+                  },
+                  {
+                    "key": "x-merchant-scope-list",
+                    "value": "75e08a83-c4b8-4c88-834b-a927ca5cbc0f:order",
+                    "type": "text",
+                    "disabled": true
+                  }
+                ],
+                "url": {
+                  "raw": "{{merchantApiHost}}/review/v1.0/merchants/{{merchantId}}/summary",
+                  "host": ["{{merchantApiHost}}"],
+                  "path": ["review", "v1.0", "merchants", "{{merchantId}}", "summary"]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Review list",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-claims-aud",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{merchantApiHost}}/review/v1.0/merchants/{{merchantId}}/reviews?page=1&pageSize=10&addCount=false&dateFrom&dateTo&sort=DESC&sortBy=CREATED_AT",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["review", "v1.0", "merchants", "{{merchantId}}", "reviews"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page offset"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10",
+                  "description": "Page size"
+                },
+                {
+                  "key": "addCount",
+                  "value": "false",
+                  "description": "Adds total count of results to response"
+                },
+                {
+                  "key": "dateFrom",
+                  "value": null,
+                  "description": "From timestamp (default: 7 days ago)"
+                },
+                {
+                  "key": "dateTo",
+                  "value": null,
+                  "description": "To timestamp (default: now)"
+                },
+                {
+                  "key": "sort",
+                  "value": "DESC",
+                  "description": "Sorting order"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "CREATED_AT",
+                  "description": "Sorting property"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Review",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{merchantApiHost}}/review/v1.0/merchants/{{merchantId}}/reviews/:reviewId",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["review", "v1.0", "merchants", "{{merchantId}}", "reviews", ":reviewId"],
+              "variable": [
+                {
+                  "key": "reviewId",
+                  "value": "",
+                  "description": "Review's UUID"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reply",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [""],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"text\": \"Thanks for your review!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{merchantApiHost}}/review/v1.0/merchants/{{merchantId}}/reviews/:reviewId/answers",
+              "host": ["{{merchantApiHost}}"],
+              "path": ["review", "v1.0", "merchants", "{{merchantId}}", "reviews", ":reviewId", "answers"],
+              "variable": [
+                {
+                  "key": "reviewId",
+                  "value": "",
+                  "description": "Review's UUID"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "merchantApiHost",
+      "value": "https://merchant-api.ifood.com.br"
+    }
+  ]
+}
