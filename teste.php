@@ -68,7 +68,7 @@ if($contar == 0):
             exit();
         else:
             $accessToken = $retorno['accessToken'];
-            echo 'Token criado: '.$accessToken;
+            echo 'Token criado: '.$accessToken.'<br>Expire: '.$expire.'<br>ExpiresIn: '.$expiresIn;
         endif;
     elseif($httpcode == 401):
         $resposta['er'] = 'Não autorizado.';
