@@ -19,4 +19,7 @@ curl_setopt_array($curl, array(
 $response = curl_exec($curl);
 
 curl_close($curl);
-echo $response;
+
+
+$retorno = json_decode($response, true);    
+echo json_encode($retorno);
