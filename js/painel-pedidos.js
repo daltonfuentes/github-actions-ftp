@@ -6,7 +6,7 @@ $(document).ready(function () {
         data : { new_session: true },
         dataType: 'json',
         success :  function(retorno){
-            console.log(retorno);
+            console.log(retorno.accessToken);
         }
     });
 
