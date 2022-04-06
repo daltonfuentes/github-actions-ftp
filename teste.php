@@ -21,5 +21,8 @@ $response = curl_exec($curl);
 curl_close($curl);
 
 
-$retorno = json_decode($response, true);    
-echo json_encode($retorno);
+$retorno = json_decode($response, true);
+
+$teste = $retorno['salesChannel'];
+echo $teste;
+exit();

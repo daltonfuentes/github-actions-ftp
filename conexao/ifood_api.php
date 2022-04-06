@@ -25,9 +25,7 @@ if(isset($_POST['new_session']) && $_POST['new_session'] == true):
     curl_close($curl);
 
     $retorno = json_decode($response, true);
-
-    $teste = $retorno['salesChannel'];
-    echo $teste;
+    echo json_encode($retorno);
     exit();
 
 
