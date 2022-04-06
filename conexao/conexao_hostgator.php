@@ -1,6 +1,6 @@
 <?php
 
-$conexao = new PDO(   'mysql:host=108.167.188.78; dbname=volca246_dashboard_confeitaria', 'volca246_dalton', '2008caix', 
+$conexao = new PDO(   'mysql:host=br376.hostgator.com.br; dbname=volca246_dashboard_confeitaria', 'volca246_dalton', '2008caix', 
             array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
                 PDO::ATTR_PERSISTENT => false,
@@ -8,8 +8,6 @@ $conexao = new PDO(   'mysql:host=108.167.188.78; dbname=volca246_dashboard_conf
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
             )
         );
-
-
 
 
 
