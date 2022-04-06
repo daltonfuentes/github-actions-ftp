@@ -2,7 +2,7 @@
 
 $usuario = 1;
 
-require_once("conexao_hostgator.php");
+require_once("./conexao/conexao_hostgator.php");
 
 $date = new DateTime();
 $dateComparacao = date_format($date, 'YmdHis');
