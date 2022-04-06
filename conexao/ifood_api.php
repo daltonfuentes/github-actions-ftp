@@ -22,11 +22,9 @@ if(isset($_POST['new_session']) && $_POST['new_session'] == true):
     ));
 
     $response = curl_exec($curl);
-
     curl_close($curl);
 
-    $retorno = json_decode($response, true);
-    
+    $retorno = json_decode($response, true);    
     echo json_encode($retorno);
     exit();
 
