@@ -9,27 +9,7 @@ $(document).ready(function () {
             console.log(response);
         }
     });
-
-    colsole.log('PROXIMO');
-
-    var settings = {
-        "url": "https://merchant-api.ifood.com.br/authentication/v1.0/oauth/token",
-        "method": "POST",
-        "timeout": 0,
-        "headers": {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        "data": {
-          "grantType": "client_credentials",
-          "clientId": "2c99ed49-478b-4959-b392-48828eda9954",
-          "clientSecret": "oqy93k6snxjmgruuabkt82hz7fw5djuorlcxcaaapdtzo0zsa0neyz3ztqv452ein8d3j0jibusrejcox7mzkzoakzmokg93rc7"
-        }
-      };
-      
-      $.ajax(settings).done(function (response) {
-        console.log(response);
-      });
-
+    
 });
 
 

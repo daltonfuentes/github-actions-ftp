@@ -4,7 +4,7 @@ session_start();
 
 if(isset($_POST['new_session']) && $_POST['new_session'] == true):
 
-    $response = array();
+    $retorno = array();
 
     $curl = curl_init();
 
@@ -23,11 +23,11 @@ if(isset($_POST['new_session']) && $_POST['new_session'] == true):
     ),
     ));
 
-    $response = curl_exec($curl);
+    parse_str(curl_exec($curl), $retorno);
 
     curl_close($curl);
     
-    echo json_encode($response);
+    echo json_encode($retorno);
 
 
 endif;
