@@ -324,7 +324,7 @@ function stringToMoney(string) {
     return formatter.format(string);
 };
 
-window.onload = refresh();
+//window.onload = refresh();
 function refresh(){
     var segundos = 5; //5 segundos de espera
     var oReq = new XMLHttpRequest();

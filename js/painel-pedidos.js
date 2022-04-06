@@ -2,7 +2,7 @@ $(document).ready(function () {
  
     $.ajax({
         type : 'POST',
-        url  : './conexao/ifood_api',
+        url  : './conexao/ifood_api.php',
         data : { new_session: true },
         dataType: 'json',
         success :  function(response){
