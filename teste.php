@@ -23,26 +23,18 @@ curl_close($curl);
 
 $retorno = json_decode($response, true);
 
-echo '<pre>';
 
 print_r($response);
 
-echo '</pre>';
+echo '<hr>';
+
+print_r($retorno[0]);
 
 echo '<hr>';
 
-echo '<pre>';
+$array =  $retorno[0];
 
-print_r($retorno);
+print_r($array['salesChannel']);
 
-echo '</pre>';
-
-echo '<hr>';
-
-echo '<pre>';
-
-echo json_encode($retorno);
-
-echo '</pre>';
 
 exit();
