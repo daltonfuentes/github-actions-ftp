@@ -95,9 +95,54 @@ function accessToken($usuario) {
     endif;
 };
 
-function merchantId($token) {
+function merchantStatus($accessToken) {
     require_once("conexao_hostgator.php");
 
     $out = array();
 
+    ////
+    // CONSULTA STATUS DO RESTAURANTE
+    ////
+
+    $merchantApiHost = 'https://merchant-api.ifood.com.br';
+    $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => $merchantApiHost.'/merchant/v1.0/merchants/'.$merchantId.'/status',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.$accessToken
+        ),
+    ));
+
+    $response = curl_exec($curl);
+    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($httpcode == 200):
+        $retorno = json_decode($response, true);
+        $out['erro'] = 0;
+        $out['state'] = $retorno[0]['state'];
+        return $out;
+    elseif($httpcode == 401):
+        $out['mensagem'] = 'Não autorizado. O usuário não está autenticado, o token expirou ou o token é inválido.';
+        $out['erro'] = 401;
+        return $out;
+    elseif($httpcode == 403):
+        $out['mensagem'] = 'Proibido. O usuário não tem acesso ao comerciante fornecido.';
+        $out['erro'] = 403;
+        return $out;
+    else:
+        $out['mensagem'] = 'Erro inesperado.';
+        $out['erro'] = 500;
+        return $out;
+    endif;
 };
