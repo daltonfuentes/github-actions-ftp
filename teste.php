@@ -28,13 +28,14 @@ print_r($response);
 
 echo '<hr>';
 
-print_r($retorno[0]);
-
-echo '<hr>';
-
 $array =  $retorno[0];
 
-print_r($array['salesChannel']);
+$app = $array['salesChannel'];
+$state = $array['state'];
+
+echo $app.' - '.$state;
+
+echo '<hr>';
 
 
 exit();
