@@ -23,6 +23,7 @@ curl_close($curl);
 
 $retorno = json_decode($response, true);
 
-$teste = $retorno['salesChannel'];
+$teste = json_encode($retorno['salesChannel']);
+
 echo $teste;
 exit();
