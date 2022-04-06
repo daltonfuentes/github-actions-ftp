@@ -2,7 +2,7 @@
 ob_start();
 session_start();
 
-require_once("conexao/conexao.php");
+//require_once("conexao/conexao.php");
 
 function paraMoeda($valor){
 	$recebido = $valor;
