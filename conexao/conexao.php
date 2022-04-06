@@ -124,6 +124,6 @@ function numeroParaMes($n){
     return($nome);
 };
 
-define("URL", "https://localhost/sweetconfetty/dashboard");
+define("URL", "https://painel.sweetconfetty.com.br");
 
 ?>

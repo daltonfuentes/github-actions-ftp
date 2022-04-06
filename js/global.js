@@ -284,7 +284,7 @@ $(document).ready(function(){
     $('.peso').mask("#0g", {reverse: true});
 });
 
-var url = "https://localhost/sweetconfetty/dashboard"; 
+var url = "https://painel.sweetconfetty.com.br"; 
 
 function geraSerial6D() {
     var text = "";
