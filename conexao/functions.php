@@ -93,4 +93,11 @@ function accessToken($usuario) {
         $out['accessToken'] = $exibe->accessToken;
         return $out;
     endif;
-}
+};
+
+function merchantId($token) {
+    require_once("conexao_hostgator.php");
+
+    $out = array();
+
+};
