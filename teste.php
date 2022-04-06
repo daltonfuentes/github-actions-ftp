@@ -10,7 +10,7 @@ if (isset($_POST['new_session']) && $_POST['new_session'] == true) :
  
     $outToken = accessToken($usuario);
 
-    if(!$outToken['accessToken']):
+    if(empty($outToken['accessToken'])):
         $retorno['erro'] = $outToken['erro'];
         $retorno['mensagem']  = $outToken['mensagem'];
         echo json_encode($retorno);
