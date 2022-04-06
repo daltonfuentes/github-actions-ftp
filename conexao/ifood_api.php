@@ -4,8 +4,6 @@ session_start();
 
 if(isset($_POST['new_session']) && $_POST['new_session'] == true):
 
-    $retorno = array();
-
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
