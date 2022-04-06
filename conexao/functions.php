@@ -1,5 +1,7 @@
 <?php
 
+accessToken(1);
+
 function accessToken($usuario) {
     require_once("conexao_hostgator.php");
 
