@@ -9,7 +9,7 @@ $dateComparacao = date_format($date, 'YmdHis');
 
 
 $sql = "SELECT accessToken FROM token_ifood WHERE usuario='$usuario' AND expire>'$dateComparacao'";
-$resultado = $conexaoAdmin->prepare($sql);	
+$resultado = $conexao->prepare($sql);	
 $resultado->execute();
 $contar = $resultado->rowCount();
 
@@ -55,7 +55,7 @@ if($contar == 0):
         $expire = date_format($date, 'YmdHis');
 
         $sql = 'INSERT INTO token_ifood (usuario, accessToken, expire) VALUES (:usuario, :accessToken, :expire)';
-        $stmt = $conexaoAdmin->prepare($sql);
+        $stmt = $conexao->prepare($sql);
         $stmt->bindParam(':usuario', $usuario);
         $stmt->bindParam(':accessToken', $token);
         $stmt->bindParam(':expire', $expire);
