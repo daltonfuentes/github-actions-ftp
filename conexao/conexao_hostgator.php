@@ -8,3 +8,5 @@ $conexao = new PDO(   'mysql:host=br376.hostgator.com.br; dbname=volca246_dashbo
                 PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
             )
         );
+
+date_default_timezone_set('America/Sao_Paulo');
