@@ -1,6 +1,20 @@
 $(document).ready(function () {
  
-    
+    $.ajax({
+        type : 'POST',
+        url  : './conexao/add_cardapio',
+        data : { new_session: true },
+        dataType: 'json',
+        success :  function(retorno){
+            if (retorno.erro == 0) {
+                $('.box-itens-carapio-loja').html(retorno.html);
+                return;
+            } else if(retorno.erro == 1) {
+                Swal.fire("Oops...", retorno.mensagem, "warning");
+                return;
+            }
+        }
+    });
 
 
 
