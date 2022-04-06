@@ -6,35 +6,34 @@ $merchantApiHost = 'https://merchant-api.ifood.com.br';
 $clientId = '2c99ed49-478b-4959-b392-48828eda9954';
 $clientSecret = 'oqy93k6snxjmgruuabkt82hz7fw5djuorlcxcaaapdtzo0zsa0neyz3ztqv452ein8d3j0jibusrejcox7mzkzoakzmokg93rc7';
 
-//
+////
 //SOLICITANDO TOKEN DE ACESSO
-//
+////
 
-    $curl = curl_init();
+$curl = curl_init();
 
-    curl_setopt_array($curl, array(
-      CURLOPT_URL => $merchantApiHost.'/authentication/v1.0/oauth/token',
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_ENCODING => '',
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 0,
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => 'POST',
-      CURLOPT_POSTFIELDS => 'grantType=client_credentials&clientId='.$clientId.'&clientSecret='.$clientSecret,
-      CURLOPT_HTTPHEADER => array(
-        'Content-Type: application/x-www-form-urlencoded'
-      ),
-    ));
+curl_setopt_array($curl, array(
+  CURLOPT_URL => $merchantApiHost.'/authentication/v1.0/oauth/token',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => 'grantType=refresh_token&clientId='.$clientId.'&clientSecret='.$clientSecret,
+  CURLOPT_HTTPHEADER => array(
+    'Content-Type: application/x-www-form-urlencoded'
+  ),
+));
 
-    $response = curl_exec($curl);
-    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+$response = curl_exec($curl);
+$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+curl_close($curl);
 
-    curl_close($curl);
+$retorno = json_decode($response, true);
 
-    $retorno = json_decode($response, true);
-
-    $accessToken = $retorno['accessToken'];
+$accessToken = $retorno['accessToken'];
 
 
 echo $accessToken.'<br>'.$httpcode ;
