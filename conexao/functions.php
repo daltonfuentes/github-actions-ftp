@@ -51,6 +51,7 @@ function accessToken($usuario) {
             $retorno = json_decode($response, true);
             $token = $retorno['accessToken'];
             $expiresIn = $retorno['expiresIn'];
+            $expiresIn = $expiresIn-60;
 
             $date = new DateTime();
             date_add($date, date_interval_create_from_date_string($expiresIn.' second'));
