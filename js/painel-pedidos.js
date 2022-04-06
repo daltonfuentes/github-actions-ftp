@@ -10,6 +10,7 @@ $(document).ready(function () {
         }
     });
 
+    colsole.log('PROXIMO');
 
     var settings = {
         "url": "https://merchant-api.ifood.com.br/authentication/v1.0/oauth/token",
