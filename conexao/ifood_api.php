@@ -2,7 +2,7 @@
 ob_start();
 session_start();
 
-
+if(isset($_POST['new_session']) && $_POST['new_session'] == true):
 
     $response = array();
 
@@ -28,3 +28,6 @@ session_start();
     curl_close($curl);
     
     echo json_encode($response);
+
+
+endif;

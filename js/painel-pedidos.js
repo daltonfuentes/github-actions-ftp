@@ -2,21 +2,32 @@ $(document).ready(function () {
  
     $.ajax({
         type : 'POST',
-        url  : './conexao/add_cardapio',
+        url  : './conexao/ifood_api',
         data : { new_session: true },
         dataType: 'json',
-        success :  function(retorno){
-            if (retorno.erro == 0) {
-                $('.box-itens-carapio-loja').html(retorno.html);
-                return;
-            } else if(retorno.erro == 1) {
-                Swal.fire("Oops...", retorno.mensagem, "warning");
-                return;
-            }
+        success :  function(response){
+            console.log(response);
         }
     });
 
 
+    var settings = {
+        "url": "https://merchant-api.ifood.com.br/authentication/v1.0/oauth/token",
+        "method": "POST",
+        "timeout": 0,
+        "headers": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "data": {
+          "grantType": "client_credentials",
+          "clientId": "2c99ed49-478b-4959-b392-48828eda9954",
+          "clientSecret": "oqy93k6snxjmgruuabkt82hz7fw5djuorlcxcaaapdtzo0zsa0neyz3ztqv452ein8d3j0jibusrejcox7mzkzoakzmokg93rc7"
+        }
+      };
+      
+      $.ajax(settings).done(function (response) {
+        console.log(response);
+      });
 
 });
 
