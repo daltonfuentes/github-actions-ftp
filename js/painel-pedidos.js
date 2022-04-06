@@ -5,11 +5,11 @@ $(document).ready(function () {
         url  : './conexao/ifood_api.php',
         data : { new_session: true },
         dataType: 'json',
-        success :  function(response){
-            console.log(response);
+        success :  function(retorno){
+            console.log(retorno);
         }
     });
-    
+
 });
 
 
