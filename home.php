@@ -592,7 +592,7 @@ function paraMoeda($valor){
 
 		
 		<!-- Dashboard 1 -->
-		<script src="<?php echo URL; ?>/js/dashboard/dashboard-1.js"></script>
+		<script src="/js/dashboard/dashboard-1.js"></script>
 		<!--**********************************
             Footer start
         ***********************************-->

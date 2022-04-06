@@ -623,7 +623,7 @@ $(document).on("click", ".compra a.delete", function () {
         if (result.isConfirmed) {   
             $.ajax({
                 type : 'POST',
-                url  : url+'/conexao/add_compra',
+                url  : './conexao/add_compra',
                 data : { excluiCompras:'1', cod:cod },
                 dataType: 'json',
                 success :  function(retorno){
@@ -745,7 +745,7 @@ jQuery(window).on('load',function(){
     if(jQuery('#chart_compras_1').length > 0 ){
         $.ajax({
             type : 'POST',
-            url  : url+'/conexao/add_compra',
+            url  : './conexao/add_compra',
             data : { consultaMontaChart:'1' },
             dataType: 'json',
             success :  function(meses){
@@ -806,7 +806,7 @@ $(document).on("click", ".condicao-data", function () {
 function atualizaChart() {
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/add_compra',
+        url  : './conexao/add_compra',
         data : { consultaMontaChart:'1' },
         dataType: 'json',
         success :  function(meses){
@@ -851,7 +851,7 @@ function atualizaChart() {
 
 $(document).on("click", ".estoque-item .clickavel", function () {
     var cod = $(this).closest('.estoque-item').attr('data-cod');
-    window.location.href = url+"/produto/"+cod; 
+    window.location.href = "./produto/"+cod; 
 });
 
 $(document).on("click", ".estoque-item .delete", function () {
@@ -870,7 +870,7 @@ $(document).on("click", ".estoque-item .delete", function () {
         if (result.isConfirmed) {   
             $.ajax({
                 type : 'POST',
-                url  : url+'/conexao/estoque',
+                url  : './conexao/estoque',
                 data : { excluiProduto:'1', cod:cod },
                 dataType: 'json',
                 success :  function(retorno){
@@ -905,7 +905,7 @@ $(document).on("click", ".estoque-item .delete", function () {
 function atualizaTbodyProdutos() {
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/estoque',
+        url  : './conexao/estoque',
         data : { atualizaTbodyProdutos:'1' },
         dataType: 'json',
         success :  function(retorno){

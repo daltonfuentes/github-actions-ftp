@@ -164,7 +164,7 @@ $(document).on('click', '#editItem button.salvar',function () {
             if (result.isConfirmed) {   
                 $.ajax({
                     type : 'POST',
-                    url  : url+'/conexao/add_compra',
+                    url  : './conexao/add_compra',
                     data : { editaItem:'1', id:id, marca:marca, validade:validade, qtd:qtd, valorTotal:valorTotal, cod:codCompra },
                     dataType: 'json',
                     success :  function(retorno){
@@ -209,7 +209,7 @@ $(document).on('click', '#editItem button.salvar',function () {
     }else{
         $.ajax({
             type : 'POST',
-            url  : url+'/conexao/add_compra',
+            url  : './conexao/add_compra',
             data : { editaItem:'1', id:id, marca:marca, validade:validade, qtd:qtd, valorTotal:valorTotal, cod:codCompra },
             dataType: 'json',
             success :  function(retorno){
@@ -268,7 +268,7 @@ $(document).on('click', '.apagaItem',function () {
         if (result.isConfirmed) {   
             $.ajax({
                 type : 'POST',
-                url  : url+'/conexao/add_compra',
+                url  : './conexao/add_compra',
                 data : { deletaItem:'1', id:id, cod:codCompra },
                 dataType: 'json',
                 success :  function(retorno){
@@ -286,7 +286,7 @@ $(document).on('click', '.apagaItem',function () {
                         setTimeout(function() { origin.remove(); }, 500);
                         if(retorno.refresh == 1){
                             setTimeout(function() { 
-                                window.location.href = url+"/compras"; 
+                                window.location.href = "./compras"; 
                             }, 2000);
                         }
                         return;
@@ -363,7 +363,7 @@ $(document).on('click', '#addItem button.salvar',function () {''
             if (result.isConfirmed) {   
                 $.ajax({
                     type : 'POST',
-                    url  : url+'/conexao/add_compra',
+                    url  : './conexao/add_compra',
                     data : { cadastraCompra:'1' ,addItem:'1', cod:codCompra, produto:produto, marca:marca, validade:validade, qtd:qtd, total:valorTotal, fornecedor:fornecedor, data_compra:data_compra, data_add:data_add, unidade:unidade, qtdItens:padrao, itemAtual:padrao, pagina:padrao },
                     dataType: 'json',
                     success :  function(retorno){
@@ -405,7 +405,7 @@ $(document).on('click', '#addItem button.salvar',function () {''
     }else{
         $.ajax({
             type : 'POST',
-            url  : url+'/conexao/add_compra',
+            url  : './conexao/add_compra',
             data : { cadastraCompra:'1' ,addItem:'1', cod:codCompra, produto:produto, marca:marca, validade:validade, qtd:qtd, total:valorTotal, fornecedor:fornecedor, data_compra:data_compra, data_add:data_add, unidade:unidade, qtdItens:padrao, itemAtual:padrao, pagina:padrao },
             dataType: 'json',
             success :  function(retorno){
@@ -500,7 +500,7 @@ $(document).on("click", ".deleteCompra", function () {
         if (result.isConfirmed) {   
             $.ajax({
                 type : 'POST',
-                url  : url+'/conexao/add_compra',
+                url  : './conexao/add_compra',
                 data : { excluiCompras:'1', cod:cod },
                 dataType: 'json',
                 success :  function(retorno){
@@ -513,7 +513,7 @@ $(document).on("click", ".deleteCompra", function () {
                             timer: 2000
                         });
                         setTimeout(function() { 
-                            window.location.href = url+"/compras"; 
+                            window.location.href = "./compras"; 
                         }, 2000);
                         return;
                     }else{
@@ -562,7 +562,7 @@ $(document).on('click', '#editCompra button.salvar',function () {
 
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/add_compra',
+        url  : './conexao/add_compra',
         data : { atualizaInfoCompra:'1', cod:cod, fornecedor:fornecedor, data_compra:data_compra },
         dataType: 'json',
         success :  function(retorno){
@@ -578,7 +578,7 @@ $(document).on('click', '#editCompra button.salvar',function () {
 
                 if(retorno.fornecedor && retorno.img && retorno.data){
                     $(".nome-fornecedor").text(retorno.fornecedor);
-                    $(".img-fornecedor").attr('src', url+'/upload/fornecedor/'+retorno.img);
+                    $(".img-fornecedor").attr('src', './upload/fornecedor/'+retorno.img);
                     $(".data-compra").text(retorno.data);
                 }else{
                     setTimeout(function(){ location.reload(); }, 2000);

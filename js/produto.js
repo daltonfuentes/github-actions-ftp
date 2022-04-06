@@ -57,7 +57,7 @@ $(document).on('click', '#editProduto .salvar', function(){
 
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/estoque',
+        url  : './conexao/estoque',
         data : { editaProduto:'1', cod:cod, produto:produto, min:min, ideal:ideal },
         dataType: 'json',
         success :  function(retorno){
@@ -125,7 +125,7 @@ $(document).on("click", ".deleteProduto", function () {
         if (result.isConfirmed) {   
             $.ajax({
                 type : 'POST',
-                url  : url+'/conexao/estoque',
+                url  : './conexao/estoque',
                 data : { excluiProduto:'1', cod:cod },
                 dataType: 'json',
                 success :  function(retorno){
@@ -137,7 +137,7 @@ $(document).on("click", ".deleteProduto", function () {
                             showConfirmButton: false,
                             timer: 2000
                         });
-                        setTimeout(function(){ window.location.href = url+"/produtos"; }, 2000);
+                        setTimeout(function(){ window.location.href = "./produtos"; }, 2000);
                         return;
                     }else{
                         Swal.fire({

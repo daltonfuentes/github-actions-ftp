@@ -12,7 +12,7 @@ $(document).on('change', '#addCardapio select[name="produto"]', function(){
 function monta_modal_cardapio(cod) {
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/add_cardapio',
+        url  : './conexao/add_cardapio',
         data : { monta_modal_cardapio:'1', cod:cod },
         dataType: 'json',
         success :  function(retorno){
@@ -130,7 +130,7 @@ $(document).on('mouseleave', '.cardapio-loja', function () {
 function atualizaBoxCardapio() {
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/add_cardapio',
+        url  : './conexao/add_cardapio',
         data : { atualiza_cardapio_itens:'1' },
         dataType: 'json',
         success :  function(retorno){
@@ -190,7 +190,7 @@ $(document).on('click', '#addCardapio .salvar', function(){
 
         $.ajax({
             type : 'POST',
-            url  : url+'/conexao/add_cardapio',
+            url  : './conexao/add_cardapio',
             data : { edit_valores_cardapio:'1', cod:cod, variacao:variacao, ifood:ifood, loja:loja, parar:parar },
             dataType: 'json',
             success :  function(retorno){
@@ -229,7 +229,7 @@ $(document).on('click', '.cardapio-loja .cPointer', function(){
 
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/add_cardapio',
+        url  : './conexao/add_cardapio',
         data : { monta_modal_editar:'1', cod:cod },
         dataType: 'json',
         success :  function(retorno){
@@ -306,7 +306,7 @@ $(document).on('click', '#editCardapio .salvar', function(){
 
         $.ajax({
             type : 'POST',
-            url  : url+'/conexao/add_cardapio',
+            url  : './conexao/add_cardapio',
             data : { edit_valores_cardapio:'1', cod:cod, variacao:variacao, ifood:ifood, loja:loja, parar:parar },
             dataType: 'json',
             success :  function(retorno){

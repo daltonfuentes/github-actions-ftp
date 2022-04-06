@@ -31,7 +31,7 @@
                                     <li>
                                         <div class="timeline-panel">
                                             <div class="media mr-2">
-                                                <img alt="image" width="50" src="<?php echo URL; ?>images/avatar/1.jpg">
+                                                <img alt="image" width="50" src="images/avatar/man_1.png">
                                             </div>
                                             <div class="media-body">
                                                 <h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -64,7 +64,7 @@
                                     <li>
                                         <div class="timeline-panel">
                                             <div class="media mr-2">
-                                                <img alt="image" width="50" src="<?php echo URL; ?>/images/avatar/1.jpg">
+                                                <img alt="image" width="50" src="./images/avatar/man_2.png">
                                             </div>
                                             <div class="media-body">
                                                 <h6 class="mb-1">Dr sultads Send you Photo</h6>
@@ -171,7 +171,7 @@
                     </li>
                     <li class="nav-item dropdown header-profile">
                         <a class="nav-link" href="javascript:void(0)" role="button" data-toggle="dropdown">
-                            <img src="<?php echo URL; ?>/images/profile/17.jpg" width="20" alt="" />
+                            <img src="./images/profile/17.jpg" width="20" alt="" />
                             <div class="header-info">
                                 <span class="text-black"><strong>Itamara F.</strong></span>
                                 <p class="fs-12 mb-0">Admin</p>

@@ -332,7 +332,7 @@ function refresh(){
     oReq.responseType = 'json';
 
     //Defina como true
-    oReq.open("GET", url+"/conexao/refresh.php?refresh_estoque=1", true);
+    oReq.open("GET", "./conexao/refresh.php?refresh_estoque=1", true);
 
     //Função assíncrona que aguarda a resposta
     oReq.onreadystatechange = function(){

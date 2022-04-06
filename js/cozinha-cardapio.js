@@ -523,7 +523,7 @@ $(document).on("click", ".cardapio-item-body", function (event) {
 
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/cozinha',
+        url  : './conexao/cozinha',
         data : { montaModal:'1', cod:cod },
         dataType: 'json',
         success :  function(retorno){
@@ -578,7 +578,7 @@ $(document).on("click", "#editCardapioCozinha .salvar", function (event) {
 
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/cozinha',
+        url  : './conexao/cozinha',
         data : { preEdit:'1', cod:cod },
         dataType: 'json',
         success :  function(retorno){
@@ -652,7 +652,7 @@ $(document).on("click", "#editCardapioCozinha .salvar", function (event) {
 function atualizaItens() {
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/cozinha',
+        url  : './conexao/cozinha',
         data : { atualizaItens:'1' },
         dataType: 'json',
         success :  function(retorno){

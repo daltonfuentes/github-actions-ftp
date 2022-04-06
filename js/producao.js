@@ -176,7 +176,7 @@ $(document).ready(function(){
             if (result.isConfirmed) {   
                 $.ajax({
                     type : 'POST',
-                    url  : url+'/conexao/add_producao',
+                    url  : './conexao/add_producao',
                     data : { deletaProducao:'1', id:id },
                     dataType: 'json',
                     success :  function(retorno){
@@ -479,7 +479,7 @@ function atualizaPaginationContition(condicao) {
 function atualizaRanking() {
     $.ajax({
         type : 'POST',
-        url  : url+'/conexao/add_producao',
+        url  : './conexao/add_producao',
         data : { refreshRanking:'1' },
         dataType: 'json',
         success :  function(response){

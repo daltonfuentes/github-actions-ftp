@@ -590,7 +590,7 @@ $(document).on("click", "tr.ingrediente-receita .apagaItem", function(){
         if (result.isConfirmed) {   
             $.ajax({
                 type : 'POST',
-                url  : url+'/conexao/add_receita',
+                url  : './conexao/add_receita',
                 data : { deletaIngrediente:'1', id:id, cod:cod },
                 dataType: 'json',
                 success :  function(retorno){

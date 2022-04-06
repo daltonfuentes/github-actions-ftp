@@ -14,7 +14,7 @@ $resultadoValida->execute();
 $contarValida = $resultadoValida->rowCount();
 
 if($contarValida == 0):
-    header("Location: ".URL."/compras");
+    header("Location: ../compras");
     exit();
 endif;
 
@@ -51,7 +51,7 @@ $exibe1 = $resultado1->fetch(PDO::FETCH_OBJ);
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Sego - Restaurant Bootstrap Admin Dashboard</title>
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo URL; ?>/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon.png">
 
     <?php include("./include/css.php"); ?>
 
@@ -92,7 +92,7 @@ $exibe1 = $resultado1->fetch(PDO::FETCH_OBJ);
             <div class="container-fluid">
             <div class="page-titles">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="<?php echo URL; ?>/compras">Compras</a></li>
+						<li class="breadcrumb-item"><a href="../compras">Compras</a></li>
 						<li class="breadcrumb-item active" id="info-compra" data-cod="<?php echo $codCompra; ?>" data-fornecedor="<?php echo $exibe2->fornecedor; ?>" data-data-compra="<?php echo $exibe2->data_compra; ?>" data-data-add="<?php echo $exibe2->dataAdd; ?>"><a>Nº <span id="cod-compra"><?php echo $codCompra; ?></span></a></li>
 					</ol>
                 </div>
@@ -102,7 +102,7 @@ $exibe1 = $resultado1->fetch(PDO::FETCH_OBJ);
                             <div class="card-header pb-4">
                                 <div class="row">
                                     <div class="col-xl-2 col-lg-2  col-md-4 ">
-                                        <img class="img-fluid rounded mr-3 img-fornecedor" src="<?php echo URL; ?>/upload/fornecedor/<?php echo $exibe1->img; ?>" alt="<?php echo $exibe1->fornecedor; ?>">
+                                        <img class="img-fluid rounded mr-3 img-fornecedor" src="../upload/fornecedor/<?php echo $exibe1->img; ?>" alt="<?php echo $exibe1->fornecedor; ?>">
                                     </div>
                                     <!--Tab slider End-->
                                     <div class="col-xl-6 col-lg-6  col-md-6 col-xxl-7 col-sm-12">
@@ -433,7 +433,7 @@ $exibe1 = $resultado1->fetch(PDO::FETCH_OBJ);
         
     </script>
 
-    <script src="<?php echo URL; ?>/js/compra.js"></script>
+    <script src="../js/compra.js"></script>
 </body>
 
 </html>

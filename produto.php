@@ -14,7 +14,7 @@ $resultado->execute();
 $contar = $resultado->rowCount();
 
 if($contar == 0):
-    header("Location: ".URL."/compras");
+    header("Location: ../compras");
     exit();
 else:
     $exibe = $resultado->fetch(PDO::FETCH_OBJ);
