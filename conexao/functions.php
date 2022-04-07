@@ -178,6 +178,6 @@ if($httpcode == 200):
 
     $retorno = json_decode($response, true);
 
-    echo $response['delivery'];
+    echo $response;
 
 endif;
