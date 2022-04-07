@@ -1,6 +1,6 @@
 <?php
 
-$_POST['new_session'] = true;
+//$_POST['new_session'] = true;
 
 if (isset($_POST['new_session']) && $_POST['new_session'] == true) :
     require_once("./conexao/functions.php");
@@ -30,6 +30,21 @@ if (isset($_POST['new_session']) && $_POST['new_session'] == true) :
         $state = $outState['state'];
     endif;
 
-    echo $state;
+    if($state == 'CLOSED' || $state == 'ERROR'):
+        $retorno['erro'] = $outState['erro'];
+        $retorno['mensagem']  = $outState['mensagem'];
+        echo json_encode($retorno);
+        exit();
+    endif;
+
+
+
+
+    
+
 
 endif;
+
+
+
+
