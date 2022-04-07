@@ -176,8 +176,8 @@ curl_close($curl);
 
 if($httpcode == 200):
 
+    $retorno = json_decode($response, true);
 
-    echo $response;
-
+    echo $retorno['delivery'];
 
 endif;
