@@ -178,5 +178,9 @@ if($httpcode == 200):
     $retorno = json_decode($response, true);
     $items = $retorno['items'];
 
-    echo $items;
+    var_dump($items);
+    echo '<hr>';
+    var_dump($retorno);
+    echo '<hr>';
+    var_dump($response);
 endif;
