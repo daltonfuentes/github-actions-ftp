@@ -175,9 +175,8 @@ $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 curl_close($curl);
 
 if($httpcode == 200):
-
     $retorno = json_decode($response, true);
+    $items = $retorno['items'];
 
-    echo $response;
-
+    echo $items;
 endif;
