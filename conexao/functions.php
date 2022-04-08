@@ -148,7 +148,7 @@ function merchantStatus($accessToken) {
     endif;
 };
 
-
+/*
 
 $orderId = '688eff25-1353-423a-aeb2-356b91472c69';
 
