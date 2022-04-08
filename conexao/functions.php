@@ -131,6 +131,7 @@ function merchantStatus($accessToken) {
         $retorno = json_decode($response, true);
         $out['erro'] = 0;
         $out['state'] = $retorno[0]['state'];
+        $out['title'] = $retorno[0]['message']['title'];
         $out['subtitle'] = $retorno[0]['message']['subtitle'];
         return $out;
     elseif($httpcode == 401):
