@@ -35,6 +35,11 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         $retorno['mensagem']  = $outState['title'].' - '.$outState['subtitle'];
         echo json_encode($retorno);
         exit();
+    elseif($state == 'OK' || $state == 'WARNING'):
+        $retorno['erro'] = $outState['erro'];
+        $retorno['mensagem']  = $outState['title'];
+        echo json_encode($retorno);
+        exit();
     endif;
 endif;
 
