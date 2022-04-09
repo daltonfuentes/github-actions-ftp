@@ -312,3 +312,21 @@
     "type": "bearer",
     "expiresIn": 10800
 }
+
+
+
+$response = curl_exec($curl);
+    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($httpcode == 200):
+        $retorno = json_decode($response, true);
+        $out['erro'] = 0;
+        $out['polling'] = $retorno;
+        return $out;
+    else:
+        $out['mensagem'] = 'Erro inesperado.';
+        $out['erro'] = 1;
+        $out['code'] = $httpcode;
+        return $out;
+    endif;
