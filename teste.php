@@ -58,7 +58,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
         if($count > 0):
             foreach($retorno['polling'] as $in){
-                $send = '['.json_encode($in).']';
+                $send = '['.$in.']';
 
                 echo $send.'<hr>';
                 
