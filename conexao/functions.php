@@ -132,9 +132,7 @@ function merchantStatus($accessToken) {
 };
 
 
-    require_once("conexao_hostgator.php");
 
-    $out = array();
 
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
