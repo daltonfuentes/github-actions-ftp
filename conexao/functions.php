@@ -132,14 +132,10 @@ function merchantStatus($accessToken) {
 };
 
 
-
+    require_once("conexao_hostgator.php");
 
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
-
-
-    echo $accessToken;
-    exit();
 
     ////
     // FAZ POLLING
