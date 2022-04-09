@@ -139,6 +139,10 @@ function merchantStatus($accessToken) {
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
 
+
+    echo $accessToken;
+    exit();
+
     ////
     // FAZ POLLING
     ////
