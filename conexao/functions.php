@@ -131,10 +131,6 @@ function merchantStatus($accessToken) {
     endif;
 };
 
-$merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
-$teste = polling($merchantId);
-var_dump($teste);
-
 function polling($merchantId){
     $merchantApiHost = 'https://merchant-api.ifood.com.br';
 
@@ -182,7 +178,7 @@ function polling($merchantId){
 };
 
 function acknowledgment($send){
-    require_once("conexao_hostgator.php");
+    $merchantApiHost = 'https://merchant-api.ifood.com.br';
 
     $out = array();
 
