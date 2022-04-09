@@ -64,7 +64,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
             foreach($polling as $in){
                 
-                var_dump($in).'<br>'; 
+                $id = $in['id'];
 
                 $curl = curl_init();
 
@@ -77,7 +77,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $in,
+                CURLOPT_POSTFIELDS =>'[{"id":'.$id.'}]',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Bearer '.$accessToken,
                     'Content-Type: application/json'
