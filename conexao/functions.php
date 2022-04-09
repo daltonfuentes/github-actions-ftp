@@ -85,8 +85,6 @@ function accessToken() {
     endif;
 };
 
-accessToken();
-
 function merchantStatus($accessToken) {
     require_once("conexao_hostgator.php");
 
@@ -141,7 +139,8 @@ function polling($merchantId){
 
     $out = array();
 
-    $accessToken = accessToken();
+    $outToken = accessToken();
+    $accessToken = $outToken['accessToken'];
 
     ////
     // FAZ POLLING
@@ -186,7 +185,8 @@ function acknowledgment($send){
 
     $out = array();
 
-    $accessToken = accessToken();
+    $outToken = accessToken();
+    $accessToken = $outToken['accessToken'];
 
     $curl = curl_init();
     
