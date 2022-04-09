@@ -131,10 +131,10 @@ function merchantStatus($accessToken) {
     endif;
 };
 
-$outToken = accessToken();
-    $accessToken = $outToken['accessToken'];
+$merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
+$teste = polling($merchantId);
+var_dump($teste);
 
-    echo $accessToken;
 function polling($merchantId){
     require_once("conexao_hostgator.php");
 
@@ -163,22 +163,10 @@ function polling($merchantId){
         'Authorization: Bearer '.$accessToken
     ),
     ));
-
     $response = curl_exec($curl);
-    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    curl_close($curl);
 
-    if($httpcode == 200):
-        $retorno = json_decode($response, true);
-        $out['erro'] = 0;
-        $out['polling'] = $retorno;
-        return $out;
-    else:
-        $out['mensagem'] = 'Erro inesperado.';
-        $out['erro'] = 1;
-        $out['code'] = $httpcode;
-        return $out;
-    endif;
+    curl_close($curl);
+    echo $response;
 };
 
 function acknowledgment($send){
