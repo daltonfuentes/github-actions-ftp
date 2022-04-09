@@ -157,7 +157,7 @@ if(isset($_POST['montaModal']) && $_POST['montaModal'] == '1'):
         exit();
     endif;
    
-    $sql = "SELECT categoria FROM cozinha_cardapio WHERE cod='$cod' AND ativo='true' GROUP BY variacao";
+    $sql = "SELECT categoria FROM cozinha_cardapio WHERE cod='$cod' && ativo='true' GROUP BY variacao";
     $resultado = $conexaoAdmin->prepare($sql);	
     $resultado->execute();
     $contar = $resultado->rowCount();
@@ -192,7 +192,7 @@ if(isset($_POST['montaModal']) && $_POST['montaModal'] == '1'):
 
     $retorno['categoria']   = $categoria;
 
-    $sql2 = "SELECT * FROM cozinha_cardapio WHERE cod='$cod' AND ativo='true'";
+    $sql2 = "SELECT * FROM cozinha_cardapio WHERE cod='$cod' && ativo='true'";
     $resultado2 = $conexaoAdmin->prepare($sql2);	
     $resultado2->execute();
     $contar2 = $resultado2->rowCount();
@@ -280,7 +280,7 @@ if(isset($_POST['preEdit']) && $_POST['preEdit'] == '1'):
         exit();
     endif;
 
-    $sql1 = "SELECT * FROM cozinha_cardapio WHERE cod='$cod' AND ativo='true'";
+    $sql1 = "SELECT * FROM cozinha_cardapio WHERE cod='$cod' && ativo='true'";
     $resultado1 = $conexaoAdmin->prepare($sql1);	
     $resultado1->execute();
     $contar1 = $resultado1->rowCount();

@@ -198,7 +198,7 @@ $nomeProduto = $exibe->produto;
 
                                                         $codCompra = $exibe->cod;
 
-                                                        $sql2 = 'SELECT * FROM compras WHERE cod="'.$codCompra.'" AND produto="'.$codProduto.'"';
+                                                        $sql2 = 'SELECT * FROM compras WHERE cod="'.$codCompra.'" && produto="'.$codProduto.'"';
                                                         $resultado2 = $conexaoAdmin->prepare($sql2);
                                                         $resultado2->execute();
                                                         $contar2 = $resultado2->rowCount();

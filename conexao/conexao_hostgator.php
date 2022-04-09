@@ -10,3 +10,5 @@ $conexao = new PDO(   'mysql:host=br376.hostgator.com.br; dbname=volca246_dashbo
         );
 
 date_default_timezone_set('America/Sao_Paulo');
+
+$merchantApiHost = 'https://merchant-api.ifood.com.br';

@@ -1,6 +1,6 @@
 <?php
 
-function accessToken($usuario) {
+function accessToken() {
     require_once("conexao_hostgator.php");
 
     $out = array();
@@ -8,20 +8,18 @@ function accessToken($usuario) {
     $date = new DateTime();
     $dateComparacao = date_format($date, 'YmdHis');
 
-    $sql = "SELECT accessToken FROM token_ifood WHERE usuario='$usuario' AND expire>'$dateComparacao'";
+    $sql = "SELECT accessToken FROM token_ifood WHERE expire>'$dateComparacao'";
     $resultado = $conexao->prepare($sql);	
     $resultado->execute();
     $contar = $resultado->rowCount();
 
     if($contar == 0):
         ////
-        // PEGA 'merchantApiHost' . 'clientId' . 'clientSecret'
+        // PEGA 'clientId' . 'clientSecret'
         ////
-        $merchantApiHost = 'https://merchant-api.ifood.com.br';
 
         $clientId = '2c99ed49-478b-4959-b392-48828eda9954';
         $clientSecret = 'oqy93k6snxjmgruuabkt82hz7fw5djuorlcxcaaapdtzo0zsa0neyz3ztqv452ein8d3j0jibusrejcox7mzkzoakzmokg93rc7';
-
 
         ////
         // SOLICITA TOKEN DE ACESSO
@@ -57,9 +55,8 @@ function accessToken($usuario) {
             date_add($date, date_interval_create_from_date_string($expiresIn.' second'));
             $expire = date_format($date, 'YmdHis');
 
-            $sql = 'INSERT INTO token_ifood (usuario, accessToken, expire) VALUES (:usuario, :accessToken, :expire)';
+            $sql = 'INSERT INTO token_ifood (accessToken, expire) VALUES (:accessToken, :expire)';
             $stmt = $conexao->prepare($sql);
-            $stmt->bindParam(':usuario', $usuario);
             $stmt->bindParam(':accessToken', $token);
             $stmt->bindParam(':expire', $expire);
             $resposta = $stmt->execute();
@@ -70,25 +67,18 @@ function accessToken($usuario) {
                 $out['accessToken'] = 0;
                 return $out;
             else:
-                $out['mensagem'] = '';
                 $out['erro'] = 0;
                 $out['accessToken'] = $retorno['accessToken'];
                 return $out;
             endif;
-        elseif($httpcode == 401):
-            $out['mensagem'] = 'Não autorizado.';
-            $out['erro'] = 401;
-            $out['accessToken'] = 0;
-            return $out;
         else:
             $out['mensagem'] = 'Erro inesperado.';
-            $out['erro'] = 500;
-            $out['accessToken'] = 0;
+            $out['erro'] = 1;
+            $out['code'] = $httpcode;
             return $out;
         endif;
     else:
         $exibe = $resultado->fetch(PDO::FETCH_OBJ);
-        $out['mensagem'] = '';
         $out['erro'] = 0;
         $out['accessToken'] = $exibe->accessToken;
         return $out;
@@ -104,7 +94,6 @@ function merchantStatus($accessToken) {
     // CONSULTA STATUS DO RESTAURANTE
     ////
 
-    $merchantApiHost = 'https://merchant-api.ifood.com.br';
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
 
     $curl = curl_init();
@@ -134,17 +123,98 @@ function merchantStatus($accessToken) {
         $out['title'] = $retorno[0]['message']['title'];
         $out['subtitle'] = $retorno[0]['message']['subtitle'];
         return $out;
-    elseif($httpcode == 401):
-        $out['mensagem'] = 'Não autorizado. O usuário não está autenticado, o token expirou ou o token é inválido.';
-        $out['erro'] = 401;
+    else:
+        $out['mensagem'] = 'Erro inesperado.';
+        $out['erro'] = 1;
+        $out['code'] = $httpcode;
         return $out;
-    elseif($httpcode == 403):
-        $out['mensagem'] = 'Proibido. O usuário não tem acesso ao comerciante fornecido.';
-        $out['erro'] = 403;
+    endif;
+};
+
+
+
+
+function polling($merchantId){
+    require_once("conexao_hostgator.php");
+
+    $out = array();
+
+    $accessToken = accessToken();
+
+    ////
+    // FAZ POLLING
+    ////
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => $merchantApiHost.'/order/v1.0/events:polling',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        'x-polling-merchants: '.$merchantId,
+        'Authorization: Bearer '.$accessToken
+    ),
+    ));
+
+    $response = curl_exec($curl);
+    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($httpcode == 200):
+        $retorno = json_decode($response, true);
+        $out['erro'] = 0;
+        $out['polling'] = $retorno;
         return $out;
     else:
         $out['mensagem'] = 'Erro inesperado.';
-        $out['erro'] = 500;
+        $out['erro'] = 1;
+        $out['code'] = $httpcode;
+        return $out;
+    endif;
+};
+
+function acknowledgment($send){
+    require_once("conexao_hostgator.php");
+
+    $out = array();
+
+    $accessToken = accessToken();
+
+    $curl = curl_init();
+    
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => $merchantApiHost.'/order/v1.0/events/acknowledgment',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS => $send,
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer '.$accessToken,
+        'Content-Type: application/json'
+      ),
+    ));
+    
+    $response = curl_exec($curl);
+    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+    
+    if($httpcode == 202):
+        $out['erro'] = 0;
+        return $out;
+    else:
+        $out['mensagem'] = 'Erro inesperado.';
+        $out['erro'] = 1;
+        $out['code'] = $httpcode;
         return $out;
     endif;
 };
@@ -185,3 +255,5 @@ if($httpcode == 200):
     echo '<hr>';
     var_dump($response);
 endif;
+
+*/

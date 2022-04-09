@@ -11,7 +11,7 @@ if(isset($_POST['new_session']) && $_POST['new_session'] == true):
     $dateComparacao = date_format($date, 'YmdHis');
 
 
-    $sql = "SELECT accessToken FROM token_ifood WHERE usuario='$usuario' AND expire>'$dateComparacao'";
+    $sql = "SELECT accessToken FROM token_ifood WHERE usuario='$usuario' && expire>'$dateComparacao'";
     $resultado = $conexaoAdmin->prepare($sql);	
     $resultado->execute();
     $contar = $resultado->rowCount();

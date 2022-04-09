@@ -20,7 +20,7 @@ if(isset($_POST['monta_modal_cardapio']) && $_POST['monta_modal_cardapio'] == '1
         exit();
     endif;
 
-    $sql = "SELECT * FROM cozinha_cardapio WHERE ativo='true' AND cod='$cod' AND valor_ifood IS NULL AND valor_whats IS NULL GROUP BY variacao";
+    $sql = "SELECT * FROM cozinha_cardapio WHERE ativo='true' && cod='$cod' && valor_ifood IS NULL && valor_whats IS NULL GROUP BY variacao";
     $resultado = $conexaoAdmin->prepare($sql);
     $resultado->execute();
     $contar = $resultado->rowCount();
@@ -111,7 +111,7 @@ if(isset($_POST['monta_modal_cardapio']) && $_POST['monta_modal_cardapio'] == '1
 
             $categoria = $exibe->categoria;
 
-            $sql5 = "SELECT * FROM categoria_cardapio WHERE cod='$categoria' AND tipo_ingrediente IS NOT NULL AND cod_ingrediente IS NOT NULL AND qtd_ingrediente IS NOT NULL";
+            $sql5 = "SELECT * FROM categoria_cardapio WHERE cod='$categoria' && tipo_ingrediente IS NOT NULL && cod_ingrediente IS NOT NULL && qtd_ingrediente IS NOT NULL";
             $resultado5 = $conexaoAdmin->prepare($sql5);
             $resultado5->execute();
             $contar5 = $resultado5->rowCount();
@@ -189,7 +189,7 @@ if(isset($_POST['monta_modal_cardapio']) && $_POST['monta_modal_cardapio'] == '1
 
             $custos[$variacao] = 0;
 
-            $sql2 = "SELECT * FROM cozinha_cardapio WHERE ativo='true' AND cod='$cod' AND variacao='$variacao' AND valor_ifood IS NULL AND valor_whats IS NULL"; //PEGA TODOS OS INGREDIENTES PARA TAL VARIACAO
+            $sql2 = "SELECT * FROM cozinha_cardapio WHERE ativo='true' && cod='$cod' && variacao='$variacao' && valor_ifood IS NULL && valor_whats IS NULL"; //PEGA TODOS OS INGREDIENTES PARA TAL VARIACAO
             $resultado2 = $conexaoAdmin->prepare($sql2);
             $resultado2->execute();
             $contar2 = $resultado2->rowCount();
@@ -374,7 +374,7 @@ if(isset($_POST['atualiza_cardapio_itens']) && $_POST['atualiza_cardapio_itens']
     $retorno['html'] = '';
     
 
-    $sql = "SELECT * FROM cozinha_cardapio WHERE ativo='true' AND valor_ifood IS NOT NULL AND valor_whats IS NOT NULL GROUP BY cod";
+    $sql = "SELECT * FROM cozinha_cardapio WHERE ativo='true' && valor_ifood IS NOT NULL && valor_whats IS NOT NULL GROUP BY cod";
     $resultado = $conexaoAdmin->prepare($sql);
     $resultado->execute();
     $contar = $resultado->rowCount();
@@ -386,7 +386,7 @@ if(isset($_POST['atualiza_cardapio_itens']) && $_POST['atualiza_cardapio_itens']
             $retorno['nome_variacoes'] = '';
             $cod = $exibe->cod;
 
-            $sql2 = "SELECT * FROM cozinha_cardapio WHERE ativo='true' AND cod='$cod' AND valor_ifood IS NOT NULL AND valor_whats IS NOT NULL GROUP BY variacao";
+            $sql2 = "SELECT * FROM cozinha_cardapio WHERE ativo='true' && cod='$cod' && valor_ifood IS NOT NULL && valor_whats IS NOT NULL GROUP BY variacao";
             $resultado2 = $conexaoAdmin->prepare($sql2);
             $resultado2->execute();
             $contar2 = $resultado2->rowCount();
@@ -485,7 +485,7 @@ if(isset($_POST['edit_valores_cardapio']) && $_POST['edit_valores_cardapio'] == 
         exit();
     endif;
 
-    $sql1 = 'UPDATE cozinha_cardapio SET valor_ifood=:ifood, valor_whats=:loja WHERE cod=:cod AND variacao=:variacao AND ativo="true"';
+    $sql1 = 'UPDATE cozinha_cardapio SET valor_ifood=:ifood, valor_whats=:loja WHERE cod=:cod && variacao=:variacao && ativo="true"';
     $stmt1 = $conexaoAdmin->prepare($sql1);
     $stmt1->bindParam(':cod', $cod);
     $stmt1->bindParam(':variacao', $variacao);
@@ -522,7 +522,7 @@ if(isset($_POST['monta_modal_editar']) && $_POST['monta_modal_editar'] == '1'):
         exit();
     endif;
 
-    $sql = "SELECT * FROM cozinha_cardapio WHERE ativo='true' AND cod='$cod' AND valor_ifood IS NOT NULL AND valor_whats IS NOT NULL GROUP BY variacao";
+    $sql = "SELECT * FROM cozinha_cardapio WHERE ativo='true' && cod='$cod' && valor_ifood IS NOT NULL && valor_whats IS NOT NULL GROUP BY variacao";
     $resultado = $conexaoAdmin->prepare($sql);
     $resultado->execute();
     $contar = $resultado->rowCount();
@@ -613,7 +613,7 @@ if(isset($_POST['monta_modal_editar']) && $_POST['monta_modal_editar'] == '1'):
 
             $categoria = $exibe->categoria;
 
-            $sql5 = "SELECT * FROM categoria_cardapio WHERE cod='$categoria' AND tipo_ingrediente IS NOT NULL AND cod_ingrediente IS NOT NULL AND qtd_ingrediente IS NOT NULL";
+            $sql5 = "SELECT * FROM categoria_cardapio WHERE cod='$categoria' && tipo_ingrediente IS NOT NULL && cod_ingrediente IS NOT NULL && qtd_ingrediente IS NOT NULL";
             $resultado5 = $conexaoAdmin->prepare($sql5);
             $resultado5->execute();
             $contar5 = $resultado5->rowCount();
@@ -691,7 +691,7 @@ if(isset($_POST['monta_modal_editar']) && $_POST['monta_modal_editar'] == '1'):
 
             $custos[$variacao] = 0;
 
-            $sql2 = "SELECT * FROM cozinha_cardapio WHERE ativo='true' AND cod='$cod' AND variacao='$variacao' AND valor_ifood IS NOT NULL AND valor_whats IS NOT NULL"; //PEGA TODOS OS INGREDIENTES PARA TAL VARIACAO
+            $sql2 = "SELECT * FROM cozinha_cardapio WHERE ativo='true' && cod='$cod' && variacao='$variacao' && valor_ifood IS NOT NULL && valor_whats IS NOT NULL"; //PEGA TODOS OS INGREDIENTES PARA TAL VARIACAO
             $resultado2 = $conexaoAdmin->prepare($sql2);
             $resultado2->execute();
             $contar2 = $resultado2->rowCount();

@@ -122,6 +122,24 @@ session_start();
                         <div class="row pr-2 pt-1" id="row-list-orders">
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
+                                    <div class="card-body cPointer pl-4 mb-0 bg-danger rounded faixa-pedido pendente">
+                                        <div class="media">
+                                            <div class="px-1 text-white">
+                                                <h4 class="font-gilroy-bold fs-20 mb-1 text-white">Antonio M. <small class="fs-20 ml-2">#4020</small></h4>
+                                                <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
+                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
+                                                    17:35</span>
+                                            </div>
+                                            <div class="media-footer valor-total-pedido">
+                                                <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
+                                                        class="badge badge-danger light">PENDENTE</span></h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="card shadow  mb-0 d-block">
                                     <div
                                         class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido animate__pulse animate__infinite alerta active">
                                         <div class="media">

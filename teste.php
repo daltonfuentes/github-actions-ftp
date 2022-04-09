@@ -1,16 +1,16 @@
 <?php
 
-$_POST['status_ifood'] = true;
+//$_POST['status_ifood'] = true;
 
 if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     require_once("./conexao/functions.php");
-    $usuario = 1;
 
     $retorno = array();
  
-    $outToken = accessToken($usuario);
+    $outToken = accessToken();
 
-    if(empty($outToken['accessToken'])):
+    if(empty($outToken['accessToken']) || $outToken['erro'] != 0):
+        // envia log de erro.
         $retorno['erro'] = $outToken['erro'];
         $retorno['mensagem']  = $outToken['mensagem'];
         echo json_encode($retorno);
@@ -21,7 +21,8 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
     $outState = merchantStatus($accessToken);
 
-    if(!empty($outState['erro'])):
+    if(empty($outToken['state']) || $outToken['erro'] != 0):
+        // envia log de erro.
         $retorno['erro'] = $outState['erro'];
         $retorno['mensagem']  = $outState['mensagem'];
         echo json_encode($retorno);
@@ -43,7 +44,38 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
+
+$_POST['polling'] = true;
+
+if (isset($_POST['polling']) && $_POST['polling'] == true) :
+    require_once("./conexao/functions.php");
+ 
+    $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
+
+    $retorno = polling($merchantId);
+
+    if($retorno['erro'] == 0):
+
+        $count = count($retorno['polling']);
+
+        if($count > 0):
+            foreach($retorno['polling'] as $in){
+                echo json_decode($in).'<br>';
+
+                $r = acknowledgment($in);
+
+                if($r['erro'] != 0):
+                    echo 'Tem erro no acknowledgment.';
+                endif;
+            };
+        endif;
+        
+
+    endif;
+endif;
+
 /*
+
 
 $json = '{
     "id": "688eff25-1353-423a-aeb2-356b91472c69",
@@ -153,14 +185,113 @@ $json = '{
     }
 }';
 
-$retorno = json_decode($json, true);
+$polling = '[
+    {
+        "id": "dab2b9c6-33f5-412c-ab02-052ea01eb55e",
+        "code": "PLC",
+        "fullCode": "PLACED",
+        "orderId": "226865a8-2e24-48c9-8fa6-9316cd5947ec",
+        "createdAt": "2022-04-08T22:46:52.234Z"
+    },
+    {
+        "id": "baf15f0f-1683-410e-88cc-1b3f21fa1b57",
+        "code": "CFM",
+        "fullCode": "CONFIRMED",
+        "orderId": "bfbbf867-31ba-475b-a89d-ca51e2e96fe6",
+        "createdAt": "2022-04-08T22:48:18.478Z",
+        "metadata": {
+            "ORIGIN": "ORDER_API",
+            "ownerName": "ifood",
+            "CLIENT_ID": "ifood:iconnect_v3_homologation",
+            "appName": "iconnect_v3_homologation"
+        }
+    },
+    {
+        "id": "09f6dfb1-1ca5-4408-8e5f-39a001c89dcb",
+        "code": "CFM",
+        "fullCode": "CONFIRMED",
+        "orderId": "226865a8-2e24-48c9-8fa6-9316cd5947ec",
+        "createdAt": "2022-04-08T22:49:40.654Z",
+        "metadata": {
+            "ORIGIN": "ORDER_API",
+            "ownerName": "adminsweetconfetty",
+            "CLIENT_ID": "adminsweetconfetty:adminsweetconfettytestec",
+            "appName": "adminsweetconfettytestec"
+        }
+    }
+]';
+$retorno = array();
 
-$itens = $retorno["items"];
+$retorno = json_decode($polling, true);
+
+$merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
+
+foreach($retorno as $in){
+    $id         = $in['id'];
+    $orderId    = $in['orderId'];
+    $orderType  = $in['code'];
+    $createdAt  = $in['createdAt'];
+
+    echo $id.'<br>';
+
+    continue;
+
+    $sql = "SELECT * FROM ifood_events WHERE orderId='$orderId' && id='$id' && createdAt='$createdAt'";
+    $resultado = $conexao->prepare($sql);	
+    $resultado->execute();
+    $contar = $resultado->rowCount();
+
+    if($contar != 0):
+        // evento já foi processado
+        // envia para /acknowledgment
+        $send = '['.json_encode($in).']';
+        $outAcknowledgment = acknowledgment($send);
+
+
+        continue;
+    endif;
+    
+
+    $sql = "SELECT orderType FROM ifood_orders WHERE orderId='$orderId' && merchantId='$merchantId'";
+    $resultado = $conexao->prepare($sql);	
+    $resultado->execute();
+    $contar = $resultado->rowCount();
+
+    if($contar == 0):
+        // ORDER NAO FOI CADASTRADA AINDA
+        if($orderType == 'PLC'):
+            // APENAS ATUALIZA O STATUS DO PEDIDO
+
+
+        else:
+            // COD NÃO ESPERADO
+
+        endif;
+    else:
+
+    endif;
+
+
+}
+
+
+
+
+date_default_timezone_set('America/Sao_Paulo');
+
+$data = '2020-01-01T00:00:00.000Z';
+
+$date = new DateTime('2022-04-09T03:07:12.310Z');
+date_add($date, date_interval_create_from_date_string('10 minute'));
+$expire = date_format($date, 'Y-m-d H:i:s.v');
+
+echo $expire;
+
 
 foreach($itens as $v){
     echo "id: ".$v['id'].'<br>';
 }
 
-
+*/
 
 

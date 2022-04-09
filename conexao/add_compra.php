@@ -384,7 +384,7 @@ if(isset($_POST['consultaComrpras']) && $_POST['consultaComrpras'] == '1'):
     if($condicao == '30' || $condicao == '60' || $condicao == '90'):
         $hoje = date('Ymd');
         $data = date('Ymd', strtotime('-'.$condicao.' days'));
-        $sql = 'SELECT cod, fornecedor, data_compra, dataAdd, dataId, count(id) total, sum(valor_total) soma FROM compras WHERE dataId >= "'.$data.'" AND dataId <= "'.$hoje.'"  GROUP BY cod ORDER BY dataId DESC';
+        $sql = 'SELECT cod, fornecedor, data_compra, dataAdd, dataId, count(id) total, sum(valor_total) soma FROM compras WHERE dataId >= "'.$data.'" && dataId <= "'.$hoje.'"  GROUP BY cod ORDER BY dataId DESC';
     else:
         $sql = 'SELECT cod, fornecedor, data_compra, dataAdd, dataId, count(id) total, sum(valor_total) soma FROM compras GROUP BY cod ORDER BY dataId DESC';
     endif;
@@ -437,7 +437,7 @@ if(isset($_POST['consultaQtdComrpras']) && $_POST['consultaQtdComrpras'] == '1')
     if($condicao == '30' || $condicao == '60' || $condicao == '90'):
         $hoje = date('Ymd');
         $data = date('Ymd', strtotime('-'.$condicao.' days'));
-        $sql = 'SELECT sum(valor_total) soma FROM compras WHERE dataId >= "'.$data.'" AND dataId <= "'.$hoje.'"  GROUP BY cod ORDER BY dataId DESC';
+        $sql = 'SELECT sum(valor_total) soma FROM compras WHERE dataId >= "'.$data.'" && dataId <= "'.$hoje.'"  GROUP BY cod ORDER BY dataId DESC';
     else:
         $sql = 'SELECT sum(valor_total) soma FROM compras GROUP BY cod ORDER BY dataId DESC';
     endif;
