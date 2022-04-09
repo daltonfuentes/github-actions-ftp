@@ -177,7 +177,7 @@ function polling($merchantId){
     endif;
 };
 
-$send = '[{"id":"a2cf084e-8efb-4b4b-b264-d053af6d390f","code":"CFM","fullCode":"CONFIRMED","orderId":"7dc88a1a-426e-44e3-bb5f-f72a1398d757","createdAt":"2022-04-09T20:21:36.436Z","metadata":{"ORIGIN":"ORDER_API","ownerName":"ifood","CLIENT_ID":"ifood:iconnect_v3_homologation","appName":"iconnect_v3_homologation"}}]';
+$send = '[{"id":"ecd7b83a-d4c4-4e0a-8ce3-9df2fdf1b41f","code":"RDA","fullCode":"REQUEST_DRIVER_AVAILABILITY","orderId":"7dc88a1a-426e-44e3-bb5f-f72a1398d757","createdAt":"2022-04-09T20:21:37.791Z","metadata":{"quote":{"final":{"currency":"BRL","value":"899"},"original":{"currency":"BRL","value":"899"},"discount":{"currency":"BRL","value":"0"}},"available":true}}]';
 
 $teste = acknowledgment($send);
 
