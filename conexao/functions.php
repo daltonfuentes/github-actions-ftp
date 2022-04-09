@@ -165,7 +165,7 @@ function polling($merchantId){
     curl_close($curl);
 
     if($httpcode == 200 || $httpcode == 204):
-        $retorno = json_decode($response, true);
+        //$retorno = json_decode($response, true);
         $out['polling'] = $response;
         $out['erro'] = 0;
         return $out;

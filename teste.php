@@ -51,6 +51,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
 
     $retorno = polling($merchantId);
+    $polling = json_encode($retorno, true);
+
+    echo $retorno.'<hr>';
+    echo $polling.'<hr>';
+
+    exit();
 
     if($retorno['erro'] == 0):
 
