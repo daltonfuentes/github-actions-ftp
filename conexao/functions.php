@@ -131,11 +131,7 @@ function merchantStatus($accessToken) {
     endif;
 };
 
-$merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
-$teste = polling($merchantId);
-var_dump($teste);
 
-function polling($merchantId){
     require_once("conexao_hostgator.php");
 
     $out = array();
@@ -148,38 +144,28 @@ function polling($merchantId){
     ////
 
     $curl = curl_init();
-
+    
     curl_setopt_array($curl, array(
-    CURLOPT_URL => $merchantApiHost.'/order/v1.0/events:polling',
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'GET',
-    CURLOPT_HTTPHEADER => array(
+      CURLOPT_URL => $merchantApiHost.'/order/v1.0/events:polling',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+      CURLOPT_HTTPHEADER => array(
         'x-polling-merchants: 86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e',
         'Authorization: Bearer '.$accessToken
-    ),
+      ),
     ));
-
+    
     $response = curl_exec($curl);
-    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    
     curl_close($curl);
+    echo $response;
+    
 
-    if($httpcode == 200):
-        $retorno = json_decode($response, true);
-        $out['erro'] = 0;
-        $out['polling'] = $retorno;
-        return $out;
-    else:
-        $out['mensagem'] = 'Erro inesperado.';
-        $out['erro'] = 1;
-        $out['code'] = $httpcode;
-        return $out;
-    endif;
-};
 
 function acknowledgment($send){
     require_once("conexao_hostgator.php");
