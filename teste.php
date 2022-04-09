@@ -61,7 +61,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
             foreach($polling as $in){
                 
-                echo json_decode($in).'<br>'; 
+                echo json_encode($in).'<br>'; 
 
                 $curl = curl_init();
 
