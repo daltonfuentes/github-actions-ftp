@@ -61,7 +61,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
         if($count > 0):
             foreach($retorno['polling'] as $in){
-                echo json_decode($in).'<br>';
+                echo $in['fullCode'].'<br>';
 
             };
         endif;
