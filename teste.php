@@ -54,12 +54,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
     $retorno = polling($merchantId);
 
-    echo $retorno['erro'].'<br>';
-    echo $retorno['polling'].'<br>';
 
     if($retorno['erro'] == 0):
 
         $count = count($retorno['polling']);
+
+        echo $count;
 
         if($count > 0):
             foreach($retorno['polling'] as $in){
