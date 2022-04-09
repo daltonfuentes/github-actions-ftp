@@ -132,10 +132,7 @@ function merchantStatus($accessToken) {
 };
 
 $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
-$teste = polling($merchantId);
-var_dump($teste);
 
-function polling($merchantId){
     require_once("conexao_hostgator.php");
 
     $out = array();
@@ -167,7 +164,7 @@ function polling($merchantId){
 
     curl_close($curl);
     echo $response;
-};
+
 
 function acknowledgment($send){
     require_once("conexao_hostgator.php");
