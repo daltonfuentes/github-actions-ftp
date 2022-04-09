@@ -52,7 +52,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
     $retorno = polling($merchantId);
 
-    var_dump($retorno);
+    var_dump($retorno['polling']);
 
     exit();
 
