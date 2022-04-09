@@ -70,7 +70,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
         if($count > 0):
 
-            foreach($retorno['polling'] as $in){
+            foreach($retorno as $in){
                 $send = array(
                     array("id" => $in['id'])
                 );
