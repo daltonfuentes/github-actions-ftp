@@ -59,6 +59,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         if($count > 0):
             foreach($retorno['polling'] as $in){
                 $send = array("id" => $in['id']);
+                $send = json_encode($send);
                 
                 $merchantApiHost = 'https://merchant-api.ifood.com.br';
 
