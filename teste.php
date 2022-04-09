@@ -77,7 +77,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 CURLOPT_FOLLOWLOCATION => true,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS =>'[{"id":'.$id.'}]',
+                CURLOPT_POSTFIELDS =>'[{"id":"8592238f-65be-4f67-a48c-801631ae5ca8"}]',
                 CURLOPT_HTTPHEADER => array(
                     'Authorization: Bearer '.$accessToken,
                     'Content-Type: application/json'
