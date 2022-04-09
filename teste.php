@@ -65,14 +65,11 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                 echo $send.'<hr>';
                 
-                continue;
                 $outAcknowledgment = acknowledgment($send);
 
                 var_dump($outAcknowledgment);
 
-                if($outAcknowledgment['erro'] == 1):
-                    echo $outAcknowledgment['mensagem'].' - '.$outAcknowledgment['code'];
-                endif;
+                
                 echo '<hr>';
             };
         endif;
