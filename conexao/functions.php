@@ -168,10 +168,10 @@ function polling($merchantId){
     $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 
-    if($httpcode == 200):
+    if($httpcode == 200 || $httpcode == 204):
         $retorno = json_decode($response, true);
-        $out['erro'] = 0;
         $out['polling'] = $retorno;
+        $out['erro'] = 0;
         return $out;
     else:
         $out['mensagem'] = 'Erro inesperado.';
