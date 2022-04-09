@@ -132,7 +132,7 @@ function merchantStatus($accessToken) {
 };
 
 
-    require_once("conexao_hostgator.php");
+$merchantApiHost = 'https://merchant-api.ifood.com.br';
 
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
