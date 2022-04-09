@@ -57,18 +57,21 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         $count = count($retorno['polling']);
 
         if($count > 0):
+            
+
             foreach($retorno['polling'] as $in){
-                $send = json_encode($in);
+                $x = json_encode($in);
 
-                echo $send.'<hr>';
-                
-                $outAcknowledgment = acknowledgment($send);
-
-                var_dump($outAcknowledgment);
-
-                
-                echo '<hr>';
+                echo $x.'<hr>';
             };
+
+            $send = json_encode($retorno['polling']);
+
+            exit();
+
+            $outAcknowledgment = acknowledgment($send);
+
+            var_dump($outAcknowledgment);
         endif;
     endif;
 endif;
@@ -140,7 +143,7 @@ function acknowledgment($send){
       CURLOPT_FOLLOWLOCATION => true,
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => 'POST',
-      CURLOPT_POSTFIELDS => '['.$send.']',
+      CURLOPT_POSTFIELDS => $send,
       CURLOPT_HTTPHEADER => array(
         'Authorization: Bearer '.$accessToken,
         'Content-Type: application/json'
