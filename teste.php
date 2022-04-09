@@ -62,9 +62,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 $id = array( array('id' => $in['id']) );
                 $send = json_encode($id);
                 $send2 = json_decode($send);
-                echo $send.'<hr>';
-                echo $send2.'<hr>';
-                continue;
                 
                 $merchantApiHost = 'https://merchant-api.ifood.com.br';
 
@@ -84,7 +81,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                   CURLOPT_FOLLOWLOCATION => true,
                   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                   CURLOPT_CUSTOMREQUEST => 'POST',
-                  CURLOPT_POSTFIELDS => $send,
+                  CURLOPT_POSTFIELDS => $send2,
                   CURLOPT_HTTPHEADER => array(
                     'Authorization: Bearer '.$accessToken,
                     'Content-Type: application/json'
