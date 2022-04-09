@@ -61,9 +61,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
         if($count > 0):
             foreach($retorno['polling'] as $in){
-                echo json_encode($in).'<br>';
+                $send = '['.json_encode($in).']';
 
-                $send = json_encode($in);
+                echo $send.'<br>';
+                
                 $outAcknowledgment = acknowledgment($send);
 
                 if($outAcknowledgment['erro'] == 1):
