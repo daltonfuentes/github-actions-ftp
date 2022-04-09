@@ -61,7 +61,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 
                 $id = array( array('id' => $in['id']) );
                 $send = json_encode($id);
-                echo $send;
+                $send2 = json_decode($send);
+                echo $send.'<hr>';
+                echo $send2.'<hr>';
                 continue;
                 
                 $merchantApiHost = 'https://merchant-api.ifood.com.br';
