@@ -85,6 +85,8 @@ function accessToken() {
     endif;
 };
 
+accessToken();
+
 function merchantStatus($accessToken) {
     require_once("conexao_hostgator.php");
 
