@@ -83,10 +83,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 ));
 
                 $response = curl_exec($curl);
-                $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                curl_close($curl);
 
-                echo $httpcode;
+                curl_close($curl);
+                echo $response;
 
 
                 
