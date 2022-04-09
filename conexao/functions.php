@@ -131,7 +131,92 @@ function merchantStatus($accessToken) {
     endif;
 };
 
+function polling($merchantId){
+    $merchantApiHost = 'https://merchant-api.ifood.com.br';
 
+    $out = array();
+
+    $outToken = accessToken();
+    $accessToken = $outToken['accessToken'];
+
+    ////
+    // FAZ POLLING
+    ////
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => $merchantApiHost.'/order/v1.0/events:polling',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    CURLOPT_HTTPHEADER => array(
+        'x-polling-merchants: '.$merchantId,
+        'Authorization: Bearer '.$accessToken
+    ),
+    ));
+
+    $response = curl_exec($curl);
+    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($httpcode == 200 || $httpcode == 204):
+        $retorno = json_decode($response, true);
+        $out['polling'] = $retorno;
+        $out['erro'] = 0;
+        return $out;
+    else:
+        $out['mensagem'] = 'Erro inesperado.';
+        $out['erro'] = 1;
+        $out['code'] = $httpcode;
+        return $out;
+    endif;
+};
+
+function acknowledgment($send){
+    $merchantApiHost = 'https://merchant-api.ifood.com.br';
+
+    $out = array();
+
+    $outToken = accessToken();
+    $accessToken = $outToken['accessToken'];
+
+    $curl = curl_init();
+    
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => $merchantApiHost.'/order/v1.0/events/acknowledgment',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'POST',
+      CURLOPT_POSTFIELDS => $send,
+      CURLOPT_HTTPHEADER => array(
+        'Authorization: Bearer '.$accessToken,
+        'Content-Type: application/json'
+      ),
+    ));
+    
+    $response = curl_exec($curl);
+    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+    
+    if($httpcode == 202):
+        $out['erro'] = 0;
+        return $out;
+    else:
+        $out['mensagem'] = 'Erro inesperado.';
+        $out['erro'] = 1;
+        $out['code'] = $httpcode;
+        return $out;
+    endif;
+};
 
 /*
 
