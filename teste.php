@@ -51,26 +51,15 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
 
     $retorno = polling($merchantId); //decode
-    $polling = json_encode($retorno, true); //encode
-
-    echo $retorno.'<hr>';
-    echo $polling.'<hr><hr>';
-
-    var_dump($retorno).'<hr>';
-    var_dump($polling).'<hr><hr>';
-
-    echo count($retorno).'<hr>';
-    echo count($retorno['polling']).'<hr>';
-
-    exit();
+    $polling = $retorno['polling'];
 
     if($retorno['erro'] == 0):
 
-        $count = count($retorno['polling']);
+        $count = count($polling);
 
         if($count > 0):
 
-            foreach($retorno as $in){
+            foreach($polling as $in){
                 $send = array(
                     array("id" => $in['id'])
                 );
