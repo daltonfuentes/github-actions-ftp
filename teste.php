@@ -58,14 +58,11 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
         if($count > 0):
 
-            echo ($count);
-
-            exit();
 
             foreach($retorno['polling'] as $in){
                 $send = $in;
 
-                echo $send.'<hr>';
+                echo json_encode($send).'<hr>';
                 
                 continue;
 
