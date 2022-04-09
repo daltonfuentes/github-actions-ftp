@@ -59,17 +59,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
         $count = count($retorno['polling']);
 
-        echo $count;
-
         if($count > 0):
             foreach($retorno['polling'] as $in){
                 echo json_decode($in).'<br>';
 
-                $r = acknowledgment($in);
-
-                if($r['erro'] != 0):
-                    echo 'Tem erro no acknowledgment.';
-                endif;
             };
         endif;
         
