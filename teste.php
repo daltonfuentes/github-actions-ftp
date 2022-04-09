@@ -53,8 +53,11 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $retorno = polling($merchantId);
     $polling = json_encode($retorno, true);
 
-    echo $retorno.'<hr>';
+    var_dump($retorno).'<hr>';
     echo $polling.'<hr>';
+
+    echo count($retorno);
+    echo count($retorno['polling']);
 
     exit();
 
