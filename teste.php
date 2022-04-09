@@ -67,6 +67,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
             $send = json_encode($retorno['polling']);
 
+            echo '<hr>'.$send;
+
             exit();
 
             $outAcknowledgment = acknowledgment($send);
