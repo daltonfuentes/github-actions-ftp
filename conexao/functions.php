@@ -177,12 +177,6 @@ function polling($merchantId){
     endif;
 };
 
-$send = '[{"id":"ecd7b83a-d4c4-4e0a-8ce3-9df2fdf1b41f","code":"RDA","fullCode":"REQUEST_DRIVER_AVAILABILITY","orderId":"7dc88a1a-426e-44e3-bb5f-f72a1398d757","createdAt":"2022-04-09T20:21:37.791Z","metadata":{"quote":{"final":{"currency":"BRL","value":"899"},"original":{"currency":"BRL","value":"899"},"discount":{"currency":"BRL","value":"0"}},"available":true}}]';
-
-$teste = acknowledgment($send);
-
-var_dump($teste);
-
 function acknowledgment($send){
     $merchantApiHost = 'https://merchant-api.ifood.com.br';
 

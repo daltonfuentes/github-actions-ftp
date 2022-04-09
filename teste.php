@@ -65,6 +65,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                 echo $send.'<br>';
                 
+                continue;
                 $outAcknowledgment = acknowledgment($send);
 
                 var_dump($outAcknowledgment);
