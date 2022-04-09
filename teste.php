@@ -61,7 +61,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
         if($count > 0):
             foreach($retorno['polling'] as $in){
-                echo $in['fullCode'].'<br>';
+                echo $in.'<br>';
 
             };
         endif;
