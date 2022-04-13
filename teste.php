@@ -53,9 +53,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $accessToken = $outToken['accessToken'];
 
     $outPolling = polling($merchantId, $accessToken);
-    $polling = $outPolling['polling'];
+    $polling = json_decode($outPolling['polling']);
 
-    echo gettype($polling);
+    echo gettype($polling).'<hr>';
+    var_dump($polling);
     exit();
 
     if($outPolling['erro'] == 0):
