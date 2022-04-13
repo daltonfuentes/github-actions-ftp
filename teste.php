@@ -88,38 +88,70 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $dateCreated = (isset($orderDetails['dateCreated'])) ? $orderDetails['dateCreated'] : '' ;
                     $preparationStartDateTime = (isset($orderDetails['preparationStartDateTime'])) ? $orderDetails['preparationStartDateTime'] : '' ;
 
-                    $merchantId = (isset($orderDetailsMerchant['id'])) ? $orderDetailsMerchant['id'] : '' ;
-                    $merchantName = (isset($orderDetailsMerchant['name'])) ? $orderDetailsMerchant['name'] : '' ;
+                        $merchantId = (isset($orderDetailsMerchant['id'])) ? $orderDetailsMerchant['id'] : '' ;
+                        $merchantName = (isset($orderDetailsMerchant['name'])) ? $orderDetailsMerchant['name'] : '' ;
 
-                    $customerId = (isset($orderDetailsCustomer['id'])) ? $orderDetailsCustomer['id'] : '' ;
-                    $customerName = (isset($orderDetailsCustomer['name'])) ? $orderDetailsCustomer['name'] : '' ;
-                    $customerDocument = (isset($orderDetailsCustomer['documentNumber'])) ? $orderDetailsCustomer['documentNumber'] : null ;
-                        $customerNumber = (isset($orderDetailsCustomer['number'])) ? $orderDetailsCustomer['number'] : null ;
-                        $customerLocalizer = (isset($orderDetailsCustomer['localizer'])) ? $orderDetailsCustomer['localizer'] : null ;
-                        $customerLocalizerExpiration = (isset($orderDetailsCustomer['localizerExpiration'])) ? $orderDetailsCustomer['localizerExpiration'] : null ;
+                        $customerId = (isset($orderDetailsCustomer['id'])) ? $orderDetailsCustomer['id'] : '' ;
+                        $customerName = (isset($orderDetailsCustomer['name'])) ? $orderDetailsCustomer['name'] : '' ;
+                        $customerDocument = (isset($orderDetailsCustomer['documentNumber'])) ? $orderDetailsCustomer['documentNumber'] : null ;
+                            $customerNumber = (isset($orderDetailsCustomer['number'])) ? $orderDetailsCustomer['number'] : null ;
+                            $customerLocalizer = (isset($orderDetailsCustomer['localizer'])) ? $orderDetailsCustomer['localizer'] : null ;
+                            $customerLocalizerExpiration = (isset($orderDetailsCustomer['localizerExpiration'])) ? $orderDetailsCustomer['localizerExpiration'] : null ;
 
                     $isTest = (isset($orderDetails['isTest'])) ? $orderDetails['isTest'] : '' ;
 
                     $extraInfo = (isset($orderDetails['extraInfo'])) ? $orderDetails['extraInfo'] : null ;
 
-                    $statusCancellation = (isset($orderDetails['statusCancellation'])) ? $orderDetails['statusCancellation'] : null ;
-                    $statusTekeout = (isset($orderDetails['statusTekeout'])) ? $orderDetails['statusTekeout'] : null ;
-                    $statusDelivery = (isset($orderDetails['statusDelivery'])) ? $orderDetails['statusDelivery'] : null ;
-                    $onDemandAvailable = (isset($orderDetails['onDemandAvailable'])) ? $orderDetails['onDemandAvailable'] : null ;
-                    $onDemandValue = (isset($orderDetails['onDemandValue'])) ? $orderDetails['onDemandValue'] : null ;
+                    $statusCancellation = null;
+                    $statusTekeout = null;
+                    $statusDelivery = null;
+                    $onDemandAvailable = null;
+                    $onDemandValue = null;                 
 
-                    $mode = (isset($orderDetails['mode'])) ? $orderDetails['mode'] : '' ;
-                    
-                    $deliveredBy = (isset($orderDetails['deliveredBy'])) ? $orderDetails['deliveredBy'] : null ;
-                    $deliveryDateTime = (isset($orderDetails['deliveryDateTime'])) ? $orderDetails['deliveryDateTime'] : null ;
-                    $takeoutDateTime = (isset($orderDetails['takeoutDateTime'])) ? $orderDetails['takeoutDateTime'] : null ;
-                    $tableIndoor = (isset($orderDetails['tableIndoor'])) ? $orderDetails['tableIndoor'] : null ;
-                    $observations = (isset($orderDetails['observations'])) ? $orderDetails['observations'] : null ;
-                    $deliveryDateTimeStart = (isset($orderDetails['deliveryDateTimeStart'])) ? $orderDetails['deliveryDateTimeStart'] : null ;
-                    $deliveryDateTimeEnd = (isset($orderDetails['deliveryDateTimeEnd'])) ? $orderDetails['deliveryDateTimeEnd'] : null ;
-                    $statusCod = (isset($orderDetails['statusCod'])) ? $orderDetails['statusCod'] : '' ;
+                    $statusCod = $polCode ;
 
-                    echo $orderId.'<br>';
+
+                    if($orderTiming == 'IMMEDIATE'):
+                        $schedule = '';
+                    elseif($orderTiming == 'SCHEDULED '):
+                        $orderDetailsSchedule = (array) $orderDetails['schedule'];
+
+                        $deliveryDateTimeStart = (isset($orderDetailsSchedule['deliveryDateTimeStart'])) ? $orderDetailsSchedule['deliveryDateTimeStart'] : '' ;
+                        $deliveryDateTimeEnd = (isset($orderDetailsSchedule['deliveryDateTimeEnd'])) ? $orderDetailsSchedule['deliveryDateTimeEnd'] : '' ;
+
+                        $schedule = $deliveryDateTimeStart.' / '.$deliveryDateTimeEnd;
+                    endif;
+
+                    if($orderType == 'DELIVERY'):
+                        $orderDetailsDelivery = (array) $orderDetails['delivery'];
+
+                        $mode = (isset($orderDetailsDelivery['mode'])) ? $orderDetailsDelivery['mode'] : '' ;
+                        $deliveredBy = (isset($orderDetailsDelivery['deliveredBy'])) ? $orderDetailsDelivery['deliveredBy'] : '' ;
+                        $deliveryDateTime = (isset($orderDetailsDelivery['deliveryDateTime'])) ? $orderDetailsDelivery['deliveryDateTime'] : '' ;
+                        $observations = (isset($orderDetailsDelivery['observations'])) ? $orderDetailsDelivery['observations'] : null ;
+
+                        $orderTypeDetails = $mode.' / '.$deliveredBy.' / '.$deliveryDateTime.' / '.$observations;
+                    elseif($orderType == 'INDOOR '):
+                        $orderDetailsIndoor = (array) $orderDetails['indoor'];
+
+                        $mode = (isset($orderDetailsorderDetailsIndoorDelivery['mode'])) ? $orderDetailsIndoor['mode'] : '' ;
+                        $tableIndoor = (isset($orderDetailsIndoor['table'])) ? $orderDetailsIndoor['table'] : null ;
+                        $deliveryDateTime = (isset($orderDetailsIndoor['deliveryDateTime'])) ? $orderDetailsIndoor['deliveryDateTime'] : '' ;
+                        $observations = (isset($orderDetailsIndoor['observations'])) ? $orderDetailsIndoor['observations'] : null ;
+
+                        $orderTypeDetails = $mode.' / '.$tableIndoor.' / '.$deliveryDateTime.' / '.$observations;
+                    elseif($orderType == 'TAKEOUT'):
+                        $orderDetailsTakeout = (array) $orderDetails['takeout'];
+
+                        $mode = (isset($orderDetailsTakeout['mode'])) ? $orderDetailsTakeout['mode'] : '' ;
+                        $takeoutDateTime = (isset($orderDetailsTakeout['takeoutDateTime'])) ? $orderDetailsTakeout['takeoutDateTime'] : null ;
+                        $observations = (isset($orderDetailsTakeout['observations'])) ? $orderDetailsTakeout['observations'] : null ;
+
+                        $orderTypeDetails = $mode.' / '.$takeoutDateTime.' / '.$observations;
+                    endif;
+
+
+                    echo $polOrderId.'<br>';
                     echo $displayId.'<br>';
                     echo $orderType.'<br>';
                     echo $orderTiming.'<br>';
@@ -141,20 +173,18 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     echo $extraInfo.'<hr>';
 
+
                     echo $statusCancellation.'<br>';
                     echo $statusTekeout.'<br>';
                     echo $statusDelivery.'<hr>';
-
                     echo $onDemandAvailable.'<br>';
-                    echo $onDemandValue.'<br>';
-                    echo $mode.'<br>';
-                    echo $deliveredBy.'<br>';
-                    echo $deliveryDateTime.'<br>';
-                    echo $takeoutDateTime.'<br>';
-                    echo $tableIndoor.'<br>';
-                    echo $observations.'<br>';
-                    echo $deliveryDateTimeStart.'<br>';
-                    echo $deliveryDateTimeEnd.'<br>';
+                    echo $onDemandValue.'<hr>';
+                    
+
+                    echo $schedule.'<hr>';
+
+                    echo $orderTypeDetails.'<hr>';
+
                     echo $statusCod.'<hr>';
 
 
