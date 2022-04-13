@@ -43,7 +43,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
-//$_POST['polling'] = true;
+$_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
  
@@ -53,11 +53,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $accessToken = $outToken['accessToken'];
 
     $outPolling = polling($merchantId, $accessToken);
-    $polling = json_decode($outPolling['polling']);
-
-    echo gettype($polling).'<hr>';
-    var_dump($polling);
-    exit();
+    $polling = $outPolling['polling'];
 
     if($outPolling['erro'] == 0):
 
@@ -66,14 +62,23 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         if($count > 0):
 
             foreach($polling as $in){
-                
-                echo gettype($in).'<br>';
-                echo json_encode($in).'<hr>';
+                echo 'Variavel é do tipo: '.gettype($in).'<br>';
+                var_dump($in).'<hr>';
+
+                $test = json_encode($in);
+                echo 'Passou para: '.gettype($test).'<br>';
+                echo $test.'<hr>';
             };
         endif;
     endif;
 endif;
 
+
+
+
+
+
+/*
 $test = '[
     {
         "id": "2b729bb3-9cda-4cda-824e-9f23617b9579",
@@ -111,7 +116,8 @@ $test = '[
 
 
 
-/*
+
+
 
 
 $json = '{
