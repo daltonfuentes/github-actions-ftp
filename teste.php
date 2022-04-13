@@ -55,6 +55,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $retorno = polling($merchantId);
     $polling = $retorno['polling'];
 
+    var_dump($retorno);
+    exit();
 
     if($retorno['erro'] == 0):
 
@@ -66,41 +68,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 
                 echo gettype($in).'<br>';
                 echo json_encode($in).'<hr>';
-
-
-                continue;
-
-                $id = $in['id'];
-                $eventId = array(array("id"=>$id));
-
-                echo $id.'<hr>';
-
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://merchant-api.ifood.com.br/order/v1.0/events/acknowledgment',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $eventId,
-                CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer '.$accessToken,
-                    'Content-Type: application/json'
-                ),
-                ));
-
-                $response = curl_exec($curl);
-
-                curl_close($curl);
-                echo $response;
-
-
-                
-                echo '<hr>';
             };
         endif;
     endif;
