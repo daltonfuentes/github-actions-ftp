@@ -67,6 +67,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 echo gettype($in).'<br>';
                 echo json_encode($in).'<hr>';
 
+                
                 continue;
 
                 $id = $in['id'];

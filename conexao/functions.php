@@ -177,6 +177,7 @@ function polling($merchantId){
     endif;
 };
 
+
 function acknowledgment($send){
     $merchantApiHost = 'https://merchant-api.ifood.com.br';
 
