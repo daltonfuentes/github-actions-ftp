@@ -55,7 +55,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $outPolling = polling($merchantId, $accessToken);
     $polling = $outPolling['polling'];
 
-    echo gettype($polling);
+    var_dump($polling);
     exit();
 
     if($outPolling['erro'] == 0):
