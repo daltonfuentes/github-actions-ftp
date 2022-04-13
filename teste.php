@@ -85,14 +85,17 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $salesChannel = (isset($orderDetails['salesChannel'])) ? $orderDetails['salesChannel'] : '' ;
                     $dateCreated = (isset($orderDetails['dateCreated'])) ? $orderDetails['dateCreated'] : '' ;
                     $preparationStartDateTime = (isset($orderDetails['preparationStartDateTime'])) ? $orderDetails['preparationStartDateTime'] : '' ;
-                    $merchantId = (isset($orderDetails['merchantId'])) ? $orderDetails['merchantId'] : '' ;
-                    $merchantName = (isset($orderDetails['merchantName'])) ? $orderDetails['merchantName'] : '' ;
+
+                    $merchantId = (isset($orderDetails['merchant']['id'])) ? $orderDetails['merchant']['id'] : '' ;
+                    $merchantName = (isset($orderDetails['merchant']['name'])) ? $orderDetails['merchant']['name'] : '' ;
+
                     $consumerId = (isset($orderDetails['consumerId'])) ? $orderDetails['consumerId'] : '' ;
                     $consumerName = (isset($orderDetails['consumerName'])) ? $orderDetails['consumerName'] : '' ;
                     $consumerDocument = (isset($orderDetails['consumerDocument'])) ? $orderDetails['consumerDocument'] : null ;
                     $consumerNumber = (isset($orderDetails['consumerNumber'])) ? $orderDetails['consumerNumber'] : null ;
                     $consumerLocalizer = (isset($orderDetails['consumerLocalizer'])) ? $orderDetails['consumerLocalizer'] : null ;
                     $consumerLocalizerExpiration = (isset($orderDetails['consumerLocalizerExpiration'])) ? $orderDetails['consumerLocalizerExpiration'] : null ;
+
                     $isTest = (isset($orderDetails['isTest'])) ? $orderDetails['isTest'] : '' ;
                     $extraInfo = (isset($orderDetails['extraInfo'])) ? $orderDetails['extraInfo'] : null ;
                     $statusCancellation = (isset($orderDetails['statusCancellation'])) ? $orderDetails['statusCancellation'] : null ;
@@ -116,20 +119,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     echo $orderTiming.'<br>';
                     echo $salesChannel.'<br>';
                     echo $dateCreated.'<br>';
-                    echo $preparationStartDateTime.'<br>';
+                    echo $preparationStartDateTime.'<hr>';
+                    
                     echo $merchantId.'<br>';
-                    echo $merchantName.'<br>';
+                    echo $merchantName.'<hr>';
+
                     echo $consumerId.'<br>';
                     echo $consumerName.'<br>';
                     echo $consumerDocument.'<br>';
                     echo $consumerNumber.'<br>';
                     echo $consumerLocalizer.'<br>';
-                    echo $consumerLocalizerExpiration.'<br>';
-                    echo $isTest.'<br>';
-                    echo $extraInfo.'<br>';
+                    echo $consumerLocalizerExpiration.'<hr>';
+
+                    echo $isTest.'<hr>';
+
+                    echo $extraInfo.'<hr>';
+
                     echo $statusCancellation.'<br>';
                     echo $statusTekeout.'<br>';
-                    echo $statusDelivery.'<br>';
+                    echo $statusDelivery.'<hr>';
+
                     echo $onDemandAvailable.'<br>';
                     echo $onDemandValue.'<br>';
                     echo $mode.'<br>';
