@@ -53,7 +53,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $accessToken = $outToken['accessToken'];
 
     $outPolling = polling($merchantId, $accessToken);
-    $polling = $outPolling['polling'];
+    $polling = $outPolling['polling']; //CHEGA COMO ARRAY
 
     if($outPolling['erro'] == 0):
 
@@ -63,10 +63,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
             foreach($polling as $in){
                 echo 'Variavel é do tipo: '.gettype($in).'<br>';
-                var_dump($in).'<hr>';
+                var_dump($in);
 
                 $test = json_encode($in);
-                echo 'Passou para: '.gettype($test).'<br>';
+                echo '<hr> Passou para: '.gettype($test).'<br>';
                 echo $test.'<hr>';
             };
         endif;
