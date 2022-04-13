@@ -174,30 +174,27 @@ function polling($merchantId, $accessToken){
 };
 
 
-function acknowledgment($send){
+function acknowledgment($send, $accessToken){
     $merchantApiHost = 'https://merchant-api.ifood.com.br';
 
     $out = array();
 
-    $outToken = accessToken();
-    $accessToken = $outToken['accessToken'];
-
     $curl = curl_init();
-    
+
     curl_setopt_array($curl, array(
-      CURLOPT_URL => $merchantApiHost.'/order/v1.0/events/acknowledgment',
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_ENCODING => '',
-      CURLOPT_MAXREDIRS => 10,
-      CURLOPT_TIMEOUT => 0,
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => 'POST',
-      CURLOPT_POSTFIELDS => $send,
-      CURLOPT_HTTPHEADER => array(
-        'Authorization: Bearer '.$accessToken,
+    CURLOPT_URL => $merchantApiHost.'/order/v1.0/events/acknowledgment',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => $send,
+    CURLOPT_HTTPHEADER => array(
+        "Authorization: Bearer $accessToken",
         'Content-Type: application/json'
-      ),
+    ),
     ));
     
     $response = curl_exec($curl);
@@ -205,11 +202,10 @@ function acknowledgment($send){
     curl_close($curl);
     
     if($httpcode == 202):
-        $out['erro'] = 0;
+        $out['code'] = $httpcode;
         return $out;
     else:
         $out['mensagem'] = 'Erro inesperado.';
-        $out['erro'] = 1;
         $out['code'] = $httpcode;
         return $out;
     endif;

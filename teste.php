@@ -46,8 +46,6 @@ endif;
 $_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
-    $merchantApiHost = 'https://merchant-api.ifood.com.br';
-
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
 
     $outToken = accessToken();
@@ -63,32 +61,23 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         if($count > 0):
 
             foreach($polling as $in){
+                //
+                //
+                //Faz tudo que precisa ser feito no banco
+                //
+                //
+
+                //MANDA PARA acknowledgment
                 $ack = json_encode($in);
-                $test = "[ $ack ]";
+                $send = "[ $ack ]";
 
-                $curl = curl_init();
-
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => $merchantApiHost.'/order/v1.0/events/acknowledgment',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => $test,
-                CURLOPT_HTTPHEADER => array(
-                    "Authorization: Bearer $accessToken",
-                    'Content-Type: application/json'
-                ),
-                ));
-                
-                $response = curl_exec($curl);
-                $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                curl_close($curl);
-
-                echo 'Recebeu! Code:'.$httpcode.'<br>';
+                $outAck = acknowledgment($send, $accessToken);
+                      
+                if($outAck['code'] == 202):
+                    echo 'Accepted. <br>';
+                else:
+                    echo $outAck['mensagem'].' / CodeHttp: '.$outAck['code'].'<br>';
+                endif;
             };
         endif;
     elseif($outPolling['code'] == 204):
