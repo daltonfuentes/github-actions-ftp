@@ -43,7 +43,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
-$_POST['polling'] = true;
+//$_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
@@ -85,7 +85,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $orderType = (isset($orderDetails['orderType'])) ? $orderDetails['orderType'] : '' ;
                     $orderTiming = (isset($orderDetails['orderTiming'])) ? $orderDetails['orderTiming'] : '' ;
                     $salesChannel = (isset($orderDetails['salesChannel'])) ? $orderDetails['salesChannel'] : '' ;
-                    $dateCreated = (isset($orderDetails['dateCreated'])) ? $orderDetails['dateCreated'] : '' ;
+                    $dateCreated = (isset($orderDetails['createdAt'])) ? $orderDetails['createdAt'] : '' ;
                     $preparationStartDateTime = (isset($orderDetails['preparationStartDateTime'])) ? $orderDetails['preparationStartDateTime'] : '' ;
 
                         $merchantId = (isset($orderDetailsMerchant['id'])) ? $orderDetailsMerchant['id'] : '' ;
@@ -94,9 +94,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $customerId = (isset($orderDetailsCustomer['id'])) ? $orderDetailsCustomer['id'] : '' ;
                         $customerName = (isset($orderDetailsCustomer['name'])) ? $orderDetailsCustomer['name'] : '' ;
                         $customerDocument = (isset($orderDetailsCustomer['documentNumber'])) ? $orderDetailsCustomer['documentNumber'] : null ;
-                            $customerNumber = (isset($orderDetailsCustomer['number'])) ? $orderDetailsCustomer['number'] : null ;
-                            $customerLocalizer = (isset($orderDetailsCustomer['localizer'])) ? $orderDetailsCustomer['localizer'] : null ;
-                            $customerLocalizerExpiration = (isset($orderDetailsCustomer['localizerExpiration'])) ? $orderDetailsCustomer['localizerExpiration'] : null ;
+                            $customerNumber = (isset($orderDetailsCustomerPhone['number'])) ? $orderDetailsCustomerPhone['number'] : null ;
+                            $customerLocalizer = (isset($orderDetailsCustomerPhone['localizer'])) ? $orderDetailsCustomerPhone['localizer'] : null ;
+                            $customerLocalizerExpiration = (isset($orderDetailsCustomerPhone['localizerExpiration'])) ? $orderDetailsCustomerPhone['localizerExpiration'] : null ;
 
                     $isTest = (isset($orderDetails['isTest'])) ? $orderDetails['isTest'] : '' ;
 
@@ -228,7 +228,135 @@ endif;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 /*
+
+$details = '{
+    "id": "a78c1d62-3cd6-4dac-a1c2-f413b363d671",
+    "delivery": {
+        "mode": "DEFAULT",
+        "deliveredBy": "MERCHANT",
+        "deliveryDateTime": "2022-04-13T20:53:01.364Z",
+        "observations": "Portão da casa/prédio",
+        "deliveryAddress": {
+            "streetName": "PEDIDO DE TESTE - NÃO ENTREGAR - Ramal Bujari",
+            "streetNumber": "122",
+            "formattedAddress": "PEDIDO DE TESTE - NÃO ENTREGAR - Ramal Bujari, 122",
+            "neighborhood": "Bujari",
+            "postalCode": "00000000",
+            "city": "Bujari",
+            "state": "AC",
+            "country": "BR",
+            "coordinates": {
+                "latitude": -9.822384,
+                "longitude": -67.948589
+            }
+        }
+    },
+    "orderType": "DELIVERY",
+    "orderTiming": "IMMEDIATE",
+    "displayId": "9745",
+    "createdAt": "2022-04-13T20:13:01.364Z",
+    "preparationStartDateTime": "2022-04-13T20:13:01.364Z",
+    "isTest": true,
+    "merchant": {
+        "id": "86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e",
+        "name": "Teste - Admin Sweet Confetty"
+    },
+    "customer": {
+        "id": "f0b78ff5-d0f8-4726-99a3-b7b6a4287ee4",
+        "name": "PEDIDO DE TESTE - Dalton Gonzalo Cornelio Fuentes",
+        "documentNumber": "10134957997",
+        "phone": {
+            "number": "0800 007 0110",
+            "localizer": "56132078",
+            "localizerExpiration": "2022-04-13T23:13:01.364Z"
+        },
+        "ordersCountOnMerchant": 0
+    },
+    "items": [
+        {
+            "index": 1,
+            "id": "1e71b649-8b72-43a4-89d7-3fd8b3e8c6f4",
+            "name": "PEDIDO DE TESTE - Nome do Refrigerante 2 L",
+            "unit": "GRAMS",
+            "quantity": 1,
+            "unitPrice": 10.00,
+            "optionsPrice": 0,
+            "totalPrice": 10.00,
+            "price": 10.00
+        }
+    ],
+    "salesChannel": "IFOOD",
+    "total": {
+        "subTotal": 10.00,
+        "deliveryFee": 8.90,
+        "benefits": 0,
+        "orderAmount": 19.89,
+        "additionalFees": 0.99
+    },
+    "payments": {
+        "prepaid": 19.89,
+        "pending": 0,
+        "methods": [
+            {
+                "value": 19.89,
+                "currency": "BRL",
+                "method": "CREDIT",
+                "type": "ONLINE",
+                "card": {
+                    "brand": "VISA"
+                },
+                "prepaid": true
+            }
+        ]
+    },
+    "additionalFees": [
+        {
+            "type": "SMALL_ORDER_FEE",
+            "value": 0.99
+        }
+    ]
+}';
+
+$details = json_decode($details);
+
+$orderDetails = (array) $details;
+$orderDetailsMerchant = (array) $orderDetails['merchant'];
+$orderDetailsCustomer = (array) $orderDetails['customer'];
+$orderDetailsCustomerPhone = (array) $orderDetailsCustomer['phone'];
+
+echo $orderDetailsCustomerPhone['localizer'];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $test = '[
     {
         "id": "2b729bb3-9cda-4cda-824e-9f23617b9579",
