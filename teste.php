@@ -43,7 +43,6 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
-
 $_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
@@ -53,53 +52,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
 
-    
-    $merchantApiHost = 'https://merchant-api.ifood.com.br';
+    $retorno = polling($merchantId);
+    $polling = $outPolling['polling'];
 
-    $out = array();
-
-
-    ////
-    // FAZ POLLING
-    ////
-
-    $curl = curl_init();
-
-    curl_setopt_array($curl, array(
-    CURLOPT_URL => $merchantApiHost.'/order/v1.0/events:polling',
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'GET',
-    CURLOPT_HTTPHEADER => array(
-        "x-polling-merchants: $merchantId",
-        "Authorization: Bearer $accessToken"
-    ),
-    ));
-
-    $response = curl_exec($curl);
-    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    curl_close($curl);
-
-    if($httpcode == 200 || $httpcode == 204):
-        //$retorno = json_decode($response, true);
-        $out['polling'] = $response;
-        $out['erro'] = 0;
-    else:
-        $out['mensagem'] = 'Erro inesperado.';
-        $out['erro'] = 1;
-        $out['code'] = $httpcode;
-    endif;
-    
-    $polling = $out['polling'];
-
-    echo $httpcode.'<hr>';
-    echo gettype($polling).'<hr>';
-    echo $polling;
-    exit();
 
     if($retorno['erro'] == 0):
 
@@ -109,6 +64,11 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
             foreach($polling as $in){
                 
+                echo gettype($in).'<br>';
+                echo json_encode($in).'<hr>';
+
+                continue;
+
                 $id = $in['id'];
                 $eventId = array(array("id"=>$id));
 

@@ -108,7 +108,7 @@ function merchantStatus($accessToken) {
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'GET',
         CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer '.$accessToken
+            "Authorization: Bearer $accessToken"
         ),
     ));
 
@@ -155,8 +155,8 @@ function polling($merchantId){
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'GET',
     CURLOPT_HTTPHEADER => array(
-        'x-polling-merchants: '.$merchantId,
-        'Authorization: Bearer '.$accessToken
+        "x-polling-merchants: $merchantId",
+        "Authorization: Bearer $accessToken"
     ),
     ));
 
@@ -165,7 +165,7 @@ function polling($merchantId){
     curl_close($curl);
 
     if($httpcode == 200 || $httpcode == 204):
-        //$retorno = json_decode($response, true);
+        $retorno = json_decode($response, true);
         $out['polling'] = $response;
         $out['erro'] = 0;
         return $out;
