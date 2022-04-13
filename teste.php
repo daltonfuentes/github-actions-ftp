@@ -61,12 +61,34 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         if($count > 0):
 
             foreach($polling as $in){
+                $polCode        = $in['code'];
+                $polOrderId     = $in['orderId'];
+                $polId          = $in['id'];
+                $polCreatedAt   = $in['createdAt'];
+
+                //
+                //
+                //Consulta BD se este evento ja foi recebido e tratado, caso sim pula diretamente para acknowledgment
+                //
+                //
+
+                if($polCode == 'PLC'):
+                    $outDetails = orderDetails($polOrderId, $accessToken);
+                    $orderDetails = $outDetails['details'];
+
+                    echo json_encode($orderDetails).'<hr>';
+                endif;
+
                 //
                 //
                 //Faz tudo que precisa ser feito no banco
                 //
                 //
 
+
+
+
+                continue;
                 //MANDA PARA acknowledgment
                 $ack = json_encode($in);
                 $send = "[ $ack ]";
@@ -79,6 +101,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     echo $outAck['mensagem'].' / CodeHttp: '.$outAck['code'].'<br>';
                 endif;
             };
+
         endif;
     elseif($outPolling['code'] == 204):
         echo 'Polling vazio!';
