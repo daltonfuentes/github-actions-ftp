@@ -43,7 +43,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
-$_POST['polling'] = true;
+//$_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
  
@@ -55,7 +55,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $outPolling = polling($merchantId, $accessToken);
     $polling = $outPolling['polling'];
 
-    echo gettype($outPolling);
+    echo gettype($polling);
     exit();
 
     if($outPolling['erro'] == 0):
@@ -189,41 +189,7 @@ $json = '{
     }
 }';
 
-$polling = '[
-    {
-        "id": "dab2b9c6-33f5-412c-ab02-052ea01eb55e",
-        "code": "PLC",
-        "fullCode": "PLACED",
-        "orderId": "226865a8-2e24-48c9-8fa6-9316cd5947ec",
-        "createdAt": "2022-04-08T22:46:52.234Z"
-    },
-    {
-        "id": "baf15f0f-1683-410e-88cc-1b3f21fa1b57",
-        "code": "CFM",
-        "fullCode": "CONFIRMED",
-        "orderId": "bfbbf867-31ba-475b-a89d-ca51e2e96fe6",
-        "createdAt": "2022-04-08T22:48:18.478Z",
-        "metadata": {
-            "ORIGIN": "ORDER_API",
-            "ownerName": "ifood",
-            "CLIENT_ID": "ifood:iconnect_v3_homologation",
-            "appName": "iconnect_v3_homologation"
-        }
-    },
-    {
-        "id": "09f6dfb1-1ca5-4408-8e5f-39a001c89dcb",
-        "code": "CFM",
-        "fullCode": "CONFIRMED",
-        "orderId": "226865a8-2e24-48c9-8fa6-9316cd5947ec",
-        "createdAt": "2022-04-08T22:49:40.654Z",
-        "metadata": {
-            "ORIGIN": "ORDER_API",
-            "ownerName": "adminsweetconfetty",
-            "CLIENT_ID": "adminsweetconfetty:adminsweetconfettytestec",
-            "appName": "adminsweetconfettytestec"
-        }
-    }
-]';
+
 $retorno = array();
 
 $retorno = json_decode($polling, true);
