@@ -136,16 +136,16 @@ function polling($merchantId){
 
     $out = array();
 
+    $out['polling'] = $merchantApiHost;
+    return $out;
+    exit();
+
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
 
     ////
     // FAZ POLLING
     ////
-
-    $out['polling'] = $accessToken;
-    return $out;
-    exit();
 
     $curl = curl_init();
 
