@@ -56,6 +56,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $polling = $outPolling['polling'];
 
 
+    echo gettype($polling);
+    exit();
+
+
     if($retorno['erro'] == 0):
 
         $count = count($polling);
@@ -67,7 +71,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 echo gettype($in).'<br>';
                 echo json_encode($in).'<hr>';
 
-                
+
                 continue;
 
                 $id = $in['id'];
