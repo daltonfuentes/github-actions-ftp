@@ -56,6 +56,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $retorno = polling($merchantId); //decode
     $polling = $retorno['polling'];
 
+    echo gettype($polling);
+
+    exit();
+
     if($retorno['erro'] == 0):
 
         $count = count($polling);
@@ -99,6 +103,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         endif;
     endif;
 endif;
+
 
 
 
