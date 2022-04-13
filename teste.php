@@ -46,7 +46,8 @@ endif;
 $_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
- 
+    $merchantApiHost = 'https://merchant-api.ifood.com.br';
+
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
 
     $outToken = accessToken();
@@ -62,12 +63,32 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         if($count > 0):
 
             foreach($polling as $in){
-                echo 'Variavel é do tipo: '.gettype($in).'<br>';
-                var_dump($in);
+                $ack = json_encode($in);
+                $test = "[ $ack ]";
 
-                $test = json_encode($in);
-                echo '<hr> Passou para: '.gettype($test).'<br>';
-                echo $test.'<hr>';
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                CURLOPT_URL => $merchantApiHost.'/order/v1.0/events/acknowledgment',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $test,
+                CURLOPT_HTTPHEADER => array(
+                    "Authorization: Bearer $accessToken",
+                    'Content-Type: application/json'
+                ),
+                ));
+                
+                $response = curl_exec($curl);
+                $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                curl_close($curl);
+
+                echo $httpcode.'<br>';
             };
         endif;
     endif;
