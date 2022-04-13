@@ -122,33 +122,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $schedule = $deliveryDateTimeStart.' / '.$deliveryDateTimeEnd;
                     endif;
 
-                    if($orderType == 'DELIVERY'):
-                        $orderDetailsDelivery = (array) $orderDetails['delivery'];
-
-                        $mode = (isset($orderDetailsDelivery['mode'])) ? $orderDetailsDelivery['mode'] : '' ;
-                        $deliveredBy = (isset($orderDetailsDelivery['deliveredBy'])) ? $orderDetailsDelivery['deliveredBy'] : '' ;
-                        $deliveryDateTime = (isset($orderDetailsDelivery['deliveryDateTime'])) ? $orderDetailsDelivery['deliveryDateTime'] : '' ;
-                        $observations = (isset($orderDetailsDelivery['observations'])) ? $orderDetailsDelivery['observations'] : null ;
-
-                        $orderTypeDetails = $mode.' / '.$deliveredBy.' / '.$deliveryDateTime.' / '.$observations;
-                    elseif($orderType == 'INDOOR '):
-                        $orderDetailsIndoor = (array) $orderDetails['indoor'];
-
-                        $mode = (isset($orderDetailsorderDetailsIndoorDelivery['mode'])) ? $orderDetailsIndoor['mode'] : '' ;
-                        $tableIndoor = (isset($orderDetailsIndoor['table'])) ? $orderDetailsIndoor['table'] : null ;
-                        $deliveryDateTime = (isset($orderDetailsIndoor['deliveryDateTime'])) ? $orderDetailsIndoor['deliveryDateTime'] : '' ;
-                        $observations = (isset($orderDetailsIndoor['observations'])) ? $orderDetailsIndoor['observations'] : null ;
-
-                        $orderTypeDetails = $mode.' / '.$tableIndoor.' / '.$deliveryDateTime.' / '.$observations;
-                    elseif($orderType == 'TAKEOUT'):
-                        $orderDetailsTakeout = (array) $orderDetails['takeout'];
-
-                        $mode = (isset($orderDetailsTakeout['mode'])) ? $orderDetailsTakeout['mode'] : '' ;
-                        $takeoutDateTime = (isset($orderDetailsTakeout['takeoutDateTime'])) ? $orderDetailsTakeout['takeoutDateTime'] : null ;
-                        $observations = (isset($orderDetailsTakeout['observations'])) ? $orderDetailsTakeout['observations'] : null ;
-
-                        $orderTypeDetails = $mode.' / '.$takeoutDateTime.' / '.$observations;
-                    endif;
 
 
                     echo $polOrderId.'<br>';
