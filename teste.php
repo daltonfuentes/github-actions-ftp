@@ -63,9 +63,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
             foreach($polling as $in){
                 $in = (array) $in;
 
-                echo gettype($in).'<br>';
-                var_dump($in);
-                echo '<hr>';
+                $polCode        = $in['code'];
+                $polOrderId     = $in['orderId'];
+                $polId          = $in['id'];
+                $polCreatedAt   = $in['createdAt'];
 
                 //
                 //
