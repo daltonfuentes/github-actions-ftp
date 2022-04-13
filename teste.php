@@ -56,7 +56,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $outPolling = polling($merchantId, $accessToken);
     $polling = $outPolling['polling']; //CHEGA COMO ARRAY
 
-    if($outPolling['erro'] == 200):
+    if($outPolling['code'] == 200):
 
         $count = count($polling);
 
@@ -88,9 +88,13 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
                 curl_close($curl);
 
-                echo $httpcode.'<br>';
+                echo 'Recebeu! Code:'.$httpcode.'<br>';
             };
         endif;
+    elseif($outPolling['code'] == 204):
+        echo 'Polling vazio!';
+    else:
+        echo $outPolling['mensagem'].' / CodeHttp: '.$outPolling['code'];
     endif;
 endif;
 
