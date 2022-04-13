@@ -61,10 +61,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         if($count > 0):
 
             foreach($polling as $in){
-                $polCode        = $in['code'];
-                $polOrderId     = $in['orderId'];
-                $polId          = $in['id'];
-                $polCreatedAt   = $in['createdAt'];
+                $polCode        = 'ete';
+                $polOrderId     = 'ete';
+                $polId          = 'ete';
+                $polCreatedAt   = 'ete';
 
                 //
                 //
