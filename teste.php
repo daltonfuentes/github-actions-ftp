@@ -79,8 +79,71 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $orderDetails = $outDetails['details'];
                     $orderDetails = (array) $orderDetails;
 
-                    var_dump($orderDetails);
-                    echo '<br>'.json_encode($orderDetails).'<hr>';
+                    $displayId = (isset($orderDetails['displayId'])) ? $orderDetails['displayId'] : '' ;
+                    $orderType = (isset($orderDetails['orderType'])) ? $orderDetails['orderType'] : '' ;
+                    $orderTiming = (isset($orderDetails['orderTiming'])) ? $orderDetails['orderTiming'] : '' ;
+                    $salesChannel = (isset($orderDetails['salesChannel'])) ? $orderDetails['salesChannel'] : '' ;
+                    $dateCreated = (isset($orderDetails['dateCreated'])) ? $orderDetails['dateCreated'] : '' ;
+                    $preparationStartDateTime = (isset($orderDetails['preparationStartDateTime'])) ? $orderDetails['preparationStartDateTime'] : '' ;
+                    $merchantId = (isset($orderDetails['merchantId'])) ? $orderDetails['merchantId'] : '' ;
+                    $merchantName = (isset($orderDetails['merchantName'])) ? $orderDetails['merchantName'] : '' ;
+                    $consumerId = (isset($orderDetails['consumerId'])) ? $orderDetails['consumerId'] : '' ;
+                    $consumerName = (isset($orderDetails['consumerName'])) ? $orderDetails['consumerName'] : '' ;
+                    $consumerDocument = (isset($orderDetails['consumerDocument'])) ? $orderDetails['consumerDocument'] : null ;
+                    $consumerNumber = (isset($orderDetails['consumerNumber'])) ? $orderDetails['consumerNumber'] : null ;
+                    $consumerLocalizer = (isset($orderDetails['consumerLocalizer'])) ? $orderDetails['consumerLocalizer'] : null ;
+                    $consumerLocalizerExpiration = (isset($orderDetails['consumerLocalizerExpiration'])) ? $orderDetails['consumerLocalizerExpiration'] : null ;
+                    $isTest = (isset($orderDetails['isTest'])) ? $orderDetails['isTest'] : '' ;
+                    $extraInfo = (isset($orderDetails['extraInfo'])) ? $orderDetails['extraInfo'] : null ;
+                    $statusCancellation = (isset($orderDetails['statusCancellation'])) ? $orderDetails['statusCancellation'] : null ;
+                    $statusTekeout = (isset($orderDetails['statusTekeout'])) ? $orderDetails['statusTekeout'] : null ;
+                    $statusDelivery = (isset($orderDetails['statusDelivery'])) ? $orderDetails['statusDelivery'] : null ;
+                    $onDemandAvailable = (isset($orderDetails['onDemandAvailable'])) ? $orderDetails['onDemandAvailable'] : null ;
+                    $onDemandValue = (isset($orderDetails['onDemandValue'])) ? $orderDetails['onDemandValue'] : null ;
+                    $mode = (isset($orderDetails['mode'])) ? $orderDetails['mode'] : '' ;
+                    $deliveredBy = (isset($orderDetails['deliveredBy'])) ? $orderDetails['deliveredBy'] : null ;
+                    $deliveryDateTime = (isset($orderDetails['deliveryDateTime'])) ? $orderDetails['deliveryDateTime'] : null ;
+                    $takeoutDateTime = (isset($orderDetails['takeoutDateTime'])) ? $orderDetails['takeoutDateTime'] : null ;
+                    $tableIndoor = (isset($orderDetails['tableIndoor'])) ? $orderDetails['tableIndoor'] : null ;
+                    $observations = (isset($orderDetails['observations'])) ? $orderDetails['observations'] : null ;
+                    $deliveryDateTimeStart = (isset($orderDetails['deliveryDateTimeStart'])) ? $orderDetails['deliveryDateTimeStart'] : null ;
+                    $deliveryDateTimeEnd = (isset($orderDetails['deliveryDateTimeEnd'])) ? $orderDetails['deliveryDateTimeEnd'] : null ;
+                    $statusCod = (isset($orderDetails['statusCod'])) ? $orderDetails['statusCod'] : '' ;
+
+                    echo $orderId.'<br>';
+                    echo $displayId.'<br>';
+                    echo $orderType.'<br>';
+                    echo $orderTiming.'<br>';
+                    echo $salesChannel.'<br>';
+                    echo $dateCreated.'<br>';
+                    echo $preparationStartDateTime.'<br>';
+                    echo $merchantId.'<br>';
+                    echo $merchantName.'<br>';
+                    echo $consumerId.'<br>';
+                    echo $consumerName.'<br>';
+                    echo $consumerDocument.'<br>';
+                    echo $consumerNumber.'<br>';
+                    echo $consumerLocalizer.'<br>';
+                    echo $consumerLocalizerExpiration.'<br>';
+                    echo $isTest.'<br>';
+                    echo $extraInfo.'<br>';
+                    echo $statusCancellation.'<br>';
+                    echo $statusTekeout.'<br>';
+                    echo $statusDelivery.'<br>';
+                    echo $onDemandAvailable.'<br>';
+                    echo $onDemandValue.'<br>';
+                    echo $mode.'<br>';
+                    echo $deliveredBy.'<br>';
+                    echo $deliveryDateTime.'<br>';
+                    echo $takeoutDateTime.'<br>';
+                    echo $tableIndoor.'<br>';
+                    echo $observations.'<br>';
+                    echo $deliveryDateTimeStart.'<br>';
+                    echo $deliveryDateTimeEnd.'<br>';
+                    echo $statusCod.'<hr>';
+
+
+
                 endif;
 
                 //
