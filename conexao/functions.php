@@ -131,19 +131,10 @@ function merchantStatus($accessToken) {
     endif;
 };
 
-function polling($merchantId){
+function polling($merchantId, $accessToken){
     $merchantApiHost = 'https://merchant-api.ifood.com.br';
 
     $out = array();
-
-
-
-    $out['polling'] = $merchantApiHost;
-    return $out;
-    exit();
-    
-    $outToken = accessToken();
-    $accessToken = $outToken['accessToken'];
 
     ////
     // FAZ POLLING

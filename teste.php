@@ -52,13 +52,13 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
 
-    $retorno = polling($merchantId);
-    $polling = $retorno['polling'];
+    $outPolling = polling($merchantId, $accessToken);
+    $polling = $outPolling['polling'];
 
-    var_dump($retorno);
+    var_dump($outPolling);
     exit();
 
-    if($retorno['erro'] == 0):
+    if($outPolling['erro'] == 0):
 
         $count = count($polling);
 
@@ -72,6 +72,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         endif;
     endif;
 endif;
+
+
 
 
 
