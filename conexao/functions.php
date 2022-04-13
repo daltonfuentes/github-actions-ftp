@@ -136,10 +136,6 @@ function polling($merchantId){
 
     $out = array();
 
-    $out['polling'] = $merchantApiHost;
-    return $out;
-    exit();
-
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
 
@@ -160,7 +156,7 @@ function polling($merchantId){
     CURLOPT_CUSTOMREQUEST => 'GET',
     CURLOPT_HTTPHEADER => array(
         "x-polling-merchants: $merchantId",
-        "Authorization: Bearer $accessToken",
+        "Authorization: Bearer $accessToken"
     ),
     ));
 

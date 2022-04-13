@@ -53,12 +53,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $accessToken = $outToken['accessToken'];
 
     $retorno = polling($merchantId);
-    $polling = $outPolling['polling'];
-
-
-    echo gettype($polling).'<br>';
-    var_dump($retorno);
-    exit();
+    $polling = $retorno['polling'];
 
 
     if($retorno['erro'] == 0):
