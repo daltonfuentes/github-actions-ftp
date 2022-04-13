@@ -76,8 +76,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                 if($polCode == 'PLC'):
                     $outDetails = orderDetails($polOrderId, $accessToken);
-                    $orderDetails = $outDetails['details'];
-                    $orderDetails = (array) $orderDetails;
+                    $orderDetails = (array) $outDetails['details'];
+                    $orderDetailsMerchant = (array) $orderDetails['merchant'];
 
                     $displayId = (isset($orderDetails['displayId'])) ? $orderDetails['displayId'] : '' ;
                     $orderType = (isset($orderDetails['orderType'])) ? $orderDetails['orderType'] : '' ;
@@ -86,8 +86,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $dateCreated = (isset($orderDetails['dateCreated'])) ? $orderDetails['dateCreated'] : '' ;
                     $preparationStartDateTime = (isset($orderDetails['preparationStartDateTime'])) ? $orderDetails['preparationStartDateTime'] : '' ;
 
-                    $merchantId = (isset($orderDetails['merchant']['id'])) ? $orderDetails['merchant']['id'] : '' ;
-                    $merchantName = (isset($orderDetails['merchant']['name'])) ? $orderDetails['merchant']['name'] : '' ;
+                    $merchantId = (isset($orderDetailsMerchant['id'])) ? $orderDetailsMerchant['id'] : '' ;
+                    $merchantName = (isset($orderDetailsMerchant['name'])) ? $orderDetailsMerchant['name'] : '' ;
 
                     $consumerId = (isset($orderDetails['consumerId'])) ? $orderDetails['consumerId'] : '' ;
                     $consumerName = (isset($orderDetails['consumerName'])) ? $orderDetails['consumerName'] : '' ;
