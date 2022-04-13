@@ -43,7 +43,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
-$_POST['polling'] = true;
+//$_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
@@ -78,6 +78,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $outDetails = orderDetails($polOrderId, $accessToken);
                     $orderDetails = (array) $outDetails['details'];
                     $orderDetailsMerchant = (array) $orderDetails['merchant'];
+                    $orderDetailsCustomer = (array) $orderDetails['customer'];
+                    $orderDetailsCustomerPhone = (array) $orderDetailsCustomer['phone'];
 
                     $displayId = (isset($orderDetails['displayId'])) ? $orderDetails['displayId'] : '' ;
                     $orderType = (isset($orderDetails['orderType'])) ? $orderDetails['orderType'] : '' ;
@@ -89,21 +91,25 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $merchantId = (isset($orderDetailsMerchant['id'])) ? $orderDetailsMerchant['id'] : '' ;
                     $merchantName = (isset($orderDetailsMerchant['name'])) ? $orderDetailsMerchant['name'] : '' ;
 
-                    $consumerId = (isset($orderDetails['consumerId'])) ? $orderDetails['consumerId'] : '' ;
-                    $consumerName = (isset($orderDetails['consumerName'])) ? $orderDetails['consumerName'] : '' ;
-                    $consumerDocument = (isset($orderDetails['consumerDocument'])) ? $orderDetails['consumerDocument'] : null ;
-                    $consumerNumber = (isset($orderDetails['consumerNumber'])) ? $orderDetails['consumerNumber'] : null ;
-                    $consumerLocalizer = (isset($orderDetails['consumerLocalizer'])) ? $orderDetails['consumerLocalizer'] : null ;
-                    $consumerLocalizerExpiration = (isset($orderDetails['consumerLocalizerExpiration'])) ? $orderDetails['consumerLocalizerExpiration'] : null ;
+                    $customerId = (isset($orderDetailsCustomer['id'])) ? $orderDetailsCustomer['id'] : '' ;
+                    $customerName = (isset($orderDetailsCustomer['name'])) ? $orderDetailsCustomer['name'] : '' ;
+                    $customerDocument = (isset($orderDetailsCustomer['documentNumber'])) ? $orderDetailsCustomer['documentNumber'] : null ;
+                        $customerNumber = (isset($orderDetailsCustomer['number'])) ? $orderDetailsCustomer['number'] : null ;
+                        $customerLocalizer = (isset($orderDetailsCustomer['localizer'])) ? $orderDetailsCustomer['localizer'] : null ;
+                        $customerLocalizerExpiration = (isset($orderDetailsCustomer['localizerExpiration'])) ? $orderDetailsCustomer['localizerExpiration'] : null ;
 
                     $isTest = (isset($orderDetails['isTest'])) ? $orderDetails['isTest'] : '' ;
+
                     $extraInfo = (isset($orderDetails['extraInfo'])) ? $orderDetails['extraInfo'] : null ;
+
                     $statusCancellation = (isset($orderDetails['statusCancellation'])) ? $orderDetails['statusCancellation'] : null ;
                     $statusTekeout = (isset($orderDetails['statusTekeout'])) ? $orderDetails['statusTekeout'] : null ;
                     $statusDelivery = (isset($orderDetails['statusDelivery'])) ? $orderDetails['statusDelivery'] : null ;
                     $onDemandAvailable = (isset($orderDetails['onDemandAvailable'])) ? $orderDetails['onDemandAvailable'] : null ;
                     $onDemandValue = (isset($orderDetails['onDemandValue'])) ? $orderDetails['onDemandValue'] : null ;
+
                     $mode = (isset($orderDetails['mode'])) ? $orderDetails['mode'] : '' ;
+                    
                     $deliveredBy = (isset($orderDetails['deliveredBy'])) ? $orderDetails['deliveredBy'] : null ;
                     $deliveryDateTime = (isset($orderDetails['deliveryDateTime'])) ? $orderDetails['deliveryDateTime'] : null ;
                     $takeoutDateTime = (isset($orderDetails['takeoutDateTime'])) ? $orderDetails['takeoutDateTime'] : null ;
@@ -124,12 +130,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     echo $merchantId.'<br>';
                     echo $merchantName.'<hr>';
 
-                    echo $consumerId.'<br>';
-                    echo $consumerName.'<br>';
-                    echo $consumerDocument.'<br>';
-                    echo $consumerNumber.'<br>';
-                    echo $consumerLocalizer.'<br>';
-                    echo $consumerLocalizerExpiration.'<hr>';
+                    echo $customerId.'<br>';
+                    echo $customerName.'<br>';
+                    echo $customerDocument.'<br>';
+                    echo $customerNumber.'<br>';
+                    echo $customerLocalizer.'<br>';
+                    echo $customerLocalizerExpiration.'<hr>';
 
                     echo $isTest.'<hr>';
 
@@ -185,6 +191,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         echo $outPolling['mensagem'].' / CodeHttp: '.$outPolling['code'];
     endif;
 endif;
+
 
 
 
