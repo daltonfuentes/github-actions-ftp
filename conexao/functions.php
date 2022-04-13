@@ -143,6 +143,10 @@ function polling($merchantId){
     // FAZ POLLING
     ////
 
+    $out['polling'] = $accessToken;
+    return $out;
+    exit();
+
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
