@@ -43,7 +43,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
-//$_POST['polling'] = true;
+$_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
  
