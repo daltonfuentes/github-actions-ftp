@@ -56,7 +56,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $outPolling = polling($merchantId, $accessToken);
     $polling = $outPolling['polling']; //CHEGA COMO ARRAY
 
-    if($outPolling['erro'] == 0):
+    if($outPolling['erro'] == 200):
 
         $count = count($polling);
 

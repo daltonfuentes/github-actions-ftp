@@ -164,7 +164,7 @@ function polling($merchantId, $accessToken){
     if($httpcode == 200 || $httpcode == 204):
         $retorno = json_decode($response);
         $out['polling'] = $retorno;
-        $out['erro'] = 0;
+        $out['erro'] = $httpcode;
         return $out;
     else:
         $out['mensagem'] = 'Erro inesperado.';
