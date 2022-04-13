@@ -77,8 +77,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 if($polCode == 'PLC'):
                     $outDetails = orderDetails($polOrderId, $accessToken);
                     $orderDetails = $outDetails['details'];
+                    $orderDetails = (array) $orderDetails;
 
-                    echo json_encode($orderDetails).'<hr>';
+                    var_dump($orderDetails);
+                    echo '<br>'.json_encode($orderDetails).'<hr>';
                 endif;
 
                 //
@@ -89,7 +91,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
 
 
-
+                continue;
                 
                 //MANDA PARA acknowledgment
                 $ack = json_encode($in);
