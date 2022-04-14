@@ -61,6 +61,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
         if($count > 0):
 
+            echo "$count <br><br>";
+
             foreach($polling as $in){
                 $in = (array) $in;
 
@@ -74,6 +76,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 //Consulta BD se este evento ja foi recebido e tratado, caso sim pula diretamente para acknowledgment
                 //
                 //
+
+                echo "$polCode <br>";
 
                 if($polCode == 'PLC'):
                     $outDetails = orderDetails($polOrderId, $accessToken);
@@ -151,8 +155,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $tableIndoor = (isset($tableIndoor)) ? $tableIndoor : '';
                     $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : '';
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : '';
-
-                   echo "$statusCod <br>";
 
                     $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
                     $stmt = $conexao->prepare($sql);
