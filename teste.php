@@ -151,38 +151,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : '';
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : '';
 
-                    echo 'polOrderId _____ '.$polOrderId.' - '.strlen($polOrderId).'<br>';
-                    echo 'displayId _____ '.$displayId.' - '.strlen($displayId).'<br>';
-                    echo 'orderType _____ '.$orderType.' - '.strlen($orderType).'<br>';
-                    echo 'orderTiming _____ '.$orderTiming.' - '.strlen($orderTiming).'<br>';
-                    echo 'salesChannel _____ '.$salesChannel.' - '.strlen($salesChannel).'<br>';
-                    echo 'dateCreated _____ '.$dateCreated.' - '.strlen($dateCreated).'<br>';
-                    echo 'preparationStartDateTime _____ '.$preparationStartDateTime.' - '.strlen($preparationStartDateTime).'<br>';
-                    echo 'merchantId _____ '.$merchantId.' - '.strlen($merchantId).'<br>';
-                    echo 'merchantName _____ '.$merchantName.' - '.strlen($merchantName).'<br>';
-                    echo 'customerId _____ '.$customerId.' - '.strlen($customerId).'<br>';
-                    echo 'customerName _____ '.$customerName.' - '.strlen($customerName).'<br>';
-                    echo 'customerDocument _____ '.$customerDocument.' - '.strlen($customerDocument).'<br>';
-                    echo 'customerNumber _____ '.$customerNumber.' - '.strlen($customerNumber).'<br>';
-                    echo 'customerLocalizer _____ '.$customerLocalizer.' - '.strlen($customerLocalizer).'<br>';
-                    echo 'customerLocalizerExpiration _____ '.$customerLocalizerExpiration.' - '.strlen($customerLocalizerExpiration).'<br>';
-                    echo 'isTest _____ '.$isTest.' - '.strlen($isTest).'<br>';
-                    echo 'extraInfo _____ '.$extraInfo.' - '.strlen($extraInfo).'<br>';
-                    echo 'statusCancellation _____ '.$statusCancellation.' - '.strlen($statusCancellation).'<br>';
-                    echo 'statusTekeout _____ '.$statusTekeout.' - '.strlen($statusTekeout).'<br>';
-                    echo 'statusDelivery _____ '.$statusDelivery.' - '.strlen($statusDelivery).'<br>';
-                    echo 'onDemandAvailable _____ '.$onDemandAvailable.' - '.strlen($onDemandAvailable).'<br>';
-                    echo 'onDemandValue _____ '.$onDemandValue.' - '.strlen($onDemandValue).'<br>';
-                    echo 'mode _____ '.$mode.' - '.strlen($mode).'<br>';
-                    echo 'deliveredBy _____ '.$deliveredBy.' - '.strlen($deliveredBy).'<br>';
-                    echo 'deliveryDateTime _____ '.$deliveryDateTime.' - '.strlen($deliveryDateTime).'<br>';
-                    echo 'takeoutDateTime _____ '.$takeoutDateTime.' - '.strlen($takeoutDateTime).'<br>';
-                    echo 'tableIndoor _____ '.$tableIndoor.' - '.strlen($tableIndoor).'<br>';
-                    echo 'observations _____ '.$observations.' - '.strlen($observations).'<br>';
-                    echo 'deliveryDateTimeStart _____ '.$deliveryDateTimeStart.' - '.strlen($deliveryDateTimeStart).'<br>';
-                    echo 'deliveryDateTimeEnd _____ '.$deliveryDateTimeEnd.' - '.strlen($deliveryDateTimeEnd).'<br>';
-                    echo 'statusCod _____ '.$statusCod.' - '.strlen($statusCod).'<br>';
-                    continue;
+                   
 
                     $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
                     $stmt = $conexao->prepare($sql);
