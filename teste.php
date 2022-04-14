@@ -62,8 +62,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
         if($count > 0):
 
-            echo "$count <br><br>";
-
             foreach($polling as $in){
                 $in = (array) $in;
 
@@ -77,10 +75,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 //Consulta BD se este evento ja foi recebido e tratado, caso sim pula diretamente para acknowledgment
                 //
                 //
-
-                echo "$polCode <br>";
-
-                continue;
 
                 if($polCode == 'PLC'):
                     $outDetails = orderDetails($polOrderId, $accessToken);
