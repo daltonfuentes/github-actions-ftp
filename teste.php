@@ -129,8 +129,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $deliveredBy = (isset($orderDetailsDelivery['deliveredBy'])) ? $orderDetailsDelivery['deliveredBy'] : '' ;
                         $deliveryDateTime = (isset($orderDetailsDelivery['deliveryDateTime'])) ? $orderDetailsDelivery['deliveryDateTime'] : '' ;
                         $observations = (isset($orderDetailsDelivery['observations'])) ? $orderDetailsDelivery['observations'] : null ;
-
-                        $orderTypeDetails = $mode.' / '.$deliveredBy.' / '.$deliveryDateTime.' / '.$observations;
                     elseif($orderType == 'INDOOR '):
                         $orderDetailsIndoor = (array) $orderDetails['indoor'];
 
@@ -138,16 +136,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $tableIndoor = (isset($orderDetailsIndoor['table'])) ? $orderDetailsIndoor['table'] : null ;
                         $deliveryDateTime = (isset($orderDetailsIndoor['deliveryDateTime'])) ? $orderDetailsIndoor['deliveryDateTime'] : '' ;
                         $observations = (isset($orderDetailsIndoor['observations'])) ? $orderDetailsIndoor['observations'] : null ;
-
-                        $orderTypeDetails = $mode.' / '.$tableIndoor.' / '.$deliveryDateTime.' / '.$observations;
                     elseif($orderType == 'TAKEOUT'):
                         $orderDetailsTakeout = (array) $orderDetails['takeout'];
 
                         $mode = (isset($orderDetailsTakeout['mode'])) ? $orderDetailsTakeout['mode'] : '' ;
                         $takeoutDateTime = (isset($orderDetailsTakeout['takeoutDateTime'])) ? $orderDetailsTakeout['takeoutDateTime'] : null ;
                         $observations = (isset($orderDetailsTakeout['observations'])) ? $orderDetailsTakeout['observations'] : null ;
-
-                        $orderTypeDetails = $mode.' / '.$takeoutDateTime.' / '.$observations;
                     endif;
 
                     $deliveredBy = (isset($deliveredBy)) ? $deliveredBy : null;
@@ -157,7 +151,28 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : null;
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
 
-                    echo 'oi';
+                    echo 'OrderId: '.$polOrderId.'<br>';
+                    echo 'OrderId: '.$displayId.'<br>';
+                    echo 'OrderId: '.$orderType.'<br>';
+                    echo 'OrderId: '.$orderType.'<br>';
+                    echo 'OrderId: '.$orderTiming.'<br>';
+                    echo 'OrderId: '.$salesChannel.'<br>';
+                    echo 'OrderId: '.$dateCreated.'<br>';
+                    echo 'OrderId: '.$preparationStartDateTime.'<br>';
+                    echo 'OrderId: '.$merchantId.'<br>';
+                    echo 'OrderId: '.$merchantName.'<br>';
+                    echo 'OrderId: '.$customerId.'<br>';
+                    echo 'OrderId: '.$customerName.'<br>';
+                    echo 'OrderId: '.$customerDocument.'<br>';
+                    echo 'OrderId: '.$customerLocalizer.'<br>';
+                    echo 'OrderId: '.$customerLocalizerExpiration.'<br>';
+                    echo 'OrderId: '.$isTest.'<br>';
+                    echo 'OrderId: '.$extraInfo.'<br>';
+                    echo 'OrderId: '.$statusCancellation.'<br>';
+                    echo 'OrderId: '.$statusTekeout.'<br>';
+                    echo 'OrderId: '.$statusDelivery.'<br>';
+                    echo 'OrderId: '.$onDemandAvailable.'<br>';
+                    echo 'OrderId: '.$onDemandValue.'<br>';
                     continue;
 
                     $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
