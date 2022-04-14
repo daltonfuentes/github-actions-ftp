@@ -199,7 +199,33 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
 
 
+                    if(array_key_exists("benefits", $orderDetails)):
+                        $benefits = (array) $orderDetails['benefits'];
                     
+                        $sponValue = array();
+                        $sponValue[0] = array( "name" => "ifood", "value" => 0 );
+                        $sponValue[1] = array( "name" => "loja", "value" => 0 );
+                    
+                        foreach($benefits as $inB){
+                            $inB = (array) $inB;
+                            $sponsor = $inB['sponsorshipValues'];
+                    
+                            foreach($sponsor as $spon){
+                                $spon = (array) $spon;
+                            
+                                $name = $spon['name'];
+                                $value = $spon['value'];
+                                
+                                if($name == 'IFOOD'):
+                                    $sponValue[0]['value'] = $sponValue[0]['value'] + $value; 
+                                elseif($name == 'MERCHANT'):
+                                    $sponValue[1]['value'] = $sponValue[1]['value'] + $value; 
+                                endif;
+                            };
+                        };
+
+                        var_dump($sponValue).'<br>';
+                    endif;
 
 
                     //continue;
