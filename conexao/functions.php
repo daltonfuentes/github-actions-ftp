@@ -1,6 +1,6 @@
 <?php
 
-function accessToken() {
+function accessToken(){
     require_once("conexao_hostgator.php");
 
     $out = array();
@@ -85,7 +85,7 @@ function accessToken() {
     endif;
 };
 
-function merchantStatus($accessToken) {
+function merchantStatus($accessToken){
     require_once("conexao_hostgator.php");
 
     $out = array();
@@ -246,43 +246,3 @@ function orderDetails($orderId, $accessToken){
         return $out;
     endif;
 };
-
-
-/*
-
-$orderId = '688eff25-1353-423a-aeb2-356b91472c69';
-
-$merchantApiHost = 'https://merchant-api.ifood.com.br';
-
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-    CURLOPT_URL => $merchantApiHost.'/order/v1.0/orders/'.$orderId,
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_ENCODING => '',
-    CURLOPT_MAXREDIRS => 10,
-    CURLOPT_TIMEOUT => 0,
-    CURLOPT_FOLLOWLOCATION => true,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => 'GET',
-    CURLOPT_HTTPHEADER => array(
-        'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIyYzk5ZWQ0OS00NzhiLTQ5NTktYjM5Mi00ODgyOGVkYTk5NTQiLCJhdWQiOlsic2hpcHBpbmciLCJjYXRhbG9nIiwiZmluYW5jaWFsIiwicmV2aWV3IiwibWVyY2hhbnQiLCJvcmRlciIsIm9hdXRoLXNlcnZlciJdLCJhcHBfbmFtZSI6ImFkbWluc3dlZXRjb25mZXR0eXRlc3RlYyIsIm93bmVyX25hbWUiOiJhZG1pbnN3ZWV0Y29uZmV0dHkiLCJzY29wZSI6WyJzaGlwcGluZyIsImNhdGFsb2ciLCJyZXZpZXciLCJtZXJjaGFudCIsIm9yZGVyIiwiY29uY2lsaWF0b3IiXSwiaXNzIjoiaUZvb2QiLCJtZXJjaGFudF9zY29wZSI6WyI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6Y29uY2lsaWF0b3IiLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6Y2F0YWxvZyIsIjg2YzM2NGU1LWFhMzAtNDk5ZS1hZWIxLWEyZDNkZGZjMmIzZTpyZXZpZXciLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6c2hpcHBpbmciLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6bWVyY2hhbnQiLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6b3JkZXIiXSwiZXhwIjoxNjQ5Mjk5ODM0LCJpYXQiOjE2NDkyODkwMzQsImp0aSI6IjJjOTllZDQ5LTQ3OGItNDk1OS1iMzkyLTQ4ODI4ZWRhOTk1NCIsIm1lcmNoYW50X3Njb3BlZCI6dHJ1ZSwiY2xpZW50X2lkIjoiMmM5OWVkNDktNDc4Yi00OTU5LWIzOTItNDg4MjhlZGE5OTU0In0.O8qFgN0gNsS-UElWY5fMBKOtcb7usheuYDKkbcPMSyvEGosPsDWUNB8tjs4tdqZQ7V6OmHTE5jahqF1Z1SPvN6vCKKBaouJ-Ev5PCBKlqXWn3XrxX65U6DSGAuKK5DlGV_U74noJRwzdZefR9KABrB2NKubyWg3A56oGl6PUvUg'
-    ),
-));
-
-$response = curl_exec($curl);
-$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-curl_close($curl);
-
-if($httpcode == 200):
-    $retorno = json_decode($response, true);
-    $items = $retorno['items'];
-
-    var_dump($items);
-    echo '<hr>';
-    var_dump($retorno);
-    echo '<hr>';
-    var_dump($response);
-endif;
-
-*/
