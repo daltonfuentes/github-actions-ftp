@@ -153,7 +153,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     echo 'polOrderId _____ '.$polOrderId.'<br>';
                     echo 'displayId _____ '.$displayId.'<br>';
-                    echo 'orderType _____'.$orderType.'<br>';
                     echo 'orderType _____ '.$orderType.'<br>';
                     echo 'orderTiming _____ '.$orderTiming.'<br>';
                     echo 'salesChannel _____ '.$salesChannel.'<br>';
@@ -164,6 +163,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     echo 'customerId _____ '.$customerId.'<br>';
                     echo 'customerName _____ '.$customerName.'<br>';
                     echo 'customerDocument _____ '.$customerDocument.'<br>';
+                    echo 'customerNumber _____ '.$customerNumber.'<br>';
                     echo 'customerLocalizer _____ '.$customerLocalizer.'<br>';
                     echo 'customerLocalizerExpiration _____ '.$customerLocalizerExpiration.'<br>';
                     echo 'isTest _____ '.$isTest.'<br>';
