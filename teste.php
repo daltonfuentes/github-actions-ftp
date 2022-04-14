@@ -150,8 +150,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                         //VALIDA CAMPOS EMPTY
 
-                        break;
-
                         $sql = 'INSERT INTO ifood_delivery_anddress (orderId, streetName, streetNumber, formattedAddress, neighborhood, complement, reference, postalCode, city, stateDelivery, country, latitude, longitude) VALUES (:orderId, :streetName, :streetNumber, :formattedAddress, :neighborhood, :complement, :reference, :postalCode, :city, :stateDelivery, :country, :latitude, :longitude)';
                         $stmt = $conexao->prepare($sql);
                         $stmt->bindParam(':orderId', $polOrderId);
@@ -200,12 +198,62 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : null;
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
 
+
+                    if(array_key_exists("benefits", $orderDetails)):
+                        $benefits = $orderDetails['benefits'];
+                        $benefits = (array) $benefits;
+                    
+                        $sponValue = array();
+                        $sponValue[0] = array( "name" => "ifood", "value" => 0 );
+                        $sponValue[1] = array( "name" => "loja", "value" => 0 );
+                    
+                        foreach($benefits as $inB){
+                            $inB = (array) $inB;
+                            $sponsor = $inB['sponsorshipValues'];
+                    
+                            foreach($sponsor as $spon){
+                                $spon = (array) $spon;
+                            
+                                $name = $spon['name'];
+                                $value = $spon['value'];
+                                
+                                if($name == 'IFOOD'):
+                                    $sponValue[0]['value'] = $sponValue[0]['value'] + $value; 
+                                elseif($name == 'MERCHANT'):
+                                    $sponValue[1]['value'] = $sponValue[1]['value'] + $value; 
+                                endif;
+                            };
+                        };
+                    
+                        foreach($sponValue as $sponIn){
+                            $valor = $sponIn['value'];
+                            $name = $sponIn['name'];
+
+                            if($valor =! 0):
+                                $sql = 'INSERT INTO ifood_benefits (orderId, valueBenef, nameBenef) VALUES (:orderId, :valueBenef, :nameBenef)';
+                                $stmt = $conexao->prepare($sql);
+                                $stmt->bindParam(':orderId', $polOrderId);
+                                $stmt->bindParam(':valueBenef', $valor);
+                                $stmt->bindParam(':nameBenef', $name);
+                                $resposta = $stmt->execute();
+
+                                if(!$resposta):
+                                    $erro  = '1';
+                                    $mensagem = 'Erro interno BD.';
+                                    echo $erro.' - '.$mensagem.'<br>';
+                                else:
+                                    $erro  = '0';
+                                    $mensagem = 'Benefits cadastrado.';
+                                    echo $erro.' - '.$mensagem.'<br>';
+                                endif;
+                            endif;
+                        };
+                    endif;
+
+
                     //continue;
 
                     //VALIDA CAMPOS EMPTY
-
-                    echo 'Oi';
-                    break;
 
                     $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
                     $stmt = $conexao->prepare($sql);
@@ -318,7 +366,258 @@ endif;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
+
+$details = '{
+    "id": "63895716-37c3-4372-afd0-3240bfef708d",
+    "orderTiming": "IMMEDIATE",
+    "orderType": "DELIVERY",
+    "salesChannel": "IFOOD",
+    "delivery": {
+      "mode": "ECONOMIC",
+      "deliveredBy": "IFOOD",
+      "deliveryDateTime": "2021-02-09T18:10:32Z",
+      "deliveryAddress": {
+        "streetName": "Example",
+        "streetNumber": "1234",
+        "formattedAddress": "Example St., 1234, Apt. 1234",
+        "neighborhood": "Examplehood",
+        "complement": "Apt. 1234",
+        "reference": "perto da praça",
+        "postalCode": "12345678",
+        "city": "Example City",
+        "state": "Example State",
+        "country": "BR",
+        "coordinates": {
+          "latitude": -2.1059418202311173e141,
+          "longitude": -49545.71
+        }
+      }
+    },
+    "displayId": "XPTO",
+    "createdAt": "2021-02-16T18:10:27Z",
+    "preparationStartDateTime": "2021-02-09T20:15:13Z",
+    "merchant": {
+      "id": "c54bb20a-bce0-4e38-bd4a-fe5f0a7b6b5a",
+      "name": "Example Merchant"
+    },
+    "customer": {
+      "id": "22587f70-60b4-423c-8cd2-27d288f47f99",
+      "name": "Example Customer",
+      "documentNumber": "123456789",
+      "phone": {
+        "number": "123456789",
+        "localizer": "12345678",
+        "localizerExpiration": "2021-02-09T18:11:07Z"
+      },
+      "ordersCountOnMerchant": 1234
+    },
+    "items": [
+      {
+        "index": 0,
+        "id": "f1e48636-4bf0-4656-bce8-0e2214fcd3d4",
+        "name": "Example Item",
+        "imageUrl": "https://static-images.ifood.com.br/image/upload/t_high/pratos/4c714577-fe5d-4d31-9531-f9ebb7f89249/202104071957_0mfD_.jpeg",
+        "externalCode": "ex01",
+        "ean": "12345678910",
+        "unit": "G",
+        "quantity": 12,
+        "unitPrice": 0.12,
+        "addition": 0,
+        "price": 1.44,
+        "optionsPrice": 1.69,
+        "totalPrice": 3.13,
+        "observations": "This is an example item.",
+        "options": [
+          {
+            "index": 0,
+            "id": "acea6ac1-f595-4a6b-af00-cc2f1fa0886a",
+            "name": "Example Option",
+            "externalCode": "ex02",
+            "ean": "12345678911",
+            "unit": "UN",
+            "quantity": 13,
+            "unitPrice": 0.13,
+            "addition": 0,
+            "price": 1.69
+          }
+        ]
+      }
+    ],
+    "benefits": [
+      {
+        "value": 1.0,
+        "sponsorshipValues": [
+          {
+            "name": "IFOOD",
+            "value": 0.5
+          },
+          {
+            "name": "MERCHANT",
+            "value": 0.5
+          }
+        ],
+        "target": "CART"
+      },
+      {
+        "value": 0.5,
+        "sponsorshipValues": [
+          {
+            "name": "IFOOD",
+            "value": 0.5
+          },
+          {
+            "name": "MERCHANT",
+            "value": 0
+          }
+        ],
+        "target": "ITEM",
+        "targetId": "1"
+      },
+      {
+        "value": 0.49,
+        "sponsorshipValues": [
+          {
+            "name": "IFOOD",
+            "value": 0
+          },
+          {
+            "name": "MERCHANT",
+            "value": 0.49
+          }
+        ],
+        "target": "DELIVERY_FEE"
+      }
+    ],
+    "additionalFees": [
+      {
+        "type": "SMALL_ORDER_FEE",
+        "value": 1.0
+      }
+    ],
+    "total": {
+      "subTotal": 3.13,
+      "deliveryFee": 5.99,
+      "additionalFees": 1,
+      "benefits": 1.99,
+      "orderAmount": 8.13
+    },
+    "payments": {
+      "prepaid": 2.13,
+      "pending": 5,
+      "methods": [
+        {
+          "value": 5,
+          "currency": "BRL",
+          "method": "CASH",
+          "type": "OFFLINE",
+          "prepaid": false
+        },
+        {
+          "value": 2.13,
+          "currency": "BRL",
+          "method": "MEAL_VOUCHER",
+          "type": "ONLINE",
+          "prepaid": true
+        }
+      ]
+    },
+    "picking": {
+      "picker": "DRIVER_SHOPPER",
+      "replacementOptions": "STORE_REMOVE_ITEMS"
+    },
+    "test": false,
+    "additionalInfo": {
+      "metadata": {
+        "codigoInternoPdv": "18bf73f64715",
+        "nomeVendedor": "João"
+      }
+    }
+  }';
+
+
+
+$details = json_decode($details);
+$orderDetails = (array) $details;
+
+if(array_key_exists("benefits", $orderDetails)):
+    $benefits = $orderDetails['benefits'];
+    $benefits = (array) $benefits;
+
+    $sponValue = array();
+    $sponValue[0] = array( "name" => "ifood", "value" => 0 );
+    $sponValue[1] = array( "name" => "loja", "value" => 0 );
+
+    foreach($benefits as $inB){
+        $inB = (array) $inB;
+        $sponsor = $inB['sponsorshipValues'];
+
+        foreach($sponsor as $spon){
+            $spon = (array) $spon;
+        
+            $name = $spon['name'];
+            $value = $spon['value'];
+            
+            if($name == 'IFOOD'):
+                $sponValue[0]['value'] = $sponValue[0]['value'] + $value; 
+            elseif($name == 'MERCHANT'):
+                $sponValue[1]['value'] = $sponValue[1]['value'] + $value; 
+            endif;
+        };
+    };
+
+    foreach($sponValue as $sponIn){
+        if($sponIn['value'] =! 0):
+
+        endif;
+    };
+endif;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 $details = '{
     "id": "a78c1d62-3cd6-4dac-a1c2-f413b363d671",
