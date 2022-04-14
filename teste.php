@@ -151,38 +151,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : null;
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
 
-                    echo 'polOrderId: '.$polOrderId.'<br>';
-                    echo 'displayId: '.$displayId.'<br>';
-                    echo 'orderType: '.$orderType.'<br>';
-                    echo 'orderType: '.$orderType.'<br>';
-                    echo 'orderTiming: '.$orderTiming.'<br>';
-                    echo 'salesChannel: '.$salesChannel.'<br>';
-                    echo 'dateCreated: '.$dateCreated.'<br>';
-                    echo 'preparationStartDateTime: '.$preparationStartDateTime.'<br>';
-                    echo 'merchantId: '.$merchantId.'<br>';
-                    echo 'merchantName: '.$merchantName.'<br>';
-                    echo 'customerId: '.$customerId.'<br>';
-                    echo 'customerName: '.$customerName.'<br>';
-                    echo 'customerDocument: '.$customerDocument.'<br>';
-                    echo 'customerLocalizer: '.$customerLocalizer.'<br>';
-                    echo 'customerLocalizerExpiration: '.$customerLocalizerExpiration.'<br>';
-                    echo 'isTest: '.$isTest.'<br>';
-                    echo 'extraInfo: '.$extraInfo.'<br>';
-                    echo 'statusCancellation: '.$statusCancellation.'<br>';
-                    echo 'statusTekeout: '.$statusTekeout.'<br>';
-                    echo 'statusDelivery: '.$statusDelivery.'<br>';
-                    echo 'onDemandAvailable: '.$onDemandAvailable.'<br>';
-                    echo 'onDemandValue: '.$onDemandValue.'<br>';
-                    echo 'mode: '.$mode.'<br>';
-                    echo 'deliveredBy: '.$deliveredBy.'<br>';
-                    echo 'deliveryDateTime: '.$deliveryDateTime.'<br>';
-                    echo 'takeoutDateTime: '.$takeoutDateTime.'<br>';
-                    echo 'tableIndoor: '.$tableIndoor.'<br>';
-                    echo 'observations: '.$observations.'<br>';
-                    echo 'deliveryDateTimeStart: '.$deliveryDateTimeStart.'<br>';
-                    echo 'deliveryDateTimeEnd: '.$deliveryDateTimeEnd.'<br>';
-                    echo 'statusCod: '.$statusCod.'<br>';
-                    continue;
 
                     $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
                     $stmt = $conexao->prepare($sql);
