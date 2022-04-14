@@ -150,45 +150,57 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $orderTypeDetails = $mode.' / '.$takeoutDateTime.' / '.$observations;
                     endif;
 
+                    $deliveredBy = (isset($deliveredBy)) ? $deliveredBy : null;
+                    $deliveryDateTime = (isset($deliveryDateTime)) ? $deliveryDateTime : null;
+                    $takeoutDateTime = (isset($takeoutDateTime)) ? $takeoutDateTime : null;
+                    $tableIndoor = (isset($tableIndoor)) ? $tableIndoor : null;
+                    $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : null;
+                    $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
 
-                    echo $polOrderId.'<br>';
-                    echo $displayId.'<br>';
-                    echo $orderType.'<br>';
-                    echo $orderTiming.'<br>';
-                    echo $salesChannel.'<br>';
-                    echo $dateCreated.'<br>';
-                    echo $preparationStartDateTime.'<hr>';
-                    
-                    echo $merchantId.'<br>';
-                    echo $merchantName.'<hr>';
+                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':displayId', $displayId);
+                    $stmt->bindParam(':orderType', $orderType);
+                    $stmt->bindParam(':orderTiming', $orderTiming);
+                    $stmt->bindParam(':salesChannel', $salesChannel);
+                    $stmt->bindParam(':dateCreated', $dateCreated);
+                    $stmt->bindParam(':preparationStartDateTime', $preparationStartDateTime);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->bindParam(':merchantName', $merchantName);
+                    $stmt->bindParam(':customerId', $customerId);
+                    $stmt->bindParam(':customerName', $customerName);
+                    $stmt->bindParam(':customerDocument', $customerDocument);
+                    $stmt->bindParam(':customerNumber', $customerNumber);
+                    $stmt->bindParam(':customerLocalizer', $customerLocalizer);
+                    $stmt->bindParam(':customerLocalizerExpiration', $customerLocalizerExpiration);
+                    $stmt->bindParam(':isTest', $isTest);
+                    $stmt->bindParam(':extraInfo', $extraInfo);
+                    $stmt->bindParam(':statusCancellation', $statusCancellation);
+                    $stmt->bindParam(':statusTekeout', $statusTekeout);
+                    $stmt->bindParam(':statusDelivery', $statusDelivery);
+                    $stmt->bindParam(':onDemandAvailable', $onDemandAvailable);
+                    $stmt->bindParam(':onDemandValue', $onDemandValue);
+                    $stmt->bindParam(':mode', $mode);
+                    $stmt->bindParam(':deliveredBy', $deliveredBy);
+                    $stmt->bindParam(':deliveryDateTime', $deliveryDateTime);
+                    $stmt->bindParam(':takeoutDateTime', $cod);
+                    $stmt->bindParam(':tableIndoor', $cod);
+                    $stmt->bindParam(':observations', $observations);
+                    $stmt->bindParam(':deliveryDateTimeStart', $cod);
+                    $stmt->bindParam(':deliveryDateTimeEnd', $cod);
+                    $stmt->bindParam(':statusCod', $statusCod);
+                    $resposta = $stmt->execute();
 
-                    echo $customerId.'<br>';
-                    echo $customerName.'<br>';
-                    echo $customerDocument.'<br>';
-                    echo $customerNumber.'<br>';
-                    echo $customerLocalizer.'<br>';
-                    echo $customerLocalizerExpiration.'<hr>';
-
-                    echo $isTest.'<hr>';
-
-                    echo $extraInfo.'<hr>';
-
-
-                    echo $statusCancellation.'<br>';
-                    echo $statusTekeout.'<br>';
-                    echo $statusDelivery.'<hr>';
-                    echo $onDemandAvailable.'<br>';
-                    echo $onDemandValue.'<hr>';
-                    
-
-                    echo $schedule.'<hr>';
-
-                    echo $orderTypeDetails.'<hr>';
-
-                    echo $statusCod.'<hr>';
-
-
-
+                    if(!$resposta):
+                        $retorno['erro']     = '1';
+                        $retorno['mensagem'] = 'Erro interno BD.';
+                        echo json_encode($retorno).'<br>';
+                    else:
+                        $retorno['erro']     = '0';
+                        $retorno['mensagem'] = 'Pedido cadastrado!';
+                        echo json_encode($retorno).'<br>';
+                    endif;
                 endif;
 
                 //
