@@ -112,7 +112,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     $statusCod = $polCode ;
 
-
                     if($orderTiming == 'IMMEDIATE'):
                         $schedule = '';
                     elseif($orderTiming == 'SCHEDULED '):
@@ -131,6 +130,40 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $deliveredBy = (isset($orderDetailsDelivery['deliveredBy'])) ? $orderDetailsDelivery['deliveredBy'] : '' ;
                         $deliveryDateTime = (isset($orderDetailsDelivery['deliveryDateTime'])) ? $orderDetailsDelivery['deliveryDateTime'] : '' ;
                         $observations = (isset($orderDetailsDelivery['observations'])) ? $orderDetailsDelivery['observations'] : null ;
+
+                        $deliveryAddress = (array) $orderDetailsDelivery['deliveryAddress'];
+                        $deliveryCoordinates = (array) $deliveryAddress['coordinates'];
+
+                        $streetName = (isset($deliveryAddress['streetName'])) ? $deliveryAddress['streetName'] : '' ;
+                        $streetNumber = (isset($deliveryAddress['streetNumber'])) ? $deliveryAddress['streetNumber'] : '' ;
+                        $formattedAddress = (isset($deliveryAddress['formattedAddress'])) ? $deliveryAddress['formattedAddress'] : '' ;
+                        $neighborhood = (isset($deliveryAddress['neighborhood'])) ? $deliveryAddress['neighborhood'] : '' ;
+                        $complement = (isset($deliveryAddress['complement'])) ? $deliveryAddress['complement'] : null ;
+                        $reference = (isset($deliveryAddress['reference'])) ? $deliveryAddress['reference'] : null ;
+                        $postalCode = (isset($deliveryAddress['postalCode'])) ? $deliveryAddress['postalCode'] : '' ;
+                        $city = (isset($deliveryAddress['city'])) ? $deliveryAddress['city'] : '' ;
+                        $state = (isset($deliveryAddress['state'])) ? $deliveryAddress['state'] : '' ;
+                        $country = (isset($deliveryAddress['country'])) ? $deliveryAddress['country'] : '' ;
+
+                        $latitude = (isset($deliveryCoordinates['latitude'])) ? $deliveryCoordinates['latitude'] : '' ;
+                        $longitude = (isset($deliveryCoordinates['longitude'])) ? $deliveryCoordinates['longitude'] : '' ;
+
+                        echo 'polOrderId --- '.$polOrderId.'<br>';
+                        echo 'streetName --- '.$streetName.'<br>';
+                        echo 'streetNumber --- '.$streetNumber.'<br>';
+                        echo 'formattedAddress --- '.$formattedAddress.'<br>';
+                        echo 'neighborhood --- '.$neighborhood.'<br>';
+                        echo 'complement --- '.$complement.'<br>';
+                        echo 'reference --- '.$reference.'<br>';
+                        echo 'postalCode --- '.$postalCode.'<br>';
+                        echo 'city --- '.$city.'<br>';
+                        echo 'state --- '.$state.'<br>';
+                        echo 'country --- '.$country.'<br>';
+                        echo 'latitude --- '.$latitude.'<br>';
+                        echo 'longitude --- '.$longitude.'<br>';
+
+
+
                     elseif($orderType == 'INDOOR '):
                         $orderDetailsIndoor = (array) $orderDetails['indoor'];
 
@@ -152,6 +185,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $tableIndoor = (isset($tableIndoor)) ? $tableIndoor : null;
                     $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : null;
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
+
+                    continue;
 
                     $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
                     $stmt = $conexao->prepare($sql);
