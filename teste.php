@@ -226,7 +226,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                             $valor = $sponIn['value'];
                             $name = $sponIn['name'];
 
-                            if($valor =! 0):
+                            if($valor > 0):
                                 $sql = 'INSERT INTO ifood_benefits (orderId, valueBenef, nameBenef) VALUES (:orderId, :valueBenef, :nameBenef)';
                                 $stmt = $conexao->prepare($sql);
                                 $stmt->bindParam(':orderId', $polOrderId);
@@ -378,8 +378,8 @@ endif;
 
 
 
-
 /*
+
 
 $details = '{
     "id": "63895716-37c3-4372-afd0-3240bfef708d",
@@ -467,7 +467,7 @@ $details = '{
           },
           {
             "name": "MERCHANT",
-            "value": 0.5
+            "value": 0
           }
         ],
         "target": "CART"
@@ -496,7 +496,7 @@ $details = '{
           },
           {
             "name": "MERCHANT",
-            "value": 0.49
+            "value": 0
           }
         ],
         "target": "DELIVERY_FEE"
@@ -561,6 +561,9 @@ if(array_key_exists("benefits", $orderDetails)):
     $sponValue[0] = array( "name" => "ifood", "value" => 0 );
     $sponValue[1] = array( "name" => "loja", "value" => 0 );
 
+    var_dump($sponValue);
+    echo '<hr>';
+
     foreach($benefits as $inB){
         $inB = (array) $inB;
         $sponsor = $inB['sponsorshipValues'];
@@ -579,10 +582,20 @@ if(array_key_exists("benefits", $orderDetails)):
         };
     };
 
-    foreach($sponValue as $sponIn){
-        if($sponIn['value'] =! 0):
+    var_dump($sponValue);
+    echo '<hr>';
 
+    foreach($sponValue as $sponIn){
+        var_dump($sponIn);
+        echo '<br>';
+
+        $valor = $sponIn['value'];
+        $name = $sponIn['name'];
+
+        if($valor > 0):
+            echo $name.' tem valor:'.$valor.'<br>';
         endif;
+        echo '<hr>';
     };
 endif;
 
