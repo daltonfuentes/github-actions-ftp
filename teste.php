@@ -148,22 +148,34 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $latitude = (isset($deliveryCoordinates['latitude'])) ? $deliveryCoordinates['latitude'] : '' ;
                         $longitude = (isset($deliveryCoordinates['longitude'])) ? $deliveryCoordinates['longitude'] : '' ;
 
-                        echo 'polOrderId --- '.$polOrderId.'<br>';
-                        echo 'streetName --- '.$streetName.'<br>';
-                        echo 'streetNumber --- '.$streetNumber.'<br>';
-                        echo 'formattedAddress --- '.$formattedAddress.'<br>';
-                        echo 'neighborhood --- '.$neighborhood.'<br>';
-                        echo 'complement --- '.$complement.'<br>';
-                        echo 'reference --- '.$reference.'<br>';
-                        echo 'postalCode --- '.$postalCode.'<br>';
-                        echo 'city --- '.$city.'<br>';
-                        echo 'state --- '.$state.'<br>';
-                        echo 'country --- '.$country.'<br>';
-                        echo 'latitude --- '.$latitude.'<br>';
-                        echo 'longitude --- '.$longitude.'<br>';
+                        //VALIDA CAMPOS EMPTY
 
-
-
+                        $sql = 'INSERT INTO ifood_delivery_anddress (orderId, streetName, streetNumber, formattedAddress, neighborhood, complement, reference, postalCode, city, stateDelivery, country, latitude, longitude) VALUES (:orderId, :streetName, :streetNumber, :formattedAddress, :neighborhood, :complement, :reference, :postalCode, :city, :stateDelivery, :country, :latitude, :longitude)';
+                        $stmt = $conexao->prepare($sql);
+                        $stmt->bindParam(':orderId', $polOrderId);
+                        $stmt->bindParam(':streetName', $streetName);
+                        $stmt->bindParam(':streetNumber', $streetNumber);
+                        $stmt->bindParam(':formattedAddress', $formattedAddress);
+                        $stmt->bindParam(':neighborhood', $neighborhood);
+                        $stmt->bindParam(':complement', $complement);
+                        $stmt->bindParam(':reference', $reference);
+                        $stmt->bindParam(':postalCode', $postalCode);
+                        $stmt->bindParam(':city', $city);
+                        $stmt->bindParam(':stateDelivery', $state);
+                        $stmt->bindParam(':country', $country);
+                        $stmt->bindParam(':latitude', $latitude);
+                        $stmt->bindParam(':longitude', $longitude);
+                        $resposta = $stmt->execute();
+    
+                        if(!$resposta):
+                            $erro  = '1';
+                            $mensagem = 'Erro interno BD.';
+                            echo $erro.' - '.$mensagem.'<br>';
+                        else:
+                            $erro  = '0';
+                            $mensagem = 'Endereço cadastrado.';
+                            echo $erro.' - '.$mensagem.'<br>';
+                        endif;
                     elseif($orderType == 'INDOOR '):
                         $orderDetailsIndoor = (array) $orderDetails['indoor'];
 
@@ -187,6 +199,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
 
                     continue;
+
+                    //VALIDA CAMPOS EMPTY
 
                     $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
                     $stmt = $conexao->prepare($sql);
@@ -224,13 +238,13 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
-                        $retorno['erro']     = '1';
-                        $retorno['mensagem'] = 'Erro interno BD.';
-                        echo json_encode($retorno).'<br>';
+                        $erro  = '1';
+                        $mensagem = 'Erro interno BD.';
+                        echo $erro.' - '.$mensagem.'<br>';
                     else:
-                        $retorno['erro']     = '0';
-                        $retorno['mensagem'] = 'Pedido cadastrado!';
-                        echo json_encode($retorno).'<br>';
+                        $erro  = '0';
+                        $mensagem = 'Pedido cadastrado.';
+                        echo $erro.' - '.$mensagem.'<br>';
                     endif;
                 endif;
 
