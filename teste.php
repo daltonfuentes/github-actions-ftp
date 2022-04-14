@@ -50,11 +50,11 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
 
-    echo $merchantId;
-    exit();
-
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
+
+    echo $accessToken;
+    exit();
 
     $outPolling = polling($merchantId, $accessToken);
     $polling = $outPolling['polling']; //CHEGA COMO ARRAY
