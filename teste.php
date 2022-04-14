@@ -46,7 +46,9 @@ endif;
 
 $_POST['polling'] = true;
 
-if (isset($_POST['polling']) && $_POST['polling'] == true) :
+if (isset($_POST['polling']) && $_POST['polling'] == true):
+    require_once("./conexao/conexao_hostgator.php");
+    
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
 
     $outToken = accessToken();
