@@ -1,7 +1,7 @@
 <?php
 
 function accessToken(){
-    require_once("conexao_hostgator.php");
+    require("conexao_hostgator.php");
 
     $out = array();
 
@@ -86,7 +86,7 @@ function accessToken(){
 };
 
 function merchantStatus($accessToken){
-    require_once("conexao_hostgator.php");
+    require("conexao_hostgator.php");
 
     $out = array();
 
