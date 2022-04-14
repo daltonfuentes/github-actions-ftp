@@ -1,5 +1,5 @@
 <?php
-require_once("./conexao/functions.php");
+//require_once("./conexao/functions.php");
 //$_POST['status_ifood'] = true;
 
 if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
