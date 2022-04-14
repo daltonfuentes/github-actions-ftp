@@ -199,56 +199,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
 
 
-                    if(array_key_exists("benefits", $orderDetails)):
-                        $benefits = $orderDetails['benefits'];
-                        $benefits = (array) $benefits;
                     
-                        $sponValue = array();
-                        $sponValue[0] = array( "name" => "ifood", "value" => 0 );
-                        $sponValue[1] = array( "name" => "loja", "value" => 0 );
-                    
-                        foreach($benefits as $inB){
-                            $inB = (array) $inB;
-                            $sponsor = $inB['sponsorshipValues'];
-                    
-                            foreach($sponsor as $spon){
-                                $spon = (array) $spon;
-                            
-                                $name = $spon['name'];
-                                $value = $spon['value'];
-                                
-                                if($name == 'IFOOD'):
-                                    $sponValue[0]['value'] = $sponValue[0]['value'] + $value; 
-                                elseif($name == 'MERCHANT'):
-                                    $sponValue[1]['value'] = $sponValue[1]['value'] + $value; 
-                                endif;
-                            };
-                        };
-                    
-                        foreach($sponValue as $sponIn){
-                            $valor = $sponIn['value'];
-                            $name = $sponIn['name'];
-
-                            if($valor =! 0):
-                                $sql = 'INSERT INTO ifood_benefits (orderId, valueBenef, nameBenef) VALUES (:orderId, :valueBenef, :nameBenef)';
-                                $stmt = $conexao->prepare($sql);
-                                $stmt->bindParam(':orderId', $polOrderId);
-                                $stmt->bindParam(':valueBenef', $valor);
-                                $stmt->bindParam(':nameBenef', $name);
-                                $resposta = $stmt->execute();
-
-                                if(!$resposta):
-                                    $erro  = '1';
-                                    $mensagem = 'Erro interno BD.';
-                                    echo $erro.' - '.$mensagem.'<br>';
-                                else:
-                                    $erro  = '0';
-                                    $mensagem = 'Benefits cadastrado.';
-                                    echo $erro.' - '.$mensagem.'<br>';
-                                endif;
-                            endif;
-                        };
-                    endif;
 
 
                     //continue;
