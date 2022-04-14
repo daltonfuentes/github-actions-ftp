@@ -53,9 +53,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
 
-    echo $merchantId;
-    exit();
-
     $outPolling = polling($merchantId, $accessToken);
     $polling = $outPolling['polling']; //CHEGA COMO ARRAY
 
