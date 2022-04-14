@@ -198,7 +198,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : null;
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
 
-                    continue;
+                    //continue;
 
                     //VALIDA CAMPOS EMPTY
 
