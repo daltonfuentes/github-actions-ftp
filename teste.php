@@ -79,6 +79,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                 echo "$polCode <br>";
 
+                continue;
+
                 if($polCode == 'PLC'):
                     $outDetails = orderDetails($polOrderId, $accessToken);
                     $orderDetails = (array) $outDetails['details'];
