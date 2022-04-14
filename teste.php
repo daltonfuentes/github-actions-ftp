@@ -46,7 +46,6 @@ endif;
 $_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
-    require_once("./conexao/conexao_hostgator.php");
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
 
     $outToken = accessToken();
@@ -79,7 +78,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                 echo "$polCode <br>";
 
-               
+                continue;
 
                 if($polCode == 'PLC'):
                     $outDetails = orderDetails($polOrderId, $accessToken);
@@ -158,7 +157,50 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : '';
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : '';
 
-                    
+                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':displayId', $displayId);
+                    $stmt->bindParam(':orderType', $orderType);
+                    $stmt->bindParam(':orderTiming', $orderTiming);
+                    $stmt->bindParam(':salesChannel', $salesChannel);
+                    $stmt->bindParam(':dateCreated', $dateCreated);
+                    $stmt->bindParam(':preparationStartDateTime', $preparationStartDateTime);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->bindParam(':merchantName', $merchantName);
+                    $stmt->bindParam(':customerId', $customerId);
+                    $stmt->bindParam(':customerName', $customerName);
+                    $stmt->bindParam(':customerDocument', $customerDocument);
+                    $stmt->bindParam(':customerNumber', $customerNumber);
+                    $stmt->bindParam(':customerLocalizer', $customerLocalizer);
+                    $stmt->bindParam(':customerLocalizerExpiration', $customerLocalizerExpiration);
+                    $stmt->bindParam(':isTest', $isTest);
+                    $stmt->bindParam(':extraInfo', $extraInfo);
+                    $stmt->bindParam(':statusCancellation', $statusCancellation);
+                    $stmt->bindParam(':statusTekeout', $statusTekeout);
+                    $stmt->bindParam(':statusDelivery', $statusDelivery);
+                    $stmt->bindParam(':onDemandAvailable', $onDemandAvailable);
+                    $stmt->bindParam(':onDemandValue', $onDemandValue);
+                    $stmt->bindParam(':mode', $mode);
+                    $stmt->bindParam(':deliveredBy', $deliveredBy);
+                    $stmt->bindParam(':deliveryDateTime', $deliveryDateTime);
+                    $stmt->bindParam(':takeoutDateTime', $takeoutDateTime);
+                    $stmt->bindParam(':tableIndoor', $tableIndoor);
+                    $stmt->bindParam(':observations', $observations);
+                    $stmt->bindParam(':deliveryDateTimeStart', $deliveryDateTimeStart);
+                    $stmt->bindParam(':deliveryDateTimeEnd', $deliveryDateTimeEnd);
+                    $stmt->bindParam(':statusCod', $statusCod);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        $retorno['erro']     = '1';
+                        $retorno['mensagem'] = 'Erro interno BD.';
+                        echo json_encode($retorno).'<br>';
+                    else:
+                        $retorno['erro']     = '0';
+                        $retorno['mensagem'] = 'Pedido cadastrado!';
+                        echo json_encode($retorno).'<br>';
+                    endif;
                 endif;
 
                 //
