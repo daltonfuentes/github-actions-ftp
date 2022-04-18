@@ -43,7 +43,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
-$_POST['polling'] = true;
+//$_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
     require("./conexao/conexao_hostgator.php");
@@ -329,17 +329,107 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                             echo $erro.' - '.$mensagem.'<br>';
                         else:
                             $erro  = '0';
-                            $mensagem = 'Pedido cadastrado.';
+                            $mensagem = 'Payment cadastrado.';
                             echo $erro.' - '.$mensagem.'<br>';
                         endif;
                     };
 
                     //
                     //
-                    // 
+                    // ITEMS
                     //
                     //
 
+                    foreach($orderDetails['items'] as $item){
+                        $item = (array) $item;
+                    
+                        $itemIndex = (isset($item['index'])) ? $item['index'] : '' ;
+                        $itemId = (isset($item['id'])) ? $item['id'] : '' ;
+                        $itemName = (isset($item['name'])) ? $item['name'] : '' ;
+                        $itemImage = (isset($item['imageUrl'])) ? $item['imageUrl'] : null ;
+                        $itemExternalCode = (isset($item['externalCode'])) ? $item['externalCode'] : null ;
+                        $itemEan = (isset($item['ean'])) ? $item['ean'] : null ;
+                        $itemQtd = (isset($item['quantity'])) ? $item['quantity'] : '' ;
+                        $itemUn = (isset($item['unit'])) ? $item['unit'] : null ;
+                        $itemUnitPrice = (isset($item['unitPrice'])) ? $item['unitPrice'] : '' ;
+                        $itemAddition = (isset($item['addition'])) ? $item['addition'] : null ;
+                        $itemPrice = (isset($item['price'])) ? $item['price'] : '' ;
+                        $itemOpPrice = (isset($item['optionsPrice'])) ? $item['optionsPrice'] : '' ;
+                        $itemTotalPrice = (isset($item['totalPrice'])) ? $item['totalPrice'] : '' ;
+                        $itemObs = (isset($item['observations'])) ? $item['observations'] : null ;
+                    
+                        $sql = 'INSERT INTO ifood_order_items (orderId, indexId, id, itemName, imageUrl, externalCode, ean, quantity, unit, unitPrice, addition, price, optionsPrice, totalPrice, observations) VALUES (:orderId, :indexId, :id, :itemName, :imageUrl, :externalCode, :ean, :quantity, :unit, :unitPrice, :addition, :price, :optionsPrice, :totalPrice, :observations)';
+                        $stmt = $conexao->prepare($sql);
+                        $stmt->bindParam(':orderId', $polOrderId);
+                        $stmt->bindParam(':indexId', $itemIndex);
+                        $stmt->bindParam(':id', $itemId);
+                        $stmt->bindParam(':itemName', $itemName);
+                        $stmt->bindParam(':imageUrl', $itemImage);
+                        $stmt->bindParam(':externalCode', $itemExternalCode);
+                        $stmt->bindParam(':ean', $itemEan);
+                        $stmt->bindParam(':quantity', $itemQtd);
+                        $stmt->bindParam(':unit', $itemUn);
+                        $stmt->bindParam(':unitPrice', $itemUnitPrice);
+                        $stmt->bindParam(':addition', $itemAddition);
+                        $stmt->bindParam(':price', $itemPrice);
+                        $stmt->bindParam(':optionsPrice', $itemOpPrice);
+                        $stmt->bindParam(':totalPrice', $itemTotalPrice);
+                        $stmt->bindParam(':observations', $itemObs);
+                        $resposta = $stmt->execute();
+
+                        if(!$resposta):
+                            $erro  = '1';
+                            $mensagem = 'Erro interno BD.';
+                            echo $erro.' - '.$mensagem.'<br>';
+                        else:
+                            $erro  = '0';
+                            $mensagem = 'Item cadastrado.';
+                            echo $erro.' - '.$mensagem.'<br>';
+                        endif;
+                    
+                        if(array_key_exists("options", $item)):
+                            foreach($item['options'] as $itemOption){
+                                $itemOption = (array) $itemOption;
+                    
+                                $optionIndex = (isset($itemOption['index'])) ? $itemOption['index'] : '' ;
+                                $optionId = (isset($itemOption['id'])) ? $itemOption['id'] : '' ;
+                                $optionName = (isset($itemOption['name'])) ? $itemOption['name'] : '' ;
+                                $optionExternalCode = (isset($itemOption['externalCode'])) ? $itemOption['externalCode'] : '' ;
+                                $optionEan = (isset($itemOption['ean'])) ? $itemOption['ean'] : '' ;
+                                $optionQtd = (isset($itemOption['quantity'])) ? $itemOption['quantity'] : '' ;
+                                $optionUn = (isset($itemOption['unit'])) ? $itemOption['unit'] : '' ;
+                                $optionUnitPrice = (isset($itemOption['unitPrice'])) ? $itemOption['unitPrice'] : '' ;
+                                $optionAddition = (isset($itemOption['addition'])) ? $itemOption['addition'] : '' ;
+                                $optionPrice = (isset($itemOption['price'])) ? $itemOption['price'] : '' ;
+                    
+                                $sql = 'INSERT INTO ifood_items_options (id, orderId, indexId, itemId, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price) VALUES (:id, :orderId, :indexId, :itemId, :optionName, :externalCode, :ean, :quantity, :unit, :unitPrice, :addition, :price)';
+                                $stmt = $conexao->prepare($sql);
+                                $stmt->bindParam(':id', $optionId);
+                                $stmt->bindParam(':orderId', $polOrderId);
+                                $stmt->bindParam(':indexId', $optionIndex);
+                                $stmt->bindParam(':itemId', $itemId);
+                                $stmt->bindParam(':optionName', $optionName);
+                                $stmt->bindParam(':externalCode', $optionExternalCode);
+                                $stmt->bindParam(':ean', $optionEan);
+                                $stmt->bindParam(':quantity', $optionQtd);
+                                $stmt->bindParam(':unit', $optionUn);
+                                $stmt->bindParam(':unitPrice', $optionUnitPrice);
+                                $stmt->bindParam(':addition', $optionAddition);
+                                $stmt->bindParam(':price', $optionPrice);
+                                $resposta = $stmt->execute();
+
+                                if(!$resposta):
+                                    $erro  = '1';
+                                    $mensagem = 'Erro interno BD.';
+                                    echo $erro.' - '.$mensagem.'<br>';
+                                else:
+                                    $erro  = '0';
+                                    $mensagem = 'Option cadastrado.';
+                                    echo $erro.' - '.$mensagem.'<br>';
+                                endif;
+                            };
+                        endif;
+                    };
 
                     //continue;
 
@@ -468,11 +558,11 @@ endif;
 
 
 
-
-
-
-
 /*
+
+
+
+
 
 $details = '{
     "id": "63895716-37c3-4372-afd0-3240bfef708d",
@@ -519,36 +609,122 @@ $details = '{
       "ordersCountOnMerchant": 1234
     },
     "items": [
-      {
-        "index": 0,
-        "id": "f1e48636-4bf0-4656-bce8-0e2214fcd3d4",
-        "name": "Example Item",
-        "imageUrl": "https://static-images.ifood.com.br/image/upload/t_high/pratos/4c714577-fe5d-4d31-9531-f9ebb7f89249/202104071957_0mfD_.jpeg",
-        "externalCode": "ex01",
-        "ean": "12345678910",
-        "unit": "G",
-        "quantity": 12,
-        "unitPrice": 0.12,
-        "addition": 0,
-        "price": 1.44,
-        "optionsPrice": 1.69,
-        "totalPrice": 3.13,
-        "observations": "This is an example item.",
-        "options": [
-          {
+        {
             "index": 0,
-            "id": "acea6ac1-f595-4a6b-af00-cc2f1fa0886a",
-            "name": "Example Option",
-            "externalCode": "ex02",
-            "ean": "12345678911",
-            "unit": "UN",
-            "quantity": 13,
-            "unitPrice": 0.13,
+            "id": "f1e48636-4bf0-4656-bce8-0e2214fcd3d4",
+            "name": "Example Item",
+            "imageUrl": "https://static-images.ifood.com.br/image/upload/t_high/pratos/4c714577-fe5d-4d31-9531-f9ebb7f89249/202104071957_0mfD_.jpeg",
+            "externalCode": "ex01",
+            "ean": "12345678910",
+            "unit": "G",
+            "quantity": 12,
+            "unitPrice": 0.12,
             "addition": 0,
-            "price": 1.69
-          }
-        ]
-      }
+            "price": 1.44,
+            "optionsPrice": 1.69,
+            "totalPrice": 3.13,
+            "observations": "This is an example item.",
+            "options": [
+                {
+                    "index": 0,
+                    "id": "acea6ac1-f595-4a6b-af00-cc2f1fa0886a",
+                    "name": "Example Option",
+                    "externalCode": "ex02",
+                    "ean": "12345678911",
+                    "unit": "UN",
+                    "quantity": 13,
+                    "unitPrice": 0.13,
+                    "addition": 0,
+                    "price": 1.69
+                }
+            ]
+        },
+        {
+            "index": 1,
+            "id": "1e71b649-8b72-43a4-89d7-3fd8b3e8c6f4",
+            "name": "PEDIDO DE TESTE - Nome do Refrigerante 2 L",
+            "unit": "GRAMS",
+            "quantity": 2,
+            "unitPrice": 10.00,
+            "optionsPrice": 0,
+            "totalPrice": 20.00,
+            "price": 20.00
+        },
+        {
+            "index": 2,
+            "id": "c9c55bb4-494e-443c-bbe8-de58f08d92b8",
+            "name": "PEDIDO DE TESTE - Duplo Brigadeiro",
+            "externalCode": "5619",
+            "unit": "GRAMS",
+            "quantity": 1,
+            "unitPrice": 0.00,
+            "optionsPrice": 15.00,
+            "totalPrice": 15.00,
+            "options": [
+                {
+                    "index": 3,
+                    "id": "6be65d3e-67ac-43d9-bf6b-517c29ca1304",
+                    "name": "Copo G",
+                    "externalCode": "2589",
+                    "unit": "UN",
+                    "quantity": 1,
+                    "unitPrice": 15.00,
+                    "addition": 0.00,
+                    "price": 15.00
+                }
+            ],
+            "imageUrl": "https://static-images.ifood.com.br/image/upload/t_high/pratos/86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e/202109231002_CNYU_.jpeg",
+            "price": 0.00
+        },
+        {
+            "index": 4,
+            "id": "c9c55bb4-494e-443c-bbe8-de58f08d92b8",
+            "name": "PEDIDO DE TESTE - Duplo Brigadeiro",
+            "externalCode": "5619",
+            "unit": "GRAMS",
+            "quantity": 1,
+            "unitPrice": 0.00,
+            "optionsPrice": 10.00,
+            "totalPrice": 10.00,
+            "options": [
+                {
+                    "index": 5,
+                    "id": "7978ce07-e944-4103-b2eb-73db23e817ab",
+                    "name": "Copo M",
+                    "externalCode": "2467",
+                    "unit": "UN",
+                    "quantity": 1,
+                    "unitPrice": 10.00,
+                    "addition": 0.00,
+                    "price": 10.00
+                }
+            ],
+            "imageUrl": "https://static-images.ifood.com.br/image/upload/t_high/pratos/86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e/202109231002_CNYU_.jpeg",
+            "price": 0.00
+        },
+        {
+            "index": 6,
+            "id": "0927f634-8e2a-4c85-9f94-6b967829b79e",
+            "name": "PEDIDO DE TESTE - Bebida teste 100 ml",
+            "unit": "GRAMS",
+            "quantity": 1,
+            "unitPrice": 10.00,
+            "optionsPrice": 10.00,
+            "totalPrice": 20.00,
+            "options": [
+                {
+                    "index": 7,
+                    "id": "7c05a999-4e25-439f-bab1-6879970a4499",
+                    "name": "Laranja",
+                    "unit": "UN",
+                    "quantity": 1,
+                    "unitPrice": 10.00,
+                    "addition": 0.00,
+                    "price": 10.00
+                }
+            ],
+            "price": 10.00
+        }
     ],
     "benefits": [
       {
@@ -643,56 +819,46 @@ $details = '{
 $details = json_decode($details);
 $orderDetails = (array) $details;
 
-$total = (array) $orderDetails['total'];
-$payments = (array) $orderDetails['payments'];
-$methods = (array) $payments['methods'];
+foreach($orderDetails['items'] as $item){
+    $item = (array) $item;
 
-$subTotal = (isset($total['subTotal'])) ? $total['subTotal'] : '' ;
-$deliveryFee = (isset($total['deliveryFee'])) ? $total['deliveryFee'] : '' ;
-$benefits = (isset($total['benefits'])) ? $total['benefits'] : '' ;
-$orderAmount = (isset($total['orderAmount'])) ? $total['orderAmount'] : '' ;
-$additionalFees = (isset($total['additionalFees'])) ? $total['additionalFees'] : '' ;
+    $itemIndex = (isset($item['index'])) ? $item['index'] : '' ;
+    $itemId = (isset($item['id'])) ? $item['id'] : '' ;
+    $itemName = (isset($item['name'])) ? $item['name'] : '' ;
+    $itemImage = (isset($item['imageUrl'])) ? $item['imageUrl'] : null ;
+    $itemExternalCode = (isset($item['externalCode'])) ? $item['externalCode'] : null ;
+    $itemEan = (isset($item['ean'])) ? $item['ean'] : null ;
+    $itemQtd = (isset($item['quantity'])) ? $item['quantity'] : '' ;
+    $itemUn = (isset($item['unit'])) ? $item['unit'] : null ;
+    $itemUnitPrice = (isset($item['unitPrice'])) ? $item['unitPrice'] : '' ;
+    $itemAddition = (isset($item['addition'])) ? $item['addition'] : null ;
+    $itemPrice = (isset($item['price'])) ? $item['price'] : '' ;
+    $itemOpPrice = (isset($item['optionsPrice'])) ? $item['optionsPrice'] : '' ;
+    $itemTotalPrice = (isset($item['totalPrice'])) ? $item['totalPrice'] : '' ;
+    $itemObs = (isset($item['observations'])) ? $item['observations'] : null ;
 
-$prepaid = (isset($payments['prepaid'])) ? $payments['prepaid'] : '' ;
-$pending = (isset($payments['pending'])) ? $payments['pending'] : '' ;
+    
 
-foreach($methods as $inMethods){
-    $inMethods = (array) $inMethods;
 
-    $methodValue = (isset($inMethods['value'])) ? $inMethods['value'] : '' ;
-    $methodMethod = (isset($inMethods['method'])) ? $inMethods['method'] : '' ;
-    $methodType = (isset($inMethods['type'])) ? $inMethods['type'] : '' ;
+    if(array_key_exists("options", $item)):
+        foreach($item['options'] as $itemOption){
+            $itemOption = (array) $itemOption;
 
-    $changeFor = null; $brand = null; $walletName = null; 
+            $optionIndex = (isset($itemOption['index'])) ? $itemOption['index'] : '' ;
+            $optionId = (isset($itemOption['id'])) ? $itemOption['id'] : '' ;
+            $optionName = (isset($itemOption['name'])) ? $itemOption['name'] : '' ;
+            $optionExternalCode = (isset($itemOption['externalCode'])) ? $itemOption['externalCode'] : '' ;
+            $optionEan = (isset($itemOption['ean'])) ? $itemOption['ean'] : '' ;
+            $optionQtd = (isset($itemOption['quantity'])) ? $itemOption['quantity'] : '' ;
+            $optionUn = (isset($itemOption['unit'])) ? $itemOption['unit'] : '' ;
+            $optionUnitPrice = (isset($itemOption['unitPrice'])) ? $itemOption['unitPrice'] : '' ;
+            $optionAddition = (isset($itemOption['addition'])) ? $itemOption['addition'] : '' ;
+            $optionPrice = (isset($itemOption['price'])) ? $itemOption['price'] : '' ;
 
-    if($methodMethod == 'CASH'):
-        if(array_key_exists("cash", $inMethods)):
-            $cash = (array) $inMethods['cash'];
-            $changeFor = $cash['changeFor'];
-        endif;
-    elseif($methodMethod == 'DIGITAL_WALLET'):
-        if(array_key_exists("wallet", $inMethods)):
-            $wallet = (array) $inMethods['wallet'];
-            $walletName = $wallet['name'];
-        endif;
-        if(array_key_exists("card", $inMethods)):
-            $card = (array) $inMethods['card'];
-            $brand = $card['brand'];
-        endif;  
-    elseif($methodMethod == 'CREDIT' || $methodMethod == 'DEBIT' || $methodMethod == 'MEAL_VOUCHER' || $methodMethod == 'FOOD_VOUCHER' || $methodMethod == 'PIX'):
-        if(array_key_exists("card", $inMethods)):
-            $card = (array) $inMethods['card'];
-            $brand = $card['brand'];  
-        endif;
+            
+
+        };
     endif;
-
-    $changeFor = (isset($changeFor)) ? $changeFor : null ;
-    $brand = (isset($brand)) ? $brand : null ;
-    $walletName = (isset($walletName)) ? $walletName : null ;
-
-
-
-
 };
 
 
