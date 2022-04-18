@@ -73,6 +73,15 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 //
                 //
                 //Consulta BD se este evento ja foi recebido e tratado, caso sim pula diretamente para acknowledgment
+                $sql = "SELECT * FROM ifood_events WHERE id='$polId' && orderId='$polOrderId' && createdAt='$polCreatedAt'";
+                $resultado = $conexao->prepare($sql);	
+                $resultado->execute();
+                $contar = $resultado->rowCount();
+
+                if($contar > 0):
+                    echo 'Evento já foi tratado!';
+                    continue;
+                endif;
                 //
                 //
 
@@ -479,8 +488,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $mensagem = 'Pedido cadastrado.';
                         echo $erro.' - '.$mensagem.'<br>';
                     endif;
-                endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
 
+                    if(!$resposta):
+                        $erro  = '1';
+                        $mensagem = 'Erro interno BD.';
+                        echo $erro.' - '.$mensagem.'<br>';
+                    else:
+                        $erro  = '0';
+                        $mensagem = 'Evento cadastrado.';
+                        echo $erro.' - '.$mensagem.'<br>';
+                    endif;
+                endif;
                 //
                 //
                 //Faz tudo que precisa ser feito no banco
