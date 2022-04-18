@@ -198,6 +198,11 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : null;
                     $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
 
+                    //
+                    //
+                    // BENEFITS
+                    //
+                    //
 
                     if(array_key_exists("benefits", $orderDetails)):
                         $benefits = (array) $orderDetails['benefits'];
@@ -246,6 +251,94 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                             endif;
                         };
                     endif;
+
+                    //
+                    //
+                    // PAYMENTS
+                    //
+                    //
+
+                    $total = (array) $orderDetails['total'];
+                    $payments = (array) $orderDetails['payments'];
+                    $methods = (array) $payments['methods'];
+
+                    $subTotal = (isset($total['subTotal'])) ? $total['subTotal'] : '' ;
+                    $deliveryFee = (isset($total['deliveryFee'])) ? $total['deliveryFee'] : '' ;
+                    $benefits = (isset($total['benefits'])) ? $total['benefits'] : '' ;
+                    $orderAmount = (isset($total['orderAmount'])) ? $total['orderAmount'] : '' ;
+                    $additionalFees = (isset($total['additionalFees'])) ? $total['additionalFees'] : '' ;
+
+                    $prepaid = (isset($payments['prepaid'])) ? $payments['prepaid'] : '' ;
+                    $pending = (isset($payments['pending'])) ? $payments['pending'] : '' ;
+
+                    foreach($methods as $inMethods){
+                        $inMethods = (array) $inMethods;
+
+                        $methodValue = (isset($inMethods['value'])) ? $inMethods['value'] : '' ;
+                        $methodMethod = (isset($inMethods['method'])) ? $inMethods['method'] : '' ;
+                        $methodType = (isset($inMethods['type'])) ? $inMethods['type'] : '' ;
+
+                        $changeFor = null; $brand = null; $walletName = null; 
+
+                        if($methodMethod == 'CASH'):
+                            if(array_key_exists("cash", $inMethods)):
+                                $cash = (array) $inMethods['cash'];
+                                $changeFor = $cash['changeFor'];
+                            endif;
+                        elseif($methodMethod == 'DIGITAL_WALLET'):
+                            if(array_key_exists("wallet", $inMethods)):
+                                $wallet = (array) $inMethods['wallet'];
+                                $walletName = $wallet['name'];
+                            endif;
+                            if(array_key_exists("card", $inMethods)):
+                                $card = (array) $inMethods['card'];
+                                $brand = $card['brand'];
+                            endif;  
+                        elseif($methodMethod == 'CREDIT' || $methodMethod == 'DEBIT' || $methodMethod == 'MEAL_VOUCHER' || $methodMethod == 'FOOD_VOUCHER' || $methodMethod == 'PIX'):
+                            if(array_key_exists("card", $inMethods)):
+                                $card = (array) $inMethods['card'];
+                                $brand = $card['brand'];  
+                            endif;
+                        endif;
+
+                        $changeFor = (isset($changeFor)) ? $changeFor : null ;
+                        $brand = (isset($brand)) ? $brand : null ;
+                        $walletName = (isset($walletName)) ? $walletName : null ;
+
+                        $sql = 'INSERT INTO ifood_total_payments (orderId, subTotal, deliveryFee, additionalFees, benefits, orderAmount, prepaid, pending, methods_value, methods_type, methods_method, methods_wallet_name, methods_card_brand, methods_cash_changeFor) VALUES (:orderId, :subTotal, :deliveryFee, :additionalFees, :benefits, :orderAmount, :prepaid, :pending, :methods_value, :methods_type, :methods_method, :methods_wallet_name, :methods_card_brand, :methods_cash_changeFor)';
+                        $stmt = $conexao->prepare($sql);
+                        $stmt->bindParam(':orderId', $polOrderId);
+                        $stmt->bindParam(':subTotal', $subTotal);
+                        $stmt->bindParam(':deliveryFee', $deliveryFee);
+                        $stmt->bindParam(':additionalFees', $additionalFees);
+                        $stmt->bindParam(':benefits', $benefits);
+                        $stmt->bindParam(':orderAmount', $orderAmount);
+                        $stmt->bindParam(':prepaid', $prepaid);
+                        $stmt->bindParam(':pending', $pending);
+                        $stmt->bindParam(':methods_value', $methodValue);
+                        $stmt->bindParam(':methods_type', $methodType);
+                        $stmt->bindParam(':methods_method', $methodMethod);
+                        $stmt->bindParam(':methods_wallet_name', $walletName);
+                        $stmt->bindParam(':methods_card_brand', $brand);
+                        $stmt->bindParam(':methods_cash_changeFor', $changeFor);
+                        $resposta = $stmt->execute();
+
+                        if(!$resposta):
+                            $erro  = '1';
+                            $mensagem = 'Erro interno BD.';
+                            echo $erro.' - '.$mensagem.'<br>';
+                        else:
+                            $erro  = '0';
+                            $mensagem = 'Pedido cadastrado.';
+                            echo $erro.' - '.$mensagem.'<br>';
+                        endif;
+                    };
+
+                    //
+                    //
+                    // 
+                    //
+                    //
 
 
                     //continue;
@@ -378,8 +471,8 @@ endif;
 
 
 
-/*
 
+/*
 
 $details = '{
     "id": "63895716-37c3-4372-afd0-3240bfef708d",
@@ -467,7 +560,7 @@ $details = '{
           },
           {
             "name": "MERCHANT",
-            "value": 0
+            "value": 0.5
           }
         ],
         "target": "CART"
@@ -496,7 +589,7 @@ $details = '{
           },
           {
             "name": "MERCHANT",
-            "value": 0
+            "value": 0.49
           }
         ],
         "target": "DELIVERY_FEE"
@@ -509,29 +602,28 @@ $details = '{
       }
     ],
     "total": {
-      "subTotal": 3.13,
-      "deliveryFee": 5.99,
-      "additionalFees": 1,
-      "benefits": 1.99,
-      "orderAmount": 8.13
+        "subTotal": 3.13,
+        "deliveryFee": 5.99,
+        "additionalFees": 1,
+        "benefits": 1.99,
+        "orderAmount": 8.13
     },
     "payments": {
-      "prepaid": 2.13,
-      "pending": 5,
-      "methods": [
+        "prepaid": 2.13,
+        "pending": 5,
+        "methods": [
         {
-          "value": 5,
-          "currency": "BRL",
-          "method": "CASH",
-          "type": "OFFLINE",
-          "prepaid": false
+            "value": 5,
+            "currency": "BRL",
+            "method": "CASH",
+            "type": "OFFLINE",
+            "prepaid": false
         },
         {
-          "value": 2.13,
-          "currency": "BRL",
-          "method": "MEAL_VOUCHER",
-          "type": "ONLINE",
-          "prepaid": true
+            "value": 10,
+            "currency": "BRL",
+            "type": "ONLINE",
+            "method": "DIGITAL_WALLET"
         }
       ]
     },
@@ -548,58 +640,60 @@ $details = '{
     }
   }';
 
-
-
 $details = json_decode($details);
 $orderDetails = (array) $details;
 
-if(array_key_exists("benefits", $orderDetails)):
-    $benefits = $orderDetails['benefits'];
-    $benefits = (array) $benefits;
+$total = (array) $orderDetails['total'];
+$payments = (array) $orderDetails['payments'];
+$methods = (array) $payments['methods'];
 
-    $sponValue = array();
-    $sponValue[0] = array( "name" => "ifood", "value" => 0 );
-    $sponValue[1] = array( "name" => "loja", "value" => 0 );
+$subTotal = (isset($total['subTotal'])) ? $total['subTotal'] : '' ;
+$deliveryFee = (isset($total['deliveryFee'])) ? $total['deliveryFee'] : '' ;
+$benefits = (isset($total['benefits'])) ? $total['benefits'] : '' ;
+$orderAmount = (isset($total['orderAmount'])) ? $total['orderAmount'] : '' ;
+$additionalFees = (isset($total['additionalFees'])) ? $total['additionalFees'] : '' ;
 
-    var_dump($sponValue);
-    echo '<hr>';
+$prepaid = (isset($payments['prepaid'])) ? $payments['prepaid'] : '' ;
+$pending = (isset($payments['pending'])) ? $payments['pending'] : '' ;
 
-    foreach($benefits as $inB){
-        $inB = (array) $inB;
-        $sponsor = $inB['sponsorshipValues'];
+foreach($methods as $inMethods){
+    $inMethods = (array) $inMethods;
 
-        foreach($sponsor as $spon){
-            $spon = (array) $spon;
-        
-            $name = $spon['name'];
-            $value = $spon['value'];
-            
-            if($name == 'IFOOD'):
-                $sponValue[0]['value'] = $sponValue[0]['value'] + $value; 
-            elseif($name == 'MERCHANT'):
-                $sponValue[1]['value'] = $sponValue[1]['value'] + $value; 
-            endif;
-        };
-    };
+    $methodValue = (isset($inMethods['value'])) ? $inMethods['value'] : '' ;
+    $methodMethod = (isset($inMethods['method'])) ? $inMethods['method'] : '' ;
+    $methodType = (isset($inMethods['type'])) ? $inMethods['type'] : '' ;
 
-    var_dump($sponValue);
-    echo '<hr>';
+    $changeFor = null; $brand = null; $walletName = null; 
 
-    foreach($sponValue as $sponIn){
-        var_dump($sponIn);
-        echo '<br>';
-
-        $valor = $sponIn['value'];
-        $name = $sponIn['name'];
-
-        if($valor > 0):
-            echo $name.' tem valor:'.$valor.'<br>';
+    if($methodMethod == 'CASH'):
+        if(array_key_exists("cash", $inMethods)):
+            $cash = (array) $inMethods['cash'];
+            $changeFor = $cash['changeFor'];
         endif;
-        echo '<hr>';
-    };
-endif;
+    elseif($methodMethod == 'DIGITAL_WALLET'):
+        if(array_key_exists("wallet", $inMethods)):
+            $wallet = (array) $inMethods['wallet'];
+            $walletName = $wallet['name'];
+        endif;
+        if(array_key_exists("card", $inMethods)):
+            $card = (array) $inMethods['card'];
+            $brand = $card['brand'];
+        endif;  
+    elseif($methodMethod == 'CREDIT' || $methodMethod == 'DEBIT' || $methodMethod == 'MEAL_VOUCHER' || $methodMethod == 'FOOD_VOUCHER' || $methodMethod == 'PIX'):
+        if(array_key_exists("card", $inMethods)):
+            $card = (array) $inMethods['card'];
+            $brand = $card['brand'];  
+        endif;
+    endif;
+
+    $changeFor = (isset($changeFor)) ? $changeFor : null ;
+    $brand = (isset($brand)) ? $brand : null ;
+    $walletName = (isset($walletName)) ? $walletName : null ;
 
 
+
+
+};
 
 
 
