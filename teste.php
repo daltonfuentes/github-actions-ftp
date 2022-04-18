@@ -514,21 +514,19 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 //
                 //
 
+                if($polCode == 'CFM'):
+                    //MANDA PARA acknowledgment
+                    $ack = json_encode($in);
+                    $send = "[ $ack ]";
 
-
-                continue;
-                
-                //MANDA PARA acknowledgment
-                $ack = json_encode($in);
-                $send = "[ $ack ]";
-
-                $outAck = acknowledgment($send, $accessToken);
-                      
-                if($outAck['code'] == 202):
-                    echo 'Accepted. <br>';
-                else:
-                    echo $outAck['mensagem'].' / CodeHttp: '.$outAck['code'].'<br>';
-                endif;
+                    $outAck = acknowledgment($send, $accessToken);
+                        
+                    if($outAck['code'] == 202):
+                        echo 'Acknowledgment!<br>';
+                    else:
+                        echo $outAck['mensagem'].' / CodeHttp: '.$outAck['code'].'<br>';
+                    endif;
+                endif;        
             };
 
         endif;
