@@ -466,7 +466,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     // Pedido foi confirmado e será preparado
                     //
                     $sql = 'UPDATE ifood_orders SET statusCod=:statusCod WHERE orderId=:orderId && merchantId=:merchantId';
-                    $stmt = $conexaoAdmin->prepare($sql);
+                    $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':statusCod', $polCode);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':merchantId', $merchantId);
