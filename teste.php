@@ -542,7 +542,7 @@ endif;
 //errorLog('Teste de erro para log');
 
 
-error_log("Teste de erro para log", 1,"daltonfuentes2020@gmail.com","From: webmaster@sweetconfetty.com.br");
+error_log("Teste de erro para log", 1,"daltonfuentes2020@gmail.com");
 
 
 
