@@ -172,13 +172,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $resposta = $stmt->execute();
     
                         if(!$resposta):
-                            $erro  = 101;
-                            $mensagem = 'Erro interno BD.';
-                            errorLog('error-ifood_delivery_anddress-'.$erro.'-'.$mensagem);
-                        else:
-                            $erro  = '0';
-                            $mensagem = 'Endereço cadastrado.';
-                            echo $erro.' - '.$mensagem.'<br>';
+                            errorLog('error-ifood_delivery_anddress-101-Erro interno BD.');
                         endif;
                     elseif($orderType == 'INDOOR '):
                         $orderDetailsIndoor = (array) $orderDetails['indoor'];
@@ -244,24 +238,16 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                                 $resposta = $stmt->execute();
 
                                 if(!$resposta):
-                                    $erro  = 101;
-                                    $mensagem = 'Erro interno BD.';
-                                    errorLog('error-ifood_benefits-'.$erro.'-'.$mensagem);
-                                else:
-                                    $erro  = '0';
-                                    $mensagem = 'Benefits cadastrado.';
-                                    echo $erro.' - '.$mensagem.'<br>';
+                                    errorLog('error-ifood_benefits-101-Erro interno BD.');
                                 endif;
                             endif;
                         };
                     endif;
-
                     //
                     //
                     // PAYMENTS
                     //
                     //
-
                     $total = (array) $orderDetails['total'];
                     $payments = (array) $orderDetails['payments'];
                     $methods = (array) $payments['methods'];
@@ -328,13 +314,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $resposta = $stmt->execute();
 
                         if(!$resposta):
-                            $erro  = 101;
-                            $mensagem = 'Erro interno BD.';
-                            errorLog('error-ifood_total_payments-'.$erro.'-'.$mensagem);
-                        else:
-                            $erro  = '0';
-                            $mensagem = 'Payment cadastrado.';
-                            echo $erro.' - '.$mensagem.'<br>';
+                            errorLog('error-ifood_total_payments-101-Erro interno BD.');
                         endif;
                     };
 
@@ -382,13 +362,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $resposta = $stmt->execute();
 
                         if(!$resposta):
-                            $erro  = 101;
-                            $mensagem = 'Erro interno BD.';
-                            errorLog('error-ifood_order_items-'.$erro.'-'.$mensagem);
-                        else:
-                            $erro  = '0';
-                            $mensagem = 'Item cadastrado.';
-                            echo $erro.' - '.$mensagem.'<br>';
+                            errorLog('error-ifood_order_items-101-Erro interno BD.');
                         endif;
                     
                         if(array_key_exists("options", $item)):
@@ -423,13 +397,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                                 $resposta = $stmt->execute();
 
                                 if(!$resposta):
-                                    $erro  = 101;
-                                    $mensagem = 'Erro interno BD.';
-                                    errorLog('error-ifood_items_options-'.$erro.'-'.$mensagem);
-                                else:
-                                    $erro  = '0';
-                                    $mensagem = 'Option cadastrado.';
-                                    echo $erro.' - '.$mensagem.'<br>';
+                                    errorLog('error-ifood_items_options-101-Erro interno BD.');
                                 endif;
                             };
                         endif;
@@ -476,13 +444,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
-                        $erro  = 101;
-                        $mensagem = 'Erro interno BD.';
-                        errorLog('error-ifood_orders-'.$erro.'-'.$mensagem);
-                    else:
-                        $erro  = '0';
-                        $mensagem = 'Pedido cadastrado.';
-                        echo $erro.' - '.$mensagem.'<br>';
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
                     endif;
                     //
                     //  ENVIA EVENTRO PARA BD
@@ -495,13 +457,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
-                        $erro  = 101;
-                        $mensagem = 'Erro interno BD.';
-                        errorLog('error-ifood_events-'.$erro.'-'.$mensagem);
-                    else:
-                        $erro  = '0';
-                        $mensagem = 'Evento cadastrado.';
-                        echo $erro.' - '.$mensagem.'<br>';
+                        errorLog('error-ifood_events-101-Erro interno BD.');
                     endif;
                 endif;
 
@@ -521,13 +477,28 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     else:
                         echo 'Pedido confirmado!<br>';
                     endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    else:
+                        echo 'Evento cadastrado!<br>';
+                    endif;
                 endif;
 
                 if($polCode == 'RTP'):
                     //
                     // Indica que o pedido está pronto para ser retirado (Pra Retirar ou Na Mesa)
                     //
-                    
+
                 endif;
                 
                 if($polCode == 'DSP'):
