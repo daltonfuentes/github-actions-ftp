@@ -246,3 +246,8 @@ function orderDetails($orderId, $accessToken){
         return $out;
     endif;
 };
+
+
+function errorLog($message){
+    error_log($message . PHP_EOL, 3, 'myLogError.log');
+};

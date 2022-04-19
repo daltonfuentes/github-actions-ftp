@@ -43,7 +43,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
-$_POST['polling'] = true;
+//$_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
     require("./conexao/conexao_hostgator.php");
@@ -79,7 +79,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 $contar = $resultado->rowCount();
 
                 if($contar > 0):
-                    echo 'Evento já foi tratado!';
+                    echo 'Evento já foi tratado!<br>';
                     continue;
                 endif;
                 //
@@ -539,10 +539,10 @@ endif;
 
 
 
+//errorLog('Teste de erro para log');
 
 
-
-
+error_log("Teste de erro para log", 1,"daltonfuentes2020@gmail.com","From: webmaster@sweetconfetty.com.br");
 
 
 
