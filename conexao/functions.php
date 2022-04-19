@@ -118,14 +118,13 @@ function merchantStatus($accessToken){
 
     if($httpcode == 200):
         $retorno = json_decode($response, true);
-        $out['erro'] = 0;
+        $out['code'] = $httpcode;
         $out['state'] = $retorno[0]['state'];
         $out['title'] = $retorno[0]['message']['title'];
         $out['subtitle'] = $retorno[0]['message']['subtitle'];
         return $out;
     else:
         $out['mensagem'] = 'Erro inesperado.';
-        $out['erro'] = 1;
         $out['code'] = $httpcode;
         return $out;
     endif;
@@ -250,4 +249,5 @@ function orderDetails($orderId, $accessToken){
 
 function errorLog($message){
     error_log($message . PHP_EOL, 3, 'myLogError.log');
+    //error_log($message, 1,"daltonfuentes2020@gmail.com","From: webmaster@sweetconfetty.com.br");
 };

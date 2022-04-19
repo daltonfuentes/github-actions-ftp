@@ -9,10 +9,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     $outToken = accessToken();
 
     if(empty($outToken['accessToken']) || $outToken['erro'] != 0):
-        // envia log de erro.
-        $retorno['erro'] = $outToken['erro'];
-        $retorno['mensagem']  = $outToken['mensagem'];
-        echo json_encode($retorno);
+        errorLog('error-accessToken-'.$outToken['erro'].'-'.$outToken['mensagem']);
         exit();
     else:
         $accessToken = $outToken['accessToken'];
@@ -20,23 +17,20 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
     $outState = merchantStatus($accessToken);
 
-    if(empty($outToken['state']) || $outToken['erro'] != 0):
-        // envia log de erro.
-        $retorno['erro'] = $outState['erro'];
-        $retorno['mensagem']  = $outState['mensagem'];
-        echo json_encode($retorno);
-        exit();
-    else:
+    if($outState['code'] == 200):
         $state = $outState['state'];
+    else:
+        errorLog('error-merchantStatus-'.$outState['code'].'-'.$outState['mensagem']);
+        exit();
     endif;
 
     if($state == 'CLOSED' || $state == 'ERROR'):
-        $retorno['erro'] = $outState['erro'];
+        // LOJA FECHADA
         $retorno['mensagem']  = $outState['title'].' - '.$outState['subtitle'];
         echo json_encode($retorno);
         exit();
     elseif($state == 'OK' || $state == 'WARNING'):
-        $retorno['erro'] = $outState['erro'];
+        // LOJA ABERTA
         $retorno['mensagem']  = $outState['title'];
         echo json_encode($retorno);
         exit();
@@ -57,11 +51,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $polling = $outPolling['polling']; //CHEGA COMO ARRAY
 
     if($outPolling['code'] == 200):
-
         $count = count($polling);
-
         if($count > 0):
-
             foreach($polling as $in){
                 $in = (array) $in;
 
@@ -105,6 +96,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $customerId = (isset($orderDetailsCustomer['id'])) ? $orderDetailsCustomer['id'] : '' ;
                         $customerName = (isset($orderDetailsCustomer['name'])) ? $orderDetailsCustomer['name'] : '' ;
                         $customerDocument = (isset($orderDetailsCustomer['documentNumber'])) ? $orderDetailsCustomer['documentNumber'] : null ;
+                        $customerCountOnMerchant = (isset($orderDetailsCustomer['ordersCountOnMerchant'])) ? $orderDetailsCustomer['ordersCountOnMerchant'] : '' ;
                             $customerNumber = (isset($orderDetailsCustomerPhone['number'])) ? $orderDetailsCustomerPhone['number'] : null ;
                             $customerLocalizer = (isset($orderDetailsCustomerPhone['localizer'])) ? $orderDetailsCustomerPhone['localizer'] : null ;
                             $customerLocalizerExpiration = (isset($orderDetailsCustomerPhone['localizerExpiration'])) ? $orderDetailsCustomerPhone['localizerExpiration'] : null ;
@@ -177,9 +169,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $resposta = $stmt->execute();
     
                         if(!$resposta):
-                            $erro  = '1';
+                            $erro  = 101;
                             $mensagem = 'Erro interno BD.';
-                            echo $erro.' - '.$mensagem.'<br>';
+                            errorLog('error-ifood_delivery_anddress-'.$erro.'-'.$mensagem);
                         else:
                             $erro  = '0';
                             $mensagem = 'Endereço cadastrado.';
@@ -249,9 +241,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                                 $resposta = $stmt->execute();
 
                                 if(!$resposta):
-                                    $erro  = '1';
+                                    $erro  = 101;
                                     $mensagem = 'Erro interno BD.';
-                                    echo $erro.' - '.$mensagem.'<br>';
+                                    errorLog('error-ifood_benefits-'.$erro.'-'.$mensagem);
                                 else:
                                     $erro  = '0';
                                     $mensagem = 'Benefits cadastrado.';
@@ -333,9 +325,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $resposta = $stmt->execute();
 
                         if(!$resposta):
-                            $erro  = '1';
+                            $erro  = 101;
                             $mensagem = 'Erro interno BD.';
-                            echo $erro.' - '.$mensagem.'<br>';
+                            errorLog('error-ifood_total_payments-'.$erro.'-'.$mensagem);
                         else:
                             $erro  = '0';
                             $mensagem = 'Payment cadastrado.';
@@ -387,9 +379,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         $resposta = $stmt->execute();
 
                         if(!$resposta):
-                            $erro  = '1';
+                            $erro  = 101;
                             $mensagem = 'Erro interno BD.';
-                            echo $erro.' - '.$mensagem.'<br>';
+                            errorLog('error-ifood_order_items-'.$erro.'-'.$mensagem);
                         else:
                             $erro  = '0';
                             $mensagem = 'Item cadastrado.';
@@ -428,9 +420,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                                 $resposta = $stmt->execute();
 
                                 if(!$resposta):
-                                    $erro  = '1';
+                                    $erro  = 101;
                                     $mensagem = 'Erro interno BD.';
-                                    echo $erro.' - '.$mensagem.'<br>';
+                                    errorLog('error-ifood_items_options-'.$erro.'-'.$mensagem);
                                 else:
                                     $erro  = '0';
                                     $mensagem = 'Option cadastrado.';
@@ -444,7 +436,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     //VALIDA CAMPOS EMPTY
 
-                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
+                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':displayId', $displayId);
@@ -458,6 +450,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $stmt->bindParam(':customerId', $customerId);
                     $stmt->bindParam(':customerName', $customerName);
                     $stmt->bindParam(':customerDocument', $customerDocument);
+                    $stmt->bindParam(':customerCountOnMerchant', $customerCountOnMerchant);
                     $stmt->bindParam(':customerNumber', $customerNumber);
                     $stmt->bindParam(':customerLocalizer', $customerLocalizer);
                     $stmt->bindParam(':customerLocalizerExpiration', $customerLocalizerExpiration);
@@ -480,9 +473,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
-                        $erro  = '1';
+                        $erro  = 101;
                         $mensagem = 'Erro interno BD.';
-                        echo $erro.' - '.$mensagem.'<br>';
+                        errorLog('error-ifood_orders-'.$erro.'-'.$mensagem);
                     else:
                         $erro  = '0';
                         $mensagem = 'Pedido cadastrado.';
@@ -499,15 +492,18 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
-                        $erro  = '1';
+                        $erro  = 101;
                         $mensagem = 'Erro interno BD.';
-                        echo $erro.' - '.$mensagem.'<br>';
+                        errorLog('error-ifood_events-'.$erro.'-'.$mensagem);
                     else:
                         $erro  = '0';
                         $mensagem = 'Evento cadastrado.';
                         echo $erro.' - '.$mensagem.'<br>';
                     endif;
                 endif;
+
+
+
                 //
                 //
                 //Faz tudo que precisa ser feito no banco
@@ -524,35 +520,54 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     if($outAck['code'] == 202):
                         echo 'Acknowledgment!<br>';
                     else:
-                        echo $outAck['mensagem'].' / CodeHttp: '.$outAck['code'].'<br>';
+                        errorLog('error-ifood_events-'.$outAck['code'].'-'.$outAck['mensagem']);
                     endif;
-                endif;        
+                endif;
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                continue;
+                //MANDA PARA acknowledgment
+                $ack = json_encode($in);
+                $send = "[ $ack ]";
+
+                $outAck = acknowledgment($send, $accessToken);
+                    
+                if($outAck['code'] == 202):
+                    echo 'Acknowledgment!<br>';
+                else:
+                    errorLog('error-ifood_events-'.$outAck['code'].'-'.$outAck['mensagem']);
+                endif;
             };
 
         endif;
     elseif($outPolling['code'] == 204):
         echo 'Polling vazio!';
     else:
-        echo $outPolling['mensagem'].' / CodeHttp: '.$outPolling['code'];
+        errorLog('error-merchantStatus-'.$outPolling['code'].'-'.$outPolling['mensagem']);
     endif;
 endif;
-
-
-
-//errorLog('Teste de erro para log');
-
-
-error_log("Teste de erro para log", 1,"daltonfuentes2020@gmail.com");
-
-
-
-
-
-
-
-
-
-
 
 
 
