@@ -249,5 +249,5 @@ function orderDetails($orderId, $accessToken){
 
 function errorLog($message){
     error_log($message . PHP_EOL, 3, 'myLogError.log');
-    //error_log($message, 1,"daltonfuentes2020@gmail.com","From: webmaster@sweetconfetty.com.br");
+    error_log($message, 1,"daltonfuentes2020@gmail.com","From: webmaster@sweetconfetty.com.br");
 };

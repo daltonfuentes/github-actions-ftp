@@ -62,8 +62,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 $polCreatedAt   = $in['createdAt'];
 
                 //
+                // START
                 //
                 //Consulta BD se este evento ja foi recebido e tratado, caso sim pula diretamente para acknowledgment
+                //
                 $sql = "SELECT * FROM ifood_events WHERE id='$polId' && orderId='$polOrderId' && createdAt='$polCreatedAt'";
                 $resultado = $conexao->prepare($sql);	
                 $resultado->execute();
@@ -74,6 +76,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     continue;
                 endif;
                 //
+                // END
                 //
 
                 if($polCode == 'PLC'):
@@ -502,40 +505,53 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     endif;
                 endif;
 
-
-
-                //
-                //
-                //Faz tudo que precisa ser feito no banco
-                //
-                //
-
                 if($polCode == 'CFM'):
-                    //MANDA PARA acknowledgment
-                    $ack = json_encode($in);
-                    $send = "[ $ack ]";
+                    //
+                    // Pedido foi confirmado e será preparado
+                    //
+                    $sql = 'UPDATE ifood_orders SET statusCod=:statusCod WHERE orderId=:orderId && merchantId=:merchantId';
+                    $stmt = $conexaoAdmin->prepare($sql);
+                    $stmt->bindParam(':statusCod', $polCode);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $resposta = $stmt->execute();
 
-                    $outAck = acknowledgment($send, $accessToken);
-                        
-                    if($outAck['code'] == 202):
-                        echo 'Acknowledgment!<br>';
+                    if(!$resposta):
+                        errorLog('error-ifood_delivery_anddress-101-Erro interno BD.');
                     else:
-                        errorLog('error-ifood_events-'.$outAck['code'].'-'.$outAck['mensagem']);
+                        echo 'Pedido confirmado!<br>';
                     endif;
                 endif;
+
+                if($polCode == 'RTP'):
+                    //
+                    // Indica que o pedido está pronto para ser retirado (Pra Retirar ou Na Mesa)
+                    //
+                    
+                endif;
                 
+                if($polCode == 'DSP'):
+                    //
+                    // Indica que o pedido saiu para entrega (Delivery)
+                    //
 
+                endif;
 
+                if($polCode == 'CON'):
+                    //
+                    // Pedido foi concluído
+                    //
 
+                endif;
 
+                if($polCode == 'CAN'):
+                    //
+                    // Pedido foi Cancelado
+                    //
 
+                endif;
 
-
-
-
-
-
-
+                
 
 
 
