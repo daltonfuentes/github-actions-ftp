@@ -37,7 +37,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
-$_POST['polling'] = true;
+//$_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
     require("./conexao/conexao_hostgator.php");
@@ -697,8 +697,134 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         errorLog('error-ifood_events-101-Erro interno BD.');
                     endif;
                 endif;
+                //
+                // END
+                //
 
+                //
+                // START - DELIVERY
+                //
+                if($polCode == 'ADR'):
+                    //
+                    // ADR - Um entregador foi alocado para realizar a entrega
+                    //
+                    $metadata       = (array) $in['metadata'];
+                    $workerPhone    = (isset($metadata['workerPhone'])) ? $metadata['workerPhone'] : '' ;
+                    $workerName    = (isset($metadata['workerName'])) ? $metadata['workerName'] : '' ;
+                    $workerExternalUuid    = (isset($metadata['workerExternalUuid'])) ? $metadata['workerExternalUuid'] : '' ;
+                    $workerPhotoUrl    = (isset($metadata['workerPhotoUrl'])) ? $metadata['workerPhotoUrl'] : '' ;
 
+                    $sql = 'INSERT INTO ifood_delivery_ifood (orderId, code, workerPhone, workerName, workerExternalUuid, workerPhotoUrl) VALUES (:orderId, :code, :workerPhone, :workerName, :workerExternalUuid, :workerPhotoUrl)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':code', $polCode);
+                    $stmt->bindParam(':workerPhone', $workerPhone);
+                    $stmt->bindParam(':workerName', $workerName);
+                    $stmt->bindParam(':workerExternalUuid', $workerExternalUuid);
+                    $stmt->bindParam(':workerPhotoUrl', $workerPhotoUrl);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_delivery_ifood-101-Erro interno BD.');
+                    endif;
+
+                    $sql = 'UPDATE ifood_orders SET statusDelivery=:statusDelivery WHERE orderId=:orderId && merchantId=:merchantId';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':statusDelivery', $polCode);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                    endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
+                endif;
+   
+                if($polCode == 'GTO' || $polCode == 'AAO' || $polCode == 'CLT' || $polCode == 'AAD'):
+                    //
+                    // GTO - Entregador está a caminho da origem para retirar o pedido
+                    // AAO - Entregador chegou na origem para retirar o pedido
+                    // CLT - Entregador coletou o pedido
+                    // AAD - Entregador chegou no endereço de destino
+                    //
+                    $sql = 'UPDATE ifood_orders SET statusDelivery=:statusDelivery WHERE orderId=:orderId && merchantId=:merchantId';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':statusDelivery', $polCode);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                    endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
+                endif;
+
+                if($polCode == 'RDA'):
+                    //
+                    // RDA - Indica se o pedido é elegível para requisitar o serviço de entrega sob demanda e o custo do serviço caso seja elegível
+                    //
+                    $metadata       = (array) $in['metadata'];
+                    $value = null;
+                    $available    = (isset($metadata['available'])) ? $metadata['available'] : '';
+
+                    if($available == true):
+                        $quote = (array) $metadata['quote'];
+                        $final = (array) $quote['final'];
+
+                        $value    = (isset($final['value'])) ? $final['value'] : '';
+                    endif;
+
+                    $sql = 'UPDATE ifood_orders SET onDemandAvailable=:onDemandAvailable, onDemandValue=:onDemandValue WHERE orderId=:orderId && merchantId=:merchantId';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':onDemandAvailable', $available);
+                    $stmt->bindParam(':onDemandValue', $value);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                    endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
+                endif;
 
 
 
@@ -737,10 +863,135 @@ endif;
 
 
 
+$polling = '[
+    {
+        "id": "4577f2bc-9a3d-4882-bce9-0f0791a74425",
+        "code": "PLC",
+        "fullCode": "PLACED",
+        "orderId": "ac6b7302-0c46-4b28-94db-99619e30845e",
+        "createdAt": "2022-04-20T17:34:29.679Z"
+    },
+    {
+        "id": "146419dc-b5d1-4354-9353-72105362a8d6",
+        "code": "CFM",
+        "fullCode": "CONFIRMED",
+        "orderId": "ac6b7302-0c46-4b28-94db-99619e30845e",
+        "createdAt": "2022-04-20T17:34:45.622Z",
+        "metadata": {
+            "ORIGIN": "ORDER_API",
+            "ownerName": "ifood",
+            "CLIENT_ID": "ifood:iconnect_v3_homologation",
+            "appName": "iconnect_v3_homologation"
+        }
+    },
+    {
+        "id": "0ef198f6-3454-4dee-ba16-3adf47cd179d",
+        "code": "RDA",
+        "fullCode": "REQUEST_DRIVER_AVAILABILITY",
+        "orderId": "ac6b7302-0c46-4b28-94db-99619e30845e",
+        "createdAt": "2022-04-20T17:34:46.379Z",
+        "metadata": {
+            "quote": {
+                "final": {
+                    "currency": "BRL",
+                    "value": "899"
+                },
+                "original": {
+                    "currency": "BRL",
+                    "value": "899"
+                },
+                "discount": {
+                    "currency": "BRL",
+                    "value": "0"
+                }
+            },
+            "available": true
+        }
+    },
+    {
+        "id": "4998c48c-3623-4b82-a0dc-f1d185c0f0db",
+        "code": "PLC",
+        "fullCode": "PLACED",
+        "orderId": "961c30eb-28cb-482e-adaa-751985219bd8",
+        "createdAt": "2022-04-20T17:35:25.512Z"
+    },
+    {
+        "id": "abdf965a-c4f8-4dbb-a20f-da948fcb262d",
+        "code": "CFM",
+        "fullCode": "CONFIRMED",
+        "orderId": "961c30eb-28cb-482e-adaa-751985219bd8",
+        "createdAt": "2022-04-20T17:35:34.727Z",
+        "metadata": {
+            "ORIGIN": "ORDER_API",
+            "ownerName": "ifood",
+            "CLIENT_ID": "ifood:iconnect_v3_homologation",
+            "appName": "iconnect_v3_homologation"
+        }
+    },
+    {
+        "id": "98aab82e-2008-4d8b-a174-ff01f12a24f2",
+        "code": "RDA",
+        "fullCode": "REQUEST_DRIVER_AVAILABILITY",
+        "orderId": "961c30eb-28cb-482e-adaa-751985219bd8",
+        "createdAt": "2022-04-20T17:35:35.289Z",
+        "metadata": {
+            "rejectReason": "PAYMENT_MISMATCH",
+            "available": false
+        }
+    },{
+        "id": "0ef198f6-3454-4dee-ba16-3adf47cd179d",
+        "code": "RDA",
+        "fullCode": "REQUEST_DRIVER_AVAILABILITY",
+        "orderId": "ac6b7302-0c46-4b28-94db-99619e30845e",
+        "createdAt": "2022-04-20T17:34:46.379Z",
+        "metadata": {
+            "quote": {
+                "final": {
+                    "currency": "BRL",
+                    "value": "500"
+                },
+                "original": {
+                    "currency": "BRL",
+                    "value": "500"
+                },
+                "discount": {
+                    "currency": "BRL",
+                    "value": "0"
+                }
+            },
+            "available": true
+        }
+    }
+]';
+
+$polling = json_decode($polling);
 
 
 
 
+
+foreach($polling as $in){
+    $in = (array) $in;
+
+    $polCode        = $in['code'];
+
+    if($polCode == 'RDA'):
+        $metadata = (array) $in['metadata'];
+        
+        $value = null;
+        $available    = (isset($metadata['available'])) ? $metadata['available'] : '';
+
+        if($available == true):
+            $quote = (array) $metadata['quote'];
+            $final = (array) $quote['final'];
+
+            $value    = (isset($final['value'])) ? $final['value'] : '';
+        endif;
+
+        echo 'available: '.$available.'<br>';
+        echo 'value: '.$value.'<br>';
+    endif;
+};
 
 
 
