@@ -501,9 +501,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $metadata       = (array) $in['metadata'];
                     $reason_code    = $metadata['reason_code'];
                     $details        = $metadata['details'];
-                    $origin         = $metadata['origin'];
-
-                    var_dump($metadata);
+                    $origin         = $metadata['ORIGIN'];
 
                     $sql = 'INSERT INTO ifood_cancel_merchant (orderId, reasonCode, details, origin) VALUES (:orderId, :reasonCode, :details, :origin)';
                     $stmt = $conexao->prepare($sql);
