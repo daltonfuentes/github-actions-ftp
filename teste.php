@@ -790,20 +790,24 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     // RDA - Indica se o pedido é elegível para requisitar o serviço de entrega sob demanda e o custo do serviço caso seja elegível
                     //
                     $metadata       = (array) $in['metadata'];
-                    $value = null;
-                    $available    = (isset($metadata['available'])) ? $metadata['available'] : '';
+                    $available    = (isset($metadata['available'])) ? $metadata['available'] : 0;
 
                     if($available == true):
                         $quote = (array) $metadata['quote'];
                         $final = (array) $quote['final'];
 
                         $value    = (isset($final['value'])) ? $final['value'] : '';
+                        $rejectReason = null;
+                    else:
+                        $value = null;
+                        $rejectReason = (isset($metadata['rejectReason'])) ? $metadata['rejectReason'] : null;
                     endif;
 
-                    $sql = 'UPDATE ifood_orders SET onDemandAvailable=:onDemandAvailable, onDemandValue=:onDemandValue WHERE orderId=:orderId && merchantId=:merchantId';
+                    $sql = 'UPDATE ifood_orders SET onDemandAvailable=:onDemandAvailable, onDemandValue=:onDemandValue, onDemandRejectReason=:onDemandRejectReason WHERE orderId=:orderId && merchantId=:merchantId';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':onDemandAvailable', $available);
                     $stmt->bindParam(':onDemandValue', $value);
+                    $stmt->bindParam(':onDemandRejectReason', $rejectReason);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':merchantId', $merchantId);
                     $resposta = $stmt->execute();
@@ -860,7 +864,7 @@ endif;
 
 
 
-
+/*
 
 
 $polling = '[
@@ -1010,7 +1014,7 @@ foreach($polling as $in){
 
 
 
-/*
+
 
 
 
