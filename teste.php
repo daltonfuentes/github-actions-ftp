@@ -108,7 +108,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     $extraInfo = (isset($orderDetails['extraInfo'])) ? $orderDetails['extraInfo'] : null ;
 
-                    $statusCancellation = null;
+                    $originCancellation = null;
                     $statusTekeout = null;
                     $statusDelivery = null;
                     $onDemandAvailable = null;
@@ -407,7 +407,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     //VALIDA CAMPOS EMPTY
 
-                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, statusCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :statusCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
+                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':displayId', $displayId);
@@ -427,7 +427,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $stmt->bindParam(':customerLocalizerExpiration', $customerLocalizerExpiration);
                     $stmt->bindParam(':isTest', $isTest);
                     $stmt->bindParam(':extraInfo', $extraInfo);
-                    $stmt->bindParam(':statusCancellation', $statusCancellation);
+                    $stmt->bindParam(':originCancellation', $originCancellation);
                     $stmt->bindParam(':statusTekeout', $statusTekeout);
                     $stmt->bindParam(':statusDelivery', $statusDelivery);
                     $stmt->bindParam(':onDemandAvailable', $onDemandAvailable);
@@ -461,9 +461,13 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     endif;
                 endif;
 
-                if($polCode == 'CFM'):
+                if($polCode == 'CFM' || $polCode == 'RTP' || $polCode == 'DSP' || $polCode == 'CON' || $polCode == 'CAN'):
                     //
-                    // Pedido foi confirmado e será preparado
+                    // CFM - Pedido foi confirmado e será preparado
+                    // RTP - Indica que o pedido está pronto para ser retirado (Pra Retirar ou Na Mesa)
+                    // DSP - Indica que o pedido saiu para entrega (Delivery)
+                    // CON - Pedido foi concluído
+                    // CAN - Pedido foi Cancelado
                     //
                     $sql = 'UPDATE ifood_orders SET statusCod=:statusCod WHERE orderId=:orderId && merchantId=:merchantId';
                     $stmt = $conexao->prepare($sql);
@@ -474,8 +478,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     if(!$resposta):
                         errorLog('error-ifood_delivery_anddress-101-Erro interno BD.');
-                    else:
-                        echo 'Pedido confirmado!<br>';
                     endif;
                     //
                     //  ENVIA EVENTRO PARA BD
@@ -489,37 +491,55 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     if(!$resposta):
                         errorLog('error-ifood_events-101-Erro interno BD.');
-                    else:
-                        echo 'Evento cadastrado!<br>';
                     endif;
                 endif;
 
-                if($polCode == 'RTP'):
+                if($polCode == 'CAR'):
                     //
-                    // Indica que o pedido está pronto para ser retirado (Pra Retirar ou Na Mesa)
+                    // Solicitação de cancelamento feita pelo Merchant (loja) ou pelo iFood (atendimento ao cliente)
                     //
+                    $metadata       = (array) $in['metadata'];
+                    $reason_code    = $metadata['reason_code'];
+                    $details        = $metadata['details'];
+                    $origin         = $metadata['origin'];
 
-                endif;
-                
-                if($polCode == 'DSP'):
-                    //
-                    // Indica que o pedido saiu para entrega (Delivery)
-                    //
+                    $sql = 'INSERT INTO ifood_cancel_merchant (orderId, reasonCode, details, origin) VALUES (:orderId, :orderId, :reasonCode, :details, :origin)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':reasonCode', $reason_code);
+                    $stmt->bindParam(':details', $details);
+                    $stmt->bindParam(':origin', $origin);
+                    $resposta = $stmt->execute();
 
-                endif;
+                    if(!$resposta):
+                        errorLog('error-ifood_cancel_merchant-101-Erro interno BD.');
+                    endif;
 
-                if($polCode == 'CON'):
-                    //
-                    // Pedido foi concluído
-                    //
+                    $originCancellation = 'merchant';
 
-                endif;
+                    $sql = 'UPDATE ifood_orders SET originCancellation=:originCancellation WHERE orderId=:orderId && merchantId=:merchantId';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':originCancellation', $originCancellation);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $resposta = $stmt->execute();
 
-                if($polCode == 'CAN'):
+                    if(!$resposta):
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                    endif;
                     //
-                    // Pedido foi Cancelado
+                    //  ENVIA EVENTRO PARA BD
                     //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
 
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
                 endif;
 
                 
