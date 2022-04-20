@@ -790,7 +790,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     // RDA - Indica se o pedido é elegível para requisitar o serviço de entrega sob demanda e o custo do serviço caso seja elegível
                     //
                     $metadata       = (array) $in['metadata'];
-                    $available    = (isset($metadata['available'])) ? $metadata['available'] : '0';
+                    $available    = (isset($metadata['available'])) ? $metadata['available'] : 0;
 
                     if($available == true):
                         $quote = (array) $metadata['quote'];
@@ -829,6 +829,76 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         errorLog('error-ifood_events-101-Erro interno BD.');
                     endif;
                 endif;
+
+                if($polCode == 'RDR' || $polCode == 'RDS'):
+                    //
+                    // RDR - Indica que foi feita uma requisição do serviço de entrega sob demanda
+                    // RDS - Requisição de entrega aprovada
+                    //
+                    $sql = 'UPDATE ifood_orders SET statusDelivery=:statusDelivery WHERE orderId=:orderId && merchantId=:merchantId';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':statusDelivery', $polCode);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                    endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
+                endif;
+
+                if($polCode == 'RDF'):
+                    //
+                    // RDF - Requisição de entrega negada - Valores possíveis: SAFE_MODE_ON, OFF_WORKING_SHIFT_POST, CLOSED_REGION, SATURATED_REGION
+                    //
+                    $metadata       = (array) $in['metadata'];
+                    $available    = (isset($metadata['available'])) ? $metadata['available'] : null;
+                    $rejectReason    = (isset($metadata['rejectReason'])) ? $metadata['rejectReason'] : null;
+
+                    $sql = 'UPDATE ifood_orders SET statusDelivery=:statusDelivery, onDemandAvailable=:onDemandAvailable, onDemandRejectReason=:onDemandRejectReason WHERE orderId=:orderId && merchantId=:merchantId';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':statusDelivery', $polCode);
+                    $stmt->bindParam(':onDemandAvailable', $available);
+                    $stmt->bindParam(':onDemandRejectReason', $rejectReason);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                    endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
+                endif;
+
+
+
+
+
 
 
 
