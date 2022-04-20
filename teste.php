@@ -59,12 +59,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 $polCode        = $in['code'];
                 $polOrderId     = $in['orderId'];
                 $polId          = $in['id'];
-                $polCreatedAt   = $in['createdAt'];
-
+                $polCreatedAt   = $in['createdAt']; 
                 //
-                // START
-                //
-                //Consulta BD se este evento ja foi recebido e tratado, caso sim pula diretamente para acknowledgment
+                // START - Consulta BD se este evento ja foi recebido e tratado, caso sim pula diretamente para acknowledgment
                 //
                 $sql = "SELECT * FROM ifood_events WHERE id='$polId' && orderId='$polOrderId' && createdAt='$polCreatedAt'";
                 $resultado = $conexao->prepare($sql);	
@@ -79,6 +76,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 // END
                 //
 
+                // PEDIDO NOVO
                 if($polCode == 'PLC'):
                     $outDetails = orderDetails($polOrderId, $accessToken);
                     $orderDetails = (array) $outDetails['details'];
@@ -461,6 +459,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     endif;
                 endif;
 
+                // ATUALIZAÇÃO DE STATUS
                 if($polCode == 'CFM' || $polCode == 'RTP' || $polCode == 'DSP' || $polCode == 'CON' || $polCode == 'CAN'):
                     //
                     // CFM - Pedido foi confirmado e será preparado
@@ -493,7 +492,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         errorLog('error-ifood_events-101-Erro interno BD.');
                     endif;
                 endif;
-
+                //
+                // START - CANCELAMENTOS
+                //
                 if($polCode == 'CAR'):
                     //
                     // Solicitação de cancelamento feita pelo Merchant (loja) ou pelo iFood (atendimento ao cliente)
@@ -542,7 +543,160 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     endif;
                 endif;
 
-                
+                if($polCode == 'CCR'):
+                    //
+                    // Solicitação de cancelamento feita pelo cliente
+                    //
+                    $metadata       = (array) $in['metadata'];
+                    $cancelReason    = $metadata['CANCEL_REASON'];
+                    $cancelUser        = $metadata['CANCEL_USER'];
+                    $cancelCode         = $metadata['CANCEL_CODE'];
+
+                    $sql = 'INSERT INTO ifood_cancel_customer (orderId, cancelReason, cancelUser, cancelCode) VALUES (:orderId, :cancelReason, :cancelUser, :cancelCode)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':cancelReason', $cancelReason);
+                    $stmt->bindParam(':cancelUser', $cancelUser);
+                    $stmt->bindParam(':cancelCode', $cancelCode);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_cancel_merchant-101-Erro interno BD.');
+                    endif;
+
+                    $originCancellation = 'customer';
+
+                    $sql = 'UPDATE ifood_orders SET originCancellation=:originCancellation WHERE orderId=:orderId && merchantId=:merchantId';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':originCancellation', $originCancellation);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                    endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
+                endif;
+
+                if($polCode == 'CARF'):
+                    //
+                    // Solicitação de cancelamento do merchant negada
+                    //
+                    $sql = 'UPDATE ifood_cancel_merchant SET result=:result WHERE orderId=:orderId';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':result', $polCode);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                    endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
+                endif;
+
+                if($polCode == 'CCA' || $polCode == 'CCD'):
+                    //
+                    // CCA - A solicitação de cancelamento feita pelo cliente foi aprovada pelo Merchant (loja)
+                    // CCD - A solicitação de cancelamento feita pelo cliente foi negada pelo Merchant (loja)
+                    //
+                    $sql = 'UPDATE ifood_cancel_customer SET result=:result WHERE orderId=:orderId';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':result', $polCode);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                    endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
+                endif;
+                //
+                // END
+                //
+
+                //
+                // START - TAKEOUT
+                //
+                if($polCode == 'PAA'):
+                    //
+                    // PAA - Cliente está aguardando na vaga especial para retirar o pedido
+                    //
+                    $metadata       = (array) $in['metadata'];
+                    $pickupAreaCode    = (isset($metadata['PICKUP_AREA_CODE'])) ? $metadata['PICKUP_AREA_CODE'] : null ;
+                    $pickupAreaType    = (isset($metadata['PICKUP_AREA_TYPE'])) ? $metadata['PICKUP_AREA_TYPE'] : null ;
+
+                    $sql = 'INSERT INTO ifood_takeout (orderId, areaCode, areaType) VALUES (:orderId, :areaCode, :areaType)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':areaCode', $pickupAreaCode);
+                    $stmt->bindParam(':areaType', $pickupAreaType);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
+
+                    $sql = 'UPDATE ifood_orders SET statusTekeout=:statusTekeout WHERE orderId=:orderId && merchantId=:merchantId';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':statusTekeout', $polCode);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                    endif;
+                    //
+                    //  ENVIA EVENTRO PARA BD
+                    //
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':id', $polId);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_events-101-Erro interno BD.');
+                    endif;
+                endif;
 
 
 
