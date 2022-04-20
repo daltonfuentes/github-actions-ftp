@@ -494,7 +494,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     endif;
                 endif;
 
-                if($polCode == 'CAR'):
+                if($polCode == 'CARR'):
                     //
                     // Solicitação de cancelamento feita pelo Merchant (loja) ou pelo iFood (atendimento ao cliente)
                     //
