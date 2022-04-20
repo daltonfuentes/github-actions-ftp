@@ -494,7 +494,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     endif;
                 endif;
 
-                if($polCode == 'CARR'):
+                if($polCode == 'CAR'):
                     //
                     // Solicitação de cancelamento feita pelo Merchant (loja) ou pelo iFood (atendimento ao cliente)
                     //
@@ -503,7 +503,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $details        = $metadata['details'];
                     $origin         = $metadata['origin'];
 
-                    $sql = 'INSERT INTO ifood_cancel_merchant (orderId, reasonCode, details, origin) VALUES (:orderId, :orderId, :reasonCode, :details, :origin)';
+                    $sql = 'INSERT INTO ifood_cancel_merchant (orderId, reasonCode, details, origin) VALUES (:orderId, :reasonCode, :details, :origin)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':reasonCode', $reason_code);
