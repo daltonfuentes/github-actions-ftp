@@ -790,7 +790,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     // RDA - Indica se o pedido é elegível para requisitar o serviço de entrega sob demanda e o custo do serviço caso seja elegível
                     //
                     $metadata       = (array) $in['metadata'];
-                    $available    = (isset($metadata['available'])) ? $metadata['available'] : 0;
+                    $available    = (isset($metadata['available'])) ? $metadata['available'] : '0';
 
                     if($available == true):
                         $quote = (array) $metadata['quote'];
