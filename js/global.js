@@ -372,7 +372,7 @@ $(document).ready(function() {
     function fazPolling() {
         $.ajax({
             type : 'POST',
-            url  : './conexao/ifood_api',
+            url  : './conexao/ifood_api.php',
             data : { teste: true },
             dataType: 'json',
             beforeSend: function() {
