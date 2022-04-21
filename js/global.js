@@ -373,7 +373,7 @@ $(document).ready(function() {
         $.ajax({
             type : 'POST',
             url  : './conexao/ifood_api',
-            data : { polling: true },
+            data : { teste: true },
             dataType: 'json',
             beforeSend: function() {
                 
