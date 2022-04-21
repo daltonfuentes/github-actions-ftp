@@ -389,5 +389,5 @@ $(document).ready(function() {
             }
         });
     };
-    fazPolling();
+    //fazPolling();
 });
