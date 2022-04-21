@@ -33,7 +33,18 @@ session_start();
 </head>
 <body>
 
-    <h3 class="p-3">Teste</h3>
+    <div class="content-body m-0 p-0">
+        <div class="container-fluid" >
+            <div>
+                <h4 class="mb-0">TESTE POLLING <span class="badge light badge-info ml-2 timer">00:00:<span class="segundos">30</span></span></h4>
+                <hr>
+            </div>
+            <div id="box-retorno">
+                <p class="mb-0 subtitle text-success">Inicio!</p>
+            </div>
+        </div>
+    </div>
+    
 
     <?php include("include/js.php"); ?>
 

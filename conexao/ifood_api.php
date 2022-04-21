@@ -40,7 +40,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     endif;
 endif;
 
-$_POST['polling'] = true;
+//$_POST['polling'] = true;
 
 if (isset($_POST['polling']) && $_POST['polling'] == true) :
     require("conexao_hostgator.php");
@@ -933,6 +933,19 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         $retorno['code']  = 200;
     else:
         errorLog('error-polling-'.$outPolling['code'].'-'.$outPolling['mensagem']);
+        $retorno['mensagem']  = 'Erro interno "polling".';
+        $retorno['code']  = 400;
+    endif;
+    echo json_encode($retorno);
+endif;
+
+if(isset($_POST['teste']) && $_POST['teste'] == true) :
+    $x = 200;
+
+    if($x == 200):
+        $retorno['mensagem']  = 'Polling vazio!';
+        $retorno['code']  = 200;
+    else:
         $retorno['mensagem']  = 'Erro interno "polling".';
         $retorno['code']  = 400;
     endif;
