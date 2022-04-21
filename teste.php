@@ -70,6 +70,18 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                 if($contar > 0):
                     echo 'Evento já foi tratado!<br>';
+
+                    //MANDA PARA acknowledgment
+                    $ack = json_encode($in);
+                    $send = "[ $ack ]";
+
+                    $outAck = acknowledgment($send, $accessToken);
+                        
+                    if($outAck['code'] == 202):
+                        echo 'Acknowledgment!<br>';
+                    else:
+                        errorLog('error-ifood_events-'.$outAck['code'].'-'.$outAck['mensagem']);
+                    endif;
                     continue;
                 endif;
                 //
@@ -648,7 +660,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     endif;
                 endif;
                 //
-                // END
+                // END - CANCELAMENTOS
                 //
 
                 //
@@ -698,7 +710,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     endif;
                 endif;
                 //
-                // END
+                // END - TAKEOUT
                 //
 
                 //
@@ -894,21 +906,10 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         errorLog('error-ifood_events-101-Erro interno BD.');
                     endif;
                 endif;
+                //
+                // END - DELIVERY
+                //
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-                continue;
                 //MANDA PARA acknowledgment
                 $ack = json_encode($in);
                 $send = "[ $ack ]";
