@@ -8,10 +8,11 @@ function accessToken(){
     $date = new DateTime();
     $dateComparacao = date_format($date, 'YmdHis');
 
-    $sql = "SELECT accessToken FROM token_ifood WHERE expire>'$dateComparacao'";
-    $resultado = $conexao->prepare($sql);	
-    $resultado->execute();
-    $contar = $resultado->rowCount();
+    $sql = "SELECT accessToken FROM token_ifood WHERE expire>:dateComparacao";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bindParam(':dateComparacao', $dateComparacao);	
+    $stmt->execute();
+    $contar = $stmt->rowCount();
 
     if($contar == 0):
         ////
