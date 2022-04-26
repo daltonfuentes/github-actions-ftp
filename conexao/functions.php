@@ -79,7 +79,7 @@ function accessToken(){
             return $out;
         endif;
     else:
-        $exibe = $resultado->fetch(PDO::FETCH_OBJ);
+        $exibe = $stmt->fetch(PDO::FETCH_OBJ);
         $out['erro'] = 0;
         $out['accessToken'] = $exibe->accessToken;
         return $out;

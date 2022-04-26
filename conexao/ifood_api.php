@@ -52,13 +52,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     $outToken = accessToken();
     $accessToken = $outToken['accessToken'];
 
-    if(empty($accessToken)):
-        $retorno['mensagem']  = 'Erro no token de acesso';
-        $retorno['code']  = 101;
-        errorLog('error-accessToken-101-erro interno');
-        exit();
-    endif;
-
     $outPolling = polling($merchantId, $accessToken);
     $polling = $outPolling['polling']; //CHEGA COMO ARRAY
 
