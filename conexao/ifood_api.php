@@ -68,10 +68,18 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 //
                 // START - Consulta BD se este evento ja foi recebido e tratado, caso sim pula diretamente para acknowledgment
                 //
-                $sql = "SELECT * FROM ifood_events WHERE id='$polId' && orderId='$polOrderId' && createdAt='$polCreatedAt'";
-                $resultado = $conexao->prepare($sql);	
-                $resultado->execute();
-                $contar = $resultado->rowCount();
+                $sql = "SELECT * FROM ifood_events WHERE id=:id && orderId=:orderId && createdAt=:createdAt";
+                $stmt = $conexao->prepare($sql);
+                $stmt->bindParam(':id', $polId);
+                $stmt->bindParam(':orderId', $polOrderId);	
+                $stmt->bindParam(':createdAt', $polCreatedAt);
+                $stmt->execute();
+                $contar = $stmt->rowCount();
+
+                //$sql = "SELECT * FROM ifood_events WHERE id='$polId' && orderId='$polOrderId' && createdAt='$polCreatedAt'";
+                //$resultado = $conexao->prepare($sql);	
+                //$resultado->execute();
+                //$contar = $resultado->rowCount();
 
                 if($contar > 0):
                     //MANDA PARA acknowledgment
@@ -508,6 +516,13 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 //
                 // START - CANCELAMENTOS
                 //
+                if($polCode == 'CAN'):
+                    //
+                    // APENAS QUANDO OUVER 'CAN' AUTOMATICO
+                    //
+
+                endif;
+
                 if($polCode == 'CAR'):
                     //
                     // Solicitação de cancelamento feita pelo Merchant (loja) ou pelo iFood (atendimento ao cliente)

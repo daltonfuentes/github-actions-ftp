@@ -252,3 +252,15 @@ function errorLog($message){
     error_log($message . PHP_EOL, 3, 'myLogError.log');
     error_log($message, 1,"daltonfuentes2020@gmail.com","From: webmaster@sweetconfetty.com.br");
 };
+
+function convertFuso($data){
+    require("conexao_hostgator.php");
+    // CONSULTA FUSO DA LOJA
+    $fuso = '3';
+
+    $data = date_create($data);
+    date_sub($data,date_interval_create_from_date_string("$fuso hours"));
+    $data = date_format($data, 'Y-m-d H:i:s');
+
+    return $data;
+}

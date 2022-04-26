@@ -1,13 +1,11 @@
 <?php
 
-$conexao = new PDO(   'mysql:host=br376.hostgator.com.br; dbname=volca246_dashboard_confeitaria', 'volca246_dalton', '2008caix', 
-            array(
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
-                PDO::ATTR_PERSISTENT => false,
-                PDO::ATTR_EMULATE_PREPARES => false,
-                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-            )
-        );
+$dbHost = 'br376.hostgator.com.br'; // host
+$db     = 'volca246_dashboard_confeitaria'; // nome do banco
+$dbUser = 'volca246_dalton'; // usuário
+$dbPass = '2008caix'; // criada aqui a variável para a senha, atribua o valor
+
+$conexao = new PDO("mysql:host=$dbHost;dbname=$db", $dbUser, $dbPass);
 
 date_default_timezone_set('America/Sao_Paulo');
 
