@@ -256,6 +256,7 @@ function errorLog($message){
 function convertFuso($data){
     require("conexao_hostgator.php");
     // CONSULTA FUSO DA LOJA
+    
     $fuso = '3';
 
     $data = date_create($data);

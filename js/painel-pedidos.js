@@ -12,14 +12,30 @@ $(document).ready(function () {
 
 });
 
+$(document).on('click', '.btn-group-type button', function(){
+    if($(this).hasClass('.ativo') == false){
+        var type = $(this).attr('data-type');
+        $('.btn-group-type').find('.ativo').addClass('btn-outline-custom-2');
+        $('.btn-group-type').find('.ativo').removeClass('btn-custom-2 ativo');
+        $(this).removeClass('btn-outline-custom-2');
+        $(this).addClass('ativo btn-custom-2');
 
+        if(type == 'scheduled'){
+            $('#row-list-orders-immediate').addClass('d-none');
+            $('#row-list-orders-scheduled').removeClass('d-none');
+        }else if(type == 'immediate'){
+            $('#row-list-orders-scheduled').addClass('d-none');
+            $('#row-list-orders-immediate').removeClass('d-none');
+        }
+    }
+});
 
 $(document).on('click', '.faixa-pedido', function(){
     faixaPedidosClick($(this));
 });
 
 function faixaPedidosClick(clicker) {
-    ativa = $('#row-list-orders .active');
+    ativa = $('#row-list-orders-immediate .active');
 
     if(ativa.hasClass('alerta') == true){
         ativa.addClass('animate__animated');
@@ -74,3 +90,6 @@ $(document).on('click', '.btn-status', function(){
     }
 });
 
+$(document).on('click', '.dropdown-menu-status', function(){
+    e.stopPropagation();
+});

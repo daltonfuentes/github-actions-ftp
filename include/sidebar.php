@@ -48,12 +48,14 @@
                         <span class="nav-text pl-1">Financeiro</span>
                     </a>
                 </li>
-            </ul>
 
-            <div class="copyright">
-                <p><strong>Sego Restaurant Admin Dashboard</strong> © 2021 All Rights Reserved</p>
-                <p>Made with <span class="heart"></span> by DexignZone</p>
-            </div>
+                <li>
+                    <a href="./financeiro" class="ai-icon" aria-expanded="false">
+                        <i class="fa-solid fa-dollar-sign px-1 fs-20"></i>
+                        <span class="nav-text pl-1">Financeiro</span>
+                    </a>
+                </li>
+            </ul>     
         </div>
     </div>
     <!--**********************************

@@ -2,6 +2,8 @@
 ob_start();
 session_start();
 
+//require_once("conexao/functions.php");
+
 //require_once("conexao/conexao.php");
 ?>
 <!DOCTYPE html>
@@ -57,9 +59,9 @@ session_start();
         ***********************************-->
         <div class="nav-header">
             <a href="home" class="brand-logo">
-                <img class="logo-abbr" src="/images/logo.png" alt="">
-                <img class="logo-compact" src="/images/logo-full.png" alt="">
-                <img class="brand-title" src="/images/logo-full.png" alt="">
+                <img class="logo-abbr" src="./images/logo.png" alt="">
+                <img class="logo-compact" src="./images/logo-full.png" alt="">
+                <img class="brand-title" src="./images/logo-full.png" alt="">
             </a>
 
             <div class="nav-control d-none">
@@ -72,7 +74,7 @@ session_start();
             Nav header end
         ***********************************-->
 
-        <?php include("include/sidebar.php"); ?>
+        <?php include("include/sidebar_painel.php"); ?>
 
         <!--**********************************
             Content body start
@@ -80,52 +82,21 @@ session_start();
         <div class="content-body p-0">
             <div class="container-fluid py-0 px-3 bg-dark-panel">
                 <div class="row">
-                    <div class="col-xl-3 col-lg-4 col-md-6 pl-4 pt-0 bg-body-painel rounded-left-lg pb-5 vh-100">
-                        <div class="row pt-4 pr-3 justify-content-center" id="row-filter">
-                            <div class="col-4">
-                                <div class="btn btn-dark h-100 w-100 py-3 px-3 btn-status" data-platform="ifood" data-status="close">
-                                    <media>
-                                        <img class="platform animate__fadeIn animate__animated" height="24" src="images/logo_ifood_4.png" alt="ifood">
-                                        <img class="d-none loading" height="24" src="images/loading.gif" alt="loading">
-                                    </media>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="btn btn-dark h-100 w-100 py-3 px-3 btn-status" data-platform="web" data-status="close">
-                                    <media>
-                                        <img class="platform animate__fadeIn animate__animated" height="20" src="images/icon_shop.png" alt="shop">
-                                        <img class="d-none loading" height="24" src="images/loading.gif" alt="loading">
-                                    </media>
-                                </div>
-                            </div>
-                            <div class="col-12 mt-4">
-                                <div class="card shadow-sm">
-                                    <div class="card-body">
-                                        <div class="btn-group">
-                                            <h4 class="cPointer mb-0" data-toggle="dropdown"><span
-                                                    class="font-gilroy-bold fs-18">Todos os pedidos </span><i
-                                                    class="fa-solid fa-caret-down fs-1"></i></h4>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">Novos</a>
-                                                <a class="dropdown-item" href="#">Preparo</a>
-                                                <a class="dropdown-item" href="#">Entrega</a>
-                                                <a class="dropdown-item" href="#">Concluido</a>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-sm btn-primary py-1"
-                                            style="position: absolute; right: 30px; top: 24px;"><i
-                                                class="fa-solid fa-plus fs-20"></i></button>
-                                    </div>
-                                </div>
+                    <div class="pl-4 pt-0 bg-body-painel rounded-left-lg pb-5 vh-100" style="width: 409px;">
+                        <div class="row mb-4 mt-5 pr-3 justify-content-center" id="row-filter" style="width: 400px;">
+                            <div class="btn-group btn-group-type btn-block px-3">
+                                <button class="btn rounded-left btn-custom-2 fs-14 ativo border-2" data-type="immediate" type="button">AGORA<span class="badge badge-danger ml-2 d-none">4</span></button>
+                                <button class="btn rounded-right btn-outline-custom-2 fs-14 border-2" data-type="scheduled" type="button">AGENDADO<span class="badge badge-danger ml-2 d-none">4</span></button>
                             </div>
                         </div>
-                        <div class="row pr-2 pt-1" id="row-list-orders">
+                        <div class="row pr-2 " id="row-list-orders-immediate" style="width: 400px;">
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-danger rounded faixa-pedido pendente">
-                                        <div class="media">
+                                        <div class="media ml-0">
                                             <div class="px-1 text-white">
-                                                <h4 class="font-gilroy-bold fs-20 mb-1 text-white">Antonio M. <small class="fs-20 ml-2">#4020</small></h4>
+                                                <h4 class="font-gilroy-bold fs-20 mb-1 text-white">Antonio M. <small
+                                                        class="fs-20 ml-2">#4020</small></h4>
                                                 <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
                                                 <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
                                                     17:35</span>
@@ -142,7 +113,7 @@ session_start();
                                 <div class="card shadow  mb-0 d-block">
                                     <div
                                         class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido animate__pulse animate__infinite alerta active">
-                                        <div class="media">
+                                        <div class="media ml-0">
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
@@ -152,7 +123,7 @@ session_start();
                                             </div>
                                             <div class="media-footer valor-total-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-atraso">
-                                                    <span class="badge badge-danger">ATRASO</span></h4>
+                                                    <span class="badge badge-warning light">ATRASO</span></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -161,18 +132,18 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media">
+                                        <div class="media ml-0 align-items-center">
                                             <div class="px-1">
-                                                <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
-                                                        class="fs-20 ml-2 text-dark">#4020</small></h4>
+                                                <h4 class="fs-20 ml-2 text-dark">#4020</small>
+                                                <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. </h4>
                                                 <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
                                                 <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
                                                     17:35</span>
                                             </div>
                                             <div class="media-footer valor-total-pedido">
-                                                <h4
-                                                    class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-preparo">
-                                                    <span class="badge badge-warning">PREPARO</span></h4>
+                                                <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-preparo">
+                                                    <span class="badge badge-primary light">PREPARO</span>
+                                                </h4>
                                             </div>
                                         </div>
                                     </div>
@@ -181,7 +152,7 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media">
+                                        <div class="media ml-0">
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
@@ -192,7 +163,7 @@ session_start();
                                             <div class="media-footer valor-total-pedido">
                                                 <h4
                                                     class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-entrega">
-                                                    <span class="badge badge-info">ENTREGA</span></h4>
+                                                    <span class="badge badge-success light">ENTREGA</span></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -201,7 +172,7 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media">
+                                        <div class="media ml-0">
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
@@ -211,7 +182,7 @@ session_start();
                                             </div>
                                             <div class="media-footer valor-total-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
-                                                        class="badge badge-success">CONCLUIDO</span></h4>
+                                                        class="badge badge-dark light">CONCLUIDO</span></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -220,7 +191,7 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media">
+                                        <div class="media ml-0">
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
@@ -230,7 +201,7 @@ session_start();
                                             </div>
                                             <div class="media-footer valor-total-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
-                                                        class="badge badge-success">CONCLUIDO</span></h4>
+                                                        class="badge badge-dark light">CONCLUIDO</span></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -239,7 +210,7 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media">
+                                        <div class="media ml-0">
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
@@ -249,7 +220,7 @@ session_start();
                                             </div>
                                             <div class="media-footer valor-total-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
-                                                        class="badge badge-success">CONCLUIDO</span></h4>
+                                                        class="badge badge-dark light">CONCLUIDO</span></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -258,7 +229,7 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media">
+                                        <div class="media ml-0">
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
@@ -268,60 +239,84 @@ session_start();
                                             </div>
                                             <div class="media-footer valor-total-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
-                                                        class="badge badge-success">CONCLUIDO</span></h4>
+                                                        class="badge badge-dark light">CONCLUIDO</span></h4>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-9 shadow-sm bg-white py-5 px-5 vh-100 overflow-auto">
-                        <div class="row">
-                            <div class="col-xl-9 col-xxl-8">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h4 class="fs-26 text-black mb-4 font-gilroy-semibold">Pedido #5231</h4>
+                        <div class="row pr-2 pt-1 d-none" id="row-list-orders-scheduled" style="width: 400px;">
+                            <div class="col-12 mb-3">
+                                <div class="card shadow mb-0 d-block">
+                                    <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
+                                        <div class="media ml-0">
+                                            <div class="px-1">
+                                                <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
+                                                        class="fs-20 ml-2 text-dark">#4020</small></h4>
+                                                <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
+                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Entregar entre 11:00 - 11:30</span>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row pr-2 pt-1" style="width: 400px; position: absolute; bottom: 15px;">
+                            <div class="col-12">
+                                <hr>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn btn-custom-2 btn-sm"><span class="fs-14">Solicitar Entrega Fácil</span></button>              
+                            </div>
+                        </div>
+                    </div>
+                    <div class="shadow-sm bg-order-details-02 py-5 px-5 vh-100 overflow-auto" style="width: calc(100% - 409px);">
+                        <div class="row justify-content-center d-none">
+                            <div class="col-xxl-12 col-11">
+                                <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #5231<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às 14:17h</span></h4>
+                            </div>
+                            <div class="customer-xl col-12">
+                                
+
+
+                            </div>
+                            <div class="col-xxl-12 col-xl-8">
+                                <div class="row">
                                     <div class="col-xl-12">
                                         <div class="card border border-light shadow-sm">
-                                            <div class="card-body">
+                                            <div class="card-body py-2">
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="row align-items-center">
-                                                            <div class="media">
-                                                                <img class="ml-4 pt-1" width="75"
+                                                            <div class="col-xl-2 text-center">
+                                                                <img class="order-details-origin-ifood w-75"
                                                                     src="images/logo_ifood_2.png" alt="ifood">
-                                                                <div class="media-body mt-4 ml-5">
-                                                                    <svg class="mr-3 min-w32" width="32" height="32"
-                                                                        viewBox="0 0 32 32" fill="none"
-                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                        <path
-                                                                            d="M28.0005 13.3335C28.0005 22.6668 16.0005 30.6668 16.0005 30.6668C16.0005 30.6668 4.00049 22.6668 4.00049 13.3335C4.00049 10.1509 5.26477 7.09865 7.51521 4.84821C9.76564 2.59778 12.8179 1.3335 16.0005 1.3335C19.1831 1.3335 22.2353 2.59778 24.4858 4.84821C26.7362 7.09865 28.0005 10.1509 28.0005 13.3335Z"
-                                                                            stroke="#3E4954" stroke-width="2"
-                                                                            stroke-linecap="round"
-                                                                            stroke-linejoin="round" />
-                                                                        <path
-                                                                            d="M16.0005 17.3335C18.2096 17.3335 20.0005 15.5426 20.0005 13.3335C20.0005 11.1244 18.2096 9.3335 16.0005 9.3335C13.7913 9.3335 12.0005 11.1244 12.0005 13.3335C12.0005 15.5426 13.7913 17.3335 16.0005 17.3335Z"
-                                                                            stroke="#3E4954" stroke-width="2"
-                                                                            stroke-linecap="round"
-                                                                            stroke-linejoin="round" />
-                                                                    </svg>
-                                                                    <span class="text-black font-w500">Rua Padre Cicero,
-                                                                        567 - Jardim Guaira</span>
-                                                                </div>
-                                                                <div class="media-footer mt-4 ml-5 pt-1">
-                                                                    <svg class="mr-3 min-w32" width="24" height="24"
-                                                                        viewBox="0 0 24 24" fill="none"
-                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                        <path
-                                                                            d="M22.9993 17.4712V20.7831C23.0006 21.0906 22.9375 21.3949 22.814 21.6766C22.6906 21.9583 22.5096 22.2112 22.2826 22.419C22.0556 22.6269 21.7876 22.7851 21.4958 22.8836C21.2039 22.9821 20.8947 23.0187 20.5879 22.991C17.1841 22.6219 13.9145 21.4611 11.0418 19.6019C8.36914 17.9069 6.10319 15.6455 4.40487 12.9781C2.53545 10.0981 1.37207 6.81909 1.00898 3.40674C0.981336 3.10146 1.01769 2.79378 1.11572 2.50329C1.21376 2.2128 1.37132 1.94586 1.57839 1.71947C1.78546 1.49308 2.03749 1.31221 2.31843 1.18836C2.59938 1.06451 2.90309 1.0004 3.21023 1.00011H6.52869C7.06551 0.994834 7.58594 1.18456 7.99297 1.53391C8.4 1.88326 8.66586 2.36841 8.74099 2.89892C8.88106 3.9588 9.14081 4.99946 9.5153 6.00106C9.66413 6.39619 9.69634 6.82562 9.60812 7.23847C9.51989 7.65131 9.31494 8.03026 9.01753 8.33042L7.61272 9.73245C9.18739 12.4963 11.4803 14.7847 14.2496 16.3562L15.6545 14.9542C15.9552 14.6574 16.3349 14.4528 16.7486 14.3648C17.1622 14.2767 17.5925 14.3089 17.9884 14.4574C18.992 14.8312 20.0348 15.0904 21.0967 15.2302C21.6341 15.3058 22.1248 15.576 22.4756 15.9892C22.8264 16.4024 23.0128 16.9298 22.9993 17.4712Z"
-                                                                            stroke="#566069" stroke-width="2"
-                                                                            stroke-linecap="round"
-                                                                            stroke-linejoin="round" />
-                                                                    </svg>
-                                                                    <span class="text-black font-w500">(45)
-                                                                        99919-3908</span>
+                                                            </div>
+                                                            <div class="col-xl-10">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-xl-7">
+                                                                        <div class="row align-items-center">
+                                                                            <div class="col-xl-1">
+                                                                            <i class="fa-light fa-location-dot fs-30 text-black"></i>
+                                                                            </div>
+                                                                            <div class="col-xl-11">
+                                                                                <span class="text-black font-w500">Rua
+                                                                                    Padre Cicero, 567 - Jardim
+                                                                                    Guaira</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xl-5">
+                                                                        <div class="row align-items-center">
+                                                                            <div class="col-xl-2">
+                                                                            <i class="fa-light fa-phone fs-30 text-black"></i>
+                                                                            </div>
+                                                                            <div class="col-xl-10 pl-2">
+                                                                                <span class="text-black font-w500">0800 242 8347 <span class="text-secondary">: 99527477</span></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -332,187 +327,694 @@ session_start();
                                     </div>
                                     <div class="col-xl-12">
                                         <div class="card border border-light shadow-sm">
+                                            <div class="card-body rounded-top faixa-aviso-order-details atraso py-3">
+                                                <h4 class="fs-16 font-w600 mb-0">Atraso há 6 minuto</h4>
+                                                <h4 class="fs-14 font-w400 mb-0">Não esqueça de despachar este pedido, já está em preparo há mais de 40 min.</h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details pendente py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Pendente</h4>
+                                                <h4 class="fs-14 font-w400 mb-0">5 minutos para aceitar</h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details entrega py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Saiu para entrega</h4>
+                                                <h4 class="fs-14 font-w400 mb-0">há 3 minutos</h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details preparo py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há 25 minutos</span></h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details concluido py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Concluído <span class="fs-14 font-w400">há 3 horas</span></h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Pedido cancelado</h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Pedido cancelado pelo restaurante <span class="fs-14 font-w400">há 1 minutos</span></h4>
+                                                <h4 class="fs-14 font-w400 mb-0">Motivo: A loja está passando por dificuldades internas</h4>
+                                            </div>
                                             <div class="card-body py-3">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <div class="media px-2 py-2">
-                                                            <img class="img-fluid rounded mr-3" width="85" src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png" alt="">
-                                                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
-                                                                <h5 class="mt-0 mb-0 text-black">Duplo brigadeiro c/ Morango e Brownie</h5>
-                                                            </div>
-                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w600 text-black">1x</h3>
-                                                                </div>
-                                                            </div>
-                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w600 text-black">R$ 17,00</h3>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="media px-2 py-2 adicional-product">
-                                                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
-                                                                <h5 class="mt-0 mb-0 text-black text-quinta fs-16">(P) - 210 ml</h5>
-                                                            </div>
-                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h5 class="mb-0 font-w600 text-black text-quinta fs-16">1x</h5>
-                                                                </div>
-                                                            </div>
-                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w500 text-quinta fs-18">R$ 15,00</h3>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="media px-2 py-2">
-                                                            <img class="img-fluid rounded mr-3" width="85" src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png" alt="">
-                                                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <img class="img-fluid rounded mr-3" width="85"
+                                                                src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
+                                                                alt="">
+                                                            <div
+                                                                class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
                                                                 <h5 class="mt-0 mb-0 text-black">Duplo brigadeiro</h5>
                                                             </div>
-                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
                                                                 <div>
-                                                                    <h3 class="mb-0 font-w600 text-black">12x</h3>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
                                                                 </div>
                                                             </div>
-                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
                                                                 <div>
-                                                                    <h3 class="mb-0 font-w600 text-black">R$ 75,00</h3>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 34,00</h3>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr>
                                                     </div>
                                                     <div class="col-12">
-                                                        <div class="media px-2 py-2">
-                                                            <img class="img-fluid rounded mr-3" width="85" src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png" alt="">
-                                                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
-                                                                <h5 class="mt-0 mb-0 text-black">Duplo brigadeiro</h5>
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <img class="img-fluid rounded mr-3" width="85"
+                                                                src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
+                                                                alt="">
+                                                            <div
+                                                                class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-black">Morango com suspiro</h5>
                                                             </div>
-                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
                                                                 <div>
-                                                                    <h3 class="mb-0 font-w600 text-black">1x</h3>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
                                                                 </div>
                                                             </div>
-                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
                                                                 <div>
-                                                                    <h3 class="mb-0 font-w600 text-black">R$ 34,00</h3>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 17,00</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media px-2 pb-2">
+                                                            <div class="option-item-order media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-quinta fs-16">(P) - 210 ml</h5>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h5 class="mb-0 font-w600 text-quinta fs-16">1x</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w500 text-quinta fs-16">R$ 15,00</h3>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <img class="img-fluid rounded mr-3" width="85"
+                                                                src="./upload/cardapio/a03d6b81dcd33eca2f6ac1cafb01a06a.png"
+                                                                alt="">
+                                                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-black">Supremo Raffaello</h5>
+                                                            </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 5,00</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media px-2 pb-2">
+                                                            <div class="option-item-order media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-quinta fs-16">(M) 380 ml</h5>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h5 class="mb-0 font-w600 text-quinta fs-16">1x</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w500 text-quinta fs-16">R$ 15,00</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media px-2 pb-2 ">
+                                                            <div class="observation-item-order media-body col-12 pr-0 align-self-center align-items-center bg-observation-order">
+                                                                <h5 class="mt-0 mb-0 text-black fs-16 py-3 px-2"><i class="fa-solid fa-pen"></i></i><span class="pl-3">Tirar cebola e maionese.</span></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <img class="img-fluid rounded mr-3" width="85"
+                                                                src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
+                                                                alt="">
+                                                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-black">Brownie recheado c/ Nutella</h5>
+                                                            </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 17,00</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media px-2 pb-2 ">
+                                                            <div class="observation-item-order media-body col-12 pr-0 align-self-center align-items-center bg-observation-order">
+                                                                <h5 class="mt-0 mb-0 text-black fs-16 py-3 px-2"><i class="fa-solid fa-pen"></i></i><span class="pl-3">Tirar cebola e maionese.</span></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr>
+                                                    </div>
 
-
-
-                                                <div class="table-responsive order-list card-table d-none">
-                                                    <table class="table table-responsive-md mb-0">
-                                                        <tbody>
-                                                            <tr class="border-0">
-                                                                <td class="pl-0 border-0">
-                                                                    <div class="media">
-                                                                        <img class="mr-3 img-fluid rounded" width="85" src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png" alt="DexignZone">
-                                                                        <div class="media-body">
-                                                                            <h5 class="mt-4 pt-2 text-black">Copo dos sonhos Ninho</h5>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="pr-5 border-0">
-                                                                    <h4 class="my-0 text-black font-w600">1x</h4>
-                                                                </td>
-                                                                <td class="border-0 text-right">
-                                                                    <h4 class="my-0 text-black font-w600">R$ 34,00</h4>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="border-0">
-                                                                <td class="pl-0 border-0">
-                                                                    <div class="media">
-                                                                        <img class="mr-3 img-fluid rounded" width="85" src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png" alt="DexignZone">
-                                                                        <div class="media-body">
-                                                                            <h5 class="mt-4 pt-2 text-black">Duplo brigadeiro</h5>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="pr-5 border-0">
-                                                                    <h4 class="my-0 text-black font-w600">3x</h4>
-                                                                </td>
-                                                                <td class="border-0 text-right">
-                                                                    <h4 class="my-0 text-black font-w600">R$ 58,00</h4>
-                                                                </td>
-                                                            </tr>
-                                                            <tr class="border-0">
-                                                                <td class="pl-0 border-0">
-                                                                    <div class="media">
-                                                                        <img class="mr-3 img-fluid rounded" width="85" src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png" alt="DexignZone">
-                                                                        <div class="media-body">
-                                                                            <h5 class="mt-4 pt-2 text-black">Morango com suspiro</h5>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="pr-5 border-0">
-                                                                    <h4 class="my-0 text-black font-w600">1x</h4>
-                                                                </td>
-                                                                <td class="border-0 text-right">
-                                                                    <h4 class="my-0 text-black font-w600">R$ 119,00</h4>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                    
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-xxl-4">
-                                <div class="row">
+                            <div class="customer-xxl col-3">
+                                <div class="row row-customer">
+                                    <div class="col-xl-12 col-sm-6 d-none">
+                                        <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-success btn-lg py-4">ACEITAR</button>
+                                        </div>
+                                    </div>
                                     <div class="col-xl-12 col-sm-6">
-                                        <div class="card border border-light shadow-sm">
-                                            <div class="card-body text-center">
-                                                <img src="images/avatar/man_3.png" alt="" width="130"
+                                        <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-success btn-lg"><i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span></button>
+                                        </div> 
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2"> <span class="ml-2 fs-14">SOLICITAR ENTREGADOR R$ 24,99</span></button>
+                                        </div> 
+                                    </div>
+
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body text-center pb-3">
+                                                <img src="images/avatar/man_3.png" alt="" width="120"
                                                     class="rounded-circle mb-4">
-                                                <h3 class="fs-22 text-black font-w600 mb-3">Antonio M.</h3>
-                                                <h4 class="font-gilroy-bold text-terceiro fs-18"><span
-                                                        class="badge badge-primary light py-2 px-3">3º Pedido</span>
-                                                </h4>
+                                                <h3 class="fs-22 text-black font-w600 mb-0">José Nascimento</h3>
                                             </div>
-                                            <div class="card-body bg-light rounded-top rounded-bottom">
-                                                <h3 class="fs-18 text-black font-w600">Observação</h3>
-                                                <p class="fs-14">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                    elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                                    aliqua.</p>
+                                            <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 d-none">
+                                                <div class="media align-items-center text-center justify-content-center">
+                                                    <i class="fa-solid fa-star fs-14 mr-2 text-star"></i>
+                                                    <h4 class="fs-16 font-w600 mb-0 text-star">Super Cliente</h4>
+                                                    <i class="fa-solid fa-star fs-14 ml-2 text-star"></i>
+                                                </div> 
                                             </div>
-                                            <div class="card-body pb-0 py-2">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <h4 class="fs-18 font-w600 pt-4">Pago via loja</h4>
+                                            <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 ">
+                                                <div class="media align-items-center text-center justify-content-center">
+                                                    <i class="fa-duotone fa-circle-star fs-12 mr-2 text-star"></i>
+                                                    <h4 class="fs-16 font-w600 mb-0 text-star">Terceiro pedido</h4>
+                                                    <i class="fa-duotone fa-circle-star fs-12 ml-2 text-star"></i>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body pb-0 py-4">
+                                                <div class="media align-items-center">
+                                                    <i class="fa-regular fa-clock fs-18 mr-2"></i>
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-16 font-w600 mb-0">Entrega prevista: </h4>
                                                     </div>
-                                                    <img class="ml-3 pt-1" width="75" src="images/icon_maquininha.png"
-                                                        alt="ifood">
-                                                    <img class="ml-3 pt-1 d-none" width="75"
-                                                        src="images/icon_maestro.png" alt="ifood">
-                                                    <img class="ml-3 pt-1 d-none" width="75"
-                                                        src="images/icon_mastercard.png" alt="ifood">
+                                                    <h4 class="fs-16 font-w700 mb-0">15:17h</h4>
+                                                </div>                                             
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xl-12 col-sm-6 d-none">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body pb-0 py-3">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-18 font-w600 mb-0">Cobrar cliente <br><span class="fs-14">Mastercard | Credito</span></h4>
+                                                    </div>
+                                                    <img class="" width="45" src="images/payments/mastercard.png"
+                                                        alt="mastercard">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body pb-0 py-3">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-18 font-w600 mb-0">Cobrar cliente <br><span class="fs-14">Dinheiro</span></h4>
+                                                    </div>
+                                                    <img class="" width="45" src="images/payments/dinheiro.png"
+                                                        alt="mastercard">
+                                                </div>
+                                                <hr>
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-16 font-w600 mb-0">Valor a receber: </h4>
+                                                    </div>
+                                                    <h4 class="fs-16 font-w600 mb-0">R$ 50,00</h4>
+                                                </div>
+                                                <div class="media align-items-center mt-2">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-16 font-w600 mb-0">Levar de troco: </h4>
+                                                    </div>
+                                                    <h4 class="fs-16 font-w600 mb-0">R$ 19,45</h4>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6 d-none">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body pb-0 py-4">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-18 font-w600 mb-0">Pago online</h4>
+                                                    </div>
+                                                    <img class="" width="45" src="images/payments/logo_ifood_3.png"
+                                                        alt="mastercard">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-sm-6 d-none">
-                                        <div class="card border border-light shadow-sm">
-                                            <div class="card-header border-0 pb-0 d-none">
-                                                <h4 class="fs-20 font-w600">Pagamento</h4>
-                                            </div>
-                                            <div class="card-body pb-0 pt-2">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <h4 class="fs-18 font-w600 pt-4">Pago via</h4>
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body pb-0 py-3">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-18 font-w600 mb-0">Cobrar cliente <br><span class="fs-14">Dinheiro</span></h4>
                                                     </div>
-                                                    <img class="ml-3 pt-1" width="75" src="images/logo_ifood_2.png"
-                                                        alt="ifood">
+                                                    <img class="" width="45" src="images/payments/dinheiro.png"
+                                                        alt="mastercard">
+                                                </div>
+                                                <hr>
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-16 font-w600 mb-0">Valor a receber: </h4>
+                                                    </div>
+                                                    <h4 class="fs-16 font-w600 mb-0">R$ 50,00</h4>
+                                                </div>
+                                                <div class="align-items-center text-center mt-2">
+                                                    <small class="fs-16 font-w600 mb-0">Não levar troco</small>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-danger btn-lg"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">CANCELAR</span></button>
+                                        </div>
+                                    </div>
+
+                                    
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-xxl-12 col-11">
+                                <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #5231<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às 14:17h</span></h4>
+                            </div>
+                            <div class="customer-xl col-12">
+                                
+
+
+                            </div>
+                            <div class="col-xxl-12 col-xl-8">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="card border border-light shadow-sm">
+                                            <div class="card-body py-2">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="row align-items-center">
+                                                            <div class="col-xl-2 text-center">
+                                                                <img class="order-details-origin-ifood w-75"
+                                                                    src="images/logo_ifood_2.png" alt="ifood">
+                                                            </div>
+                                                            <div class="col-xl-10">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-xl-7">
+                                                                        <div class="row align-items-center">
+                                                                            <div class="col-xl-1">
+                                                                            <i class="fa-light fa-location-dot fs-30 text-black"></i>
+                                                                            </div>
+                                                                            <div class="col-xl-11">
+                                                                                <span class="text-black font-w500">Rua
+                                                                                    Padre Cicero, 567 - Jardim
+                                                                                    Guaira</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-xl-5">
+                                                                        <div class="row align-items-center">
+                                                                            <div class="col-xl-2">
+                                                                            <i class="fa-light fa-phone fs-30 text-black"></i>
+                                                                            </div>
+                                                                            <div class="col-xl-10 pl-2">
+                                                                                <span class="text-black font-w500">0800 242 8347 <span class="text-secondary">: 99527477</span></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12">
+                                        <div class="card border border-light shadow-sm">
+                                            <div class="card-body rounded-top faixa-aviso-order-details atraso py-3">
+                                                <h4 class="fs-16 font-w600 mb-0">Atraso há 6 minuto</h4>
+                                                <h4 class="fs-14 font-w400 mb-0">Não esqueça de despachar este pedido, já está em preparo há mais de 40 min.</h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details pendente py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Pendente</h4>
+                                                <h4 class="fs-14 font-w400 mb-0">5 minutos para aceitar</h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details entrega py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Saiu para entrega</h4>
+                                                <h4 class="fs-14 font-w400 mb-0">há 3 minutos</h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details preparo py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há 25 minutos</span></h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details concluido py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Concluído <span class="fs-14 font-w400">há 3 horas</span></h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Pedido cancelado</h4>
+                                            </div>
+                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Pedido cancelado pelo restaurante <span class="fs-14 font-w400">há 1 minutos</span></h4>
+                                                <h4 class="fs-14 font-w400 mb-0">Motivo: A loja está passando por dificuldades internas</h4>
+                                            </div>
+                                            <div class="card-body py-3">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <img class="img-fluid rounded mr-3" width="85"
+                                                                src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
+                                                                alt="">
+                                                            <div
+                                                                class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-black">Duplo brigadeiro</h5>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 34,00</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <img class="img-fluid rounded mr-3" width="85"
+                                                                src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
+                                                                alt="">
+                                                            <div
+                                                                class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-black">Morango com suspiro</h5>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 17,00</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media px-2 pb-2">
+                                                            <div class="option-item-order media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-quinta fs-16">(P) - 210 ml</h5>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h5 class="mb-0 font-w600 text-quinta fs-16">1x</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w500 text-quinta fs-16">R$ 15,00</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <img class="img-fluid rounded mr-3" width="85"
+                                                                src="./upload/cardapio/a03d6b81dcd33eca2f6ac1cafb01a06a.png"
+                                                                alt="">
+                                                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-black">Supremo Raffaello</h5>
+                                                            </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 5,00</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media px-2 pb-2">
+                                                            <div class="option-item-order media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-quinta fs-16">(M) 380 ml</h5>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h5 class="mb-0 font-w600 text-quinta fs-16">1x</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w500 text-quinta fs-16">R$ 15,00</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media px-2 pb-2 ">
+                                                            <div class="observation-item-order media-body col-12 pr-0 align-self-center align-items-center bg-observation-order">
+                                                                <h5 class="mt-0 mb-0 text-black fs-16 py-3 px-2"><i class="fa-solid fa-pen"></i></i><span class="pl-3">Tirar cebola e maionese.</span></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <img class="img-fluid rounded mr-3" width="85"
+                                                                src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
+                                                                alt="">
+                                                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-black">Brownie recheado c/ Nutella</h5>
+                                                            </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
+                                                                </div>
+                                                            </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <div>
+                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 17,00</h3>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media px-2 pb-2 ">
+                                                            <div class="observation-item-order media-body col-12 pr-0 align-self-center align-items-center bg-observation-order">
+                                                                <h5 class="mt-0 mb-0 text-black fs-16 py-3 px-2"><i class="fa-solid fa-pen"></i></i><span class="pl-3">Tirar cebola e maionese.</span></h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr>
+                                                    </div>
+
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="customer-xxl col-3">
+                                <div class="row row-customer">
+                                    <div class="col-xl-12 col-sm-6 d-none">
+                                        <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-success btn-lg py-4">ACEITAR</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-success btn-lg"><i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span></button>
+                                        </div> 
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2"> <span class="ml-2 fs-14">SOLICITAR ENTREGADOR R$ 24,99</span></button>
+                                        </div> 
+                                    </div>
+
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body text-center pb-3">
+                                                <img src="images/avatar/man_3.png" alt="" width="120"
+                                                    class="rounded-circle mb-4">
+                                                <h3 class="fs-22 text-black font-w600 mb-0">José Nascimento</h3>
+                                            </div>
+                                            <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 d-none">
+                                                <div class="media align-items-center text-center justify-content-center">
+                                                    <i class="fa-solid fa-star fs-14 mr-2 text-star"></i>
+                                                    <h4 class="fs-16 font-w600 mb-0 text-star">Super Cliente</h4>
+                                                    <i class="fa-solid fa-star fs-14 ml-2 text-star"></i>
+                                                </div> 
+                                            </div>
+                                            <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 ">
+                                                <div class="media align-items-center text-center justify-content-center">
+                                                    <i class="fa-duotone fa-circle-star fs-12 mr-2 text-star"></i>
+                                                    <h4 class="fs-16 font-w600 mb-0 text-star">Terceiro pedido</h4>
+                                                    <i class="fa-duotone fa-circle-star fs-12 ml-2 text-star"></i>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body pb-0 py-4">
+                                                <div class="media align-items-center">
+                                                    <i class="fa-regular fa-clock fs-18 mr-2"></i>
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-16 font-w600 mb-0">Entrega prevista: </h4>
+                                                    </div>
+                                                    <h4 class="fs-16 font-w700 mb-0">15:17h</h4>
+                                                </div>                                             
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-xl-12 col-sm-6 d-none">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body pb-0 py-3">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-18 font-w600 mb-0">Cobrar cliente <br><span class="fs-14">Mastercard | Credito</span></h4>
+                                                    </div>
+                                                    <img class="" width="45" src="images/payments/mastercard.png"
+                                                        alt="mastercard">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body pb-0 py-3">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-18 font-w600 mb-0">Cobrar cliente <br><span class="fs-14">Dinheiro</span></h4>
+                                                    </div>
+                                                    <img class="" width="45" src="images/payments/dinheiro.png"
+                                                        alt="mastercard">
+                                                </div>
+                                                <hr>
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-16 font-w600 mb-0">Valor a receber: </h4>
+                                                    </div>
+                                                    <h4 class="fs-16 font-w600 mb-0">R$ 50,00</h4>
+                                                </div>
+                                                <div class="media align-items-center mt-2">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-16 font-w600 mb-0">Levar de troco: </h4>
+                                                    </div>
+                                                    <h4 class="fs-16 font-w600 mb-0">R$ 19,45</h4>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6 d-none">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body pb-0 py-4">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-18 font-w600 mb-0">Pago online</h4>
+                                                    </div>
+                                                    <img class="" width="45" src="images/payments/logo_ifood_3.png"
+                                                        alt="mastercard">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6 d-none">
+                                        <div class="card border border-light shadow-sm card-mb-20">
+                                            <div class="card-body pb-0 py-3">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-18 font-w600 mb-0">Cobrar cliente <br><span class="fs-14">Dinheiro</span></h4>
+                                                    </div>
+                                                    <img class="" width="45" src="images/payments/dinheiro.png"
+                                                        alt="mastercard">
+                                                </div>
+                                                <hr>
+                                                <div class="media align-items-center">
+                                                    <div class="media-body ">
+                                                        <h4 class="fs-16 font-w600 mb-0">Valor a receber: </h4>
+                                                    </div>
+                                                    <h4 class="fs-16 font-w600 mb-0">R$ 50,00</h4>
+                                                </div>
+                                                <div class="align-items-center text-center mt-2">
+                                                    <small class="fs-16 font-w600 mb-0">Não levar troco</small>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-danger btn-lg"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">CANCELAR</span></button>
                                         </div>
                                     </div>
                                 </div>

@@ -518,9 +518,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 //
                 if($polCode == 'CAN'):
                     //
-                    // APENAS QUANDO OUVER 'CAN' AUTOMATICO
+                    // Pedido foi Cancelado
                     //
+                    $metadata       = (array) $in['metadata'];
+                    $stage    = $metadata['CANCEL_STAGE'];
+                    $code        = $metadata['CANCEL_CODE'];
+                    $origin         = $metadata['CANCEL_ORIGIN'];
+                    $reason         = $metadata['CANCEL_REASON'];
 
+                    $sql = 'INSERT INTO ifood_cancel_finish (orderId, stage, code, origin, reason) VALUES (:orderId, :stage, :code, :origin, :reason)';
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':stage', $stage);
+                    $stmt->bindParam(':code', $code);
+                    $stmt->bindParam(':origin', $origin);
+                    $stmt->bindParam(':reason', $reason);
+                    $resposta = $stmt->execute();
+
+                    if(!$resposta):
+                        errorLog('error-ifood_cancel_finish-101-Erro interno BD.');
+                    endif;
                 endif;
 
                 if($polCode == 'CAR'):
