@@ -650,12 +650,7 @@ session_start();
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-xxl-12 col-11">
-                                <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #5231<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às 14:17h</span></h4>
-                            </div>
-                            <div class="customer-xl col-12">
-                                
-
-
+                                <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #5231<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Entregar entre 11:00 - 11:30</span></h4>
                             </div>
                             <div class="col-xxl-12 col-xl-8">
                                 <div class="row">
@@ -703,31 +698,6 @@ session_start();
                                     </div>
                                     <div class="col-xl-12">
                                         <div class="card border border-light shadow-sm">
-                                            <div class="card-body rounded-top faixa-aviso-order-details atraso py-3">
-                                                <h4 class="fs-16 font-w600 mb-0">Atraso há 6 minuto</h4>
-                                                <h4 class="fs-14 font-w400 mb-0">Não esqueça de despachar este pedido, já está em preparo há mais de 40 min.</h4>
-                                            </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details pendente py-3 d-none">
-                                                <h4 class="fs-16 font-w600 mb-0">Pendente</h4>
-                                                <h4 class="fs-14 font-w400 mb-0">5 minutos para aceitar</h4>
-                                            </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details entrega py-3 d-none">
-                                                <h4 class="fs-16 font-w600 mb-0">Saiu para entrega</h4>
-                                                <h4 class="fs-14 font-w400 mb-0">há 3 minutos</h4>
-                                            </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details preparo py-3 d-none">
-                                                <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há 25 minutos</span></h4>
-                                            </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details concluido py-3 d-none">
-                                                <h4 class="fs-16 font-w600 mb-0">Concluído <span class="fs-14 font-w400">há 3 horas</span></h4>
-                                            </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3 d-none">
-                                                <h4 class="fs-16 font-w600 mb-0">Pedido cancelado</h4>
-                                            </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3 d-none">
-                                                <h4 class="fs-16 font-w600 mb-0">Pedido cancelado pelo restaurante <span class="fs-14 font-w400">há 1 minutos</span></h4>
-                                                <h4 class="fs-14 font-w400 mb-0">Motivo: A loja está passando por dificuldades internas</h4>
-                                            </div>
                                             <div class="card-body py-3">
                                                 <div class="row">
                                                     <div class="col-12">
@@ -882,22 +852,6 @@ session_start();
                             </div>
                             <div class="customer-xxl col-3">
                                 <div class="row row-customer">
-                                    <div class="col-xl-12 col-sm-6 d-none">
-                                        <div class="card card-mb-20">
-                                            <button type="button" class="btn btn-success btn-lg py-4">ACEITAR</button>
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-12 col-sm-6">
-                                        <div class="card card-mb-20">
-                                            <button type="button" class="btn btn-success btn-lg"><i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span></button>
-                                        </div> 
-                                    </div>
-                                    <div class="col-xl-12 col-sm-6">
-                                        <div class="card card-mb-20">
-                                            <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2"> <span class="ml-2 fs-14">SOLICITAR ENTREGADOR R$ 24,99</span></button>
-                                        </div> 
-                                    </div>
-
                                     <div class="col-xl-12 col-sm-6">
                                         <div class="card border border-light shadow-sm card-mb-20">
                                             <div class="card-body text-center pb-3">
@@ -921,21 +875,6 @@ session_start();
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-xl-12 col-sm-6">
-                                        <div class="card border border-light shadow-sm card-mb-20">
-                                            <div class="card-body pb-0 py-4">
-                                                <div class="media align-items-center">
-                                                    <i class="fa-regular fa-clock fs-18 mr-2"></i>
-                                                    <div class="media-body ">
-                                                        <h4 class="fs-16 font-w600 mb-0">Entrega prevista: </h4>
-                                                    </div>
-                                                    <h4 class="fs-16 font-w700 mb-0">15:17h</h4>
-                                                </div>                                             
-                                            </div>
-                                        </div>
-                                    </div>
-
 
                                     <div class="col-xl-12 col-sm-6 d-none">
                                         <div class="card border border-light shadow-sm card-mb-20">

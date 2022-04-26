@@ -137,7 +137,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     if($orderTiming == 'IMMEDIATE'):
                         $schedule = '';
-                    elseif($orderTiming == 'SCHEDULED '):
+                    elseif($orderTiming == 'SCHEDULED'):
                         $orderDetailsSchedule = (array) $orderDetails['schedule'];
 
                         $deliveryDateTimeStart = (isset($orderDetailsSchedule['deliveryDateTimeStart'])) ? $orderDetailsSchedule['deliveryDateTimeStart'] : '' ;
@@ -193,7 +193,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                         if(!$resposta):
                             errorLog('error-ifood_delivery_anddress-101-Erro interno BD.');
                         endif;
-                    elseif($orderType == 'INDOOR '):
+                    elseif($orderType == 'INDOOR'):
                         $orderDetailsIndoor = (array) $orderDetails['indoor'];
 
                         $mode = (isset($orderDetailsorderDetailsIndoorDelivery['mode'])) ? $orderDetailsIndoor['mode'] : '' ;
