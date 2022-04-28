@@ -23,6 +23,9 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         exit();
     endif;
 
+    $title  = $outState['title'];
+    $subtitle  = $outState['subtitle'];
+
     if($state == 'OK'):
         //
         // Indica que a loja está online.
@@ -31,7 +34,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
         $html = '
         <div class="dropdown-menu-dalton dropdown-menu-status p-3" style="width: 350px;">
-            <h4 class="fs-16 font-w600 text-black mb-0">Loja aberta<i class="fa-solid fa-circle-check text-success ml-2"></i></h4>
+            <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-circle-check text-success ml-2"></i></h4>
             <hr class="">
             <h4 class="fs-14 font-w600 text-black pb-2"><i class="fa-solid fa-check text-success mr-2"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
             <h4 class="fs-14 font-w600 text-black pt-2"><i class="fa-solid fa-check text-success mr-2"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
@@ -50,7 +53,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
         $html = '
         <div class="dropdown-menu-dalton dropdown-menu-status p-3" style="width: 350px;">
-            <h4 class="fs-16 font-w600 text-black mb-0">Loja aberta<i class="fa-solid fa-circle-check text-success ml-2"></i></h4>
+            <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-circle-check text-success ml-2"></i></h4>
             <hr class="">
             <h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['radius-restriction']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">Muitos pedidos (alterado no Gestor de Pedidos)</span></h4>
             <h4 class="fs-14 font-w600 text-black py-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
@@ -113,7 +116,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
         $html = '
         <div class="dropdown-menu-dalton dropdown-menu-status p-3" style="width: 350px;">
-            <h4 class="fs-16 font-w600 text-black mb-0">Loja fechada <i class="fa-solid fa-ban text-black ml-1"></i><br></h4>
+            <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-ban text-black ml-1"></i><br><span class="fs-14 font-w400">'.$subtitle.'</span></h4>
             <hr class="">'.
             $linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$linhaTermsServiceViolation.$linhaStatusAvailability
             .'<h4 class="fs-14 font-w600 text-black py-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
