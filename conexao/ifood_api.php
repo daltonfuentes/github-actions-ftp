@@ -23,6 +23,12 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         exit();
     endif;
 
+    $retorno['title']  = $outState['title'];
+    $retorno['subtitle']  = $outState['validations']['opening-hours']['message']['title'];
+    $retorno['code']  = $outState['code'];
+    echo json_encode($retorno);
+    exit();
+
     if($state == 'CLOSED' || $state == 'ERROR'):
         // LOJA FECHADA
         $retorno['title']  = $outState['title'];
