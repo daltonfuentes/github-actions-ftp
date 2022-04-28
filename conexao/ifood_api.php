@@ -67,6 +67,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         // CLOSED: Indica que a loja está fechada conforme esperado, como em casos de "fora do horário de funcionamento" ou "em pausa programada". Não requer nenhuma ação.
         // ERROR: Indica que a loja está fechada por algum motivo não esperado. Requer uma ação da loja.
         //
+        $openingHoursStatus = $outState['validations']['opening-hours']['state'];
         $unavailabilitiesStatus = $outState['validations']['unavailabilities']['state'];
         $radiusRestrictionStatus = $outState['validations']['radius-restriction']['state'];
         $payoutBlockedStatus = $outState['validations']['payout-blocked']['state'];
@@ -114,13 +115,21 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
             $linhaStatusAvailability = '';
         endif;
 
+        if($openingHoursStatus == 'OK' || $openingHoursStatus == 'WARNING'):
+            $icon = 'fa-regular fa-circle-exclamation text-black';
+        elseif($openingHoursStatus == 'CLOSED' || $openingHoursStatus == 'ERROR'):
+            $icon = 'fa-solid fa-check text-success';
+        endif;
+
+
+
         $html = '
         <div class="dropdown-menu-dalton dropdown-menu-status p-3" style="width: 350px;">
             <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-ban text-black ml-1"></i><br><span class="fs-14 font-w400">'.$subtitle.'</span></h4>
             <hr class="">'.
             $linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$linhaTermsServiceViolation.$linhaStatusAvailability
             .'<h4 class="fs-14 font-w600 text-black py-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
-            <h4 class="fs-14 font-w600 text-black pt-2"><i class="fa-regular fa-circle-exclamation text-black mr-2 fs-16"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
+            <h4 class="fs-14 font-w600 text-black pt-2"><i class="'.$icon.' mr-2 fs-16"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
             <hr>
             <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
             '.
