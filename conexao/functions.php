@@ -132,7 +132,7 @@ function merchantStatus($accessToken){
 
             $out['validations'][$inVali['id']] = array(
                 "state" => $inVali['state'],
-                array(
+                "message" => array(
                     "title" => $inVali['message']['title'],
                     "subtitle" => $inVali['message']['subtitle'],
                     "description" => $inVali['message']['description']
