@@ -39,9 +39,15 @@ session_start();
                 <h4 class="mb-0">TESTE POLLING <span class="badge light badge-warning ml-2 timer">00:00:<span class="segundos">30</span></span></h4>
                 <hr>
             </div>
-            <div id="box-retorno">
-                <p class="mb-0 subtitle text-success">Inicio!</p>
+            <div class="row">
+                <div id="box-retorno" class="col-6">
+                    <p class="mb-0 subtitle text-success">Inicio!</p>
+                </div>
+                <div id="box-html" class="col-6">
+                    
+                </div>
             </div>
+            
         </div>
     </div>
     

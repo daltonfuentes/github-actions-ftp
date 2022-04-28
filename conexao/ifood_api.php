@@ -23,27 +23,117 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         exit();
     endif;
 
-    $retorno['title']  = $outState['title'];
-    $retorno['subtitle']  = $outState['validations']['opening-hours']['message']['title'];
+    if($state == 'OK'):
+        //
+        // Indica que a loja está online.
+        //
+        $retorno['merchantStatus']  = 'open';
+
+        $html = '
+        <div class="dropdown-menu dropdown-menu-status p-3" style="width: 350px;">
+            <h4 class="fs-16 font-w600 text-black mb-0">Loja aberta<i class="fa-solid fa-circle-check text-success ml-2"></i></h4>
+            <hr class="">
+            <h4 class="fs-14 font-w600 text-black pb-2"><i class="fa-solid fa-check text-success mr-2"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
+            <h4 class="fs-14 font-w600 text-black pt-2"><i class="fa-solid fa-check text-success mr-2"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
+            <hr>
+            <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
+            <button type="button" class="btn btn-red btn-sm btn-block mt-4 fechar"><span class="ml-2 fs-16">Fechar agora</span></button>
+        </div>';
+    elseif($state == 'WARNING'):
+        //
+        // Indica que a loja está online, mas podem haver restrições como redução de área de entrega.
+        //
+        $isConnectedStatus = $outState['validations']['is-connected']['state'];
+        $openingHoursStatus = $outState['validations']['opening-hours']['state'];
+
+        $retorno['merchantStatus']  = 'open';
+
+        $html = '
+        <div class="dropdown-menu dropdown-menu-status p-3" style="width: 350px;">
+            <h4 class="fs-16 font-w600 text-black mb-0">Loja aberta<i class="fa-solid fa-circle-check text-success ml-2"></i></h4>
+            <hr class="">
+            <h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['radius-restriction']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">Muitos pedidos (alterado no Gestor de Pedidos)</span></h4>
+            <h4 class="fs-14 font-w600 text-black py-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
+            <h4 class="fs-14 font-w600 text-black pt-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
+            <hr>
+            <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
+            <button type="button" class="btn btn-red btn-sm btn-block mt-4 fechar"><span class="ml-2 fs-16">Fechar agora</span></button>
+        </div>';
+    elseif($state == 'CLOSED' || $state == 'ERROR'):
+        //
+        // CLOSED: Indica que a loja está fechada conforme esperado, como em casos de "fora do horário de funcionamento" ou "em pausa programada". Não requer nenhuma ação.
+        // ERROR: Indica que a loja está fechada por algum motivo não esperado. Requer uma ação da loja.
+        //
+        $unavailabilitiesStatus = $outState['validations']['unavailabilities']['state'];
+        $radiusRestrictionStatus = $outState['validations']['radius-restriction']['state'];
+        $payoutBlockedStatus = $outState['validations']['payout-blocked']['state'];
+        $logisticsBlockedStatus = $outState['validations']['logistics-blocked']['state'];
+        $termsServiceViolationStatus = $outState['validations']['terms-service-violation']['state'];
+        $statusAvailabilityStatus = $outState['validations']['status-availability']['state'];
+
+        $retorno['merchantStatus']  = 'open';
+
+        if(!empty($unavailabilitiesStatus)):
+            $linhaUnavailabilities = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['unavailabilities']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['unavailabilities']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['unavailabilities']['message']['description'].'</span></h4>';
+            $button = '<button type="button" class="btn btn-success btn-sm btn-block mt-4 disabled" disabled><span class="ml-2 fs-16">Abrir agora</span></button>';
+        else:
+            $linhaUnavailabilities = '';
+            $button = '<button type="button" class="btn btn-success btn-sm btn-block mt-4"><span class="ml-2 fs-16">Abrir agora</span></button>';
+        endif;
+
+        if(!empty($radiusRestrictionStatus)):
+            $linhaRadiusRestriction = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['radius-restriction']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['description'].'</span></h4>';
+        else:
+            $linhaRadiusRestriction = '';
+        endif;
+
+        if(!empty($payoutBlockedStatus)):
+            $linhaPayoutBlocked = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['payout-blocked']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['payout-blocked']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['payout-blocked']['message']['description'].'</span></h4>';
+        else:
+            $linhaPayoutBlocked = '';
+        endif;
+
+        if(!empty($logisticsBlockedStatus)):
+            $linhaLogisticsBlocked = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['logistics-blocked']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['logistics-blocked']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['logistics-blocked']['message']['description'].'</span></h4>';
+        else:
+            $linhaLogisticsBlocked = '';
+        endif;
+
+        if(!empty($termsServiceViolationStatus)):
+            $linhaTermsServiceViolation = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['terms-service-violation']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['terms-service-violation']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['terms-service-violation']['message']['description'].'</span></h4>';
+        else:
+            $linhaTermsServiceViolation = '';
+        endif;
+
+        if(!empty($statusAvailabilityStatus)):
+            $linhaStatusAvailability = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['status-availability']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['status-availability']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['status-availability']['message']['description'].'</span></h4>';
+        else:
+            $linhaStatusAvailability = '';
+        endif;
+
+        $html = '
+        <div class="dropdown-menu dropdown-menu-status p-3" style="width: 350px;">
+            <h4 class="fs-16 font-w600 text-black mb-0">Loja fechada <i class="fa-solid fa-ban text-black ml-1"></i><br></h4>
+            <hr class="">'.
+            $linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$linhaTermsServiceViolation.$linhaStatusAvailability
+            .'<h4 class="fs-14 font-w600 text-black py-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
+            <h4 class="fs-14 font-w600 text-black pt-2"><i class="fa-regular fa-circle-exclamation text-black mr-2 fs-16"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
+            <hr>
+            <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
+            '.
+            $button
+            .'
+        </div>';
+    endif;
+
     $retorno['code']  = $outState['code'];
+
+    $retorno['state']  = $state;
+    $retorno['title']  = $outState['title'];
+    $retorno['subtitle']  = $outState['subtitle'];
+    $retorno['html']  = $html;
     echo json_encode($retorno);
     exit();
-
-    if($state == 'CLOSED' || $state == 'ERROR'):
-        // LOJA FECHADA
-        $retorno['title']  = $outState['title'];
-        $retorno['subtitle']  = $outState['subtitle'];
-        $retorno['code']  = $outState['code'];
-        echo json_encode($retorno);
-        exit();
-    elseif($state == 'OK' || $state == 'WARNING'):
-        // LOJA ABERTA
-        $retorno['title']  = $outState['title'];
-        $retorno['subtitle']  = $outState['validations']['opening-hours']['message']['title'];
-        $retorno['code']  = $outState['code'];
-        echo json_encode($retorno);
-        exit();
-    endif;
 endif;
 
 //$_POST['polling'] = true;

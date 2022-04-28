@@ -122,7 +122,7 @@ function merchantStatus($accessToken){
         $out['code'] = $httpcode;
         $out['state'] = $retorno[0]['state'];
         $out['title'] = $retorno[0]['message']['title'];
-        //$out['subtitle'] = $retorno[0]['message']['subtitle'];
+        $out['subtitle'] = $retorno[0]['message']['subtitle'];
         $out['validations'] = array();
 
         $outValidations = $retorno[0]['validations'];

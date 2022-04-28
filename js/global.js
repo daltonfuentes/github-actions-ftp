@@ -401,7 +401,13 @@ $(document).ready(function() {
                 
             },
             success :  function(retorno){
-                console.log(+retorno.code+' - '+retorno.title+' - '+retorno.subtitle);
+                if(retorno.code == 200){
+                    $("#box-html").html(retorno.html);
+                    console.log(+retorno.state+' - '+retorno.title+' - '+retorno.subtitle);
+                }else{
+                    console.log(+retorno.code);
+                }
+                
             },
             complete: function() {
                 setTimeout(refreshStatusIfood, 30000);
