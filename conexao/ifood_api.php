@@ -25,8 +25,8 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
     $test = json_encode($outState);
 
-    $validations = (array) $test['validations'];
-    $validation1 = (array) $validations[1];
+    //$validations = (array) $test['validations'];
+    //$validation1 = (array) $validations[1];
 
     if($state == 'CLOSED' || $state == 'ERROR'):
         // LOJA FECHADA
@@ -38,7 +38,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     elseif($state == 'OK' || $state == 'WARNING'):
         // LOJA ABERTA
         $retorno['title']  = $outState['title'];
-        $retorno['subtitle']  = $validation1['code'];
+        $retorno['subtitle']  = $test;
         $retorno['code']  = $outState['code'];
         echo json_encode($retorno);
         exit();
