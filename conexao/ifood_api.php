@@ -119,7 +119,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
         if(!empty($unavailabilitiesStatus)):
             $linhaUnavailabilities = '
-            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -24px;margin-right: -24px;">
+            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
                 <i class="fa-regular fa-clock text-black mr-2 fs-16"></i>
                 <h4 class="fs-14 font-w600 text-black">'.$outState['validations']['unavailabilities']['message']['title'].'<br>
                     <span class="fs-12 font-w400">'.$outState['validations']['unavailabilities']['message']['subtitle'].'</span><br>
@@ -134,7 +134,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
         if(!empty($radiusRestrictionStatus)):
             $linhaRadiusRestriction = '
-            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -24px;margin-right: -24px;">
+            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
                 <i class="fa-regular fa-clock text-black mr-2 fs-16"></i>
                 <h4 class="fs-14 font-w600 text-black">'.$outState['validations']['radius-restriction']['message']['title'].'<br>
                     <span class="fs-12 font-w400">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br>
