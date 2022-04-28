@@ -95,7 +95,25 @@ $(document).on('click', '.dropdown-menu-status', function(){
 });
 
 $(document).ready(function() {
-    
-    
-
+    function refreshStatusIfood() {
+        $.ajax({
+            type : 'POST',
+            url  : './conexao/ifood_api.php',
+            data : { status_ifood: true },
+            dataType: 'json',
+            beforeSend: function() {
+                
+            },
+            success :  function(retorno){
+                console.log('FOi');
+            },
+            error: function() {
+                console.log('Não foi');
+            },
+            complete: function() {
+                setTimeout(refreshStatusIfood, 30000);
+            }
+        });
+    };
+    refreshStatusIfood();
 });
