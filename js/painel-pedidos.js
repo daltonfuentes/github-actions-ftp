@@ -95,25 +95,7 @@ $(document).on('click', '.dropdown-menu-status', function(){
 });
 
 $(document).ready(function() {
-    function refreshStatusIfood() {
-        $.ajax({
-            type : 'POST',
-            url  : './conexao/ifood_api.php',
-            data : { polling: true },
-            dataType: 'json',
-            beforeSend: function() {
-                
-            },
-            success :  function(retorno){
-                var html = '<p class="mb-0 subtitle">'+retorno.code+' - '+retorno.mensagem+'</p>';
-                $("#box-retorno").prepend(html);
-            },
-            complete: function() {
-                contador = 30;
-                temporizador();
-                setTimeout(fazPolling, 30000);
-            }
-        });
-    };
-    //refreshStatusIfood();
+    
+    
+
 });

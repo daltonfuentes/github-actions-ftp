@@ -123,7 +123,27 @@ function merchantStatus($accessToken){
         $out['state'] = $retorno[0]['state'];
         $out['title'] = $retorno[0]['message']['title'];
         //$out['subtitle'] = $retorno[0]['message']['subtitle'];
-        $out['subtitle'] = $retorno[0]['validations'][0]['code'];
+        $out['validations'] = array();
+        $out['validations'][0] = array(
+            "id" => "$retorno[0]['validations'][0]['id']",
+            "code" => "$retorno[0]['validations'][0]['code']",
+            "state" => "$retorno[0]['validations'][0]['state']",
+            array(
+                "title" => "$retorno[0]['validations'][0]['message']['title']",
+                "subtitle" => "$retorno[0]['validations'][0]['message']['subtitle']",
+                "description" => "$retorno[0]['validations'][0]['message']['description']"
+            )
+        );
+        $out['validations'][1] = array(
+            "id" => "$retorno[0]['validations'][1]['id']",
+            "code" => "$retorno[0]['validations'][1]['code']",
+            "state" => "$retorno[0]['validations'][1]['state']",
+            array(
+                "title" => "$retorno[0]['validations'][1]['message']['title']",
+                "subtitle" => "$retorno[0]['validations'][1]['message']['subtitle']",
+                "description" => "$retorno[0]['validations'][1]['message']['description']"
+            )
+        );
         return $out;
     else:
         $out['mensagem'] = 'Erro inesperado.';
