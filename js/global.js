@@ -390,4 +390,23 @@ $(document).ready(function() {
         });
     };
     fazPolling();
+
+    function refreshStatusIfood() {
+        $.ajax({
+            type : 'POST',
+            url  : './conexao/ifood_api.php',
+            data : { status_ifood: true },
+            dataType: 'json',
+            beforeSend: function() {
+                
+            },
+            success :  function(retorno){
+                console.log(+retorno.code+' - '+retorno.title+' - '+retorno.subtitle);
+            },
+            complete: function() {
+                setTimeout(refreshStatusIfood, 30000);
+            }
+        });
+    };
+    refreshStatusIfood();
 });

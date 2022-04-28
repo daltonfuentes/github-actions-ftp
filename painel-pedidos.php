@@ -134,8 +134,8 @@ session_start();
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
                                         <div class="media ml-0 align-items-center">
                                             <div class="px-1">
-                                                <h4 class="fs-20 ml-2 text-dark">#4020</small>
-                                                <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. </h4>
+                                                <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
+                                                        class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
                                                 <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
                                                     17:35</span>
@@ -233,13 +233,13 @@ session_start();
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
-                                                <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
-                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
+                                                <span class=""><i class="fa-solid fa-ban fs-16"></i></span>
+                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Cancelado as
                                                     17:35</span>
                                             </div>
                                             <div class="media-footer valor-total-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
-                                                        class="badge badge-dark light">CONCLUIDO</span></h4>
+                                                        class="badge badge-danger light">CANCELADO</span></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -247,6 +247,9 @@ session_start();
                             </div>
                         </div>
                         <div class="row pr-2 pt-1 d-none" id="row-list-orders-scheduled" style="width: 400px;">
+                            <div class="col-12">
+                                <h5 class="ml-2"><i class="fa-solid fa-calendar-days mr-2"></i>Hoje</h5>
+                            </div>
                             <div class="col-12 mb-3">
                                 <div class="card shadow mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
@@ -256,6 +259,23 @@ session_start();
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
                                                 <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Entregar entre 11:00 - 11:30</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <h5 class="ml-2"><i class="fa-solid fa-calendar-days mr-2"></i>Amanhã</h5>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="card shadow mb-0 d-block">
+                                    <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
+                                        <div class="media ml-0">
+                                            <div class="px-1">
+                                                <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
+                                                        class="fs-20 ml-2 text-dark">#4120</small></h4>
+                                                <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
+                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Entregar entre 15:00 - 15:30</span>
                                             </div>
                                         </div>
                                     </div>
@@ -953,7 +973,7 @@ session_start();
                                     </div>
                                     <div class="col-xl-12 col-sm-6">
                                         <div class="card card-mb-20">
-                                            <button type="button" class="btn btn-danger btn-lg"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">CANCELAR</span></button>
+                                            <button type="button" class="btn btn-danger btn-lg"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">RECUSAR</span></button>
                                         </div>
                                     </div>
                                 </div>

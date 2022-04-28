@@ -8,15 +8,9 @@ require("functions.php");
 if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
     $retorno = array();
- 
-    $outToken = accessToken();
 
-    if(empty($outToken['accessToken']) || $outToken['erro'] != 0):
-        errorLog('error-accessToken-'.$outToken['erro'].'-'.$outToken['mensagem']);
-        exit();
-    else:
-        $accessToken = $outToken['accessToken'];
-    endif;
+    $outToken = accessToken();
+    $accessToken = $outToken['accessToken'];
 
     $outState = merchantStatus($accessToken);
 
@@ -24,17 +18,23 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         $state = $outState['state'];
     else:
         errorLog('error-merchantStatus-'.$outState['code'].'-'.$outState['mensagem']);
+        $retorno['code']  = $outState['code'];
+        echo json_encode($retorno);
         exit();
     endif;
 
     if($state == 'CLOSED' || $state == 'ERROR'):
         // LOJA FECHADA
-        $retorno['mensagem']  = $outState['title'].' - '.$outState['subtitle'];
+        $retorno['title']  = $outState['title'];
+        $retorno['subtitle']  = $outState['subtitle'];
+        $retorno['code']  = $outState['code'];
         echo json_encode($retorno);
         exit();
     elseif($state == 'OK' || $state == 'WARNING'):
         // LOJA ABERTA
-        $retorno['mensagem']  = $outState['title'];
+        $retorno['title']  = $outState['title'];
+        $retorno['subtitle']  = $outState['subtitle'];
+        $retorno['code']  = $outState['code'];
         echo json_encode($retorno);
         exit();
     endif;
