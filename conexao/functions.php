@@ -124,22 +124,22 @@ function merchantStatus($accessToken){
         $out['title'] = $retorno[0]['message']['title'];
         //$out['subtitle'] = $retorno[0]['message']['subtitle'];
         $out['validations'] = array();
-        $out['validations'][$retorno[0]['validations'][0]['id']] = array(
-            "state" => $retorno[0]['validations'][0]['state'],
-            array(
-                "title" => $retorno[0]['validations'][0]['message']['title'],
-                "subtitle" => $retorno[0]['validations'][0]['message']['subtitle'],
-                "description" => $retorno[0]['validations'][0]['message']['description']
-            )
-        );
-        $out['validations'][$retorno[0]['validations'][1]['id']] = array(
-            "state" => $retorno[0]['validations'][1]['state'],
-            array(
-                "title" => $retorno[0]['validations'][1]['message']['title'],
-                "subtitle" => $retorno[0]['validations'][1]['message']['subtitle'],
-                "description" => $retorno[0]['validations'][1]['message']['description']
-            )
-        );
+
+        $outValidations = $retorno[0]['validations'];
+
+        foreach($outValidations as $inVali){
+            $inVali = (array) $inVali;
+
+            $out['validations'][$inVali['id']] = array(
+                "state" => $inVali['state'],
+                array(
+                    "title" => $inVali['message']['title'],
+                    "subtitle" => $inVali['message']['subtitle'],
+                    "description" => $inVali['message']['description']
+                )
+            );
+
+        };
         return $out;
     else:
         $out['mensagem'] = 'Erro inesperado.';
