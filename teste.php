@@ -44,7 +44,7 @@ session_start();
                     <p class="mb-0 subtitle text-success">Inicio!</p>
                 </div>
                 <div id="box-html" class="col-6">
-                    
+
                 </div>
             </div>
             
@@ -55,7 +55,69 @@ session_start();
     <?php include("include/js.php"); ?>
 
     <script type="text/javascript">
+        function temporizador() {
+            if(contador > 1){
+                setTimeout(temporizador,1000);
+            }else{
+                window.onbeforeunload = null;
+            }
 
+            if(contador < 10){
+                $('span.segundos').text('0'+contador);
+            }else{
+                $('span.segundos').text(contador);
+            }
+            contador--;
+        };
+
+        $(document).ready(function() {
+            function fazPolling() {
+                $.ajax({
+                    type : 'POST',
+                    url  : './conexao/ifood_api.php',
+                    data : { polling: true },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        
+                    },
+                    success :  function(retorno){
+                        var html = '<p class="mb-0 subtitle">'+retorno.code+' - '+retorno.mensagem+'</p>';
+                        $("#box-retorno").prepend(html);
+                    },
+                    complete: function() {
+                        contador = 30;
+                        temporizador();
+                        setTimeout(fazPolling, 30000);
+                    }
+                });
+            };
+            fazPolling();
+
+            function refreshStatusIfood() {
+                $.ajax({
+                    type : 'POST',
+                    url  : './conexao/ifood_api.php',
+                    data : { status_ifood: true },
+                    dataType: 'json',
+                    beforeSend: function() {
+                        
+                    },
+                    success :  function(retorno){
+                        if(retorno.code == 200){
+                            $("#box-html").html(retorno.html);
+                            console.log(retorno.state+' / '+retorno.title+' / '+retorno.subtitle);
+                        }else{
+                            console.log(retorno.code);
+                        }
+                        
+                    },
+                    complete: function() {
+                        setTimeout(refreshStatusIfood, 30000);
+                    }
+                });
+            };
+            refreshStatusIfood();
+        });
     </script>
 </body>
 </html>
