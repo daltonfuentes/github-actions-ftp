@@ -48,8 +48,11 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         $retorno['merchantStatus']  = 'open';
 
         $html = '
-        <div class="dropdown-menu-dalton dropdown-menu-status p-3" style="width: 350px;">
-            <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-circle-check text-success ml-2"></i></h4>
+        <div class="dropdown-menu-dalton dropdown-menu-status p-3 border" style="width: 350px;">
+            <div class="media align-items-center pt-2 p-3">
+                <i class="fa-solid fa-circle-check text-success text-white fs-16 mr-3"></i>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
+            </div>
             <hr class="">
             <h4 class="fs-14 font-w600 text-black pb-2"><i class="'.$iconConnected.' mr-2"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
             <h4 class="fs-14 font-w600 text-black pt-2"><i class="'.$iconOpen.' mr-2"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
@@ -79,7 +82,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         $retorno['merchantStatus']  = 'open';
 
         $html = '
-        <div class="dropdown-menu-dalton dropdown-menu-status p-3" style="width: 350px;">
+        <div class="dropdown-menu-dalton dropdown-menu-status p-3 border" style="width: 350px;">
             <div class="media align-items-center pt-2 p-3">
                 <i class="fa-solid fa-circle-check text-success text-white fs-16 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
@@ -159,7 +162,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         endif;
 
         $html = '
-        <div class="dropdown-menu-dalton dropdown-menu-status p-3" style="width: 350px;">
+        <div class="dropdown-menu-dalton dropdown-menu-status p-3 border" style="width: 350px;">
             <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-ban text-black ml-1"></i><br><span class="fs-14 font-w400">'.$subtitle.'</span></h4>
             <hr class="">'.
             $linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$linhaTermsServiceViolation.$linhaStatusAvailability
