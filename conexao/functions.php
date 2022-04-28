@@ -131,7 +131,7 @@ function merchantStatus($accessToken){
             $inVali = (array) $inVali;
             $inValiMessage = (array) $inVali['message'];
 
-            $teste = json_encode($inValiMessage);
+            $teste = json_encode($inVali);
             
 
             $out['validations'][$inVali['id']] = array(
