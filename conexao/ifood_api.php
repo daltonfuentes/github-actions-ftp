@@ -23,7 +23,9 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         exit();
     endif;
 
-    $validations = (array) $outState['validations'];
+    $test = json_encode($outState);
+
+    $validations = (array) $test['validations'];
     $validation1 = (array) $validations[1];
 
     if($state == 'CLOSED' || $state == 'ERROR'):
