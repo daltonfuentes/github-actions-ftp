@@ -54,13 +54,13 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
             </div>
             <hr class="">
-            <div class="media align-items-center">
+            <div class="media py-2">
                 <i class="'.$iconConnected.' fs-16 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['is-connected']['message']['title'].'</h4>
             </div>
-            <div class="media align-items-center">
+            <div class="media py-2">
                 <i class="'.$iconOpen.' fs-16 mr-3"></i>
-                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
             </div>
             <hr>
             <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
