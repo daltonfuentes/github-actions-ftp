@@ -30,14 +30,29 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         //
         // Indica que a loja está online.
         //
+        $isConnectedStatus = $outState['validations']['is-connected']['state'];
+        $openingHoursStatus = $outState['validations']['opening-hours']['state'];
+
+        if($openingHoursStatus == 'OK' || $openingHoursStatus == 'WARNING'):
+            $iconOpen = 'fa-solid fa-check text-success';
+        elseif($openingHoursStatus == 'CLOSED' || $openingHoursStatus == 'ERROR'):
+            $iconOpen = 'fa-regular fa-circle-exclamation text-black';
+        endif;
+
+        if($isConnectedStatus == 'OK' || $isConnectedStatus == 'WARNING'):
+            $iconConnected = 'fa-solid fa-check text-success';
+        elseif($isConnectedStatus == 'CLOSED' || $isConnectedStatus == 'ERROR'):
+            $iconConnected = 'fa-regular fa-circle-exclamation text-black';
+        endif;
+
         $retorno['merchantStatus']  = 'open';
 
         $html = '
         <div class="dropdown-menu-dalton dropdown-menu-status p-3" style="width: 350px;">
             <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-circle-check text-success ml-2"></i></h4>
             <hr class="">
-            <h4 class="fs-14 font-w600 text-black pb-2"><i class="fa-solid fa-check text-success mr-2"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
-            <h4 class="fs-14 font-w600 text-black pt-2"><i class="fa-solid fa-check text-success mr-2"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
+            <h4 class="fs-14 font-w600 text-black pb-2"><i class="'.$iconConnected.' mr-2"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
+            <h4 class="fs-14 font-w600 text-black pt-2"><i class="'.$iconOpen.' mr-2"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
             <hr>
             <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
             <button type="button" class="btn btn-red btn-sm btn-block mt-4 fechar"><span class="ml-2 fs-16">Fechar agora</span></button>
@@ -49,6 +64,18 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         $isConnectedStatus = $outState['validations']['is-connected']['state'];
         $openingHoursStatus = $outState['validations']['opening-hours']['state'];
 
+        if($openingHoursStatus == 'OK' || $openingHoursStatus == 'WARNING'):
+            $iconOpen = 'fa-solid fa-check text-success';
+        elseif($openingHoursStatus == 'CLOSED' || $openingHoursStatus == 'ERROR'):
+            $iconOpen = 'fa-regular fa-circle-exclamation text-black';
+        endif;
+
+        if($isConnectedStatus == 'OK' || $isConnectedStatus == 'WARNING'):
+            $iconConnected = 'fa-solid fa-check text-success';
+        elseif($isConnectedStatus == 'CLOSED' || $isConnectedStatus == 'ERROR'):
+            $iconConnected = 'fa-regular fa-circle-exclamation text-black';
+        endif;
+
         $retorno['merchantStatus']  = 'open';
 
         $html = '
@@ -56,8 +83,8 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
             <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-circle-check text-success ml-2"></i></h4>
             <hr class="">
             <h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['radius-restriction']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">Muitos pedidos (alterado no Gestor de Pedidos)</span></h4>
-            <h4 class="fs-14 font-w600 text-black py-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
-            <h4 class="fs-14 font-w600 text-black pt-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
+            <h4 class="fs-14 font-w600 text-black py-2"><i class="'.$iconConnected.' mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
+            <h4 class="fs-14 font-w600 text-black pt-2"><i class="'.$iconOpen.' mr-2 fs-16"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
             <hr>
             <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
             <button type="button" class="btn btn-red btn-sm btn-block mt-4 fechar"><span class="ml-2 fs-16">Fechar agora</span></button>
@@ -67,6 +94,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         // CLOSED: Indica que a loja está fechada conforme esperado, como em casos de "fora do horário de funcionamento" ou "em pausa programada". Não requer nenhuma ação.
         // ERROR: Indica que a loja está fechada por algum motivo não esperado. Requer uma ação da loja.
         //
+        $isConnectedStatus = $outState['validations']['is-connected']['state'];
         $openingHoursStatus = $outState['validations']['opening-hours']['state'];
         $unavailabilitiesStatus = $outState['validations']['unavailabilities']['state'];
         $radiusRestrictionStatus = $outState['validations']['radius-restriction']['state'];
@@ -116,20 +144,24 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         endif;
 
         if($openingHoursStatus == 'OK' || $openingHoursStatus == 'WARNING'):
-            $icon = 'fa-solid fa-check text-success';
+            $iconOpen = 'fa-solid fa-check text-success';
         elseif($openingHoursStatus == 'CLOSED' || $openingHoursStatus == 'ERROR'):
-            $icon = 'fa-regular fa-circle-exclamation text-black';
+            $iconOpen = 'fa-regular fa-circle-exclamation text-black';
         endif;
 
-
+        if($isConnectedStatus == 'OK' || $isConnectedStatus == 'WARNING'):
+            $iconConnected = 'fa-solid fa-check text-success';
+        elseif($isConnectedStatus == 'CLOSED' || $isConnectedStatus == 'ERROR'):
+            $iconConnected = 'fa-regular fa-circle-exclamation text-black';
+        endif;
 
         $html = '
         <div class="dropdown-menu-dalton dropdown-menu-status p-3" style="width: 350px;">
             <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-ban text-black ml-1"></i><br><span class="fs-14 font-w400">'.$subtitle.'</span></h4>
             <hr class="">'.
             $linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$linhaTermsServiceViolation.$linhaStatusAvailability
-            .'<h4 class="fs-14 font-w600 text-black py-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
-            <h4 class="fs-14 font-w600 text-black pt-2"><i class="'.$icon.' mr-2 fs-16"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
+            .'<h4 class="fs-14 font-w600 text-black py-2"><i class="'.$iconConnected.' mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
+            <h4 class="fs-14 font-w600 text-black pt-2"><i class="'.$iconOpen.' mr-2 fs-16"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
             <hr>
             <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
             '.
