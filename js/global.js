@@ -403,9 +403,9 @@ $(document).ready(function() {
             success :  function(retorno){
                 if(retorno.code == 200){
                     $("#box-html").html(retorno.html);
-                    console.log(+retorno.state+' - '+retorno.title+' - '+retorno.subtitle);
+                    console.log(retorno.state+' / '+retorno.title+' / '+retorno.subtitle);
                 }else{
-                    console.log(+retorno.code);
+                    console.log(retorno.code);
                 }
                 
             },
