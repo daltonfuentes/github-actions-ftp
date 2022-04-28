@@ -136,7 +136,7 @@ function merchantStatus($accessToken){
         );
         $out['validations'][1] = array(
             "id" => "$retorno[0]['validations'][1]['id']",
-            "code" => "$retorno[0]['validations'][1]['code']",
+            "code" => $retorno[0]['validations'][1]['code'],
             "state" => "$retorno[0]['validations'][1]['state']",
             array(
                 "title" => "$retorno[0]['validations'][1]['message']['title']",
