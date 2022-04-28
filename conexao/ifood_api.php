@@ -116,9 +116,9 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         endif;
 
         if($openingHoursStatus == 'OK' || $openingHoursStatus == 'WARNING'):
-            $icon = 'fa-regular fa-circle-exclamation text-black';
-        elseif($openingHoursStatus == 'CLOSED' || $openingHoursStatus == 'ERROR'):
             $icon = 'fa-solid fa-check text-success';
+        elseif($openingHoursStatus == 'CLOSED' || $openingHoursStatus == 'ERROR'):
+            $icon = 'fa-regular fa-circle-exclamation text-black';
         endif;
 
 
