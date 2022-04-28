@@ -95,6 +95,7 @@ $(document).on('click', '.dropdown-menu-status', function(){
 });
 
 $(document).ready(function() {
+    var nStatusIfood = 0;
     function refreshStatusIfood() {
         $.ajax({
             type : 'POST',
@@ -105,13 +106,21 @@ $(document).ready(function() {
                 
             },
             success :  function(retorno){
-                console.log('FOi');
+                if(retorno.code == 200){
+                    nStatusIfood = 0;
+                    $("#box_satus_ifood").html(retorno.html);
+                    
+                }else{ nStatusIfood++; }
             },
             error: function() {
-                console.log('Não foi');
+                nStatusIfood++;
             },
             complete: function() {
                 setTimeout(refreshStatusIfood, 30000);
+                if(nStatusIfood >= 4){
+                    
+                }
+                console.log(nStatusIfood);
             }
         });
     };

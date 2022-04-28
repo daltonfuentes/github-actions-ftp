@@ -330,3 +330,26 @@ $response = curl_exec($curl);
         $out['code'] = $httpcode;
         return $out;
     endif;
+
+
+
+<div class="dropdown-menu1 dropdown-menu-status p-3 d-none" style="width: 350px;">
+    <h4 class="fs-16 font-w600 text-black mb-0">Loja fechada <i class="fa-solid fa-ban text-black ml-1"></i><br><span class="fs-14 font-w400">Fora do horário programado</span></h4>
+    <hr class="">
+    <h4 class="fs-14 font-w600 text-black pb-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>Loja conectada à rede do iFood</h4>
+    <h4 class="fs-14 font-w600 text-black pt-2 p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-circle-exclamation text-black mr-2 fs-16"></i>Fora do horário de funcionamento <br><span class="fs-12 font-w400 ml-4">Seu próximo turno começa terça ás 00:00</span></h4>
+    <hr>
+    <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
+    <h5 class="fs-12 font-w500 text-black mt-4">*Altere o horário de funcionamento para abrir a loja.</h5>
+    <button type="button" class="btn btn-success btn-sm btn-block disabled cNoDrop" disabled><span class="ml-2 fs-16">Abrir agora</span></button>
+</div>
+<div class="dropdown-menu dropdown-menu-status p-3 " style="width: 350px;">
+    <h4 class="fs-16 font-w600 text-black mb-0">Loja fechada <i class="fa-solid fa-ban text-black ml-1"></i><br></h4>
+    <hr class="">
+    <h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>Em uma pausa programada  <br><span class="fs-12 font-w400 ml-4">De 25/04, ás 22:58 até 25/04 ás 23:28</span><br><span class="fs-12 font-w400 ml-4">Muitos pedidos (alterado no Gestor de Pedidos)</span></h4>
+    <h4 class="fs-14 font-w600 text-black py-2"><i class="fa-solid fa-check text-success mr-2 fs-16"></i>Loja conectada à rede do iFood</h4>
+    <h4 class="fs-14 font-w600 text-black pt-2"><i class="fa-regular fa-circle-exclamation text-black mr-2 fs-16"></i>Fora do horário de funcionamento <br><span class="fs-12 font-w400 ml-4">Seu próximo turno começa terça ás 00:00</span></h4>
+    <hr>
+    <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
+    <button type="button" class="btn btn-success btn-sm btn-block mt-4 disabled" disabled><span class="ml-2 fs-16">Abrir agora</span></button>
+</div>

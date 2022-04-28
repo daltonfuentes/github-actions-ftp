@@ -80,7 +80,10 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
         $html = '
         <div class="dropdown-menu-dalton dropdown-menu-status p-3" style="width: 350px;">
-            <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-circle-check text-success ml-2"></i></h4>
+            <div class="media align-items-center pt-2 p-3">
+                <i class="fa-solid fa-circle-check text-success text-white fs-16 mr-3"></i>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
+            </div>
             <hr class="">
             <h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['radius-restriction']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">Muitos pedidos (alterado no Gestor de Pedidos)</span></h4>
             <h4 class="fs-14 font-w600 text-black py-2"><i class="'.$iconConnected.' mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
