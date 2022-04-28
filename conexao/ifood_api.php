@@ -33,7 +33,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
     elseif($state == 'OK' || $state == 'WARNING'):
         // LOJA ABERTA
         $retorno['title']  = $outState['title'];
-        $retorno['subtitle']  = $outState['validations']['opening-hours']['teste'];
+        $retorno['subtitle']  = $outState['validations']['opening-hours']['state'];
         $retorno['code']  = $outState['code'];
         echo json_encode($retorno);
         exit();
