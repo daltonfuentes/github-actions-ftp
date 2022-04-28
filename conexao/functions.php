@@ -129,13 +129,15 @@ function merchantStatus($accessToken){
 
         foreach($outValidations as $inVali){
             $inVali = (array) $inVali;
+            $inValiMessage = (array) $inVali['message'];
+            
 
             $out['validations'][$inVali['id']] = array(
                 "state" => $inVali['state'],
                 "message" => array(
-                    "title" => $inVali['message']['title'],
-                    "subtitle" => $inVali['message']['subtitle'],
-                    "description" => $inVali['message']['description']
+                    "title" => $inValiMessage['title'],
+                    "subtitle" => $inValiMessage['subtitle'],
+                    "description" => $inValiMessage['description']
                 )
             );
 
