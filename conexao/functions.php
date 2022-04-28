@@ -118,13 +118,12 @@ function merchantStatus($accessToken){
     curl_close($curl);
 
     if($httpcode == 200):
-        $retorno = json_decode($response);
-        $merchant = (array) $retorno[0];
-        $merchantMessage = (array) $retorno['message'];
+        $retorno = json_decode($response, true);
         $out['code'] = $httpcode;
-        $out['state'] = $merchant['state'];
-        $out['title'] = $merchantMessage['title'];
-        $out['subtitle'] = $merchantMessage['subtitle'];
+        $out['state'] = $retorno[0]['state'];
+        $out['title'] = $retorno[0]['message']['title'];
+        //$out['subtitle'] = $retorno[0]['message']['subtitle'];
+        $out['subtitle'] = $retorno[0]['validations'][0]['code'];
         return $out;
     else:
         $out['mensagem'] = 'Erro inesperado.';
