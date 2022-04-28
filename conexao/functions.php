@@ -124,9 +124,7 @@ function merchantStatus($accessToken){
         $out['title'] = $retorno[0]['message']['title'];
         //$out['subtitle'] = $retorno[0]['message']['subtitle'];
         $out['validations'] = array();
-        $out['validations'][0] = array(
-            "id" => "$retorno[0]['validations'][0]['id']",
-            "code" => "$retorno[0]['validations'][0]['code']",
+        $out['validations'][$retorno[0]['validations'][0]['id']] = array(
             "state" => "$retorno[0]['validations'][0]['state']",
             array(
                 "title" => "$retorno[0]['validations'][0]['message']['title']",
@@ -134,9 +132,7 @@ function merchantStatus($accessToken){
                 "description" => "$retorno[0]['validations'][0]['message']['description']"
             )
         );
-        $out['validations'][1] = array(
-            "id" => "$retorno[0]['validations'][1]['id']",
-            "code" => $retorno[0]['validations'][1]['code'],
+        $out['validations'][$retorno[0]['validations'][1]['id']] = array(
             "state" => "$retorno[0]['validations'][1]['state']",
             array(
                 "title" => "$retorno[0]['validations'][1]['message']['title']",
