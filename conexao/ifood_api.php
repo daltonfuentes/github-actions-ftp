@@ -89,7 +89,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
         $html = '
         <div class="dropdown-menu-dalton dropdown-menu-status p-3 border" style="width: 350px;">
-            <div class="media align-items-center pt-2 p-3">
+            <div class="media align-items-center">
                 <i class="fa-solid fa-circle-check text-success fs-16 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
             </div>
@@ -118,7 +118,14 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         $retorno['merchantStatus']  = 'open';
 
         if(!empty($unavailabilitiesStatus)):
-            $linhaUnavailabilities = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['unavailabilities']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['unavailabilities']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['unavailabilities']['message']['description'].'</span></h4>';
+            $linhaUnavailabilities = '
+            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -24px;margin-right: -24px;">
+                <i class="fa-regular fa-clock text-black mr-2 fs-16"></i>
+                <h4 class="fs-14 font-w600 text-black">'.$outState['validations']['unavailabilities']['message']['title'].'<br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['unavailabilities']['message']['subtitle'].'</span><br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['unavailabilities']['message']['description'].'</span>
+                </h4>
+            </div>';
             $button = '<button type="button" class="btn btn-success btn-sm btn-block mt-4 disabled" disabled><span class="ml-2 fs-16">Abrir agora</span></button>';
         else:
             $linhaUnavailabilities = '';
@@ -126,7 +133,14 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         endif;
 
         if(!empty($radiusRestrictionStatus)):
-            $linhaRadiusRestriction = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['radius-restriction']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['description'].'</span></h4>';
+            $linhaRadiusRestriction = '
+            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -24px;margin-right: -24px;">
+                <i class="fa-regular fa-clock text-black mr-2 fs-16"></i>
+                <h4 class="fs-14 font-w600 text-black">'.$outState['validations']['radius-restriction']['message']['title'].'<br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['radius-restriction']['message']['description'].'</span>
+                </h4>
+            </div>';
         else:
             $linhaRadiusRestriction = '';
         endif;
@@ -169,7 +183,10 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
 
         $html = '
         <div class="dropdown-menu-dalton dropdown-menu-status p-3 border" style="width: 350px;">
-            <h4 class="fs-16 font-w600 text-black mb-0">'.$title.' <i class="fa-solid fa-ban text-black ml-1"></i><br><span class="fs-14 font-w400">'.$subtitle.'</span></h4>
+            <div class="media align-items-center">
+                <i class="fa-solid fa-ban text-black fs-16 mr-3"></i>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'<br><span class="fs-14 font-w400">'.$subtitle.'</span></h4>
+            </div>
             <hr class="">'.
             $linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$linhaTermsServiceViolation.$linhaStatusAvailability
             .'<h4 class="fs-14 font-w600 text-black py-2"><i class="'.$iconConnected.' mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
