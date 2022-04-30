@@ -23,7 +23,7 @@
                         <img class="d-none loading" height="30" src="images/loading.gif" alt="loading">
                     </media>
                 </button>
-                <div class="dropdown-menu dropdown-menu-status p-3 border" style="width: 350px;">
+                <div class="dropdown-menu dropdown-menu-status py-3 px-4" style="width: 350px;">
                     <div id="box_satus_ifood">
                         
                     </div>
@@ -37,12 +37,10 @@
                         <img class="d-none loading" height="30" src="images/loading.gif" alt="loading">
                     </media>
                 </button>
-                <div class="dropdown-menu dropdown-menu-status py-3 px-4 bg-warning" style="width: 300px;">
-                    <div class="media align-items-center">
-                        <i class="fa-solid fa-circle-exclamation text-white fs-24 mr-3"></i>
-                        <h4 class="fs-16 font-w600 text-white mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Problema com a conexão</span></h4>
+                <div class="dropdown-menu dropdown-menu-status py-3 px-4" style="width: 350px;">
+                    <div id="box_satus_site">
+                        
                     </div>
-                    
                 </div>
             </div>
             

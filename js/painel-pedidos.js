@@ -95,6 +95,10 @@ $(document).on('click', '.dropdown-menu-status', function(){
 });
 
 $(document).ready(function() {
+    const errorConnectionStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-red fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-red mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Verifique sua conexão</span></h4></div><hr><h4 class="fs-14 font-w500 text-black">Atualize a pagina e verifique novamente. Caso o problema persista, fale com o suporte.</h4>';
+    const errorInternStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-warning fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-warning mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Passando por problemas internos</span></h4></div><hr><h4 class="fs-14 font-w500 text-black">Atualize a pagina e verifique novamente. Caso o problema persista, fale com o suporte.</h4>';
+    const errorStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-warning fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-warning mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Tentando reconectar</span></h4></div>';
+
     var nStatusIfood = 0;
     function refreshStatusIfood() {
         $.ajax({
@@ -110,17 +114,20 @@ $(document).ready(function() {
                     nStatusIfood = 0;
                     $("#box_satus_ifood").html(retorno.html);
                     
-                }else{ nStatusIfood++; console.log('Success com code diferente.'); }
+                }else{ 
+                    nStatusIfood++; 
+                    $("#box_satus_ifood").html(errorStatus);
+                }
             },
             error: function() {
                 nStatusIfood++;
+                $("#box_satus_ifood").html(errorStatusMerchant);
             },
             complete: function() {
                 setTimeout(refreshStatusIfood, 30000);
                 if(nStatusIfood >= 4){
-                    
+                    $("#box_satus_ifood").html(errorInternStatus);
                 }
-                console.log(nStatusIfood);
             }
         });
     };
