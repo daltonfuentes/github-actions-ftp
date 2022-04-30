@@ -60,7 +60,9 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
             </div>
             <div class="media py-2">
                 <i class="'.$iconOpen.' fs-16 mr-3"></i>
-                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['opening-hours']['message']['title'].' <br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span>
+                </h4>
             </div>
             <hr>
             <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
@@ -121,7 +123,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
             $linhaUnavailabilities = '
             <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
                 <i class="fa-regular fa-clock text-black mr-3 fs-16"></i>
-                <h4 class="fs-14 font-w600 text-black">'.$outState['validations']['unavailabilities']['message']['title'].'<br>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['unavailabilities']['message']['title'].'<br>
                     <span class="fs-12 font-w400">'.$outState['validations']['unavailabilities']['message']['subtitle'].'</span><br>
                     <span class="fs-12 font-w400">'.$outState['validations']['unavailabilities']['message']['description'].'</span>
                 </h4>
@@ -136,7 +138,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
             $linhaRadiusRestriction = '
             <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
                 <i class="fa-regular fa-clock text-black mr-3 fs-16"></i>
-                <h4 class="fs-14 font-w600 text-black">'.$outState['validations']['radius-restriction']['message']['title'].'<br>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['radius-restriction']['message']['title'].'<br>
                     <span class="fs-12 font-w400">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br>
                     <span class="fs-12 font-w400">'.$outState['validations']['radius-restriction']['message']['description'].'</span>
                 </h4>
@@ -146,7 +148,14 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         endif;
 
         if(!empty($payoutBlockedStatus)):
-            $linhaPayoutBlocked = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['payout-blocked']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['payout-blocked']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['payout-blocked']['message']['description'].'</span></h4>';
+            $linhaPayoutBlocked = '
+            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
+                <i class="fa-regular fa-clock text-black mr-3 fs-16"></i>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['payout-blocked']['message']['title'].'<br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['payout-blocked']['message']['subtitle'].'</span><br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['payout-blocked']['message']['description'].'</span>
+                </h4>
+            </div>';
         else:
             $linhaPayoutBlocked = '';
         endif;
