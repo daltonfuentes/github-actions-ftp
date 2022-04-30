@@ -631,10 +631,16 @@
     border-left: 10px solid #973156;
 }
 
-.valor-total-pedido {
+.status-pedido {
     position: absolute;
     right: 20px;
     top: 40px;
+}
+
+.status-pedido-new {
+    position: absolute;
+    right: 20px;
+    top: 25px;
 }
 
 .bg-body-painel {
@@ -672,6 +678,10 @@
 
 .badge-atraso {
     margin-right: 13.5px;
+}
+
+.badge-new {
+    margin-right: 6px;
 }
 
 .adicional-product {

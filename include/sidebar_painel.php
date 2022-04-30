@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="text-center merchant-status-site dropup">
-                <button type="button" class="btn p-0 rounded-circle pulse merchant-open" data-toggle="dropdown" aria-expanded="false" style="height: 50px; width: 50px;">
+                <button type="button" class="btn p-0 rounded-circle pulse merchant-close" data-toggle="dropdown" aria-expanded="false" style="height: 50px; width: 50px;">
                     <media class="d-flex justify-content-center">
                         <img class="platform platform-white animate__fadeIn animate__animated" height="16" src="images/icons/icon_shop.png" alt="shop">
                         <img class="platform platform-dark animate__fadeIn animate__animated" height="16" src="images/icons/icon_shop_2.png" alt="shop">

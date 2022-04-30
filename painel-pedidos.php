@@ -95,14 +95,10 @@ session_start();
                                     <div class="card-body cPointer pl-4 mb-0 bg-danger rounded faixa-pedido pendente">
                                         <div class="media ml-0">
                                             <div class="px-1 text-white">
-                                                <h4 class="font-gilroy-bold fs-20 mb-1 text-white">Antonio M. <small
-                                                        class="fs-20 ml-2">#4020</small></h4>
-                                                <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
-                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
-                                                    17:35</span>
+                                                <h4 class="font-gilroy-bold fs-20 mb-0 text-white">Antonio M. <small class="fs-20 ml-2">#4020</small></h4>
                                             </div>
-                                            <div class="media-footer valor-total-pedido">
-                                                <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
+                                            <div class="media-footer status-pedido-new">
+                                                <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-new"><span
                                                         class="badge badge-danger light">PENDENTE</span></h4>
                                             </div>
                                         </div>
@@ -121,7 +117,7 @@ session_start();
                                                 <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
                                                     17:35</span>
                                             </div>
-                                            <div class="media-footer valor-total-pedido">
+                                            <div class="media-footer status-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-atraso">
                                                     <span class="badge badge-warning light">ATRASO</span></h4>
                                             </div>
@@ -140,7 +136,7 @@ session_start();
                                                 <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
                                                     17:35</span>
                                             </div>
-                                            <div class="media-footer valor-total-pedido">
+                                            <div class="media-footer status-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-preparo">
                                                     <span class="badge badge-primary light">PREPARO</span>
                                                 </h4>
@@ -156,11 +152,10 @@ session_start();
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
-                                                <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
-                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
-                                                    17:35</span>
+                                                <span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span>
+                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviado á 27 minutos</span>
                                             </div>
-                                            <div class="media-footer valor-total-pedido">
+                                            <div class="media-footer status-pedido">
                                                 <h4
                                                     class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-entrega">
                                                     <span class="badge badge-success light">ENTREGA</span></h4>
@@ -176,11 +171,11 @@ session_start();
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
-                                                <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
-                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
+                                                <span class=""><i class="fa-regular fa-circle-check fs-16"></i></span>
+                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Concluido ás
                                                     17:35</span>
                                             </div>
-                                            <div class="media-footer valor-total-pedido">
+                                            <div class="media-footer status-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
                                                         class="badge badge-dark light">CONCLUIDO</span></h4>
                                             </div>
@@ -195,11 +190,11 @@ session_start();
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
-                                                <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
-                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
+                                                <span class=""><i class="fa-regular fa-circle-check fs-16"></i></span>
+                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Concluido ás
                                                     17:35</span>
                                             </div>
-                                            <div class="media-footer valor-total-pedido">
+                                            <div class="media-footer status-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
                                                         class="badge badge-dark light">CONCLUIDO</span></h4>
                                             </div>
@@ -214,11 +209,11 @@ session_start();
                                             <div class="px-1">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
-                                                <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
-                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até
+                                                <span class=""><i class="fa-regular fa-circle-check fs-16"></i></span>
+                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Concluido ás
                                                     17:35</span>
                                             </div>
-                                            <div class="media-footer valor-total-pedido">
+                                            <div class="media-footer status-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
                                                         class="badge badge-dark light">CONCLUIDO</span></h4>
                                             </div>
@@ -234,10 +229,10 @@ session_start();
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-solid fa-ban fs-16"></i></span>
-                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Cancelado as
+                                                <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Cancelado ás
                                                     17:35</span>
                                             </div>
-                                            <div class="media-footer valor-total-pedido">
+                                            <div class="media-footer status-pedido">
                                                 <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span
                                                         class="badge badge-danger light">CANCELADO</span></h4>
                                             </div>
@@ -305,7 +300,7 @@ session_start();
                                 <div class="row">
                                     <div class="col-xl-12">
                                         <div class="card border border-light shadow-sm">
-                                            <div class="card-body py-2">
+                                            <div class="card-body py-3">
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <div class="row align-items-center">
