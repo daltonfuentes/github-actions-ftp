@@ -48,7 +48,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         $retorno['merchantStatus']  = 'open';
 
         $html = '
-        <div class="dropdown-menu-dalton dropdown-menu-status p-3 border" style="width: 350px;">
+        <div class="dropdown-menu dropdown-menu-status p-3 border" style="width: 350px;">
             <div class="media align-items-center">
                 <i class="fa-solid fa-circle-check text-success fs-16 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
@@ -90,7 +90,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         $retorno['merchantStatus']  = 'open';
 
         $html = '
-        <div class="dropdown-menu-dalton dropdown-menu-status p-3 border" style="width: 350px;">
+        <div class="dropdown-menu dropdown-menu-status p-3 border" style="width: 350px;">
             <div class="media align-items-center">
                 <i class="fa-solid fa-circle-check text-success fs-16 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
@@ -191,7 +191,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         endif;
 
         $html = '
-        <div class="dropdown-menu-dalton dropdown-menu-status p-3 border" style="width: 350px;">
+        <div class="dropdown-menu dropdown-menu-status p-3 border" style="width: 350px;">
             <div class="media align-items-center">
                 <i class="fa-solid fa-ban text-black fs-16 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'<br><span class="fs-14 font-w400">'.$subtitle.'</span></h4>

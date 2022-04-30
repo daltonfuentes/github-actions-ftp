@@ -126,22 +126,5 @@ $(document).ready(function() {
     };
     refreshStatusIfood();
 
-    const checkOnlineStatus = async () => {
-        try {
-            const online = await fetch("http://www.google.com/");
-            const result = online.status >= 200 && online.status < 300; // either true or false
-            console.log(result);
-        } catch (err) {
-            const result = false; // definitely offline
-            console.log(result);
-        }
-    };
 
-
-    function testaConexao() {
-        checkOnlineStatus();
-
-        setTimeout(testaConexao, 2000);
-    };
-    testaConexao();
 });
