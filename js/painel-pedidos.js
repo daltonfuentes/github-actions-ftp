@@ -138,14 +138,14 @@ $(document).ready(function() {
 
     function changeStyleButtonStatus(status, plataform) {
         if(status == 'OK' || status == 'WARNING'){
-            $('.merchant-status-'+plataform+' button').removeClass('merchant-close');
-            $('.merchant-status-'+plataform+' button').addClass('merchant-open');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-close');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').addClass('merchant-open');
         }else if(status == 'CLOSED' || status == 'ERROR'){
-            $('.merchant-status-'+plataform+' button').removeClass('merchant-open');
-            $('.merchant-status-'+plataform+' button').addClass('merchant-close');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-open');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').addClass('merchant-close');
         }else if(status == 'FAIL'){
-            $('.merchant-status-'+plataform+' button').removeClass('merchant-open merchant-close');
-            $('.merchant-status-'+plataform+' button').addClass('merchant-fail');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-open merchant-close');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').addClass('merchant-fail');
         }
     }
 });
