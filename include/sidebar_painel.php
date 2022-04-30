@@ -23,7 +23,10 @@
                         <img class="d-none loading" height="30" src="images/loading.gif" alt="loading">
                     </media>
                 </button>
-                <div id="box_satus_ifood">
+                <div class="dropdown-menu dropdown-menu-status p-3 border" style="width: 350px;">
+                    <div id="box_satus_ifood">
+                        
+                    </div>
                 </div>
             </div>
             <div class="text-center merchant-status-site dropup">
