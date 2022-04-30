@@ -907,6 +907,12 @@ button:focus {
     animation: pulse_open 2s infinite;
 }
 
+.pulse.merchant-fail {
+    border-radius: 50%;
+    box-shadow: 0 0 0 rgba(255,109,77, 0.4);
+    animation: pulse_fail 2s infinite;
+}
+
 .pulse:hover {
     animation: none;
 }
@@ -965,6 +971,93 @@ button:focus {
     }
 }
 
+@-webkit-keyframes pulse_fail {
+    0% {
+      -webkit-box-shadow: 0 0 0 0 rgba(255,109,77, 0.4);
+    }
+    70% {
+        -webkit-box-shadow: 0 0 0 10px rgba(255,109,77, 0);
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(255,109,77, 0);
+    }
+}
+
+@keyframes pulse_fail {
+    0% {
+      -moz-box-shadow: 0 0 0 0 rgba(255,109,77, 0.4);
+      box-shadow: 0 0 0 0 rgba(255,109,77, 0.4);
+    }
+    70% {
+        -moz-box-shadow: 0 0 0 10px rgba(255,109,77, 0);
+        box-shadow: 0 0 0 10px rgba(255,109,77, 0);
+    }
+    100% {
+        -moz-box-shadow: 0 0 0 0 rgba(255,109,77, 0);
+        box-shadow: 0 0 0 0 rgba(255,109,77, 0);
+    }
+}
+
 .cNoDrop {
     cursor: no-drop !important;
+}
+
+.platform {
+    display: none;
+}
+
+.merchant-close img.platform-dark {
+    display: block !important;
+}
+
+.merchant-close img.platform-white {
+    display: none !important;
+}
+
+.merchant-open img.platform-dark {
+    display: none !important;
+}
+
+.merchant-open img.platform-white {
+    display: block !important;
+}
+
+.merchant-fail img.platform-dark {
+    display: none !important;
+}
+
+.merchant-fail img.platform-white {
+    display: block !important;
+}
+
+
+
+.merchant-open {
+    background-color: #2BC155;
+    border-color: #2BC155;
+}
+
+.merchant-open:hover, .merchant-open:active {
+    background-color: #24a247;
+    border-color: #229743;
+}
+
+.merchant-close {
+    background-color: #F4F5F9;
+    border-color: #F4F5F9;
+}
+
+.merchant-close:hover, .merchant-close:active {
+    background-color: #cbd0e3;
+    border-color: #cbd0e3;
+}
+
+.merchant-fail {
+    background-color: #FF6D4D;
+    border-color: #FF6D4D;
+}
+
+.merchant-fail:hover, .merchant-fail:active {
+    background-color: #e95f40;
+    border-color: #e95f40;
 }

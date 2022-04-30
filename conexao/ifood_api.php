@@ -92,10 +92,24 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
                 <i class="fa-solid fa-circle-check text-success fs-16 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
             </div>
-            <hr class="">
-            <h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['radius-restriction']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">Muitos pedidos (alterado no Gestor de Pedidos)</span></h4>
-            <h4 class="fs-14 font-w600 text-black py-2"><i class="'.$iconConnected.' mr-2 fs-16"></i>'.$outState['validations']['is-connected']['message']['title'].'</h4>
-            <h4 class="fs-14 font-w600 text-black pt-2"><i class="'.$iconOpen.' mr-2 fs-16"></i>'.$outState['validations']['opening-hours']['message']['title'].' <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span></h4>
+            <hr>
+            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
+                <i class="fa-regular fa-clock text-black mr-3 fs-16"></i>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['radius-restriction']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br>
+                    <span class="fs-12 font-w400 ml-4">Muitos pedidos (alterado no Gestor de Pedidos)</span>
+                </h4>
+            </div>
+            <hr>
+            <div class="media py-2">
+                <i class="'.$iconConnected.' fs-16 mr-3"></i>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['is-connected']['message']['title'].'</h4>
+            </div>
+            <div class="media py-2">
+                <i class="'.$iconOpen.' fs-16 mr-3"></i>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['opening-hours']['message']['title'].' <br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span>
+                </h4>
+            </div>
             <hr>
             <h5 class="fs-12 font-w500 text-black">Esta informação pode levar até 1 minuto parar atualizar depois de ser alterada.</h5>
             <button type="button" class="btn btn-red btn-sm btn-block mt-4 fechar"><span class="ml-2 fs-16">Fechar agora</span></button>';

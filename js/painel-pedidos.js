@@ -113,25 +113,39 @@ $(document).ready(function() {
                 if(retorno.code == 200){
                     nStatusIfood = 0;
                     $("#box_satus_ifood").html(retorno.html);
-                    
+                    changeStyleButtonStatus(retorno.state, 'ifood');
                 }else{ 
                     nStatusIfood++; 
                     $("#box_satus_ifood").html(errorStatus);
+                    changeStyleButtonStatus('FAIL', 'ifood');
                 }
             },
             error: function() {
                 nStatusIfood++;
-                $("#box_satus_ifood").html(errorStatusMerchant);
+                $("#box_satus_ifood").html(errorInternStatus);
+                changeStyleButtonStatus('FAIL', 'ifood');
             },
             complete: function() {
                 setTimeout(refreshStatusIfood, 30000);
                 if(nStatusIfood >= 4){
-                    $("#box_satus_ifood").html(errorInternStatus);
+                    $("#box_satus_ifood").html(errorConnectionStatus);
+                    changeStyleButtonStatus('FAIL', 'ifood');
                 }
             }
         });
     };
     refreshStatusIfood();
 
-
+    function changeStyleButtonStatus(status, plataform) {
+        if(status == 'OK' || status == 'WARNING'){
+            $('.merchant-status-'+plataform+' button').removeClass('merchant-close');
+            $('.merchant-status-'+plataform+' button').addClass('merchant-open');
+        }else if(status == 'CLOSED' || status == 'ERROR'){
+            $('.merchant-status-'+plataform+' button').removeClass('merchant-open');
+            $('.merchant-status-'+plataform+' button').addClass('merchant-close');
+        }else if(status == 'FAIL'){
+            $('.merchant-status-'+plataform+' button').removeClass('merchant-open merchant-close');
+            $('.merchant-status-'+plataform+' button').addClass('merchant-fail');
+        }
+    }
 });

@@ -292,7 +292,7 @@ session_start();
                         </div>
                     </div>
                     <div class="shadow-sm bg-order-details-02 py-5 px-5 vh-100 overflow-auto" style="width: calc(100% - 409px);">
-                        <div class="row justify-content-center d-none">
+                        <div class="row justify-content-center ">
                             <div class="col-xxl-12 col-11">
                                 <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #5231<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às 14:17h</span></h4>
                             </div>
@@ -316,25 +316,15 @@ session_start();
                                                             <div class="col-xl-10">
                                                                 <div class="row align-items-center">
                                                                     <div class="col-xl-7">
-                                                                        <div class="row align-items-center">
-                                                                            <div class="col-xl-1">
-                                                                            <i class="fa-light fa-location-dot fs-30 text-black"></i>
-                                                                            </div>
-                                                                            <div class="col-xl-11">
-                                                                                <span class="text-black font-w500">Rua
-                                                                                    Padre Cicero, 567 - Jardim
-                                                                                    Guaira</span>
-                                                                            </div>
+                                                                        <div class="media align-items-center">
+                                                                            <i class="fa-light fa-location-dot fs-30 text-black mr-2"></i>
+                                                                            <span class="text-black font-w500">Rua Padre Cicero, 567 - Jardim Guaira</span>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-xl-5">
-                                                                        <div class="row align-items-center">
-                                                                            <div class="col-xl-2">
-                                                                            <i class="fa-light fa-phone fs-30 text-black"></i>
-                                                                            </div>
-                                                                            <div class="col-xl-10 pl-2">
-                                                                                <span class="text-black font-w500">0800 242 8347 <span class="text-secondary">: 99527477</span></span>
-                                                                            </div>
+                                                                        <div class="media align-items-center">
+                                                                            <i class="fa-light fa-phone fs-30 text-black mr-2"></i>
+                                                                            <span class="text-black font-w500">0800 242 8347 <span class="text-secondary">: 99527477</span></span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -668,7 +658,7 @@ session_start();
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-center">
+                        <div class="row justify-content-center d-none">
                             <div class="col-xxl-12 col-11">
                                 <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #5231<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Entregar entre 11:00 - 11:30</span></h4>
                             </div>
