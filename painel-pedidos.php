@@ -93,8 +93,8 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-danger rounded faixa-pedido pendente">
-                                        <div class="media ml-0">
-                                            <div class="px-1 text-white">
+                                        <div class="media">
+                                            <div class="details">
                                                 <h4 class="font-gilroy-bold fs-20 mb-0 text-white">Antonio M. <small class="fs-20 ml-2">#4020</small></h4>
                                             </div>
                                             <div class="media-footer status-pedido-new">
@@ -107,10 +107,9 @@ session_start();
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
-                                    <div
-                                        class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido animate__pulse animate__infinite alerta active">
-                                        <div class="media ml-0">
-                                            <div class="px-1">
+                                    <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido animate__pulse animate__infinite alerta active" data-orderId="">
+                                        <div class="media">
+                                            <div class="details">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
@@ -128,8 +127,8 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media ml-0 align-items-center">
-                                            <div class="px-1">
+                                        <div class="media align-items-center">
+                                            <div class="details">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
@@ -148,8 +147,8 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media ml-0">
-                                            <div class="px-1">
+                                        <div class="media">
+                                            <div class="details">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span>
@@ -167,8 +166,8 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media ml-0">
-                                            <div class="px-1">
+                                        <div class="media">
+                                            <div class="details">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-regular fa-circle-check fs-16"></i></span>
@@ -186,8 +185,8 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media ml-0">
-                                            <div class="px-1">
+                                        <div class="media">
+                                            <div class="details">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-regular fa-circle-check fs-16"></i></span>
@@ -205,8 +204,8 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media ml-0">
-                                            <div class="px-1">
+                                        <div class="media">
+                                            <div class="details">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-regular fa-circle-check fs-16"></i></span>
@@ -224,8 +223,8 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow  mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media ml-0">
-                                            <div class="px-1">
+                                        <div class="media">
+                                            <div class="details">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-solid fa-ban fs-16"></i></span>
@@ -248,8 +247,8 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media ml-0">
-                                            <div class="px-1">
+                                        <div class="media">
+                                            <div class="details">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4020</small></h4>
                                                 <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
@@ -265,8 +264,8 @@ session_start();
                             <div class="col-12 mb-3">
                                 <div class="card shadow mb-0 d-block">
                                     <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido">
-                                        <div class="media ml-0">
-                                            <div class="px-1">
+                                        <div class="media">
+                                            <div class="details">
                                                 <h4 class="font-gilroy-bold fs-20 mb-1">Antonio M. <small
                                                         class="fs-20 ml-2 text-dark">#4120</small></h4>
                                                 <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
@@ -286,7 +285,7 @@ session_start();
                             </div>
                         </div>
                     </div>
-                    <div class="shadow-sm bg-order-details-02 py-5 px-5 vh-100 overflow-auto" style="width: calc(100% - 409px);">
+                    <div class="shadow-sm bg-order-details-02 pt-5 pb-4 px-5 vh-100 overflow-auto" style="width: calc(100% - 409px);">
                         <div class="row justify-content-center ">
                             <div class="col-xxl-12 col-11">
                                 <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #5231<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às 14:17h</span></h4>
@@ -364,69 +363,49 @@ session_start();
                                                             <img class="img-fluid rounded mr-3" width="85"
                                                                 src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
                                                                 alt="">
-                                                            <div
-                                                                class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
                                                                 <h5 class="mt-0 mb-0 text-black">Duplo brigadeiro</h5>
                                                             </div>
-                                                            <div
-                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
-                                                                </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">                                                           
+                                                                <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
                                                             </div>
-                                                            <div
-                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 34,00</h3>
-                                                                </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h3 class="mb-0 font-w600 text-black fs-22">R$ 34,00</h3>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 px-0">
-                                                        <hr>
+                                                        <hr class="hr-full-16">
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="media px-2 py-1 align-items-center">
                                                             <img class="img-fluid rounded mr-3" width="85"
                                                                 src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
                                                                 alt="">
-                                                            <div
-                                                                class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
                                                                 <h5 class="mt-0 mb-0 text-black">Morango com suspiro</h5>
                                                             </div>
-                                                            <div
-                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
-                                                                </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
                                                             </div>
-                                                            <div
-                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 17,00</h3>
-                                                                </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h3 class="mb-0 font-w600 text-black fs-22">R$ 17,00</h3>
                                                             </div>
                                                         </div>
                                                         <div class="media px-2 pb-2">
                                                             <div class="option-item-order media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
                                                                 <h5 class="mt-0 mb-0 text-quinta fs-16">(P) - 210 ml</h5>
                                                             </div>
-                                                            <div
-                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h5 class="mb-0 font-w600 text-quinta fs-16">1x</h5>
-                                                                </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h5 class="mb-0 font-w600 text-quinta fs-16">1x</h5>
                                                             </div>
-                                                            <div
-                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w500 text-quinta fs-16">R$ 15,00</h3>
-                                                                </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h3 class="mb-0 font-w500 text-quinta fs-16">R$ 15,00</h3>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 px-0">
-                                                        <hr>
+                                                        <hr class="hr-full-16">
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="media px-2 py-1 align-items-center">
@@ -437,41 +416,34 @@ session_start();
                                                                 <h5 class="mt-0 mb-0 text-black">Supremo Raffaello</h5>
                                                             </div>
                                                             <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
-                                                                </div>
+                                                                <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
                                                             </div>
                                                             <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 5,00</h3>
-                                                                </div>
+                                                                <h3 class="mb-0 font-w600 text-black fs-22">R$ 5,00</h3>
                                                             </div>
                                                         </div>
                                                         <div class="media px-2 pb-2">
                                                             <div class="option-item-order media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
                                                                 <h5 class="mt-0 mb-0 text-quinta fs-16">(M) 380 ml</h5>
                                                             </div>
-                                                            <div
-                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h5 class="mb-0 font-w600 text-quinta fs-16">1x</h5>
-                                                                </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h5 class="mb-0 font-w600 text-quinta fs-16">1x</h5>
                                                             </div>
-                                                            <div
-                                                                class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w500 text-quinta fs-16">R$ 15,00</h3>
-                                                                </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h3 class="mb-0 font-w500 text-quinta fs-16">R$ 15,00</h3>
                                                             </div>
                                                         </div>
-                                                        <div class="media px-2 pb-2 ">
+                                                        <div class="media px-2 pb-2">
                                                             <div class="observation-item-order media-body col-12 pr-0 align-self-center align-items-center bg-observation-order">
-                                                                <h5 class="mt-0 mb-0 text-black fs-16 py-3 px-2"><i class="fa-solid fa-pen"></i></i><span class="pl-3">Tirar cebola e maionese.</span></h5>
+                                                                <div class="media py-3 pl-2 pr-3">
+                                                                    <h5 class="mt-0 mb-0 text-black fs-16 mr-3"><i class="fa-solid fa-pen"></i></i></h5>
+                                                                    <h5 class="mt-0 mb-0 text-black fs-16"><span>Tirar cebola e maionese.</span></h5>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 px-0">
-                                                        <hr>
+                                                        <hr class="hr-full-16">
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="media px-2 py-1 align-items-center">
@@ -482,27 +454,79 @@ session_start();
                                                                 <h5 class="mt-0 mb-0 text-black">Brownie recheado c/ Nutella</h5>
                                                             </div>
                                                             <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
-                                                                </div>
+                                                                <h3 class="mb-0 font-w600 text-black fs-22">1x</h3>
                                                             </div>
                                                             <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                                                <div>
-                                                                    <h3 class="mb-0 font-w600 text-black fs-22">R$ 17,00</h3>
-                                                                </div>
+                                                                <h3 class="mb-0 font-w600 text-black fs-22">R$ 17,00</h3>
                                                             </div>
                                                         </div>
                                                         <div class="media px-2 pb-2 ">
                                                             <div class="observation-item-order media-body col-12 pr-0 align-self-center align-items-center bg-observation-order">
-                                                                <h5 class="mt-0 mb-0 text-black fs-16 py-3 px-2"><i class="fa-solid fa-pen"></i></i><span class="pl-3">Tirar cebola e maionese.</span></h5>
+                                                                <div class="media py-3 pl-2 pr-3">
+                                                                    <h5 class="mt-0 mb-0 text-black fs-16 mr-3"><i class="fa-solid fa-pen"></i></i></h5>
+                                                                    <h5 class="mt-0 mb-0 text-black fs-16"><span>Tirar cebola e maionese.</span></h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr class="hr-full-16">
+                                                    </div>
+                                                    <div class="col-12 px-0 up-hr">
+                                                        <hr class="hr-full-16 hr-price">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <h5 class="mb-0 font-w600 fs-16 text-black"><i class="fa-solid fa-motorcycle fs-15 mr-2"></i>Taxa de entrega</h5>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h5 class="mb-0 font-w600 fs-18 text-black">R$ 10,00</h5>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12 px-0">
                                                         <hr>
                                                     </div>
-
-                                                    
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <h5 class="mb-0 font-w600 fs-16 text-black"><i class="fa-regular fa-circle-exclamation fs-18 mr-2"></i>Taxa de serviço</h5>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h5 class="mb-0 font-w600 fs-18 text-black">R$ 1,50</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <h5 class="mb-0 font-w600 fs-16 text-black ml-4 pl-1"></i>Valor total do pedido</h5>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h5 class="mb-0 font-w600 fs-18 text-black">R$ 19,90</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr class="hr-full-16 hr-price">
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <h5 class="mb-0 font-w400 fs-16 text-black"><i class="fa-regular fa-tag fs-18 mr-3"></i>Incentivos oferecido pelo ifood</h5>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h5 class="mb-0 font-w600 fs-18 text-black">-R$ 1,50</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 px-0">
+                                                        <hr>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="media px-2 py-1 align-items-center">
+                                                            <h5 class="mb-0 font-w400 fs-16 text-black"><i class="fa-regular fa-tag fs-18 mr-3"></i>Incentivos oferecido pela sua loja</h5>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h5 class="mb-0 font-w600 fs-18 text-black">-R$ 3,50</h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

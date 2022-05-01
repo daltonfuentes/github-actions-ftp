@@ -183,7 +183,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
         endif;
 
         if(!empty($statusAvailabilityStatus)):
-            $linhaStatusAvailability = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['status-availability']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['status-availability']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['status-availability']['message']['description'].'</span></h4>';
+            $linhaStatusAvailability = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order"  ><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['status-availability']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['status-availability']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['status-availability']['message']['description'].'</span></h4>';
         else:
             $linhaStatusAvailability = '';
         endif;
@@ -619,7 +619,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     //VALIDA CAMPOS EMPTY
 
-                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod)';
+                    $ordemDate = date('YmdHis');
+
+                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod, ordemDate) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod, :ordemDate)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':displayId', $displayId);
@@ -653,6 +655,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $stmt->bindParam(':deliveryDateTimeStart', $deliveryDateTimeStart);
                     $stmt->bindParam(':deliveryDateTimeEnd', $deliveryDateTimeEnd);
                     $stmt->bindParam(':statusCod', $statusCod);
+                    $stmt->bindParam(':ordemDate', $ordemDate);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -1147,7 +1150,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 endif;
             };
             $retorno['mensagem']  = 'Todos os eventos tratados.';
-            $retorno['code']  = 200;
+            $retorno['code']  = $outPolling['code'];
         else:
             errorLog('error-if_count-101-Erro interno.');
             $retorno['mensagem']  = 'Erro interno "if count".';
@@ -1155,11 +1158,11 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
         endif;
     elseif($outPolling['code'] == 204):
         $retorno['mensagem']  = 'Polling vazio!';
-        $retorno['code']  = 200;
+        $retorno['code']  = $outPolling['code'];
     else:
         errorLog('error-polling-'.$outPolling['code'].'-'.$outPolling['mensagem']);
         $retorno['mensagem']  = 'Erro interno "polling".';
-        $retorno['code']  = 400;
+        $retorno['code']  = $outPolling['code'];
     endif;
     echo json_encode($retorno);
 endif;
