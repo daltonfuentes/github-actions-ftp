@@ -1440,6 +1440,8 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
             $timing = $exibe->orderTiming;
             $status = $exibe->statusCod;
             $orderId = $exibe->orderId;
+            $customerName = $exibe->customerName;
+            $displayId = $exibe->displayId;
     
             if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
                 if($status == 'PLC'):
@@ -1450,7 +1452,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                             <div class="card-body cPointer pl-4 mb-0 bg-danger rounded faixa-pedido pendente" data-orderId="'.$orderId.'">
                                 <div class="media">
                                     <div class="details">
-                                        <h4 class="font-gilroy-bold fs-20 mb-0 text-white">'.abreviaNomeDisplay($exibe->customerName).' <small class="fs-20 ml-2">#'.$exibe->displayId.'</small></h4>
+                                        <h4 class="font-gilroy-bold fs-20 mb-0 text-white">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2">#'.$displayId.'</small></h4>
                                     </div>
                                     <div class="media-footer status-pedido-new">
                                         <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-new"><span class="badge badge-danger light">PENDENTE</span></h4>
@@ -1473,7 +1475,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                                 <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido animate__pulse animate__infinite alerta" data-orderId="'.$orderId.'">
                                     <div class="media">
                                         <div class="details">
-                                            <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($exibe->customerName).' <small class="fs-20 ml-2 text-dark">#'.$exibe->displayId.'</small></h4>
+                                            <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
                                             <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
                                             <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até '.$horaFinish.'</span>
                                         </div>
@@ -1492,7 +1494,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                                 <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
                                     <div class="media align-items-center">
                                         <div class="details">
-                                            <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($exibe->customerName).' <small class="fs-20 ml-2 text-dark">#'.$exibe->displayId.'</small></h4>
+                                            <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
                                             <span class=""><i class="fa-regular fa-clock fs-16"></i></span>
                                             <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviar até '.$horaFinish.'</span>
                                         </div>
@@ -1508,146 +1510,162 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     endif;
                 elseif($status == 'RTP'):
                     $retorno['RTP'] = $retorno['RTP']+1;
-                    $sql5 = "SELECT * FROM ifood_events WHERE orderId>:orderId AND code>:code";
-                    $stmt5 = $conexao->prepare($sql5);
-                    $stmt5->bindParam(':orderId', $orderId);	
-                    $stmt5->bindParam(':code', $status);	
-                    $stmt5->execute();
-                    $conta5 = $stmt5->rowCount();
-    
-                    if($contar5 != 0):
-                        $exibe5 = $stmt5->fetch(PDO::FETCH_OBJ);
-                        $hourDelivered = $exibe5->createdAt;
-                        $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
-    
-                        $firstDate  = new DateTime($hourDelivered);
-                        $secondDate = new DateTime($dateAtual);
-                        // Resgata diferença entre as datas
-                        $dateInterval = $firstDate->diff($secondDate);
-    
-                        $immediate = $immediate.'
-                        <div class="col-12 mb-3">
-                            <div class="card shadow  mb-0 d-block">
-                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
-                                    <div class="media">
-                                        <div class="details">
-                                            <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($exibe->customerName).' <small class="fs-20 ml-2 text-dark">#'.$exibe->displayId.'</small></h4>
-                                            <span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span>
-                                            <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Pronto á '.$dateInterval->i.' minutos</span>
-                                        </div>
-                                        <div class="media-footer status-pedido">
-                                            <h4
-                                                class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-entrega">
-                                                <span class="badge badge-success light">PRONTO</span>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
-                    endif;
-                elseif($status == 'DSP'):
-                    $retorno['DSP'] = $retorno['DSP']+1;
 
-                    $sql4  ='SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code';
-                    $stmt4 = $conexao->prepare($sql4);
-                    $stmt4->bindParam(':orderId', $orderId);
-                    $stmt4->bindParam(':code', $status);	
-                    $stmt4->execute();
-                    $contar4 = $stmt4->rowCount();
-                    
-                    if($contar4 != 0):
-                        $exibe4 = $stmt4->fetch(PDO::FETCH_OBJ);
-                        $hourDelivered = $exibe4->createdAt;
-                        
-                        $retorno['teste'] = 'Oi';
-    
-                        $immediate = $immediate.'
-                        <div class="col-12 mb-3">
-                            <div class="card shadow  mb-0 d-block">
-                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
-                                    <div class="media">
-                                        <div class="details">
-                                            <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($exibe->customerName).' <small class="fs-20 ml-2 text-dark">#'.$exibe->displayId.'</small></h4>
-                                            <span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span>
-                                            <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviado á 24 minutos</span>
-                                        </div>
-                                        <div class="media-footer status-pedido">
-                                            <h4
-                                                class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-entrega">
-                                                <span class="badge badge-success light">ENTREGA</span>
-                                            </h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
-                    endif;
-                elseif($status == 'CON'):
-                    $retorno['CON'] = $retorno['CON']+1;
-                    $sql3 = "SELECT createdAt FROM ifood_events WHERE orderId > :orderId AND code > :code";
-                    $stmt3 = $conexao->prepare($sql3);
-                    $stmt3->bindParam(':orderId', $orderId);	
-                    $stmt3->bindParam(':code', $status);	
-                    $stmt3->execute();
-                    $contar3 = $stmt3->rowCount();
-    
-                    if($contar3 != 0):
-                        $exibe3 = $stmt3->fetch(PDO::FETCH_OBJ);
-                        $dateFinish = $exibe3->createdAt;
-                        $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
-                        $horaFinish = date_format(date_create(date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")), 'YmdHis')), 'H:i');
-    
-                        $immediate = $immediate.'
-                        <div class="col-12 mb-3">
-                            <div class="card shadow  mb-0 d-block">
-                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
-                                    <div class="media">
-                                        <div class="details">
-                                            <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($exibe->customerName).' <small class="fs-20 ml-2 text-dark">#'.$exibe->displayId.'</small></h4>
-                                            <span class=""><i class="fa-regular fa-circle-check fs-16"></i></span>
-                                            <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Concluido ás '.$horaFinish.'</span>
-                                        </div>
-                                        <div class="media-footer status-pedido">
-                                            <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span class="badge badge-dark light">CONCLUIDO</span></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
-                    endif;
-                elseif($status == 'CAN'):
-                    $retorno['CAN'] = $retorno['CAN']+1;
-                    $sql2 = "SELECT createdAt FROM ifood_events WHERE orderId > :orderId AND code > :code";
+                    $sql2 = "SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code";
                     $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bindParam(':orderId', $orderId);	
                     $stmt2->bindParam(':code', $status);	
                     $stmt2->execute();
-                    $contar2 = $stmt2->rowCount();
-                    if($contar2 != 0):
+                    $conta2 = $stmt2->rowCount();
+    
+                    if($conta2 != 0):
+                        $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
+                        $hourDelivered = $exibe2->createdAt;
+                        $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+    
+                        $firstDate  = new DateTime($hourDelivered);
+                        $secondDate = new DateTime($dateAtual);
+                        $dateInterval = $firstDate->diff($secondDate);
+                        $diff = $dateInterval->i;
+                    endif;
+
+                    $minutes = (isset($diff)) ? $diff : '-0-' ;
+                    
+                    $immediate = $immediate.'
+                    <div class="col-12 mb-3">
+                        <div class="card shadow  mb-0 d-block">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
+                                <div class="media">
+                                    <div class="details">
+                                        <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
+                                        <span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span>
+                                        <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Pronto á '.$minutes.' minutos</span>
+                                    </div>
+                                    <div class="media-footer status-pedido">
+                                        <h4
+                                            class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-entrega">
+                                            <span class="badge badge-success light">PRONTO</span>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+                elseif($status == 'DSP'):
+                    $retorno['DSP'] = $retorno['DSP']+1;
+
+                    $sql2 = "SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code";
+                    $stmt2 = $conexao->prepare($sql2);
+                    $stmt2->bindParam(':orderId', $orderId);	
+                    $stmt2->bindParam(':code', $status);	
+                    $stmt2->execute();
+                    $conta2 = $stmt2->rowCount();
+    
+                    if($conta2 != 0):
+                        $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
+                        $hourDelivered = $exibe2->createdAt;
+                        $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+    
+                        $firstDate  = new DateTime($hourDelivered);
+                        $secondDate = new DateTime($dateAtual);
+                        $dateInterval = $firstDate->diff($secondDate);
+                        $diff = $dateInterval->i;
+                    endif;
+
+                    $minutes = (isset($diff)) ? $diff : '-0-' ;
+
+                    $immediate = $immediate.'
+                    <div class="col-12 mb-3">
+                        <div class="card shadow  mb-0 d-block">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
+                                <div class="media">
+                                    <div class="details">
+                                        <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
+                                        <span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span>
+                                        <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviado á '.$minutes.' minutos</span>
+                                    </div>
+                                    <div class="media-footer status-pedido">
+                                        <h4
+                                            class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-entrega">
+                                            <span class="badge badge-success light">ENTREGA</span>
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+                elseif($status == 'CON'):
+                    $retorno['CON'] = $retorno['CON']+1;
+
+                    $sql2 = "SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code";
+                    $stmt2 = $conexao->prepare($sql2);
+                    $stmt2->bindParam(':orderId', $orderId);	
+                    $stmt2->bindParam(':code', $status);	
+                    $stmt2->execute();
+                    $conta2 = $stmt2->rowCount();
+    
+                    if($conta2 != 0):
                         $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
                         $dateFinish = $exibe2->createdAt;
                         $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
                         $horaFinish = date_format(date_create(date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")), 'YmdHis')), 'H:i');
-    
-                        $immediate = $immediate.'
-                        <div class="col-12 mb-3">
-                            <div class="card shadow  mb-0 d-block">
-                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
-                                    <div class="media">
-                                        <div class="details">
-                                            <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($exibe->customerName).' <small class="fs-20 ml-2 text-dark">#'.$exibe->displayId.'</small></h4>
-                                            <span class=""><i class="fa-solid fa-ban fs-16"></i></span>
-                                            <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Cancelado ás '.$horaFinish.'</span>
-                                        </div>
-                                        <div class="media-footer status-pedido">
-                                            <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span class="badge badge-danger light">CANCELADO</span></h4>
-                                        </div>
+                    endif;
+
+                    $horaFinish = (isset($horaFinish)) ? $horaFinish : '-0-' ;
+
+                    $immediate = $immediate.'
+                    <div class="col-12 mb-3">
+                        <div class="card shadow  mb-0 d-block">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
+                                <div class="media">
+                                    <div class="details">
+                                        <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
+                                        <span class=""><i class="fa-regular fa-circle-check fs-16"></i></span>
+                                        <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Concluido ás '.$horaFinish.'</span>
+                                    </div>
+                                    <div class="media-footer status-pedido">
+                                        <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span class="badge badge-dark light">CONCLUIDO</span></h4>
                                     </div>
                                 </div>
                             </div>
-                        </div>';
+                        </div>
+                    </div>';
+                elseif($status == 'CAN'):
+                    $retorno['CAN'] = $retorno['CAN']+1;
+                    
+                    $sql2 = "SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code";
+                    $stmt2 = $conexao->prepare($sql2);
+                    $stmt2->bindParam(':orderId', $orderId);	
+                    $stmt2->bindParam(':code', $status);	
+                    $stmt2->execute();
+                    $conta2 = $stmt2->rowCount();
+    
+                    if($conta2 != 0):
+                        $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
+                        $dateFinish = $exibe2->createdAt;
+                        $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+                        $horaFinish = date_format(date_create(date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")), 'YmdHis')), 'H:i');
                     endif;
+
+                    $horaFinish = (isset($horaFinish)) ? $horaFinish : '-0-' ;
+
+                    $immediate = $immediate.'
+                    <div class="col-12 mb-3">
+                        <div class="card shadow  mb-0 d-block">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
+                                <div class="media">
+                                    <div class="details">
+                                        <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
+                                        <span class=""><i class="fa-solid fa-ban fs-16"></i></span>
+                                        <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Cancelado ás '.$horaFinish.'</span>
+                                    </div>
+                                    <div class="media-footer status-pedido">
+                                        <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22"><span class="badge badge-danger light">CANCELADO</span></h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
                 endif;
             else: //APARECE EM AGENDADOS
                 $scheduled = $scheduled.'Agendado!';
