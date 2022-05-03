@@ -1614,7 +1614,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $stmt2->bindParam(':code', $status);	
                     $stmt2->execute();
                     $contar = $stmt2->rowCount();
-                    $retorno['teste'] = 'Oi';
+                    $retorno['teste'] = $orderId.' /// '.$status.' /// '.$contar;
                     if($contar != 0):
                         $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
                         $dateFinish = $exibe2->createdAt;
