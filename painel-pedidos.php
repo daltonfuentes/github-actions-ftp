@@ -21,7 +21,7 @@ $contar = $stmt->rowCount();
 if($contar != 0):
     while($exibe = $stmt->fetch(PDO::FETCH_OBJ)){
         $fuso = 3;
-        $preparationStart = date_format(date_add(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+        $preparationStart = date_format(date_sub(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
 
         $timing = $exibe->orderTiming;
 
