@@ -1548,14 +1548,15 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     endif;
                 elseif($status == 'DSP'):
                     $retorno['DSP'] = $retorno['DSP']+1;
-                    $sql4 = "SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code";
+
+                    $sql4  ='SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code';
                     $stmt4 = $conexao->prepare($sql4);
-                    $stmt4->bindParam(':orderId', $orderId);	
+                    $stmt4->bindParam(':orderId', $orderId);
                     $stmt4->bindParam(':code', $status);	
                     $stmt4->execute();
                     $contar4 = $stmt4->rowCount();
-    
-                    if($contar4 > 0):
+                    
+                    if($contar4 != 0):
                         $exibe4 = $stmt4->fetch(PDO::FETCH_OBJ);
                         $hourDelivered = $exibe4->createdAt;
                         
