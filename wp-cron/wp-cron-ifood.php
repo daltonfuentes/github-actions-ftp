@@ -4,6 +4,11 @@ session_start();
 
 require("../conexao/functions.php");
 
+$in = '2022-05-01T05:35:00.000Z';
+
+echo dateDisplay($in);
+exit();
+
 $outToken = accessToken();
 $accessToken = $outToken['accessToken'];
 
