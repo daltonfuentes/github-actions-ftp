@@ -1426,6 +1426,12 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     
         $immediate = '';
         $scheduled = '';
+        $retorno['PLC'] = 0;
+        $retorno['CFM'] = 0;
+        $retorno['RTP'] = 0;
+        $retorno['DSP'] = 0;
+        $retorno['CON'] = 0;
+        $retorno['CAN'] = 0;
     
         while($exibe = $stmt->fetch(PDO::FETCH_OBJ)){
             $preparationStart = date_format(date_sub(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
@@ -1436,6 +1442,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     
             if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
                 if($status == 'PLC'):
+                    $retorno['PLC'] = $retorno['PLC']++;
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
@@ -1452,6 +1459,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>
                     </div>';
                 elseif($status == 'CFM'):
+                    $retorno['CFM'] = $retorno['CFM']++;
                     $dateFinish = (isset($exibe->deliveryDateTime)) ? $exibe->deliveryDateTime : null ;
                     $dateFinish = (isset($exibe->takeoutDateTime)) ? $exibe->takeoutDateTime : $dateFinish ;
                     $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
@@ -1498,6 +1506,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'RTP'):
+                    $retorno['RTP'] = $retorno['RTP']++;
                     $sql5 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
                     $stmt5 = $conexao->prepare($sql5);
                     $stmt5->bindParam(':orderId', $orderId);	
@@ -1537,6 +1546,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'DSP'):
+                    $retorno['DSP'] = $retorno['DSP']++;
                     $sql4 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
                     $stmt4 = $conexao->prepare($sql4);
                     $stmt4->bindParam(':orderId', $orderId);	
@@ -1576,6 +1586,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'CON'):
+                    $retorno['CON'] = $retorno['CON']++;
                     $sql3 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
                     $stmt3 = $conexao->prepare($sql3);
                     $stmt3->bindParam(':orderId', $orderId);	
@@ -1608,15 +1619,13 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'CAN'):
+                    $retorno['CAN'] = $retorno['CAN']++;
                     $sql2 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
                     $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bindParam(':orderId', $orderId);	
                     $stmt2->bindParam(':code', $status);	
                     $stmt2->execute();
                     $contar2 = $stmt2->rowCount();
-                    
-                    $retorno['teste'] = $orderId.' /// '.$status.' /// '.$status;
-                    
                     if($contar2 != 0):
                         $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
                         $dateFinish = $exibe2->createdAt;
