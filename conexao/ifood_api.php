@@ -1406,7 +1406,7 @@ endif;
 //$_POST['orders_list'] = true;
 
 if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
-    date_default_timezone_set('America/Sao_Paulo');
+    require("conexao_hostgator.php");
 
     $retorno = array();
 
