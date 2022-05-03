@@ -26,9 +26,9 @@ if($contar != 0):
         $timing = $exibe->orderTiming;
 
         if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
-            
+            echo 'IMMEDIATE - '.$exibe->statusCod.'<br>';
         else: //APARECE EM AGENDADOS
-            
+            echo 'SCHEDULED - '.$exibe->statusCod.'<br>';
         endif;
     }
 else: // SEM PEDIDOS
