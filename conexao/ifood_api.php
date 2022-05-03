@@ -1426,13 +1426,6 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     
         $immediate = '';
         $scheduled = '';
-        $retorno['PLC'] = 0;
-        $retorno['CFM'] = 0;
-        $retorno['RTP'] = 0;
-        $retorno['DSP'] = 0;
-        $retorno['CON'] = 0;
-        $retorno['CAN'] = 0;
-        $retorno['CONTAR'] = $contar;
     
         while($exibe = $stmt->fetch(PDO::FETCH_OBJ)){
             $preparationStart = date_format(date_sub(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
@@ -1445,7 +1438,6 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     
             if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
                 if($status == 'PLC'):
-                    $retorno['PLC'] = $retorno['PLC']+1;
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
@@ -1462,7 +1454,6 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>
                     </div>';
                 elseif($status == 'CFM'):
-                    $retorno['CFM'] = $retorno['CFM']+1;
                     $dateFinish = (isset($exibe->deliveryDateTime)) ? $exibe->deliveryDateTime : null ;
                     $dateFinish = (isset($exibe->takeoutDateTime)) ? $exibe->takeoutDateTime : $dateFinish ;
                     $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
@@ -1509,9 +1500,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'RTP'):
-                    $retorno['RTP'] = $retorno['RTP']+1;
-
-                    $sql2 = "SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code";
+                    $sql2 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
                     $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bindParam(':orderId', $orderId);	
                     $stmt2->bindParam(':code', $status);	
@@ -1529,7 +1518,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         $diff = $dateInterval->i;
                     endif;
 
-                    $minutes = (isset($diff)) ? $diff : '-0-' ;
+                    $minutes = (isset($diff)) ? $diff : "-" ;
                     
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
@@ -1552,9 +1541,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>
                     </div>';
                 elseif($status == 'DSP'):
-                    $retorno['DSP'] = $retorno['DSP']+1;
-
-                    $sql2 = "SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code";
+                    $sql2 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
                     $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bindParam(':orderId', $orderId);	
                     $stmt2->bindParam(':code', $status);	
@@ -1572,7 +1559,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         $diff = $dateInterval->i;
                     endif;
 
-                    $minutes = (isset($diff)) ? $diff : "/ $orderId -0- $status /" ;
+                    $minutes = (isset($diff)) ? $diff : "-" ;
 
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
@@ -1595,9 +1582,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>
                     </div>';
                 elseif($status == 'CON'):
-                    $retorno['CON'] = $retorno['CON']+1;
-
-                    $sql2 = "SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code";
+                    $sql2 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
                     $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bindParam(':orderId', $orderId);	
                     $stmt2->bindParam(':code', $status);	
@@ -1611,7 +1596,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         $horaFinish = date_format(date_create(date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")), 'YmdHis')), 'H:i');
                     endif;
 
-                    $horaFinish = (isset($horaFinish)) ? $horaFinish : '-0-' ;
+                    $horaFinish = (isset($horaFinish)) ? $horaFinish : "-" ;
 
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
@@ -1630,10 +1615,8 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                             </div>
                         </div>
                     </div>';
-                elseif($status == 'CAN'):
-                    $retorno['CAN'] = $retorno['CAN']+1;
-                    
-                    $sql2 = "SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code";
+                elseif($status == 'CAN'):                    
+                    $sql2 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
                     $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bindParam(':orderId', $orderId);	
                     $stmt2->bindParam(':code', $status);	
@@ -1647,7 +1630,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         $horaFinish = date_format(date_create(date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")), 'YmdHis')), 'H:i');
                     endif;
 
-                    $horaFinish = (isset($horaFinish)) ? $horaFinish : '-0-' ;
+                    $horaFinish = (isset($horaFinish)) ? $horaFinish : "-" ;
 
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
