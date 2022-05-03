@@ -27,7 +27,7 @@ if($contar != 0):
         $timing = $exibe->orderTiming;
 
         if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
-            echo 'AGORA<br>';
+            echo 'AGORA - '.$preparationStart.' - '.$dateAtual.'<br>';
         else: //APARECE EM AGENDADOS
             echo 'AGENDADO - '.$exibe->orderTiming.'<br>';
         endif;
