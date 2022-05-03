@@ -160,7 +160,7 @@ $(document).ready(function() {
             },
             success :  function(retorno){
                 if(retorno.list == true){
-                    $(".orders_list").html(retorno.immediate);
+                    $("#row-list-orders-immediate").html(retorno.immediate);
                 }else{ 
                     
                 }
