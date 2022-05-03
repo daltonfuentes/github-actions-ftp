@@ -2,9 +2,7 @@
 ob_start();
 session_start();
 
-require("./conexao/functions.php");
-
-$retorno = array();
+require("../conexao/functions.php");
 
 $outToken = accessToken();
 $accessToken = $outToken['accessToken'];
