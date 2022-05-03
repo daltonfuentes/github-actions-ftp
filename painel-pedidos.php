@@ -12,7 +12,7 @@ $retorno = array();
 
 $dateAtual = date_format(date_create(),"YmdHis");
 
-$sql = "SELECT orderId FROM ifood_orders WHERE dateDisplay>:dateActual";
+$sql = "SELECT * FROM ifood_orders WHERE dateDisplay>:dateActual";
 $stmt = $conexao->prepare($sql);
 $stmt->bindParam(':dateActual', $dateAtual);	
 $stmt->execute();
@@ -24,7 +24,9 @@ if($contar != 0):
         $diff = 12-$fuso;
         $preparationStart = date_format(date_add(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$diff hours")),"Ymd / His");
 
-        if($exibe->orderTiming == 'IMMEDIATE' || ($exibe->orderTiming == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
+        $timing = $exibe->orderTiming;
+
+        if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
             echo 'AGORA<br>';
         else: //APARECE EM AGENDADOS
             echo 'AGENDADO - '.$exibe->orderTiming.'<br>';
