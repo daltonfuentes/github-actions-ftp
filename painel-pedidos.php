@@ -4,7 +4,7 @@ session_start();
 
 //require_once("./conexao/functions.php");
 
-require_once("./conexao_hostgator.php");
+require_once("./conexao/conexao_hostgator.php");
 
 date_default_timezone_set('America/Sao_Paulo');
 
