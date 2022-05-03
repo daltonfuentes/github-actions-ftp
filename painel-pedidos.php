@@ -2,7 +2,27 @@
 ob_start();
 session_start();
 
-//require_once("./conexao/functions.php");
+function abreviaNomeDisplay($name) {
+    $name = preg_replace('/\s(d[A-z]{1,2}|a(.){1,2}?|e(.){1,2}?|le{1}|[A-z.]{1,2}\s)/i',' ',$name);
+    $name = preg_replace('/\s\s+/i',' ', $name);
+    $name = preg_replace('/[^\p{L}\p{N}\s]/', '', $name);
+
+    if (mb_substr($name, -1) === ' ') {
+        $name = mb_substr($name, 0, mb_strlen($name)-1);
+    }
+
+    $name = ucwords(strtolower($name));
+    $primeira = strtok($name, " ");
+    $separada = explode(' ', $name);
+    $letra = substr($separada[count($separada) - 1], 0, 1);
+    $countNames = str_word_count($name);
+    if($countNames > 1): 
+        $abrev = $primeira.' '.$letra.'.';
+    else:
+        $abrev = $primeira;
+    endif;
+    return $abrev;
+};
 
 require_once("./conexao/conexao_hostgator.php");
 
@@ -19,20 +39,56 @@ $stmt->execute();
 $contar = $stmt->rowCount();
 
 if($contar != 0):
+
+    $immediate = '';
+    $scheduled = '';
+
     while($exibe = $stmt->fetch(PDO::FETCH_OBJ)){
         $fuso = 3;
         $preparationStart = date_format(date_sub(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
 
         $timing = $exibe->orderTiming;
+        $status = $exibe->statusCod;
 
         if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
             echo 'IMMEDIATE - '.$exibe->statusCod.'<br>';
+
+            if($status == 'PLC'):
+                $immediate = $immediate.'
+                <div class="col-12 mb-3" data-orderId="'.$exibe->orderId.'">
+                    <div class="card shadow  mb-0 d-block">
+                        <div class="card-body cPointer pl-4 mb-0 bg-danger rounded faixa-pedido pendente">
+                            <div class="media">
+                                <div class="details">
+                                    <h4 class="font-gilroy-bold fs-20 mb-0 text-white">'.abreviaNomeDisplay($exibe->customerName).' <small class="fs-20 ml-2">#'.$exibe->displayId.'</small></h4>
+                                </div>
+                                <div class="media-footer status-pedido-new">
+                                    <h4 class="mb-0 font-gilroy-extrabold text-terceiro fs-22 badge-new"><span class="badge badge-danger light">PENDENTE</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+            elseif($status == 'CFM'):
+                $immediate = $immediate.'';
+            elseif($status == 'RTP'):
+                $immediate = $immediate.'';
+            elseif($status == 'DSP'):
+                $immediate = $immediate.'';
+            elseif($status == 'CON'):
+                $immediate = $immediate.'';
+            elseif($status == 'CAN'):
+                $immediate = $immediate.'';
+            endif;
+
         else: //APARECE EM AGENDADOS
-            echo 'SCHEDULED - '.$exibe->statusCod.'<br>';
+            
         endif;
     }
+
+    echo $immediate.'<br><hr><br>'.$scheduled;
 else: // SEM PEDIDOS
-    echo 'SEM PEDIDOS<br>';
+    
 endif;
 
 
