@@ -1616,6 +1616,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $contar = $stmt2->rowCount();
     
                     if($contar != 0):
+                        $retorno['teste'] = 'Oi';
                         $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
                         $dateFinish = $exibe2->createdAt;
                         $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
