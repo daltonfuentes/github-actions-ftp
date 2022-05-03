@@ -1432,6 +1432,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
         $retorno['DSP'] = 0;
         $retorno['CON'] = 0;
         $retorno['CAN'] = 0;
+        $retorno['CONTAR'] = $contar;
     
         while($exibe = $stmt->fetch(PDO::FETCH_OBJ)){
             $preparationStart = date_format(date_sub(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
