@@ -6,13 +6,13 @@ session_start();
 
 require_once("./conexao/conexao_hostgator.php");
 
-date_default_timezone_set('America/Sao_Paulo');
-
 $retorno = array();
+
+$orderIdAtivo = (isset($_POST['orderIdAtivo'])) ? $_POST['orderIdAtivo'] : null ;
 
 $dateAtual = date_format(date_create(),"YmdHis");
 
-$sql = "SELECT * FROM ifood_orders WHERE dateDisplay>:dateActual";
+$sql = "SELECT * FROM ifood_orders WHERE dateDisplay>:dateActual ORDER BY CASE statusCod WHEN 'PLC' THEN 1 WHEN 'CFM' THEN 2 WHEN 'RTP' THEN 3 WHEN 'DSP' THEN 4 WHEN 'CON' THEN 5 WHEN 'CAN' THEN 6 ELSE 7 END";
 $stmt = $conexao->prepare($sql);
 $stmt->bindParam(':dateActual', $dateAtual);	
 $stmt->execute();
@@ -26,9 +26,9 @@ if($contar != 0):
         $timing = $exibe->orderTiming;
 
         if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
-            echo 'AGORA - '.$preparationStart.' - '.$dateAtual.'<br>';
+            
         else: //APARECE EM AGENDADOS
-            echo 'AGENDADO - '.$preparationStart.' - '.$dateAtual.'<br>';
+            
         endif;
     }
 else: // SEM PEDIDOS
