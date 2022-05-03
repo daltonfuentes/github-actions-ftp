@@ -4,7 +4,7 @@ session_start();
 
 //require_once("conexao/functions.php");
 
-//require_once("conexao/conexao.php");
+require_once("./conexao/conexao.php");
 
 date_default_timezone_set('America/Sao_Paulo');
 
