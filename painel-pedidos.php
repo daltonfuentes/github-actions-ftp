@@ -2,25 +2,6 @@
 ob_start();
 session_start();
 
-date_default_timezone_set('America/Sao_Paulo');
-
-$dateAtual = date_format(date_create(),"YmdHis");
-$data = '2022-05-03T13:23:37.636Z';
-$data = date_format(date_sub(date_create($data),date_interval_create_from_date_string("3 hours")),"YmdHis");
-
-$firstDate  = new DateTime($data);
-$secondDate = new DateTime($dateAtual);
-// Resgata diferença entre as datas
-$dateInterval = $firstDate->diff($secondDate);
-
-
-
-
-
-echo $data.'<br>'.$dateAtual.'<br>'.$dateInterval->i;
-
-
-exit();
 
 function abreviaNomeDisplay($name) {
     $name = preg_replace('/\s(d[A-z]{1,2}|a(.){1,2}?|e(.){1,2}?|le{1}|[A-z.]{1,2}\s)/i',' ',$name);
