@@ -86,9 +86,11 @@ if($contar != 0):
         endif;
     }
 
-    echo $immediate.'<br><hr><br>'.$scheduled;
+    $retorno['immediate'] = $immediate;
+    $retorno['scheduled'] = $scheduled;
+    echo json_encode($retorno);
 else: // SEM PEDIDOS
-    
+    echo 'Sem pedidos';
 endif;
 
 
