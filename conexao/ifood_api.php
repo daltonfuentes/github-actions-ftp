@@ -1558,12 +1558,8 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     if($contar4 != 0):
                         $exibe4 = $stmt4->fetch(PDO::FETCH_OBJ);
                         $hourDelivered = $exibe4->createdAt;
-                        $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
-    
-                        $firstDate  = new DateTime($hourDelivered);
-                        $secondDate = new DateTime($dateAtual);
-                        // Resgata diferença entre as datas
-                        $dateInterval = $firstDate->diff($secondDate);
+                        
+                        $retorno['teste'] = 'Oi';
     
                         $immediate = $immediate.'
                         <div class="col-12 mb-3">
@@ -1573,7 +1569,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                                         <div class="details">
                                             <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($exibe->customerName).' <small class="fs-20 ml-2 text-dark">#'.$exibe->displayId.'</small></h4>
                                             <span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span>
-                                            <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviado á '.$dateInterval->i.' minutos</span>
+                                            <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviado á 24 minutos</span>
                                         </div>
                                         <div class="media-footer status-pedido">
                                             <h4
