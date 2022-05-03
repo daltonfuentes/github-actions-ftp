@@ -148,4 +148,31 @@ $(document).ready(function() {
             $('.merchant-status-'+plataform+' button.btn-merchant-circle').addClass('merchant-fail');
         }
     }
+
+    function listOrders() {
+        $.ajax({
+            type : 'POST',
+            url  : './conexao/ifood_api.php',
+            data : { orders_list: true },
+            dataType: 'json',
+            beforeSend: function() {
+                
+            },
+            success :  function(retorno){
+                if(retorno.list == true){
+                    $(".orders_list").html(retorno.immediate);
+                }else{ 
+                    
+                }
+            },
+            error: function() {
+                console.log('Erro');
+            },
+            complete: function() {
+                setTimeout(listOrders, 30000);
+            }
+        });
+    };
+    listOrders();
+
 });

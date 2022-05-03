@@ -291,3 +291,25 @@ function dateDisplay($in){
     $data = date_format($data,"YmdHis");
     return $data;
 };
+
+function abreviaNomeDisplay($name) {
+    $name = preg_replace('/\s(d[A-z]{1,2}|a(.){1,2}?|e(.){1,2}?|le{1}|[A-z.]{1,2}\s)/i',' ',$name);
+    $name = preg_replace('/\s\s+/i',' ', $name);
+    $name = preg_replace('/[^\p{L}\p{N}\s]/', '', $name);
+
+    if (mb_substr($name, -1) === ' ') {
+        $name = mb_substr($name, 0, mb_strlen($name)-1);
+    }
+
+    $name = ucwords(strtolower($name));
+    $primeira = strtok($name, " ");
+    $separada = explode(' ', $name);
+    $letra = substr($separada[count($separada) - 1], 0, 1);
+    $countNames = str_word_count($name);
+    if($countNames > 1): 
+        $abrev = $primeira.' '.$letra.'.';
+    else:
+        $abrev = $primeira;
+    endif;
+    return $abrev;
+};
