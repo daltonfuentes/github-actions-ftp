@@ -22,14 +22,14 @@ if($contar != 0):
     while($exibe = $stmt->fetch(PDO::FETCH_OBJ)){
         $fuso = 3;
         $diff = 12-$fuso;
-        $preparationStart = date_format(date_add(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$diff hours")),"Ymd / His");
+        $preparationStart = date_format(date_add(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$diff hours")),"YmdHis");
 
         $timing = $exibe->orderTiming;
 
         if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
             echo 'AGORA - '.$preparationStart.' - '.$dateAtual.'<br>';
         else: //APARECE EM AGENDADOS
-            echo 'AGENDADO - '.$exibe->orderTiming.'<br>';
+            echo 'AGENDADO - '.$preparationStart.' - '.$dateAtual.'<br>';
         endif;
     }
 else: // SEM PEDIDOS
