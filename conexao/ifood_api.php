@@ -1508,7 +1508,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     endif;
                 elseif($status == 'RTP'):
                     $retorno['RTP'] = $retorno['RTP']+1;
-                    $sql5 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
+                    $sql5 = "SELECT * FROM ifood_events WHERE orderId>:orderId AND code>:code";
                     $stmt5 = $conexao->prepare($sql5);
                     $stmt5->bindParam(':orderId', $orderId);	
                     $stmt5->bindParam(':code', $status);	
@@ -1548,14 +1548,14 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     endif;
                 elseif($status == 'DSP'):
                     $retorno['DSP'] = $retorno['DSP']+1;
-                    $sql4 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
+                    $sql4 = "SELECT * FROM ifood_events WHERE orderId > :orderId AND code > :code";
                     $stmt4 = $conexao->prepare($sql4);
                     $stmt4->bindParam(':orderId', $orderId);	
                     $stmt4->bindParam(':code', $status);	
                     $stmt4->execute();
                     $contar4 = $stmt4->rowCount();
     
-                    if($contar4 != 0):
+                    if($contar4 > 0):
                         $exibe4 = $stmt4->fetch(PDO::FETCH_OBJ);
                         $hourDelivered = $exibe4->createdAt;
                         
@@ -1584,7 +1584,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     endif;
                 elseif($status == 'CON'):
                     $retorno['CON'] = $retorno['CON']+1;
-                    $sql3 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
+                    $sql3 = "SELECT createdAt FROM ifood_events WHERE orderId > :orderId AND code > :code";
                     $stmt3 = $conexao->prepare($sql3);
                     $stmt3->bindParam(':orderId', $orderId);	
                     $stmt3->bindParam(':code', $status);	
@@ -1617,7 +1617,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     endif;
                 elseif($status == 'CAN'):
                     $retorno['CAN'] = $retorno['CAN']+1;
-                    $sql2 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
+                    $sql2 = "SELECT createdAt FROM ifood_events WHERE orderId > :orderId AND code > :code";
                     $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bindParam(':orderId', $orderId);	
                     $stmt2->bindParam(':code', $status);	
