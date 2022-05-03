@@ -282,3 +282,10 @@ function convertFuso($data){
 
     return $data;
 };
+
+function dateDisplay($in){
+    $data = date_create($in);
+    date_add($data,date_interval_create_from_date_string("8 hours"));
+    $data = date_format($data,"YmdHis");
+    return $data;
+};

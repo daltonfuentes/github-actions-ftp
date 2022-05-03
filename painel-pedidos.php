@@ -5,6 +5,16 @@ session_start();
 //require_once("conexao/functions.php");
 
 //require_once("conexao/conexao.php");
+
+$in = '2022-05-01T05:35:00.000Z';
+
+$data = date_create($in);
+date_add($data,date_interval_create_from_date_string("8 hours"));
+$data = date_format($data,"YmdHis");
+
+echo $data;
+
+exit();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

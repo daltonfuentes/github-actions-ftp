@@ -619,9 +619,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                     //VALIDA CAMPOS EMPTY
 
-                    $ordemDate = date('YmdHis');
+                    $dateDisplay = dateDisplay($preparationStartDateTime);
 
-                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod, ordemDate) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod, :ordemDate)';
+                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod, dateDisplay) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod, :dateDisplay)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':displayId', $displayId);
@@ -655,7 +655,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $stmt->bindParam(':deliveryDateTimeStart', $deliveryDateTimeStart);
                     $stmt->bindParam(':deliveryDateTimeEnd', $deliveryDateTimeEnd);
                     $stmt->bindParam(':statusCod', $statusCod);
-                    $stmt->bindParam(':ordemDate', $ordemDate);
+                    $stmt->bindParam(':dateDisplay', $dateDisplay);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -678,6 +678,394 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
 
                 // ATUALIZAÇÃO DE STATUS
                 if($polCode == 'CFM' || $polCode == 'RTP' || $polCode == 'DSP' || $polCode == 'CON' || $polCode == 'CAN'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        $outDetails = orderDetails($polOrderId, $accessToken);
+                        $orderDetails = (array) $outDetails['details'];
+                        $orderDetailsMerchant = (array) $orderDetails['merchant'];
+                        $orderDetailsCustomer = (array) $orderDetails['customer'];
+                        $orderDetailsCustomerPhone = (array) $orderDetailsCustomer['phone'];
+
+                        $displayId = (isset($orderDetails['displayId'])) ? $orderDetails['displayId'] : '' ;
+                        $orderType = (isset($orderDetails['orderType'])) ? $orderDetails['orderType'] : '' ;
+                        $orderTiming = (isset($orderDetails['orderTiming'])) ? $orderDetails['orderTiming'] : '' ;
+                        $salesChannel = (isset($orderDetails['salesChannel'])) ? $orderDetails['salesChannel'] : '' ;
+                        $dateCreated = (isset($orderDetails['createdAt'])) ? $orderDetails['createdAt'] : '' ;
+                        $preparationStartDateTime = (isset($orderDetails['preparationStartDateTime'])) ? $orderDetails['preparationStartDateTime'] : '' ;
+
+                            $merchantId = (isset($orderDetailsMerchant['id'])) ? $orderDetailsMerchant['id'] : '' ;
+                            $merchantName = (isset($orderDetailsMerchant['name'])) ? $orderDetailsMerchant['name'] : '' ;
+
+                            $customerId = (isset($orderDetailsCustomer['id'])) ? $orderDetailsCustomer['id'] : '' ;
+                            $customerName = (isset($orderDetailsCustomer['name'])) ? $orderDetailsCustomer['name'] : '' ;
+                            $customerDocument = (isset($orderDetailsCustomer['documentNumber'])) ? $orderDetailsCustomer['documentNumber'] : null ;
+                            $customerCountOnMerchant = (isset($orderDetailsCustomer['ordersCountOnMerchant'])) ? $orderDetailsCustomer['ordersCountOnMerchant'] : '' ;
+                                $customerNumber = (isset($orderDetailsCustomerPhone['number'])) ? $orderDetailsCustomerPhone['number'] : null ;
+                                $customerLocalizer = (isset($orderDetailsCustomerPhone['localizer'])) ? $orderDetailsCustomerPhone['localizer'] : null ;
+                                $customerLocalizerExpiration = (isset($orderDetailsCustomerPhone['localizerExpiration'])) ? $orderDetailsCustomerPhone['localizerExpiration'] : null ;
+
+                        $isTest = (isset($orderDetails['isTest'])) ? $orderDetails['isTest'] : '' ;
+
+                        $extraInfo = (isset($orderDetails['extraInfo'])) ? $orderDetails['extraInfo'] : null ;
+
+                        $originCancellation = null;
+                        $statusTekeout = null;
+                        $statusDelivery = null;
+                        $onDemandAvailable = null;
+                        $onDemandValue = null;                 
+
+                        $statusCod = $polCode ;
+
+                        if($orderTiming == 'IMMEDIATE'):
+                            $schedule = '';
+                        elseif($orderTiming == 'SCHEDULED'):
+                            $orderDetailsSchedule = (array) $orderDetails['schedule'];
+
+                            $deliveryDateTimeStart = (isset($orderDetailsSchedule['deliveryDateTimeStart'])) ? $orderDetailsSchedule['deliveryDateTimeStart'] : '' ;
+                            $deliveryDateTimeEnd = (isset($orderDetailsSchedule['deliveryDateTimeEnd'])) ? $orderDetailsSchedule['deliveryDateTimeEnd'] : '' ;
+
+                            $schedule = $deliveryDateTimeStart.' / '.$deliveryDateTimeEnd;
+                        endif;
+
+                        if($orderType == 'DELIVERY'):
+                            $orderDetailsDelivery = (array) $orderDetails['delivery'];
+
+                            $mode = (isset($orderDetailsDelivery['mode'])) ? $orderDetailsDelivery['mode'] : '' ;
+                            $deliveredBy = (isset($orderDetailsDelivery['deliveredBy'])) ? $orderDetailsDelivery['deliveredBy'] : '' ;
+                            $deliveryDateTime = (isset($orderDetailsDelivery['deliveryDateTime'])) ? $orderDetailsDelivery['deliveryDateTime'] : '' ;
+                            $observations = (isset($orderDetailsDelivery['observations'])) ? $orderDetailsDelivery['observations'] : null ;
+
+                            $deliveryAddress = (array) $orderDetailsDelivery['deliveryAddress'];
+                            $deliveryCoordinates = (array) $deliveryAddress['coordinates'];
+
+                            $streetName = (isset($deliveryAddress['streetName'])) ? $deliveryAddress['streetName'] : '' ;
+                            $streetNumber = (isset($deliveryAddress['streetNumber'])) ? $deliveryAddress['streetNumber'] : '' ;
+                            $formattedAddress = (isset($deliveryAddress['formattedAddress'])) ? $deliveryAddress['formattedAddress'] : '' ;
+                            $neighborhood = (isset($deliveryAddress['neighborhood'])) ? $deliveryAddress['neighborhood'] : '' ;
+                            $complement = (isset($deliveryAddress['complement'])) ? $deliveryAddress['complement'] : null ;
+                            $reference = (isset($deliveryAddress['reference'])) ? $deliveryAddress['reference'] : null ;
+                            $postalCode = (isset($deliveryAddress['postalCode'])) ? $deliveryAddress['postalCode'] : '' ;
+                            $city = (isset($deliveryAddress['city'])) ? $deliveryAddress['city'] : '' ;
+                            $state = (isset($deliveryAddress['state'])) ? $deliveryAddress['state'] : '' ;
+                            $country = (isset($deliveryAddress['country'])) ? $deliveryAddress['country'] : '' ;
+
+                            $latitude = (isset($deliveryCoordinates['latitude'])) ? $deliveryCoordinates['latitude'] : '' ;
+                            $longitude = (isset($deliveryCoordinates['longitude'])) ? $deliveryCoordinates['longitude'] : '' ;
+
+                            //VALIDA CAMPOS EMPTY
+
+                            $sql = 'INSERT INTO ifood_delivery_anddress (orderId, streetName, streetNumber, formattedAddress, neighborhood, complement, reference, postalCode, city, stateDelivery, country, latitude, longitude) VALUES (:orderId, :streetName, :streetNumber, :formattedAddress, :neighborhood, :complement, :reference, :postalCode, :city, :stateDelivery, :country, :latitude, :longitude)';
+                            $stmt = $conexao->prepare($sql);
+                            $stmt->bindParam(':orderId', $polOrderId);
+                            $stmt->bindParam(':streetName', $streetName);
+                            $stmt->bindParam(':streetNumber', $streetNumber);
+                            $stmt->bindParam(':formattedAddress', $formattedAddress);
+                            $stmt->bindParam(':neighborhood', $neighborhood);
+                            $stmt->bindParam(':complement', $complement);
+                            $stmt->bindParam(':reference', $reference);
+                            $stmt->bindParam(':postalCode', $postalCode);
+                            $stmt->bindParam(':city', $city);
+                            $stmt->bindParam(':stateDelivery', $state);
+                            $stmt->bindParam(':country', $country);
+                            $stmt->bindParam(':latitude', $latitude);
+                            $stmt->bindParam(':longitude', $longitude);
+                            $resposta = $stmt->execute();
+        
+                            if(!$resposta):
+                                errorLog('error-ifood_delivery_anddress-101-Erro interno BD.');
+                            endif;
+                        elseif($orderType == 'INDOOR'):
+                            $orderDetailsIndoor = (array) $orderDetails['indoor'];
+
+                            $mode = (isset($orderDetailsorderDetailsIndoorDelivery['mode'])) ? $orderDetailsIndoor['mode'] : '' ;
+                            $tableIndoor = (isset($orderDetailsIndoor['table'])) ? $orderDetailsIndoor['table'] : '' ;
+                            $deliveryDateTime = (isset($orderDetailsIndoor['deliveryDateTime'])) ? $orderDetailsIndoor['deliveryDateTime'] : '' ;
+                            $observations = (isset($orderDetailsIndoor['observations'])) ? $orderDetailsIndoor['observations'] : null ;
+                        elseif($orderType == 'TAKEOUT'):
+                            $orderDetailsTakeout = (array) $orderDetails['takeout'];
+
+                            $mode = (isset($orderDetailsTakeout['mode'])) ? $orderDetailsTakeout['mode'] : '' ;
+                            $takeoutDateTime = (isset($orderDetailsTakeout['takeoutDateTime'])) ? $orderDetailsTakeout['takeoutDateTime'] : '' ;
+                            $observations = (isset($orderDetailsTakeout['observations'])) ? $orderDetailsTakeout['observations'] : null ;
+                        endif;
+
+                        $deliveredBy = (isset($deliveredBy)) ? $deliveredBy : null;
+                        $deliveryDateTime = (isset($deliveryDateTime)) ? $deliveryDateTime : null;
+                        $takeoutDateTime = (isset($takeoutDateTime)) ? $takeoutDateTime : null;
+                        $tableIndoor = (isset($tableIndoor)) ? $tableIndoor : null;
+                        $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : null;
+                        $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
+
+                        //
+                        //
+                        // BENEFITS
+                        //
+                        //
+
+                        if(array_key_exists("benefits", $orderDetails)):
+                            $benefits = (array) $orderDetails['benefits'];
+                        
+                            $sponValue = array();
+                            $sponValue[0] = array( "name" => "ifood", "value" => 0 );
+                            $sponValue[1] = array( "name" => "loja", "value" => 0 );
+                        
+                            foreach($benefits as $inB){
+                                $inB = (array) $inB;
+                                $sponsor = $inB['sponsorshipValues'];
+                        
+                                foreach($sponsor as $spon){
+                                    $spon = (array) $spon;
+                                    $name = $spon['name'];
+                                    $value = $spon['value']; 
+                                    if($name == 'IFOOD'):
+                                        $sponValue[0]['value'] = $sponValue[0]['value'] + $value; 
+                                    elseif($name == 'MERCHANT'):
+                                        $sponValue[1]['value'] = $sponValue[1]['value'] + $value; 
+                                    endif;
+                                };
+                            };
+                        
+                            foreach($sponValue as $sponIn){
+                                $valor = $sponIn['value'];
+                                $name = $sponIn['name'];
+
+                                if($valor > 0):
+                                    $sql = 'INSERT INTO ifood_benefits (orderId, valueBenef, nameBenef) VALUES (:orderId, :valueBenef, :nameBenef)';
+                                    $stmt = $conexao->prepare($sql);
+                                    $stmt->bindParam(':orderId', $polOrderId);
+                                    $stmt->bindParam(':valueBenef', $valor);
+                                    $stmt->bindParam(':nameBenef', $name);
+                                    $resposta = $stmt->execute();
+
+                                    if(!$resposta):
+                                        errorLog('error-ifood_benefits-101-Erro interno BD.');
+                                    endif;
+                                endif;
+                            };
+                        endif;
+                        //
+                        //
+                        // PAYMENTS
+                        //
+                        //
+                        $total = (array) $orderDetails['total'];
+                        $payments = (array) $orderDetails['payments'];
+                        $methods = (array) $payments['methods'];
+
+                        $subTotal = (isset($total['subTotal'])) ? $total['subTotal'] : '' ;
+                        $deliveryFee = (isset($total['deliveryFee'])) ? $total['deliveryFee'] : '' ;
+                        $benefits = (isset($total['benefits'])) ? $total['benefits'] : '' ;
+                        $orderAmount = (isset($total['orderAmount'])) ? $total['orderAmount'] : '' ;
+                        $additionalFees = (isset($total['additionalFees'])) ? $total['additionalFees'] : '' ;
+
+                        $prepaid = (isset($payments['prepaid'])) ? $payments['prepaid'] : '' ;
+                        $pending = (isset($payments['pending'])) ? $payments['pending'] : '' ;
+
+                        foreach($methods as $inMethods){
+                            $inMethods = (array) $inMethods;
+
+                            $methodValue = (isset($inMethods['value'])) ? $inMethods['value'] : '' ;
+                            $methodMethod = (isset($inMethods['method'])) ? $inMethods['method'] : '' ;
+                            $methodType = (isset($inMethods['type'])) ? $inMethods['type'] : '' ;
+
+                            $changeFor = null; $brand = null; $walletName = null; 
+
+                            if($methodMethod == 'CASH'):
+                                if(array_key_exists("cash", $inMethods)):
+                                    $cash = (array) $inMethods['cash'];
+                                    $changeFor = $cash['changeFor'];
+                                endif;
+                            elseif($methodMethod == 'DIGITAL_WALLET'):
+                                if(array_key_exists("wallet", $inMethods)):
+                                    $wallet = (array) $inMethods['wallet'];
+                                    $walletName = $wallet['name'];
+                                endif;
+                                if(array_key_exists("card", $inMethods)):
+                                    $card = (array) $inMethods['card'];
+                                    $brand = $card['brand'];
+                                endif;  
+                            elseif($methodMethod == 'CREDIT' || $methodMethod == 'DEBIT' || $methodMethod == 'MEAL_VOUCHER' || $methodMethod == 'FOOD_VOUCHER' || $methodMethod == 'PIX'):
+                                if(array_key_exists("card", $inMethods)):
+                                    $card = (array) $inMethods['card'];
+                                    $brand = $card['brand'];  
+                                endif;
+                            endif;
+
+                            $changeFor = (isset($changeFor)) ? $changeFor : null ;
+                            $brand = (isset($brand)) ? $brand : null ;
+                            $walletName = (isset($walletName)) ? $walletName : null ;
+
+                            $sql = 'INSERT INTO ifood_total_payments (orderId, subTotal, deliveryFee, additionalFees, benefits, orderAmount, prepaid, pending, methods_value, methods_type, methods_method, methods_wallet_name, methods_card_brand, methods_cash_changeFor) VALUES (:orderId, :subTotal, :deliveryFee, :additionalFees, :benefits, :orderAmount, :prepaid, :pending, :methods_value, :methods_type, :methods_method, :methods_wallet_name, :methods_card_brand, :methods_cash_changeFor)';
+                            $stmt = $conexao->prepare($sql);
+                            $stmt->bindParam(':orderId', $polOrderId);
+                            $stmt->bindParam(':subTotal', $subTotal);
+                            $stmt->bindParam(':deliveryFee', $deliveryFee);
+                            $stmt->bindParam(':additionalFees', $additionalFees);
+                            $stmt->bindParam(':benefits', $benefits);
+                            $stmt->bindParam(':orderAmount', $orderAmount);
+                            $stmt->bindParam(':prepaid', $prepaid);
+                            $stmt->bindParam(':pending', $pending);
+                            $stmt->bindParam(':methods_value', $methodValue);
+                            $stmt->bindParam(':methods_type', $methodType);
+                            $stmt->bindParam(':methods_method', $methodMethod);
+                            $stmt->bindParam(':methods_wallet_name', $walletName);
+                            $stmt->bindParam(':methods_card_brand', $brand);
+                            $stmt->bindParam(':methods_cash_changeFor', $changeFor);
+                            $resposta = $stmt->execute();
+
+                            if(!$resposta):
+                                errorLog('error-ifood_total_payments-101-Erro interno BD.');
+                            endif;
+                        };
+
+                        //
+                        //
+                        // ITEMS
+                        //
+                        //
+
+                        foreach($orderDetails['items'] as $item){
+                            $item = (array) $item;
+                        
+                            $itemIndex = (isset($item['index'])) ? $item['index'] : '' ;
+                            $itemId = (isset($item['id'])) ? $item['id'] : '' ;
+                            $itemName = (isset($item['name'])) ? $item['name'] : '' ;
+                            $itemImage = (isset($item['imageUrl'])) ? $item['imageUrl'] : null ;
+                            $itemExternalCode = (isset($item['externalCode'])) ? $item['externalCode'] : null ;
+                            $itemEan = (isset($item['ean'])) ? $item['ean'] : null ;
+                            $itemQtd = (isset($item['quantity'])) ? $item['quantity'] : '' ;
+                            $itemUn = (isset($item['unit'])) ? $item['unit'] : null ;
+                            $itemUnitPrice = (isset($item['unitPrice'])) ? $item['unitPrice'] : '' ;
+                            $itemAddition = (isset($item['addition'])) ? $item['addition'] : null ;
+                            $itemPrice = (isset($item['price'])) ? $item['price'] : '' ;
+                            $itemOpPrice = (isset($item['optionsPrice'])) ? $item['optionsPrice'] : '' ;
+                            $itemTotalPrice = (isset($item['totalPrice'])) ? $item['totalPrice'] : '' ;
+                            $itemObs = (isset($item['observations'])) ? $item['observations'] : null ;
+                        
+                            $sql = 'INSERT INTO ifood_order_items (orderId, indexId, id, itemName, imageUrl, externalCode, ean, quantity, unit, unitPrice, addition, price, optionsPrice, totalPrice, observations) VALUES (:orderId, :indexId, :id, :itemName, :imageUrl, :externalCode, :ean, :quantity, :unit, :unitPrice, :addition, :price, :optionsPrice, :totalPrice, :observations)';
+                            $stmt = $conexao->prepare($sql);
+                            $stmt->bindParam(':orderId', $polOrderId);
+                            $stmt->bindParam(':indexId', $itemIndex);
+                            $stmt->bindParam(':id', $itemId);
+                            $stmt->bindParam(':itemName', $itemName);
+                            $stmt->bindParam(':imageUrl', $itemImage);
+                            $stmt->bindParam(':externalCode', $itemExternalCode);
+                            $stmt->bindParam(':ean', $itemEan);
+                            $stmt->bindParam(':quantity', $itemQtd);
+                            $stmt->bindParam(':unit', $itemUn);
+                            $stmt->bindParam(':unitPrice', $itemUnitPrice);
+                            $stmt->bindParam(':addition', $itemAddition);
+                            $stmt->bindParam(':price', $itemPrice);
+                            $stmt->bindParam(':optionsPrice', $itemOpPrice);
+                            $stmt->bindParam(':totalPrice', $itemTotalPrice);
+                            $stmt->bindParam(':observations', $itemObs);
+                            $resposta = $stmt->execute();
+
+                            if(!$resposta):
+                                errorLog('error-ifood_order_items-101-Erro interno BD.');
+                            endif;
+                        
+                            if(array_key_exists("options", $item)):
+                                foreach($item['options'] as $itemOption){
+                                    $itemOption = (array) $itemOption;
+                        
+                                    $optionIndex = (isset($itemOption['index'])) ? $itemOption['index'] : '' ;
+                                    $optionId = (isset($itemOption['id'])) ? $itemOption['id'] : '' ;
+                                    $optionName = (isset($itemOption['name'])) ? $itemOption['name'] : '' ;
+                                    $optionExternalCode = (isset($itemOption['externalCode'])) ? $itemOption['externalCode'] : '' ;
+                                    $optionEan = (isset($itemOption['ean'])) ? $itemOption['ean'] : '' ;
+                                    $optionQtd = (isset($itemOption['quantity'])) ? $itemOption['quantity'] : '' ;
+                                    $optionUn = (isset($itemOption['unit'])) ? $itemOption['unit'] : '' ;
+                                    $optionUnitPrice = (isset($itemOption['unitPrice'])) ? $itemOption['unitPrice'] : '' ;
+                                    $optionAddition = (isset($itemOption['addition'])) ? $itemOption['addition'] : '' ;
+                                    $optionPrice = (isset($itemOption['price'])) ? $itemOption['price'] : '' ;
+                        
+                                    $sql = 'INSERT INTO ifood_items_options (id, orderId, indexId, itemId, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price) VALUES (:id, :orderId, :indexId, :itemId, :optionName, :externalCode, :ean, :quantity, :unit, :unitPrice, :addition, :price)';
+                                    $stmt = $conexao->prepare($sql);
+                                    $stmt->bindParam(':id', $optionId);
+                                    $stmt->bindParam(':orderId', $polOrderId);
+                                    $stmt->bindParam(':indexId', $optionIndex);
+                                    $stmt->bindParam(':itemId', $itemId);
+                                    $stmt->bindParam(':optionName', $optionName);
+                                    $stmt->bindParam(':externalCode', $optionExternalCode);
+                                    $stmt->bindParam(':ean', $optionEan);
+                                    $stmt->bindParam(':quantity', $optionQtd);
+                                    $stmt->bindParam(':unit', $optionUn);
+                                    $stmt->bindParam(':unitPrice', $optionUnitPrice);
+                                    $stmt->bindParam(':addition', $optionAddition);
+                                    $stmt->bindParam(':price', $optionPrice);
+                                    $resposta = $stmt->execute();
+
+                                    if(!$resposta):
+                                        errorLog('error-ifood_items_options-101-Erro interno BD.');
+                                    endif;
+                                };
+                            endif;
+                        };
+
+                        //continue;
+
+                        //VALIDA CAMPOS EMPTY
+
+                        $dateDisplay = dateDisplay($preparationStartDateTime);
+
+                        $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod, dateDisplay) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod, :dateDisplay)';
+                        $stmt = $conexao->prepare($sql);
+                        $stmt->bindParam(':orderId', $polOrderId);
+                        $stmt->bindParam(':displayId', $displayId);
+                        $stmt->bindParam(':orderType', $orderType);
+                        $stmt->bindParam(':orderTiming', $orderTiming);
+                        $stmt->bindParam(':salesChannel', $salesChannel);
+                        $stmt->bindParam(':dateCreated', $dateCreated);
+                        $stmt->bindParam(':preparationStartDateTime', $preparationStartDateTime);
+                        $stmt->bindParam(':merchantId', $merchantId);
+                        $stmt->bindParam(':merchantName', $merchantName);
+                        $stmt->bindParam(':customerId', $customerId);
+                        $stmt->bindParam(':customerName', $customerName);
+                        $stmt->bindParam(':customerDocument', $customerDocument);
+                        $stmt->bindParam(':customerCountOnMerchant', $customerCountOnMerchant);
+                        $stmt->bindParam(':customerNumber', $customerNumber);
+                        $stmt->bindParam(':customerLocalizer', $customerLocalizer);
+                        $stmt->bindParam(':customerLocalizerExpiration', $customerLocalizerExpiration);
+                        $stmt->bindParam(':isTest', $isTest);
+                        $stmt->bindParam(':extraInfo', $extraInfo);
+                        $stmt->bindParam(':originCancellation', $originCancellation);
+                        $stmt->bindParam(':statusTekeout', $statusTekeout);
+                        $stmt->bindParam(':statusDelivery', $statusDelivery);
+                        $stmt->bindParam(':onDemandAvailable', $onDemandAvailable);
+                        $stmt->bindParam(':onDemandValue', $onDemandValue);
+                        $stmt->bindParam(':mode', $mode);
+                        $stmt->bindParam(':deliveredBy', $deliveredBy);
+                        $stmt->bindParam(':deliveryDateTime', $deliveryDateTime);
+                        $stmt->bindParam(':takeoutDateTime', $takeoutDateTime);
+                        $stmt->bindParam(':tableIndoor', $tableIndoor);
+                        $stmt->bindParam(':observations', $observations);
+                        $stmt->bindParam(':deliveryDateTimeStart', $deliveryDateTimeStart);
+                        $stmt->bindParam(':deliveryDateTimeEnd', $deliveryDateTimeEnd);
+                        $stmt->bindParam(':statusCod', $statusCod);
+                        $stmt->bindParam(':dateDisplay', $dateDisplay);
+                        $resposta = $stmt->execute();
+
+                        if(!$resposta):
+                            errorLog('error-ifood_orders-101-Erro interno BD.');
+                        endif;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // CFM - Pedido foi confirmado e será preparado
                     // RTP - Indica que o pedido está pronto para ser retirado (Pra Retirar ou Na Mesa)
@@ -713,6 +1101,394 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 // START - CANCELAMENTOS
                 //
                 if($polCode == 'CAN'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        $outDetails = orderDetails($polOrderId, $accessToken);
+                        $orderDetails = (array) $outDetails['details'];
+                        $orderDetailsMerchant = (array) $orderDetails['merchant'];
+                        $orderDetailsCustomer = (array) $orderDetails['customer'];
+                        $orderDetailsCustomerPhone = (array) $orderDetailsCustomer['phone'];
+
+                        $displayId = (isset($orderDetails['displayId'])) ? $orderDetails['displayId'] : '' ;
+                        $orderType = (isset($orderDetails['orderType'])) ? $orderDetails['orderType'] : '' ;
+                        $orderTiming = (isset($orderDetails['orderTiming'])) ? $orderDetails['orderTiming'] : '' ;
+                        $salesChannel = (isset($orderDetails['salesChannel'])) ? $orderDetails['salesChannel'] : '' ;
+                        $dateCreated = (isset($orderDetails['createdAt'])) ? $orderDetails['createdAt'] : '' ;
+                        $preparationStartDateTime = (isset($orderDetails['preparationStartDateTime'])) ? $orderDetails['preparationStartDateTime'] : '' ;
+
+                            $merchantId = (isset($orderDetailsMerchant['id'])) ? $orderDetailsMerchant['id'] : '' ;
+                            $merchantName = (isset($orderDetailsMerchant['name'])) ? $orderDetailsMerchant['name'] : '' ;
+
+                            $customerId = (isset($orderDetailsCustomer['id'])) ? $orderDetailsCustomer['id'] : '' ;
+                            $customerName = (isset($orderDetailsCustomer['name'])) ? $orderDetailsCustomer['name'] : '' ;
+                            $customerDocument = (isset($orderDetailsCustomer['documentNumber'])) ? $orderDetailsCustomer['documentNumber'] : null ;
+                            $customerCountOnMerchant = (isset($orderDetailsCustomer['ordersCountOnMerchant'])) ? $orderDetailsCustomer['ordersCountOnMerchant'] : '' ;
+                                $customerNumber = (isset($orderDetailsCustomerPhone['number'])) ? $orderDetailsCustomerPhone['number'] : null ;
+                                $customerLocalizer = (isset($orderDetailsCustomerPhone['localizer'])) ? $orderDetailsCustomerPhone['localizer'] : null ;
+                                $customerLocalizerExpiration = (isset($orderDetailsCustomerPhone['localizerExpiration'])) ? $orderDetailsCustomerPhone['localizerExpiration'] : null ;
+
+                        $isTest = (isset($orderDetails['isTest'])) ? $orderDetails['isTest'] : '' ;
+
+                        $extraInfo = (isset($orderDetails['extraInfo'])) ? $orderDetails['extraInfo'] : null ;
+
+                        $originCancellation = null;
+                        $statusTekeout = null;
+                        $statusDelivery = null;
+                        $onDemandAvailable = null;
+                        $onDemandValue = null;                 
+
+                        $statusCod = $polCode ;
+
+                        if($orderTiming == 'IMMEDIATE'):
+                            $schedule = '';
+                        elseif($orderTiming == 'SCHEDULED'):
+                            $orderDetailsSchedule = (array) $orderDetails['schedule'];
+
+                            $deliveryDateTimeStart = (isset($orderDetailsSchedule['deliveryDateTimeStart'])) ? $orderDetailsSchedule['deliveryDateTimeStart'] : '' ;
+                            $deliveryDateTimeEnd = (isset($orderDetailsSchedule['deliveryDateTimeEnd'])) ? $orderDetailsSchedule['deliveryDateTimeEnd'] : '' ;
+
+                            $schedule = $deliveryDateTimeStart.' / '.$deliveryDateTimeEnd;
+                        endif;
+
+                        if($orderType == 'DELIVERY'):
+                            $orderDetailsDelivery = (array) $orderDetails['delivery'];
+
+                            $mode = (isset($orderDetailsDelivery['mode'])) ? $orderDetailsDelivery['mode'] : '' ;
+                            $deliveredBy = (isset($orderDetailsDelivery['deliveredBy'])) ? $orderDetailsDelivery['deliveredBy'] : '' ;
+                            $deliveryDateTime = (isset($orderDetailsDelivery['deliveryDateTime'])) ? $orderDetailsDelivery['deliveryDateTime'] : '' ;
+                            $observations = (isset($orderDetailsDelivery['observations'])) ? $orderDetailsDelivery['observations'] : null ;
+
+                            $deliveryAddress = (array) $orderDetailsDelivery['deliveryAddress'];
+                            $deliveryCoordinates = (array) $deliveryAddress['coordinates'];
+
+                            $streetName = (isset($deliveryAddress['streetName'])) ? $deliveryAddress['streetName'] : '' ;
+                            $streetNumber = (isset($deliveryAddress['streetNumber'])) ? $deliveryAddress['streetNumber'] : '' ;
+                            $formattedAddress = (isset($deliveryAddress['formattedAddress'])) ? $deliveryAddress['formattedAddress'] : '' ;
+                            $neighborhood = (isset($deliveryAddress['neighborhood'])) ? $deliveryAddress['neighborhood'] : '' ;
+                            $complement = (isset($deliveryAddress['complement'])) ? $deliveryAddress['complement'] : null ;
+                            $reference = (isset($deliveryAddress['reference'])) ? $deliveryAddress['reference'] : null ;
+                            $postalCode = (isset($deliveryAddress['postalCode'])) ? $deliveryAddress['postalCode'] : '' ;
+                            $city = (isset($deliveryAddress['city'])) ? $deliveryAddress['city'] : '' ;
+                            $state = (isset($deliveryAddress['state'])) ? $deliveryAddress['state'] : '' ;
+                            $country = (isset($deliveryAddress['country'])) ? $deliveryAddress['country'] : '' ;
+
+                            $latitude = (isset($deliveryCoordinates['latitude'])) ? $deliveryCoordinates['latitude'] : '' ;
+                            $longitude = (isset($deliveryCoordinates['longitude'])) ? $deliveryCoordinates['longitude'] : '' ;
+
+                            //VALIDA CAMPOS EMPTY
+
+                            $sql = 'INSERT INTO ifood_delivery_anddress (orderId, streetName, streetNumber, formattedAddress, neighborhood, complement, reference, postalCode, city, stateDelivery, country, latitude, longitude) VALUES (:orderId, :streetName, :streetNumber, :formattedAddress, :neighborhood, :complement, :reference, :postalCode, :city, :stateDelivery, :country, :latitude, :longitude)';
+                            $stmt = $conexao->prepare($sql);
+                            $stmt->bindParam(':orderId', $polOrderId);
+                            $stmt->bindParam(':streetName', $streetName);
+                            $stmt->bindParam(':streetNumber', $streetNumber);
+                            $stmt->bindParam(':formattedAddress', $formattedAddress);
+                            $stmt->bindParam(':neighborhood', $neighborhood);
+                            $stmt->bindParam(':complement', $complement);
+                            $stmt->bindParam(':reference', $reference);
+                            $stmt->bindParam(':postalCode', $postalCode);
+                            $stmt->bindParam(':city', $city);
+                            $stmt->bindParam(':stateDelivery', $state);
+                            $stmt->bindParam(':country', $country);
+                            $stmt->bindParam(':latitude', $latitude);
+                            $stmt->bindParam(':longitude', $longitude);
+                            $resposta = $stmt->execute();
+        
+                            if(!$resposta):
+                                errorLog('error-ifood_delivery_anddress-101-Erro interno BD.');
+                            endif;
+                        elseif($orderType == 'INDOOR'):
+                            $orderDetailsIndoor = (array) $orderDetails['indoor'];
+
+                            $mode = (isset($orderDetailsorderDetailsIndoorDelivery['mode'])) ? $orderDetailsIndoor['mode'] : '' ;
+                            $tableIndoor = (isset($orderDetailsIndoor['table'])) ? $orderDetailsIndoor['table'] : '' ;
+                            $deliveryDateTime = (isset($orderDetailsIndoor['deliveryDateTime'])) ? $orderDetailsIndoor['deliveryDateTime'] : '' ;
+                            $observations = (isset($orderDetailsIndoor['observations'])) ? $orderDetailsIndoor['observations'] : null ;
+                        elseif($orderType == 'TAKEOUT'):
+                            $orderDetailsTakeout = (array) $orderDetails['takeout'];
+
+                            $mode = (isset($orderDetailsTakeout['mode'])) ? $orderDetailsTakeout['mode'] : '' ;
+                            $takeoutDateTime = (isset($orderDetailsTakeout['takeoutDateTime'])) ? $orderDetailsTakeout['takeoutDateTime'] : '' ;
+                            $observations = (isset($orderDetailsTakeout['observations'])) ? $orderDetailsTakeout['observations'] : null ;
+                        endif;
+
+                        $deliveredBy = (isset($deliveredBy)) ? $deliveredBy : null;
+                        $deliveryDateTime = (isset($deliveryDateTime)) ? $deliveryDateTime : null;
+                        $takeoutDateTime = (isset($takeoutDateTime)) ? $takeoutDateTime : null;
+                        $tableIndoor = (isset($tableIndoor)) ? $tableIndoor : null;
+                        $deliveryDateTimeStart = (isset($deliveryDateTimeStart)) ? $deliveryDateTimeStart : null;
+                        $deliveryDateTimeEnd = (isset($deliveryDateTimeEnd)) ? $deliveryDateTimeEnd : null;
+
+                        //
+                        //
+                        // BENEFITS
+                        //
+                        //
+
+                        if(array_key_exists("benefits", $orderDetails)):
+                            $benefits = (array) $orderDetails['benefits'];
+                        
+                            $sponValue = array();
+                            $sponValue[0] = array( "name" => "ifood", "value" => 0 );
+                            $sponValue[1] = array( "name" => "loja", "value" => 0 );
+                        
+                            foreach($benefits as $inB){
+                                $inB = (array) $inB;
+                                $sponsor = $inB['sponsorshipValues'];
+                        
+                                foreach($sponsor as $spon){
+                                    $spon = (array) $spon;
+                                    $name = $spon['name'];
+                                    $value = $spon['value']; 
+                                    if($name == 'IFOOD'):
+                                        $sponValue[0]['value'] = $sponValue[0]['value'] + $value; 
+                                    elseif($name == 'MERCHANT'):
+                                        $sponValue[1]['value'] = $sponValue[1]['value'] + $value; 
+                                    endif;
+                                };
+                            };
+                        
+                            foreach($sponValue as $sponIn){
+                                $valor = $sponIn['value'];
+                                $name = $sponIn['name'];
+
+                                if($valor > 0):
+                                    $sql = 'INSERT INTO ifood_benefits (orderId, valueBenef, nameBenef) VALUES (:orderId, :valueBenef, :nameBenef)';
+                                    $stmt = $conexao->prepare($sql);
+                                    $stmt->bindParam(':orderId', $polOrderId);
+                                    $stmt->bindParam(':valueBenef', $valor);
+                                    $stmt->bindParam(':nameBenef', $name);
+                                    $resposta = $stmt->execute();
+
+                                    if(!$resposta):
+                                        errorLog('error-ifood_benefits-101-Erro interno BD.');
+                                    endif;
+                                endif;
+                            };
+                        endif;
+                        //
+                        //
+                        // PAYMENTS
+                        //
+                        //
+                        $total = (array) $orderDetails['total'];
+                        $payments = (array) $orderDetails['payments'];
+                        $methods = (array) $payments['methods'];
+
+                        $subTotal = (isset($total['subTotal'])) ? $total['subTotal'] : '' ;
+                        $deliveryFee = (isset($total['deliveryFee'])) ? $total['deliveryFee'] : '' ;
+                        $benefits = (isset($total['benefits'])) ? $total['benefits'] : '' ;
+                        $orderAmount = (isset($total['orderAmount'])) ? $total['orderAmount'] : '' ;
+                        $additionalFees = (isset($total['additionalFees'])) ? $total['additionalFees'] : '' ;
+
+                        $prepaid = (isset($payments['prepaid'])) ? $payments['prepaid'] : '' ;
+                        $pending = (isset($payments['pending'])) ? $payments['pending'] : '' ;
+
+                        foreach($methods as $inMethods){
+                            $inMethods = (array) $inMethods;
+
+                            $methodValue = (isset($inMethods['value'])) ? $inMethods['value'] : '' ;
+                            $methodMethod = (isset($inMethods['method'])) ? $inMethods['method'] : '' ;
+                            $methodType = (isset($inMethods['type'])) ? $inMethods['type'] : '' ;
+
+                            $changeFor = null; $brand = null; $walletName = null; 
+
+                            if($methodMethod == 'CASH'):
+                                if(array_key_exists("cash", $inMethods)):
+                                    $cash = (array) $inMethods['cash'];
+                                    $changeFor = $cash['changeFor'];
+                                endif;
+                            elseif($methodMethod == 'DIGITAL_WALLET'):
+                                if(array_key_exists("wallet", $inMethods)):
+                                    $wallet = (array) $inMethods['wallet'];
+                                    $walletName = $wallet['name'];
+                                endif;
+                                if(array_key_exists("card", $inMethods)):
+                                    $card = (array) $inMethods['card'];
+                                    $brand = $card['brand'];
+                                endif;  
+                            elseif($methodMethod == 'CREDIT' || $methodMethod == 'DEBIT' || $methodMethod == 'MEAL_VOUCHER' || $methodMethod == 'FOOD_VOUCHER' || $methodMethod == 'PIX'):
+                                if(array_key_exists("card", $inMethods)):
+                                    $card = (array) $inMethods['card'];
+                                    $brand = $card['brand'];  
+                                endif;
+                            endif;
+
+                            $changeFor = (isset($changeFor)) ? $changeFor : null ;
+                            $brand = (isset($brand)) ? $brand : null ;
+                            $walletName = (isset($walletName)) ? $walletName : null ;
+
+                            $sql = 'INSERT INTO ifood_total_payments (orderId, subTotal, deliveryFee, additionalFees, benefits, orderAmount, prepaid, pending, methods_value, methods_type, methods_method, methods_wallet_name, methods_card_brand, methods_cash_changeFor) VALUES (:orderId, :subTotal, :deliveryFee, :additionalFees, :benefits, :orderAmount, :prepaid, :pending, :methods_value, :methods_type, :methods_method, :methods_wallet_name, :methods_card_brand, :methods_cash_changeFor)';
+                            $stmt = $conexao->prepare($sql);
+                            $stmt->bindParam(':orderId', $polOrderId);
+                            $stmt->bindParam(':subTotal', $subTotal);
+                            $stmt->bindParam(':deliveryFee', $deliveryFee);
+                            $stmt->bindParam(':additionalFees', $additionalFees);
+                            $stmt->bindParam(':benefits', $benefits);
+                            $stmt->bindParam(':orderAmount', $orderAmount);
+                            $stmt->bindParam(':prepaid', $prepaid);
+                            $stmt->bindParam(':pending', $pending);
+                            $stmt->bindParam(':methods_value', $methodValue);
+                            $stmt->bindParam(':methods_type', $methodType);
+                            $stmt->bindParam(':methods_method', $methodMethod);
+                            $stmt->bindParam(':methods_wallet_name', $walletName);
+                            $stmt->bindParam(':methods_card_brand', $brand);
+                            $stmt->bindParam(':methods_cash_changeFor', $changeFor);
+                            $resposta = $stmt->execute();
+
+                            if(!$resposta):
+                                errorLog('error-ifood_total_payments-101-Erro interno BD.');
+                            endif;
+                        };
+
+                        //
+                        //
+                        // ITEMS
+                        //
+                        //
+
+                        foreach($orderDetails['items'] as $item){
+                            $item = (array) $item;
+                        
+                            $itemIndex = (isset($item['index'])) ? $item['index'] : '' ;
+                            $itemId = (isset($item['id'])) ? $item['id'] : '' ;
+                            $itemName = (isset($item['name'])) ? $item['name'] : '' ;
+                            $itemImage = (isset($item['imageUrl'])) ? $item['imageUrl'] : null ;
+                            $itemExternalCode = (isset($item['externalCode'])) ? $item['externalCode'] : null ;
+                            $itemEan = (isset($item['ean'])) ? $item['ean'] : null ;
+                            $itemQtd = (isset($item['quantity'])) ? $item['quantity'] : '' ;
+                            $itemUn = (isset($item['unit'])) ? $item['unit'] : null ;
+                            $itemUnitPrice = (isset($item['unitPrice'])) ? $item['unitPrice'] : '' ;
+                            $itemAddition = (isset($item['addition'])) ? $item['addition'] : null ;
+                            $itemPrice = (isset($item['price'])) ? $item['price'] : '' ;
+                            $itemOpPrice = (isset($item['optionsPrice'])) ? $item['optionsPrice'] : '' ;
+                            $itemTotalPrice = (isset($item['totalPrice'])) ? $item['totalPrice'] : '' ;
+                            $itemObs = (isset($item['observations'])) ? $item['observations'] : null ;
+                        
+                            $sql = 'INSERT INTO ifood_order_items (orderId, indexId, id, itemName, imageUrl, externalCode, ean, quantity, unit, unitPrice, addition, price, optionsPrice, totalPrice, observations) VALUES (:orderId, :indexId, :id, :itemName, :imageUrl, :externalCode, :ean, :quantity, :unit, :unitPrice, :addition, :price, :optionsPrice, :totalPrice, :observations)';
+                            $stmt = $conexao->prepare($sql);
+                            $stmt->bindParam(':orderId', $polOrderId);
+                            $stmt->bindParam(':indexId', $itemIndex);
+                            $stmt->bindParam(':id', $itemId);
+                            $stmt->bindParam(':itemName', $itemName);
+                            $stmt->bindParam(':imageUrl', $itemImage);
+                            $stmt->bindParam(':externalCode', $itemExternalCode);
+                            $stmt->bindParam(':ean', $itemEan);
+                            $stmt->bindParam(':quantity', $itemQtd);
+                            $stmt->bindParam(':unit', $itemUn);
+                            $stmt->bindParam(':unitPrice', $itemUnitPrice);
+                            $stmt->bindParam(':addition', $itemAddition);
+                            $stmt->bindParam(':price', $itemPrice);
+                            $stmt->bindParam(':optionsPrice', $itemOpPrice);
+                            $stmt->bindParam(':totalPrice', $itemTotalPrice);
+                            $stmt->bindParam(':observations', $itemObs);
+                            $resposta = $stmt->execute();
+
+                            if(!$resposta):
+                                errorLog('error-ifood_order_items-101-Erro interno BD.');
+                            endif;
+                        
+                            if(array_key_exists("options", $item)):
+                                foreach($item['options'] as $itemOption){
+                                    $itemOption = (array) $itemOption;
+                        
+                                    $optionIndex = (isset($itemOption['index'])) ? $itemOption['index'] : '' ;
+                                    $optionId = (isset($itemOption['id'])) ? $itemOption['id'] : '' ;
+                                    $optionName = (isset($itemOption['name'])) ? $itemOption['name'] : '' ;
+                                    $optionExternalCode = (isset($itemOption['externalCode'])) ? $itemOption['externalCode'] : '' ;
+                                    $optionEan = (isset($itemOption['ean'])) ? $itemOption['ean'] : '' ;
+                                    $optionQtd = (isset($itemOption['quantity'])) ? $itemOption['quantity'] : '' ;
+                                    $optionUn = (isset($itemOption['unit'])) ? $itemOption['unit'] : '' ;
+                                    $optionUnitPrice = (isset($itemOption['unitPrice'])) ? $itemOption['unitPrice'] : '' ;
+                                    $optionAddition = (isset($itemOption['addition'])) ? $itemOption['addition'] : '' ;
+                                    $optionPrice = (isset($itemOption['price'])) ? $itemOption['price'] : '' ;
+                        
+                                    $sql = 'INSERT INTO ifood_items_options (id, orderId, indexId, itemId, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price) VALUES (:id, :orderId, :indexId, :itemId, :optionName, :externalCode, :ean, :quantity, :unit, :unitPrice, :addition, :price)';
+                                    $stmt = $conexao->prepare($sql);
+                                    $stmt->bindParam(':id', $optionId);
+                                    $stmt->bindParam(':orderId', $polOrderId);
+                                    $stmt->bindParam(':indexId', $optionIndex);
+                                    $stmt->bindParam(':itemId', $itemId);
+                                    $stmt->bindParam(':optionName', $optionName);
+                                    $stmt->bindParam(':externalCode', $optionExternalCode);
+                                    $stmt->bindParam(':ean', $optionEan);
+                                    $stmt->bindParam(':quantity', $optionQtd);
+                                    $stmt->bindParam(':unit', $optionUn);
+                                    $stmt->bindParam(':unitPrice', $optionUnitPrice);
+                                    $stmt->bindParam(':addition', $optionAddition);
+                                    $stmt->bindParam(':price', $optionPrice);
+                                    $resposta = $stmt->execute();
+
+                                    if(!$resposta):
+                                        errorLog('error-ifood_items_options-101-Erro interno BD.');
+                                    endif;
+                                };
+                            endif;
+                        };
+
+                        //continue;
+
+                        //VALIDA CAMPOS EMPTY
+
+                        $dateDisplay = dateDisplay($preparationStartDateTime);
+
+                        $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod, dateDisplay) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod, :dateDisplay)';
+                        $stmt = $conexao->prepare($sql);
+                        $stmt->bindParam(':orderId', $polOrderId);
+                        $stmt->bindParam(':displayId', $displayId);
+                        $stmt->bindParam(':orderType', $orderType);
+                        $stmt->bindParam(':orderTiming', $orderTiming);
+                        $stmt->bindParam(':salesChannel', $salesChannel);
+                        $stmt->bindParam(':dateCreated', $dateCreated);
+                        $stmt->bindParam(':preparationStartDateTime', $preparationStartDateTime);
+                        $stmt->bindParam(':merchantId', $merchantId);
+                        $stmt->bindParam(':merchantName', $merchantName);
+                        $stmt->bindParam(':customerId', $customerId);
+                        $stmt->bindParam(':customerName', $customerName);
+                        $stmt->bindParam(':customerDocument', $customerDocument);
+                        $stmt->bindParam(':customerCountOnMerchant', $customerCountOnMerchant);
+                        $stmt->bindParam(':customerNumber', $customerNumber);
+                        $stmt->bindParam(':customerLocalizer', $customerLocalizer);
+                        $stmt->bindParam(':customerLocalizerExpiration', $customerLocalizerExpiration);
+                        $stmt->bindParam(':isTest', $isTest);
+                        $stmt->bindParam(':extraInfo', $extraInfo);
+                        $stmt->bindParam(':originCancellation', $originCancellation);
+                        $stmt->bindParam(':statusTekeout', $statusTekeout);
+                        $stmt->bindParam(':statusDelivery', $statusDelivery);
+                        $stmt->bindParam(':onDemandAvailable', $onDemandAvailable);
+                        $stmt->bindParam(':onDemandValue', $onDemandValue);
+                        $stmt->bindParam(':mode', $mode);
+                        $stmt->bindParam(':deliveredBy', $deliveredBy);
+                        $stmt->bindParam(':deliveryDateTime', $deliveryDateTime);
+                        $stmt->bindParam(':takeoutDateTime', $takeoutDateTime);
+                        $stmt->bindParam(':tableIndoor', $tableIndoor);
+                        $stmt->bindParam(':observations', $observations);
+                        $stmt->bindParam(':deliveryDateTimeStart', $deliveryDateTimeStart);
+                        $stmt->bindParam(':deliveryDateTimeEnd', $deliveryDateTimeEnd);
+                        $stmt->bindParam(':statusCod', $statusCod);
+                        $stmt->bindParam(':dateDisplay', $dateDisplay);
+                        $resposta = $stmt->execute();
+
+                        if(!$resposta):
+                            errorLog('error-ifood_orders-101-Erro interno BD.');
+                        endif;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // Pedido foi Cancelado
                     //
@@ -737,6 +1513,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 endif;
 
                 if($polCode == 'CAR'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        continue;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // Solicitação de cancelamento feita pelo Merchant (loja) ou pelo iFood (atendimento ao cliente)
                     //
@@ -785,6 +1581,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 endif;
 
                 if($polCode == 'CCR'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        continue;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // Solicitação de cancelamento feita pelo cliente
                     //
@@ -833,6 +1649,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 endif;
 
                 if($polCode == 'CARF'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        continue;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // Solicitação de cancelamento do merchant negada
                     //
@@ -861,6 +1697,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 endif;
 
                 if($polCode == 'CCA' || $polCode == 'CCD'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        continue;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // CCA - A solicitação de cancelamento feita pelo cliente foi aprovada pelo Merchant (loja)
                     // CCD - A solicitação de cancelamento feita pelo cliente foi negada pelo Merchant (loja)
@@ -896,6 +1752,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 // START - TAKEOUT
                 //
                 if($polCode == 'PAA'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        continue;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // PAA - Cliente está aguardando na vaga especial para retirar o pedido
                     //
@@ -946,6 +1822,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 // START - DELIVERY
                 //
                 if($polCode == 'ADR'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        continue;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // ADR - Um entregador foi alocado para realizar a entrega
                     //
@@ -995,6 +1891,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 endif;
    
                 if($polCode == 'GTO' || $polCode == 'AAO' || $polCode == 'CLT' || $polCode == 'AAD'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        continue;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // GTO - Entregador está a caminho da origem para retirar o pedido
                     // AAO - Entregador chegou na origem para retirar o pedido
@@ -1027,6 +1943,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 endif;
 
                 if($polCode == 'RDA'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        continue;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // RDA - Indica se o pedido é elegível para requisitar o serviço de entrega sob demanda e o custo do serviço caso seja elegível
                     //
@@ -1072,6 +2008,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 endif;
 
                 if($polCode == 'RDR' || $polCode == 'RDS'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        continue;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // RDR - Indica que foi feita uma requisição do serviço de entrega sob demanda
                     // RDS - Requisição de entrega aprovada
@@ -1102,6 +2058,26 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                 endif;
 
                 if($polCode == 'RDF'):
+                    ////////
+                    ////////
+                    //////// VERIFICA SE EVENTO JA FOI PEDIDO JA FOI CADASTRADO, CASO CONTRATO FAZ O CADASTRO
+                    ////////
+                    //////// START >>>>
+                    ////////
+                    $sql = "SELECT id FROM ifood_orders WHERE orderId=:orderId && merchantId=:merchantId";
+                    $stmt = $conexao->prepare($sql);
+                    $stmt->bindParam(':orderId', $polOrderId);
+                    $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->execute();
+                    $contar = $stmt->rowCount();
+                    
+                    if($contar == 0):
+                        continue;
+                    endif;
+                    ////////
+                    //////// >>>> END
+                    ////////
+
                     //
                     // RDF - Requisição de entrega negada - Valores possíveis: SAFE_MODE_ON, OFF_WORKING_SHIFT_POST, CLOSED_REGION, SATURATED_REGION
                     //
