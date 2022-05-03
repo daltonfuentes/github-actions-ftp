@@ -5,6 +5,38 @@ session_start();
 //require_once("conexao/functions.php");
 
 //require_once("conexao/conexao.php");
+
+date_default_timezone_set('America/Sao_Paulo');
+
+$retorno = array();
+
+$dateAtual = date_format(date_create(),"YmdHis");
+
+$sql = "SELECT orderId FROM ifood_orders WHERE dateDisplay>:dateActual";
+$stmt = $conexao->prepare($sql);
+$stmt->bindParam(':dateActual', $dateAtual);	
+$stmt->execute();
+$contar = $stmt->rowCount();
+
+if($contar != 0):
+    while($exibe = $stmt->fetch(PDO::FETCH_OBJ)){
+        $fuso = 3;
+        $diff = 12-$fuso;
+        $preparationStart = date_format(date_add(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$diff hours")),"Ymd / His");
+
+        if($exibe->orderTiming == 'IMMEDIATE' || ($exibe->orderTiming == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
+            echo 'AGORA<br>';
+        else: //APARECE EM AGENDADOS
+            echo 'AGENDADO<br>';
+        endif;
+    }
+else: // SEM PEDIDOS
+    echo 'SEM PEDIDOS<br>';
+endif;
+
+
+
+exit();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

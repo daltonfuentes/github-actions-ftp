@@ -1403,15 +1403,34 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
     echo json_encode($retorno);
 endif;
 
-if(isset($_POST['teste']) && $_POST['teste'] == true) :
-    $x = 200;
+//$_POST['orders_list'] = true;
 
-    if($x == 200):
-        $retorno['mensagem']  = 'Polling vazio!';
-        $retorno['code']  = 200;
-    else:
-        $retorno['mensagem']  = 'Erro interno "polling".';
-        $retorno['code']  = 400;
+if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
+    date_default_timezone_set('America/Sao_Paulo');
+
+    $retorno = array();
+
+    $dateAtual = date_format(date_create(),"YmdHis");
+
+    $sql = "SELECT orderId FROM ifood_orders WHERE dateDisplay>:dateActual";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bindParam(':dateActual', $dateAtual);	
+    $stmt->execute();
+    $contar = $stmt->rowCount();
+
+    if($contar != 0):
+        while($exibe = $stmt->fetch(PDO::FETCH_OBJ)){
+            $fuso = 3;
+            $diff = 12-$fuso;
+            $preparationStart = date_format(date_add(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$diff hours")),"Ymd / His");
+
+            if($exibe->orderTiming == 'IMMEDIATE' || ($exibe->orderTiming == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
+                echo 'AGORA<br>';
+            else: //APARECE EM AGENDADOS
+                echo 'AGENDADO<br>';
+            endif;
+        }
+    else: // SEM PEDIDOS
+        echo 'SEM PEDIDOS<br>';
     endif;
-    echo json_encode($retorno);
 endif;
