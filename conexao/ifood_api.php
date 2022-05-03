@@ -1498,16 +1498,16 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'RTP'):
-                    $sql = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
-                    $stmt2 = $conexao->prepare($sql);
-                    $stmt2->bindParam(':orderId', $orderId);	
-                    $stmt2->bindParam(':code', $status);	
-                    $stmt2->execute();
-                    $contar = $stmt2->rowCount();
+                    $sql5 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
+                    $stmt5 = $conexao->prepare($sql5);
+                    $stmt5->bindParam(':orderId', $orderId);	
+                    $stmt5->bindParam(':code', $status);	
+                    $stmt5->execute();
+                    $conta5 = $stmt5->rowCount();
     
-                    if($contar != 0):
-                        $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
-                        $hourDelivered = $exibe2->createdAt;
+                    if($contar5 != 0):
+                        $exibe5 = $stmt5->fetch(PDO::FETCH_OBJ);
+                        $hourDelivered = $exibe5->createdAt;
                         $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
     
                         $firstDate  = new DateTime($hourDelivered);
@@ -1537,16 +1537,16 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'DSP'):
-                    $sql = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
-                    $stmt2 = $conexao->prepare($sql);
-                    $stmt2->bindParam(':orderId', $orderId);	
-                    $stmt2->bindParam(':code', $status);	
-                    $stmt2->execute();
-                    $contar = $stmt2->rowCount();
+                    $sql4 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
+                    $stmt4 = $conexao->prepare($sql4);
+                    $stmt4->bindParam(':orderId', $orderId);	
+                    $stmt4->bindParam(':code', $status);	
+                    $stmt4->execute();
+                    $contar4 = $stmt4->rowCount();
     
-                    if($contar != 0):
-                        $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
-                        $hourDelivered = $exibe2->createdAt;
+                    if($contar4 != 0):
+                        $exibe4 = $stmt4->fetch(PDO::FETCH_OBJ);
+                        $hourDelivered = $exibe4->createdAt;
                         $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
     
                         $firstDate  = new DateTime($hourDelivered);
@@ -1576,16 +1576,16 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'CON'):
-                    $sql = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
-                    $stmt2 = $conexao->prepare($sql);
-                    $stmt2->bindParam(':orderId', $orderId);	
-                    $stmt2->bindParam(':code', $status);	
-                    $stmt2->execute();
-                    $contar = $stmt2->rowCount();
+                    $sql3 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
+                    $stmt3 = $conexao->prepare($sql3);
+                    $stmt3->bindParam(':orderId', $orderId);	
+                    $stmt3->bindParam(':code', $status);	
+                    $stmt3->execute();
+                    $contar3 = $stmt3->rowCount();
     
-                    if($contar != 0):
-                        $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
-                        $dateFinish = $exibe2->createdAt;
+                    if($contar3 != 0):
+                        $exibe3 = $stmt3->fetch(PDO::FETCH_OBJ);
+                        $dateFinish = $exibe3->createdAt;
                         $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
                         $horaFinish = date_format(date_create(date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")), 'YmdHis')), 'H:i');
     
@@ -1608,14 +1608,16 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'CAN'):
-                    $sql = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
-                    $stmt2 = $conexao->prepare($sql);
+                    $sql2 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
+                    $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bindParam(':orderId', $orderId);	
                     $stmt2->bindParam(':code', $status);	
                     $stmt2->execute();
-                    $contar = $stmt2->rowCount();
-                    $retorno['teste'] = $orderId.' /// '.$status.' /// '.$contar;
-                    if($contar != 0):
+                    $contar2 = $stmt2->rowCount();
+                    
+                    $retorno['teste'] = $orderId.' /// '.$status.' /// '.$status;
+                    
+                    if($contar2 != 0):
                         $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
                         $dateFinish = $exibe2->createdAt;
                         $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
