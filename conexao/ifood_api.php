@@ -1572,7 +1572,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         $diff = $dateInterval->i;
                     endif;
 
-                    $minutes = (isset($diff)) ? $diff : '-0-' ;
+                    $minutes = (isset($diff)) ? $diff : "/ $orderId -0- $status /" ;
 
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
