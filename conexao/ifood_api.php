@@ -1442,7 +1442,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     
             if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
                 if($status == 'PLC'):
-                    $retorno['PLC'] = $retorno['PLC']++;
+                    $retorno['PLC'] = $retorno['PLC']+1;
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
@@ -1459,7 +1459,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>
                     </div>';
                 elseif($status == 'CFM'):
-                    $retorno['CFM'] = $retorno['CFM']++;
+                    $retorno['CFM'] = $retorno['CFM']+1;
                     $dateFinish = (isset($exibe->deliveryDateTime)) ? $exibe->deliveryDateTime : null ;
                     $dateFinish = (isset($exibe->takeoutDateTime)) ? $exibe->takeoutDateTime : $dateFinish ;
                     $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
@@ -1506,7 +1506,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'RTP'):
-                    $retorno['RTP'] = $retorno['RTP']++;
+                    $retorno['RTP'] = $retorno['RTP']+1;
                     $sql5 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
                     $stmt5 = $conexao->prepare($sql5);
                     $stmt5->bindParam(':orderId', $orderId);	
@@ -1546,7 +1546,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'DSP'):
-                    $retorno['DSP'] = $retorno['DSP']++;
+                    $retorno['DSP'] = $retorno['DSP']+1;
                     $sql4 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
                     $stmt4 = $conexao->prepare($sql4);
                     $stmt4->bindParam(':orderId', $orderId);	
@@ -1586,7 +1586,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'CON'):
-                    $retorno['CON'] = $retorno['CON']++;
+                    $retorno['CON'] = $retorno['CON']+1;
                     $sql3 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
                     $stmt3 = $conexao->prepare($sql3);
                     $stmt3->bindParam(':orderId', $orderId);	
@@ -1619,7 +1619,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'CAN'):
-                    $retorno['CAN'] = $retorno['CAN']++;
+                    $retorno['CAN'] = $retorno['CAN']+1;
                     $sql2 = "SELECT createdAt FROM ifood_events WHERE orderId>:orderId && code>:code";
                     $stmt2 = $conexao->prepare($sql2);
                     $stmt2->bindParam(':orderId', $orderId);	
