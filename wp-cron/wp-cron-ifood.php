@@ -1,7 +1,7 @@
 <?php
-ob_start();
-session_start();
+$a = 1+1;
 
+exit();
 require("../conexao/functions.php");
 
 $in = '2022-05-01T05:35:00.000Z';
