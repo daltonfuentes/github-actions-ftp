@@ -39,7 +39,6 @@ function faixaPedidosClick(clicker) {
 
     if(ativa.hasClass('alerta') == true){
         ativa.addClass('animate__animated');
-        console.log('Tava em alerta');
     }
 
     if(clicker.hasClass('alerta') == true){
