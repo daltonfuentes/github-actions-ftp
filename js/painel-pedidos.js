@@ -175,5 +175,31 @@ $(document).ready(function() {
         });
     };
     listOrders();
+});
 
+$(document).on('click', '#row-list-orders-immediate .faixa-pedido', function(){
+    var orderId = $(this).attr('data-orderId');
+
+    $.ajax({
+        type : 'POST',
+        url  : './conexao/ifood_api.php',
+        data : { orders_details_ifood: true, orderId: orderId },
+        dataType: 'json',
+        beforeSend: function() {
+            
+        },
+        success :  function(retorno){
+            if(retorno.error == false){
+                $("#order_details").html(retorno.details);
+            }else{ 
+                console.log('Success erro');
+            }
+        },
+        error: function() {
+            console.log('Erro');
+        },
+        complete: function() {
+
+        }
+    });
 });

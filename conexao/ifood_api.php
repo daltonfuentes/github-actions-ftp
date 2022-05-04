@@ -1662,3 +1662,100 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
         echo json_encode($retorno);
     endif;
 endif;
+
+if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == true) :
+    require("conexao_hostgator.php");
+
+    $retorno = array();
+    
+    $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : '' ;
+
+    if(empty($orderId)):
+        errorLog('error-orders_details_empty');
+        $retorno['error']  = true;
+        echo json_encode($retorno);
+        exit();
+    endif;
+
+    $fuso = 3;
+    $dateAtual = date_format(date_create(),"YmdHis");
+
+    $sql = "SELECT * FROM ifood_orders WHERE orderId > :orderId";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bindParam(':orderId', $orderId);	
+    $stmt->execute();
+    $contar = $stmt->rowCount();
+    
+    if($contar != 0):
+        $exibe = $stmt->fetch(PDO::FETCH_OBJ);
+
+        $dateCreated = date_format(date_sub(date_create($exibe->dateCreated),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+        $hourCreated = date_format(date_create($dateCreated), 'H:i');
+
+        $html_head = '
+        <div class="col-xxl-12 col-11">
+            <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #'.$exibe->displayId.'<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às '.$hourCreated.'h</span></h4>
+        </div>';
+
+        if($exibe->orderType == 'DELIVERY'):
+
+        elseif($exibe->orderType == 'TAKEOUT'):
+
+        elseif($exibe->orderType == 'TAKEOUT'):
+
+        endif;
+
+        $col_left_01 = '
+        <div class="col-xl-12">
+            <div class="card border border-light shadow-sm">
+                <div class="card-body py-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row align-items-center">
+                                <div class="col-xl-2 text-center">
+                                    <img class="order-details-origin-ifood w-75" src="images/logo_ifood_2.png" alt="ifood">
+                                </div>
+                                <div class="col-xl-10">
+                                    <div class="row align-items-center justify-content-center">
+                                        <div class="col-xl-7">
+                                            <div class="media align-items-center">
+                                                <i class="fa-light fa-location-dot fs-30 text-black mr-2"></i>
+                                                <span class="text-black font-w500">Rua Padre Cicero, 567 - Jardim Guaira</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-5">
+                                            <div class="media align-items-center">
+                                                <i class="fa-light fa-phone fs-30 text-black mr-2"></i>
+                                                <span class="text-black font-w500">'.$exibe->customerNumber.' <span class="text-secondary">: '.$exibe->customerLocalizer.'</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>';
+
+        $col_left = '
+        <div class="col-xxl-12 col-xl-8">
+            <div class="row">
+            '.$col_left_01.'
+            </div>
+        </div>';
+
+
+
+
+
+
+
+        $retorno['error']  = false;
+        $retorno['details'] = $html_head.$col_left;
+    endif;
+
+
+
+    echo json_encode($retorno);
+endif;
