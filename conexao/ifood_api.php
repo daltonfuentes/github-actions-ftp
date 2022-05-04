@@ -1794,9 +1794,8 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
                     $options = ''; // id, orderId, indexId, itemId, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price
 
-                    $sql4 = "SELECT * FROM ifood_items_options WHERE orderId = :orderId && itemId = :itemId";
+                    $sql4 = "SELECT * FROM ifood_items_options WHERE itemId = :itemId";
                     $stmt4 = $conexao->prepare($sql4);
-                    $stmt4->bindParam(':orderId', $orderId);
                     $stmt4->bindParam(':itemId', $itemId);	
                     $stmt4->execute();
                     $contar4 = $stmt4->rowCount();
@@ -1833,11 +1832,17 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     
                     // orderId, indexId, id, itemName, imageUrl, externalCode, ean, quantity, unit, unitPrice, addition, price, optionsPrice, totalPrice, observations
 
+                    if($options != ''):
+                        $pObs = 'pt-4';
+                    else:
+                        $pObs = '';
+                    endif;
+
                     $observations = '';
 
                     if($exibe3->observations != ''):
                         $observations = '
-                        <div class="media px-2 pb-2">
+                        <div class="media px-2 pb-2 '.$pObs.'">
                             <div class="observation-item-order media-body col-12 pr-0 align-self-center align-items-center bg-observation-order">
                                 <div class="media py-3 pl-2 pr-3">
                                     <h5 class="mt-0 mb-0 text-black fs-16 mr-3"><i class="fa-solid fa-pen"></i></i></h5>
