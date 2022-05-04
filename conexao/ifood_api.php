@@ -1666,6 +1666,12 @@ endif;
 if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == true) :
     require("conexao_hostgator.php");
 
+    function numeroParaReal($n){
+        $valor = number_format($n,2,",",".");
+        $valor = "R$ ".$valor;
+        return($valor);
+    };
+
     $retorno = array();
     
     $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : '' ;
