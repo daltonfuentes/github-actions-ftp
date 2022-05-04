@@ -1500,25 +1500,13 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         </div>';
                     endif;
                 elseif($status == 'RTP'):
-                    $sql2 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
-                    $stmt2 = $conexao->prepare($sql2);
-                    $stmt2->bindParam(':orderId', $orderId);	
-                    $stmt2->bindParam(':code', $status);	
-                    $stmt2->execute();
-                    $conta2 = $stmt2->rowCount();
-    
-                    if($conta2 != 0):
-                        $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
-                        $hourDelivered = $exibe2->createdAt;
-                        $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
-    
-                        $firstDate  = new DateTime($hourDelivered);
-                        $secondDate = new DateTime($dateAtual);
-                        $dateInterval = $firstDate->diff($secondDate);
-                        $diff = $dateInterval->i;
-                    endif;
+                    $orderType = $exibe->orderType;
 
-                    $minutes = (isset($diff)) ? $diff : "-" ;
+                    if($orderType == 'DELIVERY'):
+                        $desc = '<span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span><span class="font-gilroy-medium fs-16 ml-2 position-absolute">Entregador a caminho</span>';
+                    else:
+                        $desc = '<span class="font-gilroy-medium fs-16">Pronto para ser retirado</span>';
+                    endif;
                     
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
@@ -1527,8 +1515,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
-                                        <span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span>
-                                        <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Pronto á '.$minutes.' minutos</span>
+                                        '.$desc.'
                                     </div>
                                     <div class="media-footer status-pedido">
                                         <h4
