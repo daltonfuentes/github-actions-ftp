@@ -1791,7 +1791,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 while($exibe3 = $stmt3->fetch(PDO::FETCH_OBJ)){
 
                     $itemId = $exibe3->id;
-                    
+
                     $options = ''; // id, orderId, indexId, itemId, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price
 
                     $sql4 = "SELECT * FROM ifood_items_options WHERE orderId = :orderId && itemId = :itemId";
@@ -1814,6 +1814,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                                 <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
                                     <h3 class="mb-0 font-w500 text-quinta fs-16">'.numeroParaReal($exibe4->price).'</h3>
                                 </div>
+                                <hr>
                             </div>';
                         }
                     endif;
