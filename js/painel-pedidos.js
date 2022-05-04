@@ -150,6 +150,10 @@ $(document).ready(function() {
     }
 
     function listOrders() {
+        var active = $('#row-list-orders-immediate').find('.faixa-pedido.active').attr('data-orderId');
+
+        console.log(active);
+
         $.ajax({
             type : 'POST',
             url  : './conexao/ifood_api.php',

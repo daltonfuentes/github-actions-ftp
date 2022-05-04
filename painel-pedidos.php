@@ -89,7 +89,7 @@ session_start();
                                 <button class="btn rounded-right btn-outline-custom-2 fs-14 border-2" data-type="scheduled" type="button">AGENDADO<span class="badge badge-danger ml-2 d-none">4</span></button>
                             </div>
                         </div>
-                        <div class="row pr-2 " id="row-list-orders-immediate" style="width: 400px;">
+                        <div class="row pr-2 pt-2" id="row-list-orders-immediate" style="width: 400px;">
                             
                         </div>
                         <div class="row pr-2 pt-1 d-none" id="row-list-orders-scheduled" style="width: 400px;">
