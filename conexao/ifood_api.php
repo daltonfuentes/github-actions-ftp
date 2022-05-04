@@ -1505,7 +1505,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     if($orderType == 'DELIVERY'):
                         $desc = '<span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span><span class="font-gilroy-medium fs-16 ml-2 position-absolute">Entregador a caminho</span>';
                     else:
-                        $desc = '<span class="font-gilroy-medium fs-16">Pronto para ser retirado</span>';
+                        $desc = '<span class=""><i class="fa-solid fa-person-carry-box fs-16"></i></span><span class="font-gilroy-medium fs-16 ml-2 position-absolute">Pronto para ser retirado</span>';
                     endif;
                     
                     $immediate = $immediate.'
