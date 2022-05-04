@@ -1785,9 +1785,52 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
             $contar3 = $stmt3->rowCount();
 
             if($contar3 != 0):
+
+                $itemId = $exibe3->id;
+
                 while($exibe3 = $stmt3->fetch(PDO::FETCH_OBJ)){
+
+                    $options = ''; // id, orderId, indexId, itemId, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price
+
+                    $sql4 = "SELECT * FROM ifood_items_options WHERE orderId = :orderId && itemId = :itemId";
+                    $stmt4 = $conexao->prepare($sql4);
+                    $stmt4->bindParam(':orderId', $orderId);
+                    $stmt4->bindParam(':itemId', $itemId);	
+                    $stmt4->execute();
+                    $contar4 = $stmt4->rowCount();
+
+                    if($contar4 != 0):
+                        while($exibe4 = $stmt4->fetch(PDO::FETCH_OBJ)){
+                            $options = $options.'
+                            <div class="media px-2 pb-2">
+                                <div class="option-item-order media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                    <h5 class="mt-0 mb-0 text-quinta fs-16">'.$exibe4->optionName.'</h5>
+                                </div>
+                                <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                    <h5 class="mb-0 font-w600 text-quinta fs-16">'.$exibe4->quantity.'x</h5>
+                                </div>
+                                <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                    <h3 class="mb-0 font-w500 text-quinta fs-16">'.numeroParaReal($exibe4->price).'</h3>
+                                </div>
+                            </div>';
+                        }
+                    endif;
                     
                     // orderId, indexId, id, itemName, imageUrl, externalCode, ean, quantity, unit, unitPrice, addition, price, optionsPrice, totalPrice, observations
+
+                    $observations = '';
+
+                    if($observations != ''):
+                        $observations = '
+                        <div class="media px-2 pb-2">
+                            <div class="observation-item-order media-body col-12 pr-0 align-self-center align-items-center bg-observation-order">
+                                <div class="media py-3 pl-2 pr-3">
+                                    <h5 class="mt-0 mb-0 text-black fs-16 mr-3"><i class="fa-solid fa-pen"></i></i></h5>
+                                    <h5 class="mt-0 mb-0 text-black fs-16"><span>'.$exibe3->observations.'</span></h5>
+                                </div>
+                            </div>
+                        </div>';
+                    endif;
 
                     $items = $items.'
                     <div class="col-12">
@@ -1805,6 +1848,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                                 <h3 class="mb-0 font-w600 text-black fs-22">'.numeroParaReal($exibe3->totalPrice).'</h3>
                             </div>
                         </div>
+                        '.$options.$observations.'
                     </div>
                     <div class="col-12 px-0">
                         <hr class="hr-full-16">
