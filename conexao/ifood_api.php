@@ -1786,10 +1786,12 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
             if($contar3 != 0):
 
-                $itemId = $exibe3->id;
+                
 
                 while($exibe3 = $stmt3->fetch(PDO::FETCH_OBJ)){
 
+                    $itemId = $exibe3->id;
+                    
                     $options = ''; // id, orderId, indexId, itemId, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price
 
                     $sql4 = "SELECT * FROM ifood_items_options WHERE orderId = :orderId && itemId = :itemId";
