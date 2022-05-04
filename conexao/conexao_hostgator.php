@@ -10,3 +10,9 @@ $conexao = new PDO("mysql:host=$dbHost;dbname=$db", $dbUser, $dbPass);
 date_default_timezone_set('America/Sao_Paulo');
 
 $merchantApiHost = 'https://merchant-api.ifood.com.br';
+
+function numeroParaReal($n){
+    $valor = number_format($n,2,",",".");
+    $valor = "R$ ".$valor;
+    return($valor);
+};

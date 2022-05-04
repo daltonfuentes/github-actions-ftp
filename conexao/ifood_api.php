@@ -1669,8 +1669,9 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
     $retorno = array();
     
     $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : '' ;
+    $type = (isset($_POST['type'])) ? $_POST['type'] : '' ;
 
-    if(empty($orderId)):
+    if(empty($orderId) || empty($type)):
         errorLog('error-orders_details_empty');
         $retorno['error']  = true;
         echo json_encode($retorno);
@@ -1688,56 +1689,71 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
     
     if($contar != 0):
         $exibe = $stmt->fetch(PDO::FETCH_OBJ);
+        
+        $orderType = $exibe->orderType;
+        $statusCod = $exibe->statusCod;
+        $orderTiming = $exibe->orderTiming;
 
         $dateCreated = date_format(date_sub(date_create($exibe->dateCreated),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
         $hourCreated = date_format(date_create($dateCreated), 'H:i');
 
-        $html_head = '
-        <div class="col-xxl-12 col-11">
-            <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #'.$exibe->displayId.'<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às '.$hourCreated.'h</span></h4>
-        </div>';
+        if($type == 'IMMEDIATE'):
+            $html_head = '
+            <div class="col-xxl-12 col-11">
+                <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #'.$exibe->displayId.'<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às '.$hourCreated.'h</span></h4>
+            </div>';
 
-        if($exibe->orderType == 'DELIVERY'):
-            $sql2 = "SELECT * FROM ifood_orders WHERE orderId = :orderId";
-            $stmt2 = $conexao->prepare($sql2);
-            $stmt2->bindParam(':orderId', $orderId);	
-            $stmt2->execute();
-            $contar2 = $stmt2->rowCount();
+            if($orderType == 'DELIVERY'):
+                $sql2 = "SELECT * FROM ifood_delivery_anddress WHERE orderId = :orderId";
+                $stmt2 = $conexao->prepare($sql2);
+                $stmt2->bindParam(':orderId', $orderId);	
+                $stmt2->execute();
+                $contar2 = $stmt2->rowCount();
+    
+                if($contar2 != 0):
+                    $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
+                    
+                    $address = '
+                    <div class="col-xl-7">
+                        <div class="media align-items-center">
+                            <i class="fa-light fa-location-dot fs-30 text-black mr-2"></i>
+                            <span class="text-black font-w500">'.$exibe2->formattedAddress.'</span>
+                        </div>
+                    </div>';
+                endif;
 
-            if($contar2 != 0):
-                $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
                 
-                $address = '
-                <div class="col-xl-7">
-                    <div class="media align-items-center">
-                        <i class="fa-light fa-location-dot fs-30 text-black mr-2"></i>
-                        <span class="text-black font-w500">'.$exibe2->formattedAddress.'</span>
-                    </div>
-                </div>';
-            else:
-                $address = '';
-            endif;
-        else:
-            $address = '';
-        endif;
 
-        $col_left_01 = '
-        <div class="col-xl-12">
-            <div class="card border border-light shadow-sm">
-                <div class="card-body py-3">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row align-items-center">
-                                <div class="col-xl-2 text-center">
-                                    <img class="order-details-origin-ifood w-75" src="images/logo_ifood_2.png" alt="ifood">
-                                </div>
-                                <div class="col-xl-10">
-                                    <div class="row align-items-center justify-content-center">
-                                        '.$address.'
-                                        <div class="col-xl-5">
-                                            <div class="media align-items-center">
-                                                <i class="fa-light fa-phone fs-30 text-black mr-2"></i>
-                                                <span class="text-black font-w500">'.$exibe->customerNumber.' <span class="text-secondary">: '.$exibe->customerLocalizer.'</span></span>
+                
+    
+    
+    
+            elseif($orderType == 'TAKEOUT'):
+
+            elseif($orderType == 'INDOOR'):
+                
+            endif;
+
+            $address = (isset($address)) ? $address : '' ;
+
+            $col_info_1 = '
+            <div class="col-xl-12">
+                <div class="card border border-light shadow-sm">
+                    <div class="card-body py-3">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row align-items-center">
+                                    <div class="col-xl-2 text-center">
+                                        <img class="order-details-origin-ifood w-75" src="images/logo_ifood_2.png" alt="ifood">
+                                    </div>
+                                    <div class="col-xl-10">
+                                        <div class="row align-items-center justify-content-center">
+                                            '.$address.'
+                                            <div class="col-xl-5">
+                                                <div class="media align-items-center">
+                                                    <i class="fa-light fa-phone fs-30 text-black mr-2"></i>
+                                                    <span class="text-black font-w500">'.$exibe->customerNumber.' <span class="text-secondary">: '.$exibe->customerLocalizer.'</span></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1746,27 +1762,116 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         </div>
                     </div>
                 </div>
+            </div>';
+            
+            ///
+            ///
+            /// ITEMS
+            ///
+            ///
+
+            $items = '';
+            
+            $sql3 = "SELECT * FROM ifood_order_items WHERE orderId = :orderId";
+            $stmt3 = $conexao->prepare($sql3);
+            $stmt3->bindParam(':orderId', $orderId);	
+            $stmt3->execute();
+            $contar3 = $stmt3->rowCount();
+
+            if($contar3 != 0):
+                while($exibe3 = $stmt3->fetch(PDO::FETCH_OBJ)){
+                    
+                    // orderId, indexId, id, itemName, imageUrl, externalCode, ean, quantity, unit, unitPrice, addition, price, optionsPrice, totalPrice, observations
+
+                    $items = $items.'
+                    <div class="col-12">
+                        <div class="media px-2 py-1 align-items-center">
+                            <img class="img-fluid rounded mr-3" width="85"
+                                src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
+                                alt="">
+                            <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                <h5 class="mt-0 mb-0 text-black">'.$exibe3->itemName.'</h5>
+                            </div>
+                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">                                                           
+                                <h3 class="mb-0 font-w600 text-black fs-22">'.$exibe3->quantity.'x</h3>
+                            </div>
+                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                <h3 class="mb-0 font-w600 text-black fs-22">'.numeroParaReal($exibe3->totalPrice).'</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 px-0">
+                        <hr class="hr-full-16">
+                    </div>';
+                }
+                $purchase = $items;
+            endif;
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $alert = '';
+
+
+
+
+
+
+            $col_left = '
+            <div class="col-xxl-12 col-xl-8">
+                <div class="row">
+                '.$col_info_1.'
+                </div>
             </div>
-        </div>';
+            <div class="col-xl-12">
+                <div class="card border border-light shadow-sm">
+                    '.$alert.'
+                    <div class="card-body py-3">
+                        <div class="row">
+                        '.$purchase.'
+                        </div>
+                    </div>
+                </div>
+            </div>';
 
-        $col_left = '
-        <div class="col-xxl-12 col-xl-8">
-            <div class="row">
-            '.$col_left_01.'
-            </div>
-        </div>';
+            $col_right = '
+            <div class="customer-xxl col-3">
+                <div class="row row-customer">
+                '.$col_right_01.'
+                </div>
+            </div>';
+
+            $retorno['error']  = false;
+            $retorno['details'] = $html_head.$col_left.$col_right;
 
 
+        elseif($type == 'SCHEDULED'):
 
 
+        endif;
 
-
-
-        $retorno['error']  = false;
-        $retorno['details'] = $html_head.$col_left;
+        echo json_encode($retorno);
+    else:
+        errorLog('error-orders_details_contar');
+        $retorno['error']  = true;
+        echo json_encode($retorno);
+        exit();
     endif;
-
-
-
-    echo json_encode($retorno);
 endif;

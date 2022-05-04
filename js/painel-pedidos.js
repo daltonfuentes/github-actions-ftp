@@ -183,7 +183,7 @@ $(document).on('click', '#row-list-orders-immediate .faixa-pedido', function(){
     $.ajax({
         type : 'POST',
         url  : './conexao/ifood_api.php',
-        data : { orders_details_ifood: true, orderId: orderId },
+        data : { orders_details_ifood: true, orderId: orderId, type: 'IMMEDIATE' },
         dataType: 'json',
         beforeSend: function() {
             
