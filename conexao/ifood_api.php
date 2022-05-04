@@ -1680,7 +1680,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
     $fuso = 3;
     $dateAtual = date_format(date_create(),"YmdHis");
 
-    $sql = "SELECT * FROM ifood_orders WHERE orderId > :orderId";
+    $sql = "SELECT * FROM ifood_orders WHERE orderId = :orderId";
     $stmt = $conexao->prepare($sql);
     $stmt->bindParam(':orderId', $orderId);	
     $stmt->execute();
