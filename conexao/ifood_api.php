@@ -1820,7 +1820,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
                     $observations = '';
 
-                    if($observations != ''):
+                    if($exibe3->observations != ''):
                         $observations = '
                         <div class="media px-2 pb-2">
                             <div class="observation-item-order media-body col-12 pr-0 align-self-center align-items-center bg-observation-order">
