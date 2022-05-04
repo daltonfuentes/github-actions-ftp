@@ -1429,19 +1429,25 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     
         while($exibe = $stmt->fetch(PDO::FETCH_OBJ)){
             $preparationStart = date_format(date_sub(date_create($exibe->preparationStartDateTime),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
-    
+
             $timing = $exibe->orderTiming;
             $status = $exibe->statusCod;
             $orderId = $exibe->orderId;
             $customerName = $exibe->customerName;
             $displayId = $exibe->displayId;
+
+            if($orderIdAtivo == $orderId):
+                $active = 'active';
+            else:
+                $active = '';
+            endif;
     
             if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
                 if($status == 'PLC'):
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
-                            <div class="card-body cPointer pl-4 mb-0 bg-danger rounded faixa-pedido pendente" data-orderId="'.$orderId.'">
+                            <div class="card-body cPointer pl-4 mb-0 bg-danger rounded faixa-pedido '.$active.' pendente" data-orderId="'.$orderId.'">
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-0 text-white">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2">#'.$displayId.'</small></h4>
@@ -1458,12 +1464,18 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $dateFinish = (isset($exibe->takeoutDateTime)) ? $exibe->takeoutDateTime : $dateFinish ;
                     $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
                     $horaFinish = date_format(date_create($dateFinish), 'H:i');
+
+                    if($active != ''):
+                        $animate = '';
+                    else:
+                        $animate = 'animate__animated';
+                    endif;
     
                     if($dateFinish < $dateAtual):
                         $immediate = $immediate.'
                         <div class="col-12 mb-3">
                             <div class="card shadow  mb-0 d-block">
-                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido animate__pulse animate__infinite alerta" data-orderId="'.$orderId.'">
+                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.' animate__pulse animate__infinite '.$animate.' alerta" data-orderId="'.$orderId.'">
                                     <div class="media">
                                         <div class="details">
                                             <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
@@ -1482,7 +1494,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         $immediate = $immediate.'
                         <div class="col-12 mb-3">
                             <div class="card shadow mb-0 d-block">
-                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
+                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'">
                                     <div class="media align-items-center">
                                         <div class="details">
                                             <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
@@ -1511,7 +1523,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
-                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'">
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
@@ -1551,7 +1563,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
-                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'">
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
@@ -1588,7 +1600,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
-                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'">
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
@@ -1622,7 +1634,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
-                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido" data-orderId="'.$orderId.'">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'">
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>

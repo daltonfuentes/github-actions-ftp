@@ -151,12 +151,10 @@ $(document).ready(function() {
     function listOrders() {
         var active = $('#row-list-orders-immediate .faixa-pedido.active').attr('data-orderId');
 
-        console.log(active);
-
         $.ajax({
             type : 'POST',
             url  : './conexao/ifood_api.php',
-            data : { orders_list: true },
+            data : { orders_list: true, orderIdAtivo: active },
             dataType: 'json',
             beforeSend: function() {
                 
