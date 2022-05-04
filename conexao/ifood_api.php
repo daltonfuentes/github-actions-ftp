@@ -1698,11 +1698,27 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
         </div>';
 
         if($exibe->orderType == 'DELIVERY'):
+            $sql2 = "SELECT * FROM ifood_orders WHERE orderId = :orderId";
+            $stmt2 = $conexao->prepare($sql2);
+            $stmt2->bindParam(':orderId', $orderId);	
+            $stmt2->execute();
+            $contar2 = $stmt2->rowCount();
 
-        elseif($exibe->orderType == 'TAKEOUT'):
-
-        elseif($exibe->orderType == 'TAKEOUT'):
-
+            if($contar2 != 0):
+                $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
+                
+                $address = '
+                <div class="col-xl-7">
+                    <div class="media align-items-center">
+                        <i class="fa-light fa-location-dot fs-30 text-black mr-2"></i>
+                        <span class="text-black font-w500">'.$exibe2->formattedAddress.'</span>
+                    </div>
+                </div>';
+            else:
+                $address = '';
+            endif;
+        else:
+            $address = '';
         endif;
 
         $col_left_01 = '
@@ -1717,12 +1733,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                                 </div>
                                 <div class="col-xl-10">
                                     <div class="row align-items-center justify-content-center">
-                                        <div class="col-xl-7">
-                                            <div class="media align-items-center">
-                                                <i class="fa-light fa-location-dot fs-30 text-black mr-2"></i>
-                                                <span class="text-black font-w500">Rua Padre Cicero, 567 - Jardim Guaira</span>
-                                            </div>
-                                        </div>
+                                        '.$address.'
                                         <div class="col-xl-5">
                                             <div class="media align-items-center">
                                                 <i class="fa-light fa-phone fs-30 text-black mr-2"></i>
