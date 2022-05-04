@@ -1802,15 +1802,21 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     $contar4 = $stmt4->rowCount();
 
                     if($contar4 != 0):
+                        $count = 1;
                         while($exibe4 = $stmt4->fetch(PDO::FETCH_OBJ)){
-                            if($contar4 == 1):
+                            if($contar4 == 1 || $count == 1):
                                 $division = '';
                             else:
-                                $division = '<hr>';
+                                $division = '
+                                <div class="media px-2">
+                                    <div class="option-item-order media-body col px-0 align-self-center align-items-center">
+                                        <hr>
+                                    </div>
+                                </div>';
                             endif;
 
-                            $options = $options.'
-                            <div class="media px-2 pb-2">
+                            $options = $options.$division.'
+                            <div class="media px-2">
                                 <div class="option-item-order media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
                                     <h5 class="mt-0 mb-0 text-quinta fs-16">'.$exibe4->optionName.'</h5>
                                 </div>
@@ -1820,8 +1826,8 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                                 <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
                                     <h3 class="mb-0 font-w500 text-quinta fs-16">'.numeroParaReal($exibe4->price).'</h3>
                                 </div>
-                                '.$division.'
                             </div>';
+                            $count++;
                         }
                     endif;
                     

@@ -243,7 +243,23 @@ session_start();
                                                                 <h3 class="mb-0 font-w600 text-black fs-22">R$ 17,00</h3>
                                                             </div>
                                                         </div>
-                                                        <div class="media px-2 pb-2">
+                                                        <div class="media px-2">
+                                                            <div class="option-item-order media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
+                                                                <h5 class="mt-0 mb-0 text-quinta fs-16">(P) - 210 ml</h5>
+                                                            </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h5 class="mb-0 font-w600 text-quinta fs-16">1x</h5>
+                                                            </div>
+                                                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                                                <h3 class="mb-0 font-w500 text-quinta fs-16">R$ 15,00</h3>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media px-2">
+                                                            <div class="option-item-order media-body col px-0 align-self-center align-items-center">
+                                                                <hr>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media px-2">
                                                             <div class="option-item-order media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
                                                                 <h5 class="mt-0 mb-0 text-quinta fs-16">(P) - 210 ml</h5>
                                                             </div>
