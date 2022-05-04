@@ -1843,15 +1843,15 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
             $col_left = '
             <div class="col-xxl-12 col-xl-8">
                 <div class="row">
-                '.$col_info_1.'
-                </div>
-            </div>
-            <div class="col-xl-12">
-                <div class="card border border-light shadow-sm">
-                    '.$alert.'
-                    <div class="card-body py-3">
-                        <div class="row">
-                        '.$purchase.'
+                    '.$col_info_1.'
+                    <div class="col-xl-12">
+                        <div class="card border border-light shadow-sm">
+                            '.$alert.'
+                            <div class="card-body py-3">
+                                <div class="row">
+                                '.$purchase.'
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
