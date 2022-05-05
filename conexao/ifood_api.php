@@ -1800,7 +1800,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     $stmt4 = $conexao->prepare($sql4);
                     $stmt4->bindParam(':itemId', $itemId);
                     $stmt4->bindParam(':itemIndex', $indexId);
-                    $stmt3->bindParam(':orderId', $orderId);
+                    $stmt4->bindParam(':orderId', $orderId);
                     $stmt4->execute();
                     $contar4 = $stmt4->rowCount();
 
