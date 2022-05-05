@@ -1857,14 +1857,14 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     if($exibe3->imageUrl != null):
                         $img = $exibe3->imageUrl;
                     else:
-                        $img = 'no-image.png';
+                        $img = './upload/cardapio/no-image.png';
                     endif;
 
                     $items = $items.'
                     <div class="col-12">
                         <div class="media px-2 py-1 align-items-center">
                             <img class="img-fluid rounded mr-3" width="85"
-                                src="./upload/cardapio/'.$img.'"
+                                src="'.$img.'"
                                 alt="">
                             <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
                                 <h5 class="mt-0 mb-0 text-black">'.$exibe3->itemName.'</h5>
