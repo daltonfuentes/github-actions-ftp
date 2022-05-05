@@ -1995,7 +1995,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
             if($benefits != ''):
                 $values = $values.'
-                <div class="col-12 px-0 up-hr">
+                <div class="col-12 px-0">
                     <hr class="hr-full-16 hr-price">
                 </div>';
             endif;
