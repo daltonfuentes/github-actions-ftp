@@ -588,12 +588,13 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                                 $optionAddition = (isset($itemOption['addition'])) ? $itemOption['addition'] : '' ;
                                 $optionPrice = (isset($itemOption['price'])) ? $itemOption['price'] : '' ;
                     
-                                $sql = 'INSERT INTO ifood_items_options (id, orderId, indexId, itemId, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price) VALUES (:id, :orderId, :indexId, :itemId, :optionName, :externalCode, :ean, :quantity, :unit, :unitPrice, :addition, :price)';
+                                $sql = 'INSERT INTO ifood_items_options (id, orderId, indexId, itemId, itemIndex, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price) VALUES (:id, :orderId, :indexId, :itemId, :itemIndex, :optionName, :externalCode, :ean, :quantity, :unit, :unitPrice, :addition, :price)';
                                 $stmt = $conexao->prepare($sql);
                                 $stmt->bindParam(':id', $optionId);
                                 $stmt->bindParam(':orderId', $polOrderId);
                                 $stmt->bindParam(':indexId', $optionIndex);
                                 $stmt->bindParam(':itemId', $itemId);
+                                $stmt->bindParam(':itemIndex', $itemIndex);
                                 $stmt->bindParam(':optionName', $optionName);
                                 $stmt->bindParam(':externalCode', $optionExternalCode);
                                 $stmt->bindParam(':ean', $optionEan);
@@ -1791,12 +1792,15 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 while($exibe3 = $stmt3->fetch(PDO::FETCH_OBJ)){
 
                     $itemId = $exibe3->id;
+                    $itemIndex = $exibe3->indexId;
 
                     $options = ''; // id, orderId, indexId, itemId, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price
 
-                    $sql4 = "SELECT * FROM ifood_items_options WHERE itemId = :itemId";
+                    $sql4 = "SELECT * FROM ifood_items_options WHERE itemId = :itemId && itemIndex = :itemIndex && orderId = :orderId";
                     $stmt4 = $conexao->prepare($sql4);
-                    $stmt4->bindParam(':itemId', $itemId);	
+                    $stmt4->bindParam(':itemId', $itemId);
+                    $stmt4->bindParam(':itemIndex', $itemIndex);
+                    $stmt3->bindParam(':orderId', $orderId);	
                     $stmt4->execute();
                     $contar4 = $stmt4->rowCount();
 
