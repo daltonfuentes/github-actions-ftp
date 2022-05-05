@@ -1863,7 +1863,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                                 src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
                                 alt="">
                             <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
-                                <h5 class="mt-0 mb-0 text-black">'.$exibe3->itemName.' - '.$itemId.' - '.$indexId.' - '.$orderId.'</h5>
+                                <h5 class="mt-0 mb-0 text-black">'.$exibe3->itemName.' <br>itemId: '.$itemId.' <br>indexId: '.$indexId.' <br>orderId: '.$orderId.'<br>contar4: '.$contar4.'</h5>
                             </div>
                             <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">                                                           
                                 <h3 class="mb-0 font-w600 text-black fs-22">'.$exibe3->quantity.'x</h3>
