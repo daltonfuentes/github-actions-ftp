@@ -1968,7 +1968,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                             <div class="media px-2 py-1 align-items-center">
                                 <h5 class="mb-0 font-w400 fs-16 text-black"><i class="fa-regular fa-tag fs-18 mr-3"></i>Incentivos oferecido pelo ifood</h5>
                                 <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                    <h5 class="mb-0 font-w600 fs-18 text-black">-'.$exibe6->valueBenef.'</h5>
+                                    <h5 class="mb-0 font-w600 fs-18 text-black">-'.numeroParaReal($exibe6->valueBenef).'</h5>
                                 </div>
                             </div>
                         </div>';
@@ -1978,7 +1978,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                             <div class="media px-2 py-1 align-items-center">
                                 <h5 class="mb-0 font-w400 fs-16 text-black"><i class="fa-regular fa-tag fs-18 mr-3"></i>Incentivos oferecido pela sua loja</h5>
                                 <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
-                                    <h5 class="mb-0 font-w600 fs-18 text-black">-'.$exibe6->valueBenef.'</h5>
+                                    <h5 class="mb-0 font-w600 fs-18 text-black">-'.numeroParaReal($exibe6->valueBenef).'</h5>
                                 </div>
                             </div>
                         </div>';
