@@ -1792,15 +1792,15 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 while($exibe3 = $stmt3->fetch(PDO::FETCH_OBJ)){
 
                     $itemId = $exibe3->id;
-                    $itemIndex = $exibe3->indexId;
+                    $indexId = $exibe3->indexId;
 
                     $options = ''; // id, orderId, indexId, itemId, optionName, externalCode, ean, quantity, unit, unitPrice, addition, price
 
-                    $sql4 = "SELECT * FROM ifood_items_options WHERE itemId = :itemId && itemIndex = :itemIndex && orderId = :orderId";
+                    $sql4 = "SELECT * FROM ifood_items_options WHERE itemId = :itemId AND itemIndex = :itemIndex AND orderId = :orderId";
                     $stmt4 = $conexao->prepare($sql4);
                     $stmt4->bindParam(':itemId', $itemId);
-                    $stmt4->bindParam(':itemIndex', $itemIndex);
-                    $stmt3->bindParam(':orderId', $orderId);	
+                    $stmt4->bindParam(':itemIndex', $indexId);
+                    $stmt3->bindParam(':orderId', $orderId);
                     $stmt4->execute();
                     $contar4 = $stmt4->rowCount();
 
@@ -1863,7 +1863,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                                 src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
                                 alt="">
                             <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
-                                <h5 class="mt-0 mb-0 text-black">'.$exibe3->itemName.'</h5>
+                                <h5 class="mt-0 mb-0 text-black">'.$exibe3->itemName.' - '.$itemId.' - '.$indexId.' - '.$orderId.'</h5>
                             </div>
                             <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">                                                           
                                 <h3 class="mb-0 font-w600 text-black fs-22">'.$exibe3->quantity.'x</h3>
