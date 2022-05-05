@@ -1787,8 +1787,6 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
             if($contar3 != 0):
 
-                
-
                 while($exibe3 = $stmt3->fetch(PDO::FETCH_OBJ)){
 
                     $itemId = $exibe3->id;
@@ -1881,14 +1879,119 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 $purchase = $items;
             endif;
             
+            ///
+            ///
+            /// PAYMENTS
+            ///
+            ///
 
+            
+            $sql5 = "SELECT * FROM ifood_total_payments WHERE orderId = :orderId";
+            $stmt5 = $conexao->prepare($sql5);
+            $stmt5->bindParam(':orderId', $orderId);	
+            $stmt5->execute();
+            $contar5 = $stmt5->rowCount();
+            
+            if($contar5 != 0):
+                $exibe5 = $stmt5->fetch(PDO::FETCH_OBJ);
 
+                if($orderType == 'DELIVERY'):
+                    $delivery = '
+                    <div class="col-12">
+                        <div class="media px-2 py-1 align-items-center">
+                            <h5 class="mb-0 font-w600 fs-16 text-black"><i class="fa-solid fa-motorcycle fs-15 mr-2"></i>Taxa de entrega</h5>
+                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                <h5 class="mb-0 font-w600 fs-18 text-black">'.numeroParaReal($exibe5->deliveryFee).'</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 px-0">
+                        <hr class="hr-full-16">
+                    </div>';
+                endif;
 
+                $additionalFees = $exibe5->additionalFees;
 
+                if($additionalFees > 0):
+                    $additionalFee = '
+                    <div class="col-12">
+                        <div class="media px-2 py-1 align-items-center">
+                            <h5 class="mb-0 font-w600 fs-16 text-black"><i class="fa-regular fa-circle-exclamation fs-18 mr-2"></i>Taxa de serviço</h5>
+                            <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                <h5 class="mb-0 font-w600 fs-18 text-black">'.numeroParaReal($additionalFees).'</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 px-0">
+                        <hr class="hr-full-16">
+                    </div>';
+                endif;
 
+                $total = '
+                <div class="col-12">
+                    <div class="media px-2 py-1 align-items-center">
+                        <h5 class="mb-0 font-w600 fs-16 text-black ml-4 pl-1">Valor total do pedido</h5>
+                        <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                            <h5 class="mb-0 font-w600 fs-18 text-black">'.numeroParaReal($exibe5->subTotal + $exibe5->deliveryFee + $exibe5->additionalFees).'</h5>
+                        </div>
+                    </div>
+                </div>';
 
+                $delivery = (isset($delivery)) ? $delivery : '' ;
+                $additionalFee = (isset($additionalFee)) ? $additionalFee : '' ;
 
+                $values = $delivery.$additionalFee.$total;
+            else:
+                //erro
+            endif;
 
+            $sql6 = "SELECT * FROM ifood_benefits WHERE orderId = :orderId";
+            $stmt6 = $conexao->prepare($sql6);
+            $stmt6->bindParam(':orderId', $orderId);	
+            $stmt6->execute();
+            $contar6 = $stmt6->rowCount();
+            
+            if($contar6 != 0):
+                if($contar6 > 1):
+                    $division = '
+                    <div class="col-12 px-0">
+                        <hr class="hr-full-16 hr-price">
+                    </div>';
+                else:
+                    $division = '';
+                endif;
+
+                while($exibe6 = $stmt6->fetch(PDO::FETCH_OBJ)){
+                    if($exibe6->nameBenef == 'ifood'):
+                        $benefIfood = '
+                        <div class="col-12">
+                            <div class="media px-2 py-1 align-items-center">
+                                <h5 class="mb-0 font-w400 fs-16 text-black"><i class="fa-regular fa-tag fs-18 mr-3"></i>Incentivos oferecido pelo ifood</h5>
+                                <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                    <h5 class="mb-0 font-w600 fs-18 text-black">-'.$exibe6->valueBenef.'</h5>
+                                </div>
+                            </div>
+                        </div>';
+                    elseif($exibe6->nameBenef == 'loja'):
+                        $benefLoja = '
+                        <div class="col-12">
+                            <div class="media px-2 py-1 align-items-center">
+                                <h5 class="mb-0 font-w400 fs-16 text-black"><i class="fa-regular fa-tag fs-18 mr-3"></i>Incentivos oferecido pela sua loja</h5>
+                                <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
+                                    <h5 class="mb-0 font-w600 fs-18 text-black">-'.$exibe6->valueBenef.'</h5>
+                                </div>
+                            </div>
+                        </div>';
+                    endif;
+                };
+
+                $benefIfood = (isset($benefIfood)) ? $benefIfood : '' ;
+                $benefLoja = (isset($benefLoja)) ? $benefLoja : '' ;
+
+                $benefits = $benefIfood.$division.$benefLoja;
+            endif;
+
+            $benefits = (isset($benefits)) ? $benefits : '' ;
 
 
 
@@ -1917,7 +2020,11 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                             '.$alert.'
                             <div class="card-body py-3">
                                 <div class="row">
-                                '.$purchase.'
+                                    '.$purchase.'
+                                    <div class="col-12 px-0 up-hr">
+                                        <hr class="hr-full-16 hr-price">
+                                    </div>
+                                    '.$values.$benefits.'
                                 </div>
                             </div>
                         </div>

@@ -351,7 +351,7 @@ session_start();
                                                         </div>
                                                     </div>
                                                     <div class="col-12 px-0">
-                                                        <hr>
+                                                        <hr class="hr-full-16">
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="media px-2 py-1 align-items-center">
@@ -362,11 +362,11 @@ session_start();
                                                         </div>
                                                     </div>
                                                     <div class="col-12 px-0">
-                                                        <hr>
+                                                        <hr class="hr-full-16">
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="media px-2 py-1 align-items-center">
-                                                            <h5 class="mb-0 font-w600 fs-16 text-black ml-4 pl-1"></i>Valor total do pedido</h5>
+                                                            <h5 class="mb-0 font-w600 fs-16 text-black ml-4 pl-1">Valor total do pedido</h5>
                                                             <div class="media-footer ml-auto col-sm-2 mt-sm-0 mt-3 px-0 d-flex align-self-center align-items-center justify-content-end">
                                                                 <h5 class="mb-0 font-w600 fs-18 text-black">R$ 19,90</h5>
                                                             </div>
@@ -384,7 +384,7 @@ session_start();
                                                         </div>
                                                     </div>
                                                     <div class="col-12 px-0">
-                                                        <hr>
+                                                        <hr class="hr-full-16">
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="media px-2 py-1 align-items-center">
