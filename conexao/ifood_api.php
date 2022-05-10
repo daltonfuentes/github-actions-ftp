@@ -1664,6 +1664,10 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     endif;
 endif;
 
+$_POST['orders_details_ifood'] = true;
+$_POST['orderId'] = '4c9480c8-450f-4498-a016-69d6f63f86c4';
+$_POST['type'] = 'DELIVERY';
+
 if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == true) :
     require("conexao_hostgator.php");
 
