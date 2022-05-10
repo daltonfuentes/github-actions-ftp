@@ -2039,7 +2039,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
                 $tempoParaFinalizar = diffMinutos($dateCreated, $finishDate);
                 
-                if($finishDate > $dateAtual): //ATRASADO
+                if($finishDate < $dateAtual): //ATRASADO
                     $diff = diffMinutos($dateAtual, $finishDate);
                     $minutes = (isset($diff)) ? $diff : "-" ;
 
