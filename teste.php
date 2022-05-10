@@ -7,7 +7,9 @@ session_start();
 require_once("./conexao/conexao_hostgator.php");
 
 
-echo $dateAtualGmt;
+$dateAtual = date_format(date_create(),"YmdHis");
+
+echo $dateAtualGmt.'<br>'.$dateAtual;
 
 exit();
 
