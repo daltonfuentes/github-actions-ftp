@@ -2148,7 +2148,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     $tempoCanHoras = $dateInterval->h;
                 endif;
 
-                if($tempoCanMin >= 60):
+                if($tempoCanHoras >= 1):
                     $tempoCanHoras = (isset($tempoCanHoras)) ? $tempoCanHoras : "-" ;
                     $text = "há $tempoCanHoras horas";
                 else:
@@ -2157,7 +2157,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 endif;
 
                 if($originCancellation == 'merchant' || $originCancellation == 'RESTAURANT' || $originCancellation == 'MERCHANT'):
-                    $originFront = 'restaurante - '.$dateAtual.' / '.' -';
+                    $originFront = 'restaurante';
                 elseif($originCancellation == 'customer' || $originCancellation == 'CONSUMER'):
                     $originFront = 'cliente';
                 endif;
