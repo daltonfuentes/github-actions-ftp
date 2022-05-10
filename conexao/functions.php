@@ -285,7 +285,7 @@ function convertFuso($data){
 
 function dateDisplay($in){
     $fuso = 3;
-    $diff = 12-$fuso;
+    $diff = 15-$fuso;
     $data = date_create($in);
     date_add($data,date_interval_create_from_date_string("$diff hours"));
     $data = date_format($data,"YmdHis");

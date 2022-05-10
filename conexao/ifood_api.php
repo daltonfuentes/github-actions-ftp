@@ -617,6 +617,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     //VALIDA CAMPOS EMPTY
 
                     $dateDisplay = dateDisplay($preparationStartDateTime);
+                    
+                    $dateStatus = date_format(date_create(),"YmdHis");
 
                     $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod, dateDisplay) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod, :dateDisplay)';
                     $stmt = $conexao->prepare($sql);
@@ -652,6 +654,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $stmt->bindParam(':deliveryDateTimeStart', $deliveryDateTimeStart);
                     $stmt->bindParam(':deliveryDateTimeEnd', $deliveryDateTimeEnd);
                     $stmt->bindParam(':statusCod', $statusCod);
+                    $stmt->bindParam(':dateStatus', $dateStatus);
                     $stmt->bindParam(':dateDisplay', $dateDisplay);
                     $resposta = $stmt->execute();
 
@@ -702,11 +705,14 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     // CON - Pedido foi concluído
                     // CAN - Pedido foi Cancelado
                     //
-                    $sql = 'UPDATE ifood_orders SET statusCod=:statusCod WHERE orderId=:orderId && merchantId=:merchantId';
+                    $dateStatus = date_format(date_create(),"YmdHis");
+
+                    $sql = 'UPDATE ifood_orders SET statusCod=:statusCod, dateStatus=:dateStatus WHERE orderId=:orderId && merchantId=:merchantId';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':statusCod', $polCode);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':merchantId', $merchantId);
+                    $stmt->bindParam(':dateStatus', $dateStatus);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
