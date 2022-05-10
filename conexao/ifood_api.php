@@ -1427,8 +1427,8 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     
     $sql = "SELECT * FROM ifood_orders WHERE dateDisplay > :dateAtual ORDER BY 
                                                                                 (CASE WHEN statusCod = 'PLC' THEN dateStatus END) DESC,
-                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay > :dateAtualGmt THEN dateStatus END) DESC,
-                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay <= :dateAtualGmt THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay < :dateAtualGmt THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay >= :dateAtualGmt THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'RTP' THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'DSP' THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'CON' THEN dateStatus END) DESC,
@@ -2059,7 +2059,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     $diff = diffMinutos($dateAtual, $finishDate);
                     $minutes = (isset($diff)) ? $diff : "-" ;
 
-                    if($minutes == 1):
+                    if($minutes == 0 || $minutes == 1):
                         $tempoAtraso = '1 minuto';
                     else:
                         $tempoAtraso = $minutes.' minutos';
