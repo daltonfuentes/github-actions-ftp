@@ -2181,8 +2181,6 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     <h4 class="fs-16 font-w600 mb-0">Pedido cancelado pelo '.$originFront.' <span class="fs-14 font-w400">'.$text.'</span></h4>
                     <h4 class="fs-14 font-w400 mb-0">Motivo: '.$motivo.'</h4>
                 </div>';
-
-                $alert = '';
             endif;
 
 
