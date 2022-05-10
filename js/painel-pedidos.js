@@ -185,10 +185,6 @@ $(window).on("load", function(){
             success :  function(retorno){
                 if(retorno.list == true){
                     $("#row-list-orders-immediate").html(retorno.immediate);
-
-                    if(retorno.activeRefresh == true){
-                        refreshOrderDetails(active);
-                    }
                 }else{ 
                     
                 }
@@ -202,6 +198,7 @@ $(window).on("load", function(){
 
                 if(htmlActive != htmlActiveNew){
                     console.log('HTML - Diferente');
+                    refreshOrderDetails(active);
                 }else{
                     console.log('HTML - Igual');
                 }
