@@ -2035,11 +2035,11 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
             elseif($statusCod == 'CFM'):
                 //VE SE ESTA EM ATRASO
                 $finishDate = (isset($exibe->deliveryDateTime)) ? $exibe->deliveryDateTime : $exibe->takeoutDateTime ;
-                $finishDate = date_format(date_create($finishDate), 'YmdHis');
+                $finishDate = date_format(date_sub(date_create($finishDate),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
 
                 $tempoParaFinalizar = diffMinutos($dateCreated, $finishDate);
                 
-                if($finishDate > $dateCreated): //ATRASADO
+                if($finishDate > $dateAtual): //ATRASADO
                     $diff = diffMinutos($dateAtual, $finishDate);
                     $minutes = (isset($diff)) ? $diff : "-" ;
 
@@ -2052,7 +2052,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     $alert = '
                     <div class="card-body rounded-top faixa-aviso-order-details atraso py-3">
                         <h4 class="fs-16 font-w600 mb-0">Atraso há '.$tempoAtraso.'</h4>
-                        <h4 class="fs-14 font-w400 mb-0">Não esqueça de despachar este pedido, já está em preparo há mais de '.$tempoParaFinalizar.' min. '.$dateAtual.' - '.$finishDate.'</h4>
+                        <h4 class="fs-14 font-w400 mb-0">Não esqueça de despachar este pedido, já está em preparo há mais de '.$tempoParaFinalizar.' min.</h4>
                     </div>';
                 else:
                     $diff = diffMinutos($dateAtual, $dateCreated);
