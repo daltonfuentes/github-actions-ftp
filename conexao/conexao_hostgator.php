@@ -7,6 +7,7 @@ $dbPass = '2008caix'; // criada aqui a variável para a senha, atribua o valor
 
 $conexao = new PDO("mysql:host=$dbHost;dbname=$db", $dbUser, $dbPass);
 
+date_default_timezone_set("Etc/GMT+0");
 $dateAtualGmt = date_format(date_create(),"YmdHis");
 
 date_default_timezone_set('America/Sao_Paulo');
