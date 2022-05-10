@@ -2138,8 +2138,8 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
                 if($conta7 != 0):
                     $exibe7 = $stmt7->fetch(PDO::FETCH_OBJ);
-                    $hourCanceled = $exibe7->createdAt;
-                    $hourCanceled = date_format(date_sub(date_create($hourCanceled),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+                    $createdAt = $exibe7->createdAt;
+                    $hourCanceled = date_format(date_sub(date_create($createdAt),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
 
                     $firstDate  = new DateTime($hourCanceled);
                     $secondDate = new DateTime($dateAtual);
@@ -2157,7 +2157,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 endif;
 
                 if($originCancellation == 'merchant' || $originCancellation == 'RESTAURANT' || $originCancellation == 'MERCHANT'):
-                    $originFront = 'restaurante - '.$firstDate.' / '.$secondDate.' -';
+                    $originFront = 'restaurante - '.$createdAt.' / '.$secondDate.' -';
                 elseif($originCancellation == 'customer' || $originCancellation == 'CONSUMER'):
                     $originFront = 'cliente';
                 endif;
