@@ -108,10 +108,10 @@ $(window).on("load", function(){
             },
             complete: function() {
                 setTimeout(fazPolling, 30000);
+                listOrders();
             }
         });
     };
-
     fazPolling();
 
     const errorConnectionStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-red fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-red mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Verifique sua conexão</span></h4></div><hr><h4 class="fs-14 font-w500 text-black">Atualize a pagina e verifique novamente. Caso o problema persista, fale com o suporte.</h4>';
@@ -190,11 +190,10 @@ $(window).on("load", function(){
                 console.log('Erro');
             },
             complete: function() {
-                setTimeout(listOrders, 30000);
+
             }
         });
     };
-    listOrders();
 });
 
 $(document).on('click', '#row-list-orders-immediate .faixa-pedido', function(){

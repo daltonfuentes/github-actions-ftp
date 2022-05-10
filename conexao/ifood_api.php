@@ -1700,6 +1700,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
         $orderType = $exibe->orderType;
         $statusCod = $exibe->statusCod;
         $orderTiming = $exibe->orderTiming;
+        $originCancellation = $exibe->originCancellation;
 
         $dateCreated = date_format(date_sub(date_create($exibe->dateCreated),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
         $hourCreated = date_format(date_create($dateCreated), 'H:i');
@@ -2004,11 +2005,194 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 </div>';
             endif;
 
+            if($statusCod == 'PLC'):
+                $timeAcept = 5;
+
+                $firstDate  = new DateTime($dateCreated);
+                $secondDate = new DateTime($dateAtual);
+                $dateInterval = $firstDate->diff($secondDate);
+                $diff = $dateInterval->i;
+
+                if($diff == 0):
+                    $text = '5 minutos para aceitar';
+                elseif($diff == 1):
+                    $text = '4 minutos para aceitar';
+                elseif($diff == 2):
+                    $text = '3 minutos para aceitar';
+                elseif($diff == 3):
+                    $text = '2 minutos para aceitar';
+                elseif($diff == 4):
+                    $text = '1 minutos para aceitar';
+                elseif($diff >= 5):
+                    $text = 'O pedido sera cancelado automaticamente em breve.';
+                endif;
+
+                $alert = '
+                <div class="card-body rounded-top faixa-aviso-order-details pendente py-3">
+                    <h4 class="fs-16 font-w600 mb-0">Pendente</h4>
+                    <h4 class="fs-14 font-w400 mb-0">'.$text.'</h4>
+                </div>';
+            elseif($statusCod == 'CFM'):
+                //VE SE ESTA EM ATRASO
+                $finishDate = (isset($exibe->deliveryDateTime)) ? $exibe->deliveryDateTime : $exibe->takeoutDateTime ;
+                $finishDate = date_format(date_create($finishDate), 'YmdHis');
+
+                $firstDate  = new DateTime($dateCreated);
+                $secondDate = new DateTime($finishDate);
+                $dateInterval = $firstDate->diff($secondDate);
+                $tempoParaFinalizar = $dateInterval->i;
+                
+                if($finishDate > $dateCreated): //ATRASADO
+                    $firstDate  = new DateTime($finishDate);
+                    $secondDate = new DateTime($dateAtual);
+                    $dateInterval = $firstDate->diff($secondDate);
+                    $tempoAtraso = $dateInterval->i;
+
+                    $alert = '
+                    <div class="card-body rounded-top faixa-aviso-order-details atraso py-3">
+                        <h4 class="fs-16 font-w600 mb-0">Atraso há '.$tempoAtraso.' minuto</h4>
+                        <h4 class="fs-14 font-w400 mb-0">Não esqueça de despachar este pedido, já está em preparo há mais de '.$tempoParaFinalizar.' min.</h4>
+                    </div>';
+                else:
+                    $firstDate  = new DateTime($dateCreated);
+                    $secondDate = new DateTime($dateAtual);
+                    $dateInterval = $firstDate->diff($secondDate);
+                    $tempoPreparo = $dateInterval->i;
+
+                    $alert = '
+                    <div class="card-body rounded-top faixa-aviso-order-details preparo py-3">
+                        <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há '.$tempoPreparo.' minutos</span></h4>
+                    </div>';
+                endif;
 
 
+                $alert = '';
+            elseif($statusCod == 'RTP'):
+
+                $alert = '';
+            elseif($statusCod == 'DSP'):
+                $sql7 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
+                $stmt7 = $conexao->prepare($sql7);
+                $stmt7->bindParam(':orderId', $orderId);	
+                $stmt7->bindParam(':code', $statusCod);	
+                $stmt7->execute();
+                $conta7 = $stmt7->rowCount();
+
+                if($conta7 != 0):
+                    $exibe7 = $stmt7->fetch(PDO::FETCH_OBJ);
+                    $hourDelivered = $exibe7->createdAt;
+                    $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+
+                    $firstDate  = new DateTime($hourDelivered);
+                    $secondDate = new DateTime($dateAtual);
+                    $dateInterval = $firstDate->diff($secondDate);
+                    $tempoDespachado = $dateInterval->i;
+                endif;
+
+                $tempoDespachado = (isset($tempoDespachado)) ? $tempoDespachado : "-" ;
+
+                $alert = '
+                <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
+                    <h4 class="fs-16 font-w600 mb-0">Saiu para entrega</h4>
+                    <h4 class="fs-14 font-w400 mb-0">há '.$tempoDespachado.' minutos</h4>
+                </div>';
+            elseif($statusCod == 'CON'):
+                $sql7 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
+                $stmt7 = $conexao->prepare($sql7);
+                $stmt7->bindParam(':orderId', $orderId);	
+                $stmt7->bindParam(':code', $statusCod);	
+                $stmt7->execute();
+                $conta7 = $stmt7->rowCount();
+
+                if($conta7 != 0):
+                    $exibe7 = $stmt7->fetch(PDO::FETCH_OBJ);
+                    $hourDelivered = $exibe7->createdAt;
+                    $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+
+                    $firstDate  = new DateTime($hourDelivered);
+                    $secondDate = new DateTime($dateAtual);
+                    $dateInterval = $firstDate->diff($secondDate);
+                    $tempoConcluidoMin = $dateInterval->i;
+                    $tempoConcluidoHoras = $dateInterval->h;
+                endif;
+
+                if($tempoConcluidoMin >= 60):
+                    $tempoConcluidoHoras = (isset($tempoConcluidoHoras)) ? $tempoConcluidoHoras : "-" ;
+                    $text = "há $tempoConcluidoHoras horas";
+                else:
+                    $tempoConcluidoMin = (isset($tempoConcluidoMin)) ? $tempoConcluidoMin : "-" ;
+                    $text = "há $tempoConcluidoMin minutos";
+                endif;
+
+                $alert = '
+                <div class="card-body rounded-top faixa-aviso-order-details concluido py-3">
+                    <h4 class="fs-16 font-w600 mb-0">Concluído <span class="fs-14 font-w400">'.$text.'</span></h4>
+                </div>';
+            elseif($statusCod == 'CAN'):
+                $sql7 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
+                $stmt7 = $conexao->prepare($sql7);
+                $stmt7->bindParam(':orderId', $orderId);	
+                $stmt7->bindParam(':code', $statusCod);	
+                $stmt7->execute();
+                $conta7 = $stmt7->rowCount();
+
+                if($conta7 != 0):
+                    $exibe7 = $stmt7->fetch(PDO::FETCH_OBJ);
+                    $hourDelivered = $exibe7->createdAt;
+                    $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+
+                    $firstDate  = new DateTime($hourDelivered);
+                    $secondDate = new DateTime($dateAtual);
+                    $dateInterval = $firstDate->diff($secondDate);
+                    $tempoCanMin = $dateInterval->i;
+                    $tempoCanHoras = $dateInterval->h;
+                endif;
+
+                if($tempoCanMin >= 60):
+                    $tempoCanHoras = (isset($tempoCanHoras)) ? $tempoCanHoras : "-" ;
+                    $text = "há $tempoCanHoras horas";
+                else:
+                    $tempoCanMin = (isset($tempoCanMin)) ? $tempoCanMin : "-" ;
+                    $text = "há $tempoCanMin minutos";
+                endif;
+
+                if($originCancellation == 'merchant' || $originCancellation == 'RESTAURANT' || $originCancellation == 'MERCHANT'):
+                    $originFront = 'restaurante';
+                elseif($originCancellation == 'customer' || $originCancellation == 'CONSUMER'):
+                    $originFront = 'cliente';
+                endif;
+
+                $sql8 = "SELECT * FROM ifood_cancel_finish WHERE orderId=:orderId";
+                $stmt8 = $conexao->prepare($sql8);
+                $stmt8->bindParam(':orderId', $orderId);	
+                $stmt8->execute();
+                $conta8 = $stmt8->rowCount();
+
+                if($conta8 != 0):
+                    $exibe8 = $stmt8->fetch(PDO::FETCH_OBJ);
+                    $reason = $exibe8->reason;
+                endif;
+
+                $reason = (isset($reason)) ? $reason : "-" ;
+                $motivo = trim(str_replace(' - ', '', (str_replace(strtok($reason, " - "), '', $reason))));
+
+                $alert = '
+                <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3">
+                    <h4 class="fs-16 font-w600 mb-0">Pedido cancelado pelo '.$originFront.' <span class="fs-14 font-w400">'.$text.'</span></h4>
+                    <h4 class="fs-14 font-w400 mb-0">Motivo: '.$motivo.'</h4>
+                </div>';
+
+                $alert = '';
+            endif;
+
+
+            if($statusCod != 'CAN' && ($originCancellation == 'merchant' || $originCancellation == 'customer' || $originCancellation == 'RESTAURANT' || $originCancellation == 'MERCHANT' || $originCancellation == 'CONSUMER')):
+                //SOBREPOE QUALQUER ALERT ANTERIOR
+
+                $alert = '';
+            endif;
 
             
-            $alert = '';
 
 
 

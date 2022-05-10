@@ -2,8 +2,13 @@
 ob_start();
 session_start();
 
+$frase = 'MANUAL(OUT_OF_DELIVERY_TIME) - Fora do horário de entrega';
 
+$final = trim(str_replace(' - ', '', (str_replace(strtok($frase, " - "), '', $frase))));
 
+echo $final;
+
+exit();
 
 ?>
 <!DOCTYPE html>

@@ -785,11 +785,6 @@
     box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
 }
 
-.row-customer {
-    /*position: fixed;
-    padding-right: 48px;*/
-}
-
 .option-item-order, .observation-item-order {
     margin-left: 101px !important;
 }
