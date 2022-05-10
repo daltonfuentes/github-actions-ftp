@@ -170,11 +170,14 @@ $(window).on("load", function(){
 
     function listOrders() {
         var active = $('#row-list-orders-immediate .faixa-pedido.active').attr('data-orderId');
+        var htmlActive = $('#row-list-orders-immediate .faixa-pedido.active').html();
+
+        console.log(htmlActive);
 
         $.ajax({
             type : 'POST',
             url  : './conexao/ifood_api.php',
-            data : { orders_list: true, orderIdAtivo: active },
+            data : { orders_list: true, orderIdAtivo: active, htmlActive: htmlActive },
             dataType: 'json',
             beforeSend: function() {
                 
@@ -182,6 +185,10 @@ $(window).on("load", function(){
             success :  function(retorno){
                 if(retorno.list == true){
                     $("#row-list-orders-immediate").html(retorno.immediate);
+
+                    if(retorno.activeRefresh == true){
+                        refreshOrderDetails(active);
+                    }
                 }else{ 
                     
                 }
@@ -190,35 +197,40 @@ $(window).on("load", function(){
                 console.log('Erro');
             },
             complete: function() {
-
+                var htmlActiveNew = $('#row-list-orders-immediate .faixa-pedido.active').html();
+                console.log(htmlActiveNew);
             }
         });
     };
-});
 
-$(document).on('click', '#row-list-orders-immediate .faixa-pedido', function(){
-    var orderId = $(this).attr('data-orderId');
-
-    $.ajax({
-        type : 'POST',
-        url  : './conexao/ifood_api.php',
-        data : { orders_details_ifood: true, orderId: orderId, type: 'IMMEDIATE' },
-        dataType: 'json',
-        beforeSend: function() {
-            
-        },
-        success :  function(retorno){
-            if(retorno.error == false){
-                $("#order_details").html(retorno.details);
-            }else{ 
-                console.log('Success erro');
+    function refreshOrderDetails(id) {
+        $.ajax({
+            type : 'POST',
+            url  : './conexao/ifood_api.php',
+            data : { orders_details_ifood: true, orderId: id, type: 'IMMEDIATE' },
+            dataType: 'json',
+            beforeSend: function() {
+                
+            },
+            success :  function(retorno){
+                if(retorno.error == false){
+                    $("#order_details").html(retorno.details);
+                }else{ 
+                    console.log('Success erro');
+                }
+            },
+            error: function() {
+                console.log('Erro');
+            },
+            complete: function() {
+    
             }
-        },
-        error: function() {
-            console.log('Erro');
-        },
-        complete: function() {
+        });
+    };
 
-        }
+    $(document).on('click', '#row-list-orders-immediate .faixa-pedido', function(){
+        var orderId = $(this).attr('data-orderId');
+        refreshOrderDetails(orderId);
     });
 });
+

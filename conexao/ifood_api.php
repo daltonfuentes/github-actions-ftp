@@ -1413,7 +1413,8 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     $retorno = array();
     
     $orderIdAtivo = (isset($_POST['orderIdAtivo'])) ? $_POST['orderIdAtivo'] : null ;
-    
+    $htmlActive = (isset($_POST['htmlActive'])) ? $_POST['htmlActive'] : null ;
+
     $fuso = 3;
     $dateAtual = date_format(date_create(),"YmdHis");
     
@@ -1558,7 +1559,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
 
                     $minutes = (isset($diff)) ? $diff : "-" ;
 
-                    if($minutes == 1):
+                    if($minutes == 0 || $minutes == 1):
                         $tempo = '1 minuto';
                     else:
                         $tempo = $minutes.' minutos';
@@ -2089,7 +2090,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 $diff = diffMinutos($dateAtual, $hourDelivered);
                 $minutes = (isset($diff)) ? $diff : "-" ;
 
-                if($minutes == 1):
+                if($minutes == 0 || $minutes == 1):
                     $tempoDespachado = '1 minuto';
                 else:
                     $tempoDespachado = $minutes.' minutos';
