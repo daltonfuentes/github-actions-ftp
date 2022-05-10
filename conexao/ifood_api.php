@@ -1552,12 +1552,9 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
                         $hourDelivered = $exibe2->createdAt;
                         $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
-    
-                        $firstDate  = new DateTime($hourDelivered);
-                        $secondDate = new DateTime($dateAtual);
-                        $dateInterval = $firstDate->diff($secondDate);
-                        $diff = $dateInterval->i;
                     endif;
+
+                    $diff = diffMinutos($hourDelivered, $dateAtual);
 
                     $minutes = (isset($diff)) ? $diff : "-" ;
 

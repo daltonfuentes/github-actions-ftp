@@ -313,3 +313,16 @@ function abreviaNomeDisplay($name) {
     endif;
     return $abrev;
 };
+
+function diffMinutos($data1, $data2) {
+    $dateTimeObject1 = date_create($data1);
+    $dateTimeObject2 = date_create($data2);
+
+    $difference = date_diff($dateTimeObject1, $dateTimeObject2); 
+
+    $minutes = $difference->days * 24 * 60;
+    $minutes += $difference->h * 60;
+    $minutes += $difference->i;
+
+    return $minutes;
+};
