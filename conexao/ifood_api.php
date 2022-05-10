@@ -2116,7 +2116,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     $tempoConcluidoHoras = $dateInterval->h;
                 endif;
 
-                if($tempoConcluidoMin >= 60):
+                if($tempoConcluidoHoras >= 1):
                     $tempoConcluidoHoras = (isset($tempoConcluidoHoras)) ? $tempoConcluidoHoras : "-" ;
                     $text = "há $tempoConcluidoHoras horas";
                 else:
