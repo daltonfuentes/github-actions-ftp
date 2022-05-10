@@ -278,8 +278,7 @@ function convertFuso($data){
 
     $data = date_create($data);
     date_sub($data,date_interval_create_from_date_string("$fuso hours"));
-    $data = date_format($data, 'Y-m-d H:i:s');
-
+    $data = date_format($data, 'YmdHis');
     return $data;
 };
 

@@ -619,8 +619,9 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $dateDisplay = dateDisplay($preparationStartDateTime);
                     
                     $dateStatus = date_format(date_create(),"YmdHis");
+                    $dateDelay = date_format(date_create((isset($deliveryDateTime)) ? $deliveryDateTime : $takeoutDateTime),"YmdHis");
 
-                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod, dateStatus, dateDisplay) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod, :dateStatus, :dateDisplay)';
+                    $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod, dateStatus, dateDelay, dateDisplay) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod, :dateStatus, :dateDelay, :dateDisplay)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':displayId', $displayId);
@@ -655,6 +656,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true) :
                     $stmt->bindParam(':deliveryDateTimeEnd', $deliveryDateTimeEnd);
                     $stmt->bindParam(':statusCod', $statusCod);
                     $stmt->bindParam(':dateStatus', $dateStatus);
+                    $stmt->bindParam(':dateDelay', $dateDelay);
                     $stmt->bindParam(':dateDisplay', $dateDisplay);
                     $resposta = $stmt->execute();
 
@@ -1423,15 +1425,16 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     $fuso = 3;
     $dateAtual = date_format(date_create(),"YmdHis");
     
-    $sql = "SELECT * FROM ifood_orders WHERE dateDisplay > :dateActual ORDER BY 
+    $sql = "SELECT * FROM ifood_orders WHERE dateDisplay > :dateAtual ORDER BY 
                                                                                 (CASE WHEN statusCod = 'PLC' THEN dateStatus END) DESC,
-                                                                                (CASE WHEN statusCod = 'CFM' THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay > :dateAtual THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay <= :dateAtual THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'RTP' THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'DSP' THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'CON' THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'CAN' THEN dateStatus END) DESC";
     $stmt = $conexao->prepare($sql);
-    $stmt->bindParam(':dateActual', $dateAtual);	
+    $stmt->bindParam(':dateAtual', $dateAtual);	
     $stmt->execute();
     $contar = $stmt->rowCount();
     
