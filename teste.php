@@ -2,7 +2,16 @@
 ob_start();
 session_start();
 
-//require_once("conexao/conexao.php");
+
+
+require_once("./conexao/conexao_hostgator.php");
+
+
+echo $dateAtualGmt;
+
+exit();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
