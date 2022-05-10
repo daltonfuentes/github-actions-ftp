@@ -1427,14 +1427,15 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     
     $sql = "SELECT * FROM ifood_orders WHERE dateDisplay > :dateAtual ORDER BY 
                                                                                 (CASE WHEN statusCod = 'PLC' THEN dateStatus END) DESC,
-                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay > :dateAtual THEN dateStatus END) DESC,
-                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay <= :dateAtual THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay > :dateAtualGmt THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay <= :dateAtualGmt THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'RTP' THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'DSP' THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'CON' THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'CAN' THEN dateStatus END) DESC";
     $stmt = $conexao->prepare($sql);
-    $stmt->bindParam(':dateAtual', $dateAtual);	
+    $stmt->bindParam(':dateAtual', $dateAtual);
+    $stmt->bindParam(':dateAtualGmt', $dateAtualGmt);	
     $stmt->execute();
     $contar = $stmt->rowCount();
     
