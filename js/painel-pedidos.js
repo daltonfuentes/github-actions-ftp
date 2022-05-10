@@ -170,14 +170,14 @@ $(window).on("load", function(){
 
     function listOrders() {
         var active = $('#row-list-orders-immediate .faixa-pedido.active').attr('data-orderId');
-        var htmlActive = $('#row-list-orders-immediate .faixa-pedido.active').html();
-
-        console.log(htmlActive);
+        //var htmlActive = $('#row-list-orders-immediate .faixa-pedido.active').html();
+        //var statusActive = $('#row-list-orders-immediate .faixa-pedido.active').attr('data-status');
+        
 
         $.ajax({
             type : 'POST',
             url  : './conexao/ifood_api.php',
-            data : { orders_list: true, orderIdAtivo: active, htmlActive: htmlActive },
+            data : { orders_list: true, orderIdAtivo: active },
             dataType: 'json',
             beforeSend: function() {
                 
@@ -193,15 +193,7 @@ $(window).on("load", function(){
                 console.log('Erro');
             },
             complete: function() {
-                var htmlActiveNew = $('#row-list-orders-immediate .faixa-pedido.active').html();
-                console.log(htmlActiveNew);
-
-                if(htmlActive != htmlActiveNew){
-                    console.log('HTML - Diferente');
-                    refreshOrderDetails(active);
-                }else{
-                    console.log('HTML - Igual');
-                }
+                refreshOrderDetails(active);
             }
         });
     };

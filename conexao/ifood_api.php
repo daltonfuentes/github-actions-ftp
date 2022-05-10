@@ -1413,7 +1413,6 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     $retorno = array();
     
     $orderIdAtivo = (isset($_POST['orderIdAtivo'])) ? $_POST['orderIdAtivo'] : null ;
-    $htmlActive = (isset($_POST['htmlActive'])) ? $_POST['htmlActive'] : null ;
 
     $fuso = 3;
     $dateAtual = date_format(date_create(),"YmdHis");
@@ -1449,7 +1448,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
-                            <div class="card-body cPointer pl-4 mb-0 bg-danger rounded faixa-pedido '.$active.' pendente" data-orderId="'.$orderId.'">
+                            <div class="card-body cPointer pl-4 mb-0 bg-danger rounded faixa-pedido '.$active.' pendente" data-orderId="'.$orderId.'" data-status="'.$status.'">
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-0 text-white">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2">#'.$displayId.'</small></h4>
@@ -1477,7 +1476,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         $immediate = $immediate.'
                         <div class="col-12 mb-3">
                             <div class="card shadow  mb-0 d-block">
-                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.' animate__pulse animate__infinite '.$animate.' alerta" data-orderId="'.$orderId.'">
+                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.' animate__pulse animate__infinite '.$animate.' alerta" data-orderId="'.$orderId.'" data-status="'.$status.'">
                                     <div class="media">
                                         <div class="details">
                                             <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
@@ -1496,7 +1495,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                         $immediate = $immediate.'
                         <div class="col-12 mb-3">
                             <div class="card shadow mb-0 d-block">
-                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'">
+                                <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'" data-status="'.$status.'">
                                     <div class="media align-items-center">
                                         <div class="details">
                                             <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
@@ -1525,7 +1524,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
-                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'" data-status="'.$status.'">
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
@@ -1568,7 +1567,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
-                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'" data-status="'.$status.'">
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
@@ -1605,7 +1604,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
-                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'" data-status="'.$status.'">
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
@@ -1639,7 +1638,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
-                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'">
+                            <div class="card-body cPointer pl-4 mb-0 bg-white rounded faixa-pedido '.$active.'" data-orderId="'.$orderId.'" data-status="'.$status.'">
                                 <div class="media">
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
