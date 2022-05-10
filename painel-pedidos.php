@@ -186,24 +186,24 @@ session_start();
                                                 <h4 class="fs-16 font-w600 mb-0">Atraso há 6 minuto</h4>
                                                 <h4 class="fs-14 font-w400 mb-0">Não esqueça de despachar este pedido, já está em preparo há mais de 40 min.</h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details pendente py-3 d-none">
+                                            <div class="card-body rounded-top faixa-aviso-order-details pendente py-3">
                                                 <h4 class="fs-16 font-w600 mb-0">Pendente</h4>
                                                 <h4 class="fs-14 font-w400 mb-0">5 minutos para aceitar</h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details entrega py-3 d-none">
+                                            <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
                                                 <h4 class="fs-16 font-w600 mb-0">Saiu para entrega</h4>
                                                 <h4 class="fs-14 font-w400 mb-0">há 3 minutos</h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details preparo py-3 d-none">
+                                            <div class="card-body rounded-top faixa-aviso-order-details preparo py-3">
                                                 <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há 25 minutos</span></h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details concluido py-3 d-none">
+                                            <div class="card-body rounded-top faixa-aviso-order-details concluido py-3">
                                                 <h4 class="fs-16 font-w600 mb-0">Concluído <span class="fs-14 font-w400">há 3 horas</span></h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3 d-none">
+                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3">
                                                 <h4 class="fs-16 font-w600 mb-0">Pedido cancelado</h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3 d-none">
+                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3">
                                                 <h4 class="fs-16 font-w600 mb-0">Pedido cancelado pelo restaurante <span class="fs-14 font-w400">há 1 minutos</span></h4>
                                                 <h4 class="fs-14 font-w400 mb-0">Motivo: A loja está passando por dificuldades internas</h4>
                                             </div>

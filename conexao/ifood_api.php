@@ -2007,12 +2007,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
 
 
-
-
-
-
-
-
+            
             $alert = '';
 
 
