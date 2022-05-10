@@ -2055,10 +2055,23 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         <h4 class="fs-14 font-w400 mb-0">Não esqueça de despachar este pedido, já está em preparo há mais de '.$tempoParaFinalizar.' min.</h4>
                     </div>';
                 else:
-                    $diff = diffMinutos($dateAtual, $dateCreated);
+                    $sql7 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
+                    $stmt7 = $conexao->prepare($sql7);
+                    $stmt7->bindParam(':orderId', $orderId);	
+                    $stmt7->bindParam(':code', $statusCod);	
+                    $stmt7->execute();
+                    $conta7 = $stmt7->rowCount();
+
+                    if($conta7 != 0):
+                        $exibe7 = $stmt7->fetch(PDO::FETCH_OBJ);
+                        $hourAcepted = $exibe7->createdAt;
+                        $hourAcepted = date_format(date_sub(date_create($hourAcepted),date_interval_create_from_date_string("$fuso hours")),"YmdHis");                    
+                    endif;
+
+                    $diff = diffMinutos($dateAtual, $hourAcepted);
                     $minutes = (isset($diff)) ? $diff : "-" ;
 
-                    if($minutes == 1):
+                    if($minutes == 0 || $minutes == 1):
                         $tempoPreparo = '1 minuto';
                     else:
                         $tempoPreparo = $minutes.' minutos';
