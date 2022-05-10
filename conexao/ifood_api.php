@@ -1427,7 +1427,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     
     $sql = "SELECT * FROM ifood_orders WHERE dateDisplay > :dateAtual ORDER BY 
                                                                                 (CASE WHEN statusCod = 'PLC' THEN dateStatus END) DESC,
-                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay < :dateAtualGmt THEN dateStatus END) ASC,
+                                                                                (CASE WHEN statusCod = 'CFM' && dateDelay < :dateAtualGmt THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'CFM' && dateDelay >= :dateAtualGmt THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'RTP' THEN dateStatus END) DESC,
                                                                                 (CASE WHEN statusCod = 'DSP' THEN dateStatus END) DESC,
