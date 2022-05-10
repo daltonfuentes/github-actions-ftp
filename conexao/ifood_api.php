@@ -2061,9 +2061,6 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há '.$tempoPreparo.' minutos</span></h4>
                     </div>';
                 endif;
-
-
-                $alert = '';
             elseif($statusCod == 'RTP'):
 
                 $alert = '';
