@@ -1423,7 +1423,13 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
     $fuso = 3;
     $dateAtual = date_format(date_create(),"YmdHis");
     
-    $sql = "SELECT * FROM ifood_orders WHERE dateDisplay > :dateActual ORDER BY CASE statusCod WHEN 'PLC' THEN 1 WHEN 'CFM' THEN 2 WHEN 'RTP' THEN 3 WHEN 'DSP' THEN 4 WHEN 'CON' THEN 5 WHEN 'CAN' THEN 6 ELSE 7 END";
+    $sql = "SELECT * FROM ifood_orders WHERE dateDisplay > :dateActual ORDER BY 
+                                                                                (CASE WHEN statusCod = 'PLC' THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'CFM' THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'RTP' THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'DSP' THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'CON' THEN dateStatus END) DESC,
+                                                                                (CASE WHEN statusCod = 'CAN' THEN dateStatus END) DESC";
     $stmt = $conexao->prepare($sql);
     $stmt->bindParam(':dateActual', $dateAtual);	
     $stmt->execute();
