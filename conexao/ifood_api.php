@@ -2161,7 +2161,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 endif;
 
                 if($originCancellation == 'merchant' || $originCancellation == 'RESTAURANT' || $originCancellation == 'MERCHANT'):
-                    $originFront = 'restaurante - '.$createdAt.' / '.$secondDate.' -';
+                    $originFront = 'restaurante - '.$createdAt.' / '.' -';
                 elseif($originCancellation == 'customer' || $originCancellation == 'CONSUMER'):
                     $originFront = 'cliente';
                 endif;
