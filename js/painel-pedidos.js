@@ -199,6 +199,12 @@ $(window).on("load", function(){
             complete: function() {
                 var htmlActiveNew = $('#row-list-orders-immediate .faixa-pedido.active').html();
                 console.log(htmlActiveNew);
+
+                if(htmlActive != htmlActiveNew){
+                    console.log('HTML - Diferente');
+                }else{
+                    console.log('HTML - Igual');
+                }
             }
         });
     };
