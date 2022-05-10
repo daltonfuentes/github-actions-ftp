@@ -1558,6 +1558,12 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
 
                     $minutes = (isset($diff)) ? $diff : "-" ;
 
+                    if($minutes == 1):
+                        $tempo = '1 minuto';
+                    else:
+                        $tempo = $minutes.' minutos';
+                    endif;
+
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
@@ -1566,7 +1572,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                                     <div class="details">
                                         <h4 class="font-gilroy-bold fs-20 mb-1">'.abreviaNomeDisplay($customerName).' <small class="fs-20 ml-2 text-dark">#'.$displayId.'</small></h4>
                                         <span class=""><i class="fa-solid fa-motorcycle fs-16"></i></span>
-                                        <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviado á '.$minutes.' minutos</span>
+                                        <span class="font-gilroy-medium fs-16 ml-2 position-absolute">Enviado á '.$tempo.'</span>
                                     </div>
                                     <div class="media-footer status-pedido">
                                         <h4
@@ -2005,10 +2011,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
             if($statusCod == 'PLC'):
                 $timeAcept = 5;
 
-                $firstDate  = new DateTime($dateCreated);
-                $secondDate = new DateTime($dateAtual);
-                $dateInterval = $firstDate->diff($secondDate);
-                $diff = $dateInterval->i;
+                $diff = diffMinutos($dateCreated, $dateAtual);
 
                 if($diff == 0):
                     $text = '5 minutos para aceitar';
@@ -2019,7 +2022,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 elseif($diff == 3):
                     $text = '2 minutos para aceitar';
                 elseif($diff == 4):
-                    $text = '1 minutos para aceitar';
+                    $text = '1 minuto para aceitar';
                 elseif($diff >= 5):
                     $text = 'O pedido sera cancelado automaticamente em breve.';
                 endif;
@@ -2034,31 +2037,36 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 $finishDate = (isset($exibe->deliveryDateTime)) ? $exibe->deliveryDateTime : $exibe->takeoutDateTime ;
                 $finishDate = date_format(date_create($finishDate), 'YmdHis');
 
-                $firstDate  = new DateTime($dateCreated);
-                $secondDate = new DateTime($finishDate);
-                $dateInterval = $firstDate->diff($secondDate);
-                $tempoParaFinalizar = $dateInterval->i;
+                $tempoParaFinalizar = diffMinutos($dateCreated, $finishDate);
                 
                 if($finishDate > $dateCreated): //ATRASADO
-                    $firstDate  = new DateTime($finishDate);
-                    $secondDate = new DateTime($dateAtual);
-                    $dateInterval = $firstDate->diff($secondDate);
-                    $tempoAtraso = $dateInterval->i;
+                    $diff = diffMinutos($dateAtual, $finishDate);
+                    $minutes = (isset($diff)) ? $diff : "-" ;
+
+                    if($minutes == 1):
+                        $tempoAtraso = '1 minuto';
+                    else:
+                        $tempoAtraso = $minutes.' minutos';
+                    endif;
 
                     $alert = '
                     <div class="card-body rounded-top faixa-aviso-order-details atraso py-3">
-                        <h4 class="fs-16 font-w600 mb-0">Atraso há '.$tempoAtraso.' minuto</h4>
+                        <h4 class="fs-16 font-w600 mb-0">Atraso há '.$tempoAtraso.'</h4>
                         <h4 class="fs-14 font-w400 mb-0">Não esqueça de despachar este pedido, já está em preparo há mais de '.$tempoParaFinalizar.' min.</h4>
                     </div>';
                 else:
-                    $firstDate  = new DateTime($dateCreated);
-                    $secondDate = new DateTime($dateAtual);
-                    $dateInterval = $firstDate->diff($secondDate);
-                    $tempoPreparo = $dateInterval->i;
+                    $diff = diffMinutos($dateAtual, $dateCreated);
+                    $minutes = (isset($diff)) ? $diff : "-" ;
+
+                    if($minutes == 1):
+                        $tempoPreparo = '1 minuto';
+                    else:
+                        $tempoPreparo = $minutes.' minutos';
+                    endif;
 
                     $alert = '
                     <div class="card-body rounded-top faixa-aviso-order-details preparo py-3">
-                        <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há '.$tempoPreparo.' minutos</span></h4>
+                        <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há '.$tempoPreparo.'</span></h4>
                     </div>';
                 endif;
             elseif($statusCod == 'RTP'):
@@ -2075,20 +2083,22 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 if($conta7 != 0):
                     $exibe7 = $stmt7->fetch(PDO::FETCH_OBJ);
                     $hourDelivered = $exibe7->createdAt;
-                    $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
-
-                    $firstDate  = new DateTime($hourDelivered);
-                    $secondDate = new DateTime($dateAtual);
-                    $dateInterval = $firstDate->diff($secondDate);
-                    $tempoDespachado = $dateInterval->i;
+                    $hourDelivered = date_format(date_sub(date_create($hourDelivered),date_interval_create_from_date_string("$fuso hours")),"YmdHis");                    
                 endif;
 
-                $tempoDespachado = (isset($tempoDespachado)) ? $tempoDespachado : "-" ;
+                $diff = diffMinutos($dateAtual, $hourDelivered);
+                $minutes = (isset($diff)) ? $diff : "-" ;
+
+                if($minutes == 1):
+                    $tempoDespachado = '1 minuto';
+                else:
+                    $tempoDespachado = $minutes.' minutos';
+                endif;
 
                 $alert = '
                 <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
                     <h4 class="fs-16 font-w600 mb-0">Saiu para entrega</h4>
-                    <h4 class="fs-14 font-w400 mb-0">há '.$tempoDespachado.' minutos</h4>
+                    <h4 class="fs-14 font-w400 mb-0">há '.$tempoDespachado.'</h4>
                 </div>';
             elseif($statusCod == 'CON'):
                 $sql7 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
