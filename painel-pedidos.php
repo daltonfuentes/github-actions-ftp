@@ -231,7 +231,7 @@ session_start();
                                                     <div class="col-12">
                                                         <div class="media px-2 py-1 align-items-center">
                                                             <img class="img-fluid rounded mr-3" width="85"
-                                                                src="./upload/cardapio/bb1ac07cff6d79e4b191911a43127cc6.png"
+                                                                src="./upload/cardapio/no-image.png"
                                                                 alt="">
                                                             <div class="media-body col-sm-6 col-xxl-5 px-0 align-self-center align-items-center">
                                                                 <h5 class="mt-0 mb-0 text-black">Morango com suspiro</h5>

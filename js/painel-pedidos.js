@@ -93,7 +93,30 @@ $(document).on('click', '.dropdown-menu-status', function(){
     e.stopPropagation();
 });
 
-$(document).ready(function() {
+$(window).on("load", function(){
+    function fazPolling() {
+        $.ajax({
+            type : 'POST',
+            url  : './conexao/ifood_api.php',
+            data : { polling: true },
+            dataType: 'json',
+            beforeSend: function() {
+                
+            },
+            success :  function(retorno){
+                var html = '<p class="mb-0 subtitle">'+retorno.code+' - '+retorno.mensagem+'</p>';
+                $("#box-retorno").prepend(html);
+            },
+            complete: function() {
+                contador = 30;
+                temporizador();
+                setTimeout(fazPolling, 30000);
+            }
+        });
+    };
+
+    fazPolling();
+
     const errorConnectionStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-red fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-red mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Verifique sua conexão</span></h4></div><hr><h4 class="fs-14 font-w500 text-black">Atualize a pagina e verifique novamente. Caso o problema persista, fale com o suporte.</h4>';
     const errorInternStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-warning fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-warning mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Passando por problemas internos</span></h4></div><hr><h4 class="fs-14 font-w500 text-black">Atualize a pagina e verifique novamente. Caso o problema persista, fale com o suporte.</h4>';
     const errorStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-warning fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-warning mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Tentando reconectar</span></h4></div>';
