@@ -193,7 +193,9 @@ $(window).on("load", function(){
                 console.log('Erro');
             },
             complete: function() {
-                refreshOrderDetails(active);
+                if(active != ''){
+                    refreshOrderDetails(active);
+                }
             }
         });
     };
