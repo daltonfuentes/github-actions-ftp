@@ -193,7 +193,7 @@ $(window).on("load", function(){
                 console.log('Erro');
             },
             complete: function() {
-                if(active != ''){
+                if (typeof active != 'undefined'){
                     refreshOrderDetails(active);
                 }
             }
