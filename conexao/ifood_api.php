@@ -2486,7 +2486,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
             $col_right = '
             <div class="customer-xxl col-3">
                 <div class="row row-customer">
-                    '.$btnTop.$customerDetails.$previsao.$btnEnd.'
+                    '.$btnTop.$customerDetails.$previsao.$payMethod.$btnEnd.'
                 </div>
             </div>';
 
