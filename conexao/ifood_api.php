@@ -1720,6 +1720,9 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
         $statusCod = $exibe->statusCod;
         $orderTiming = $exibe->orderTiming;
         $originCancellation = $exibe->originCancellation;
+        $onDemandAvailable = $exibe->onDemandAvailable;
+        $onDemandValue = $exibe->onDemandValue;
+        $onDemandRejectReason = $exibe->onDemandRejectReason;
 
         $dateCreated = date_format(date_sub(date_create($exibe->dateCreated),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
         $hourCreated = date_format(date_create($dateCreated), 'H:i');
@@ -2048,6 +2051,13 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     <h4 class="fs-16 font-w600 mb-0">Pendente</h4>
                     <h4 class="fs-14 font-w400 mb-0">'.$text.'</h4>
                 </div>';
+
+                $btnTop = '
+                <div class="col-xl-12 col-sm-6">
+                    <div class="card card-mb-20">
+                        <button type="button" class="btn btn-success btn-lg py-4" data-orderId="'.$orderId.'">ACEITAR</button>
+                    </div>
+                </div>';
             elseif($statusCod == 'CFM'):
                 //VE SE ESTA EM ATRASO
                 $finishDate = (isset($exibe->deliveryDateTime)) ? $exibe->deliveryDateTime : $exibe->takeoutDateTime ;
@@ -2098,6 +2108,48 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há '.$tempoPreparo.'</span></h4>
                     </div>';
                 endif;
+
+                if($onDemandAvailable != null):
+                    $btnOnDemand = '
+                    <div class="col-xl-12 col-sm-6">
+                        <div class="card card-mb-20">
+                            <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2" data-orderId="'.$orderId.'"><span class="ml-2 fs-14">SOLICITAR ENTREGADOR '.numeroParaReal($orderId).'</span></button>
+                        </div> 
+                    </div>';
+                else:
+                    if($onDemandRejectReason == ''):
+                        $rejectReason = 'Fora do horário de atendimento dos entregadores parceiros do iFood.';
+                    elseif($onDemandRejectReason == ''):
+                        $rejectReason = 'Endereço de entrega não atendido por entregadores parceiros do iFood.';
+                    else:
+                        $rejectReason = 'Serviço indisponivel no momento.';
+                    endif;
+
+
+                    $btnOnDemand = '
+                    <div class="col-xl-12 col-sm-6">
+                        <div class="card card-mb-20 bg-grey-2">
+                            <div class="card-header d-block border-0">
+                                <h4 class="mb-0 fs-16 text-center text-sub-grey-2 font-w600">SOLICITAR ENTREGADOR</h4>
+                            </div>
+                            <hr class="hr-full-16 hr-price m-0">
+                            <div class="card-body py-4">
+                                <h4 class="fs-16 text-sub-grey-2 font-w600">Indisponível para este pedido</h4>
+                                <p class="text-justify fs-14 mb-0 text-sub-grey-2">'.$rejectReason.'</p>
+                            </div>
+                        </div> 
+                    </div>';
+                endif;
+
+
+
+                $btnTop = '
+                <div class="col-xl-12 col-sm-6">
+                    <div class="card card-mb-20">
+                        <button type="button" class="btn btn-success btn-lg" data-orderId="'.$orderId.'"><i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span></button>
+                    </div> 
+                </div>'
+                .$btnOnDemand;
             elseif($statusCod == 'RTP'):
 
                 $alert = '';
@@ -2223,9 +2275,189 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 $alert = '';
             endif;
 
+            $btnTop = (isset($btnTop)) ? $btnTop : '' ;
+
+
+
+            $numeroPedidos = $exibe->customerCountOnMerchant;
+
+            if($numeroPedidos == 0):
+                $pedidos = '
+                <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 ">
+                    <div class="media align-items-center text-center justify-content-center">
+                        <i class="fa-duotone fa-circle-star fs-12 mr-2 text-star"></i>
+                        <h4 class="fs-16 font-w600 mb-0 text-star">Primeiro pedido</h4>
+                        <i class="fa-duotone fa-circle-star fs-12 ml-2 text-star"></i>
+                    </div> 
+                </div>';
+            elseif($numeroPedidos >= 1 && $numeroPedidos <= 5):
+
+                if($numeroPedidos == 1):
+                    $extenso = 'Segundo';
+                elseif($numeroPedidos == 2):
+                    $extenso = 'Terceiro';
+                elseif($numeroPedidos == 3):
+                    $extenso = 'Quarto';
+                elseif($numeroPedidos == 4):
+                    $extenso = 'Quinto';
+                elseif($numeroPedidos == 5):
+                    $extenso = 'Sexto';
+                endif;
+
+                $pedidos = '
+                <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 ">
+                    <div class="media align-items-center text-center justify-content-center">
+                        <i class="fa-duotone fa-circle-star fs-12 mr-2 text-star"></i>
+                        <h4 class="fs-16 font-w600 mb-0 text-star">'.$extenso.' pedido</h4>
+                        <i class="fa-duotone fa-circle-star fs-12 ml-2 text-star"></i>
+                    </div> 
+                </div>';
+            elseif($numeroPedidos >= 6):
+                $pedidos = '
+                <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 d-none">
+                    <div class="media align-items-center text-center justify-content-center">
+                        <i class="fa-solid fa-star fs-14 mr-2 text-star"></i>
+                        <h4 class="fs-16 font-w600 mb-0 text-star">Super Cliente ('.($numeroPedidos+1).')</h4>
+                        <i class="fa-solid fa-star fs-14 ml-2 text-star"></i>
+                    </div> 
+                </div>';
+            endif;
             
+            $customerDetails = '
+            <div class="col-xl-12 col-sm-6">
+                <div class="card border border-light shadow-sm card-mb-20">
+                    <div class="card-body text-center pb-3">
+                        <img src="images/avatar/man_3.png" alt="" width="120"
+                            class="rounded-circle mb-4">
+                        <h3 class="fs-22 text-black font-w600 mb-0">'.$exibe->customerName.'</h3>
+                    </div>
+                    '.$pedidos.'
+                </div>
+            </div>';
+
+            $dateFinish = (isset($exibe->deliveryDateTime)) ? $exibe->deliveryDateTime : null ;
+            $dateFinish = (isset($exibe->takeoutDateTime)) ? $exibe->takeoutDateTime : $dateFinish ;
+            $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+            $horaFinish = date_format(date_create($dateFinish), 'H:i');
+
+            $previsao = '
+            <div class="col-xl-12 col-sm-6">
+                <div class="card border border-light shadow-sm card-mb-20">
+                    <div class="card-body pb-0 py-4">
+                        <div class="media align-items-center">
+                            <i class="fa-regular fa-clock fs-18 mr-2"></i>
+                            <div class="media-body ">
+                                <h4 class="fs-16 font-w600 mb-0">Entrega prevista: </h4>
+                            </div>
+                            <h4 class="fs-16 font-w700 mb-0">'.$horaFinish.'h</h4>
+                        </div>                                             
+                    </div>
+                </div>
+            </div>';
+
+            // PAYMENTS
 
 
+            $payOrigin = $exibe5->methods_type;
+            $payMethod = $exibe5->methods_method;
+            $payValue  = $exibe5->methods_value;
+
+            if($payOrigin == 'ONLINE'):
+                $payment = '
+                <div class="col-xl-12 col-sm-6">
+                    <div class="card border border-light shadow-sm card-mb-20">
+                        <div class="card-body pb-0 py-4">
+                            <div class="media align-items-center">
+                                <div class="media-body ">
+                                    <h4 class="fs-18 font-w600 mb-0">Pago online</h4>
+                                </div>
+                                <img class="" width="45" src="images/payments/logo_ifood_3.png" alt="ifood">
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+            else:
+                if($payMethod == 'CASH'):
+                    $changeFor = $exibe5->methods_cash_changeFor;
+
+                    if($changeFor != null):
+                        $payment = '
+                        <div class="col-xl-12 col-sm-6">
+                            <div class="card border border-light shadow-sm card-mb-20">
+                                <div class="card-body pb-0 py-3">
+                                    <div class="media align-items-center">
+                                        <div class="media-body ">
+                                            <h4 class="fs-18 font-w600 mb-0">Cobrar cliente <br><span class="fs-14">Dinheiro</span></h4>
+                                        </div>
+                                        <img class="" width="45" src="images/payments/dinheiro.png"
+                                            alt="mastercard">
+                                    </div>
+                                    <hr>
+                                    <div class="media align-items-center">
+                                        <div class="media-body ">
+                                            <h4 class="fs-16 font-w600 mb-0">Valor a receber: </h4>
+                                        </div>
+                                        <h4 class="fs-16 font-w600 mb-0">'.numeroParaReal($payValue).'</h4>
+                                    </div>
+                                    <div class="media align-items-center mt-2">
+                                        <div class="media-body ">
+                                            <h4 class="fs-16 font-w600 mb-0">Levar de troco: </h4>
+                                        </div>
+                                        <h4 class="fs-16 font-w600 mb-0">'.numeroParaReal($changeFor).'</h4>
+                                    </div>                                                
+                                </div>
+                            </div>
+                        </div>';
+                    else:
+                        $payment = '
+                        <div class="col-xl-12 col-sm-6">
+                            <div class="card border border-light shadow-sm card-mb-20">
+                                <div class="card-body pb-0 py-3">
+                                    <div class="media align-items-center">
+                                        <div class="media-body ">
+                                            <h4 class="fs-18 font-w600 mb-0">Cobrar cliente <br><span class="fs-14">Dinheiro</span></h4>
+                                        </div>
+                                        <img class="" width="45" src="images/payments/dinheiro.png" alt="dinheiro">
+                                    </div>
+                                    <hr>
+                                    <div class="media align-items-center">
+                                        <div class="media-body ">
+                                            <h4 class="fs-16 font-w600 mb-0">Valor a receber: </h4>
+                                        </div>
+                                        <h4 class="fs-16 font-w600 mb-0">'.numeroParaReal($payValue).'</h4>
+                                    </div>
+                                    <div class="align-items-center text-center mt-2">
+                                        <small class="fs-16 font-w600 mb-0">Não levar troco</small>
+                                    </div>                                                
+                                </div>
+                            </div>
+                        </div>';
+                    endif;
+                elseif($payMethod == 'CREDIT'):
+
+                
+
+                elseif($payMethod == 'DEBIT'):
+
+
+
+                elseif($payMethod == 'MEAL_VOUCHER'):
+
+
+
+                endif;
+            endif;
+
+            if($statusCod == 'PLC' || $statusCod == 'CFM' || $statusCod == 'RTP' || $statusCod == 'DSP'):
+                $btnEnd = '
+                <div class="col-xl-12 col-sm-6">
+                    <div class="card card-mb-20">
+                        <button type="button" class="btn btn-danger btn-lg" data-orderId="'.$orderId.'"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">CANCELAR</span></button>
+                    </div>
+                </div>';
+            endif;
+
+            $btnEnd = (isset($btnEnd)) ? $btnEnd : '' ;
 
 
 
@@ -2254,7 +2486,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
             $col_right = '
             <div class="customer-xxl col-3">
                 <div class="row row-customer">
-                '.$col_right_01.'
+                    '.$btnTop.$customerDetails.$previsao.$btnEnd.'
                 </div>
             </div>';
 

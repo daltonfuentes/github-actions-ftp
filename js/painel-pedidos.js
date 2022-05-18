@@ -1,17 +1,3 @@
-$(document).ready(function () {
- 
-    $.ajax({
-        type : 'POST',
-        url  : './conexao/ifood_api.php',
-        data : { new_session: true },
-        dataType: 'json',
-        success :  function(retorno){
-            console.log(retorno.accessToken);
-        }
-    });
-
-});
-
 $(document).on('click', '.btn-group-type button', function(){
     if($(this).hasClass('.ativo') == false){
         var type = $(this).attr('data-type');

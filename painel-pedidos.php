@@ -399,7 +399,7 @@ session_start();
                             </div>
                             <div class="customer-xxl col-3">
                                 <div class="row row-customer">
-                                    <div class="col-xl-12 col-sm-6 d-none">
+                                    <div class="col-xl-12 col-sm-6">
                                         <div class="card card-mb-20">
                                             <button type="button" class="btn btn-success btn-lg py-4">ACEITAR</button>
                                         </div>
@@ -414,6 +414,18 @@ session_start();
                                             <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2"> <span class="ml-2 fs-14">SOLICITAR ENTREGADOR R$ 24,99</span></button>
                                         </div> 
                                     </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card card-mb-20 bg-grey-2">
+                                            <div class="card-header d-block border-0">
+                                                <h4 class="mb-0 fs-16 text-center text-sub-grey-2 font-w600">SOLICITAR ENTREGADOR</h4>
+                                            </div>
+                                            <hr class="hr-full-16 hr-price m-0">
+                                            <div class="card-body py-4">
+                                                <h4 class="fs-16 text-sub-grey-2 font-w600">Indisponível para este pedido</h4>
+                                                <p class="text-justify fs-14 mb-0 text-sub-grey-2">Fora do horário de atendimento dos entregadores parceiros do iFood</p>
+                                            </div>
+                                        </div> 
+                                    </div>
 
                                     <div class="col-xl-12 col-sm-6">
                                         <div class="card border border-light shadow-sm card-mb-20">
@@ -422,14 +434,14 @@ session_start();
                                                     class="rounded-circle mb-4">
                                                 <h3 class="fs-22 text-black font-w600 mb-0">José Nascimento</h3>
                                             </div>
-                                            <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 d-none">
+                                            <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 ">
                                                 <div class="media align-items-center text-center justify-content-center">
                                                     <i class="fa-solid fa-star fs-14 mr-2 text-star"></i>
-                                                    <h4 class="fs-16 font-w600 mb-0 text-star">Super Cliente</h4>
+                                                    <h4 class="fs-16 font-w600 mb-0 text-star">Super Cliente (9)</h4>
                                                     <i class="fa-solid fa-star fs-14 ml-2 text-star"></i>
                                                 </div> 
                                             </div>
-                                            <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 ">
+                                            <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 d-none">
                                                 <div class="media align-items-center text-center justify-content-center">
                                                     <i class="fa-duotone fa-circle-star fs-12 mr-2 text-star"></i>
                                                     <h4 class="fs-16 font-w600 mb-0 text-star">Terceiro pedido</h4>
@@ -454,12 +466,12 @@ session_start();
                                     </div>
 
 
-                                    <div class="col-xl-12 col-sm-6 d-none">
+                                    <div class="col-xl-12 col-sm-6">
                                         <div class="card border border-light shadow-sm card-mb-20">
                                             <div class="card-body pb-0 py-3">
                                                 <div class="media align-items-center">
                                                     <div class="media-body ">
-                                                        <h4 class="fs-18 font-w600 mb-0">Cobrar cliente <br><span class="fs-14">Mastercard | Credito</span></h4>
+                                                        <h4 class="fs-18 font-w600 mb-0">Cobrar cliente <br><span class="fs-14">Mastercard | Crédito</span></h4>
                                                     </div>
                                                     <img class="" width="45" src="images/payments/mastercard.png"
                                                         alt="mastercard">
@@ -493,7 +505,7 @@ session_start();
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12 col-sm-6 d-none">
+                                    <div class="col-xl-12 col-sm-6">
                                         <div class="card border border-light shadow-sm card-mb-20">
                                             <div class="card-body pb-0 py-4">
                                                 <div class="media align-items-center">
@@ -506,7 +518,7 @@ session_start();
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-xl-12 col-sm-6 d-none">
+                                    <div class="col-xl-12 col-sm-6">
                                         <div class="card border border-light shadow-sm card-mb-20">
                                             <div class="card-body pb-0 py-3">
                                                 <div class="media align-items-center">

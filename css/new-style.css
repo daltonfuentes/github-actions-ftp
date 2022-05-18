@@ -1079,3 +1079,11 @@ button:focus {
 .up-hr {
     margin-top: -32px;
 }
+
+.bg-grey-2 {
+    background: #dcdcdc !important;
+}
+
+.text-sub-grey-2 {
+    color: #3e3e3e !important;
+}
