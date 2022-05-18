@@ -2113,7 +2113,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     $btnOnDemand = '
                     <div class="col-xl-12 col-sm-6">
                         <div class="card card-mb-20">
-                            <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2" data-orderId="'.$orderId.'"><span class="ml-2 fs-14">SOLICITAR ENTREGADOR '.numeroParaReal($orderId).'</span></button>
+                            <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2" data-orderId="'.$orderId.'"><span class="ml-2 fs-14">SOLICITAR ENTREGADOR '.numeroParaReal($onDemandValue).'</span></button>
                         </div> 
                     </div>';
                 else:
