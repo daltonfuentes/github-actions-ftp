@@ -2397,7 +2397,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                                         <div class="media-body ">
                                             <h4 class="fs-16 font-w600 mb-0">Valor a receber: </h4>
                                         </div>
-                                        <h4 class="fs-16 font-w600 mb-0">'.numeroParaReal($payValue).'</h4>
+                                        <h4 class="fs-16 font-w600 mb-0" data-teste="'.$changeFor.'">'.numeroParaReal($changeFor).'</h4>
                                     </div>
                                     <div class="media align-items-center mt-2">
                                         <div class="media-body ">
