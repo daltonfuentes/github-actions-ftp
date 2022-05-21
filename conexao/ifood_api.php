@@ -1482,6 +1482,8 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
                     $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
                     $horaFinish = date_format(date_create($dateFinish), 'H:i');
 
+                    $dateFinish = date_format(date_sub(date_create($dateFinish),date_interval_create_from_date_string("10 minutes")),"YmdHis");
+
                     if($active != ''):
                         $animate = '';
                     else:
