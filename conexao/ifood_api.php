@@ -2062,6 +2062,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 //VE SE ESTA EM ATRASO
                 $finishDate = (isset($exibe->deliveryDateTime)) ? $exibe->deliveryDateTime : $exibe->takeoutDateTime ;
                 $finishDate = date_format(date_sub(date_create($finishDate),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
+                $finishDate = date_format(date_sub(date_create($finishDate),date_interval_create_from_date_string("10 minutes")),"YmdHis");
 
                 $tempoParaFinalizar = diffMinutos($dateCreated, $finishDate);
                 
@@ -2113,7 +2114,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     $btnOnDemand = '
                     <div class="col-xl-12 col-sm-6">
                         <div class="card card-mb-20">
-                            <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2" data-orderId="'.$orderId.'"><span class="ml-2 fs-14">SOLICITAR ENTREGADOR '.numeroParaReal($onDemandValue).'</span></button>
+                            <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2" data-orderId="'.$orderId.'"><span class="ml-2 fs-14">SOLICITAR ENTREGADOR '.numeroParaReal(substr_replace($onDemandValue, '.', -2, 0)).'</span></button>
                         </div> 
                     </div>';
                 else:
