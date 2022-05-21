@@ -2543,7 +2543,7 @@ if(isset($_POST['order_ifood_cfm']) && $_POST['order_ifood_cfm'] == true) :
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-    CURLOPT_URL => $merchantApiHost.'/order/v1.0/orders/'.$orderId.'/confirm',
+    CURLOPT_URL => "$merchantApiHost/order/v1.0/orders/$orderId/confirm",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
