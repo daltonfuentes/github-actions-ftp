@@ -44,10 +44,6 @@ $(document).on('click', '.btn-status', function(){
         origin.find('.platform').addClass('d-none');
         origin.find('.loading').removeClass('d-none');
 
-
-
-
-
         setTimeout(function(){
             origin.find('.platform').removeClass('d-none');
             origin.find('.loading').addClass('d-none');
