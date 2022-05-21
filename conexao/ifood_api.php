@@ -2534,18 +2534,41 @@ if(isset($_POST['order_ifood_cfm']) && $_POST['order_ifood_cfm'] == true) :
         exit();
     endif;
 
-    $outOrderConfirm = orderConfirm($orderId, $accessToken);
+    //$outOrderConfirm = orderConfirm($orderId, $accessToken);
 
-    if($outOrderConfirm['code'] == 202):
+    $merchantApiHost = 'https://merchant-api.ifood.com.br';
+
+    $out = array();
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => $merchantApiHost.'/order/v1.0/orders/'.$orderId.'/confirm',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_HTTPHEADER => array(
+        "Authorization: Bearer $accessToken"
+    ),
+    ));
+
+    $response = curl_exec($curl);
+    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+
+    if($httpcode == 202):
         $retorno['error']  = false;
         echo json_encode($retorno);
         exit();
     else:
         errorLog('error-order_confirm');
-        $retorno['code'] = $outOrderConfirm['code'];
+        $retorno['code'] = $httpcode;
         $retorno['error']  = true;
-        $retorno['orderId'] = $orderId;
-        $retorno['accessToken'] = $accessToken;
         echo json_encode($retorno);
         exit();
     endif;
