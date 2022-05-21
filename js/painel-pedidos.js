@@ -218,8 +218,6 @@ $(window).on("load", function(){
     $(document).on('click', '.btnOrderCfm', function(){
         var orderId = $(this).attr('data-orderId');
 
-        console.log(orderId);
-
         $.ajax({
             type : 'POST',
             url  : './conexao/ifood_api.php',
@@ -251,7 +249,7 @@ $(window).on("load", function(){
                 }else{
 
                 }     
-                console.log(retorno.error);      
+                console.log(retorno.code);      
             },
             error: function() {
                 console.log('Erro');
