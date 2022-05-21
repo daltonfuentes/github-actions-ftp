@@ -2544,6 +2544,8 @@ if(isset($_POST['order_ifood_cfm']) && $_POST['order_ifood_cfm'] == true) :
         errorLog('error-order_confirm');
         $retorno['code'] = $outOrderConfirm['code'];
         $retorno['error']  = true;
+        $retorno['orderId'] = $orderId;
+        $retorno['accessToken'] = $accessToken;
         echo json_encode($retorno);
         exit();
     endif;
