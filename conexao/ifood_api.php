@@ -2516,8 +2516,8 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
     endif;
 endif;
 
-$_POST['orderId'] = '8ef26f7e-bd56-4bd6-a3b7-cb17c0aebf0b';
-$_POST['order_ifood_cfm'] = true;
+//$_POST['orderId'] = '8ef26f7e-bd56-4bd6-a3b7-cb17c0aebf0b';
+//$_POST['order_ifood_cfm'] = true;
 
 if(isset($_POST['order_ifood_cfm']) && $_POST['order_ifood_cfm'] == true) :
     $retorno = array();
@@ -2573,3 +2573,24 @@ if(isset($_POST['order_ifood_cfm']) && $_POST['order_ifood_cfm'] == true) :
         exit();
     endif;
 endif;
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://merchant-api.ifood.com.br/order/v1.0/orders/8ef26f7e-bd56-4bd6-a3b7-cb17c0aebf0b/confirm',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIyYzk5ZWQ0OS00NzhiLTQ5NTktYjM5Mi00ODgyOGVkYTk5NTQiLCJhdWQiOlsic2hpcHBpbmciLCJjYXRhbG9nIiwiZmluYW5jaWFsIiwicmV2aWV3IiwibWVyY2hhbnQiLCJvcmRlciIsIm9hdXRoLXNlcnZlciJdLCJhcHBfbmFtZSI6ImFkbWluc3dlZXRjb25mZXR0eXRlc3RlYyIsIm93bmVyX25hbWUiOiJhZG1pbnN3ZWV0Y29uZmV0dHkiLCJzY29wZSI6WyJzaGlwcGluZyIsImNhdGFsb2ciLCJyZXZpZXciLCJtZXJjaGFudCIsIm9yZGVyIiwiY29uY2lsaWF0b3IiXSwiaXNzIjoiaUZvb2QiLCJtZXJjaGFudF9zY29wZSI6WyI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6Y29uY2lsaWF0b3IiLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6Y2F0YWxvZyIsIjg2YzM2NGU1LWFhMzAtNDk5ZS1hZWIxLWEyZDNkZGZjMmIzZTpyZXZpZXciLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6c2hpcHBpbmciLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6bWVyY2hhbnQiLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6b3JkZXIiXSwiZXhwIjoxNjUzMTM0OTE3LCJpYXQiOjE2NTMxMjQxMTcsImp0aSI6IjJjOTllZDQ5LTQ3OGItNDk1OS1iMzkyLTQ4ODI4ZWRhOTk1NCIsIm1lcmNoYW50X3Njb3BlZCI6dHJ1ZSwiY2xpZW50X2lkIjoiMmM5OWVkNDktNDc4Yi00OTU5LWIzOTItNDg4MjhlZGE5OTU0In0.Uy0lyHIPoUpazCQI555uL7_9JITRx-wbthjwdZeg0qtpvqegmAzMHrB1aqCFTgcI-Cw_fgNP8jbPJhWWShRTeb5a3leKfy4mvTX5oCraGcrKoa_aFBSKZqY5eZZvVDnUy-eKq0TeAviKsMhYmhz4Kg7UJfK7LNs4VLOXQHa_Seo'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
