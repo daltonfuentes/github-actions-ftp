@@ -2380,7 +2380,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 if($payMethod == 'CASH'):
                     $changeFor = $exibe5->methods_cash_changeFor;
 
-                    if($changeFor != null):
+                    if($changeFor != null || $changeFor != 0):
                         $payment = '
                         <div class="col-xl-12 col-sm-6">
                             <div class="card border border-light shadow-sm card-mb-20">
@@ -2403,7 +2403,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                                         <div class="media-body ">
                                             <h4 class="fs-16 font-w600 mb-0">Levar de troco: </h4>
                                         </div>
-                                        <h4 class="fs-16 font-w600 mb-0">'.numeroParaReal($changeFor).'</h4>
+                                        <h4 class="fs-16 font-w600 mb-0">'.numeroParaReal($changeFor-$payValue).'</h4>
                                     </div>                                                
                                 </div>
                             </div>

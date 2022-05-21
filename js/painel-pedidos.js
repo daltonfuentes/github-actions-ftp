@@ -92,6 +92,9 @@ $(window).on("load", function(){
             success :  function(retorno){
                 
             },
+            error: function() {
+                
+            },
             complete: function() {
                 setTimeout(fazPolling, 30000);
                 listOrders();
@@ -176,7 +179,7 @@ $(window).on("load", function(){
                 }
             },
             error: function() {
-                console.log('Erro');
+
             },
             complete: function() {
                 if (typeof active != 'undefined'){
