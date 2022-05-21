@@ -198,11 +198,11 @@ $(window).on("load", function(){
                 if(retorno.error == false){
                     $("#order_details").html(retorno.details);
                 }else{ 
-                    console.log('Success erro');
+                    
                 }
             },
             error: function() {
-                console.log('Erro');
+                
             },
             complete: function() {
     
@@ -213,6 +213,62 @@ $(window).on("load", function(){
     $(document).on('click', '#row-list-orders-immediate .faixa-pedido', function(){
         var orderId = $(this).attr('data-orderId');
         refreshOrderDetails(orderId);
+    });
+
+    $(document).on('click', '.btnOrderCfm', function(){
+        var orderId = $(this).attr('data-orderId');
+
+        $.ajax({
+            type : 'POST',
+            url  : './conexao/ifood_api.php',
+            data : { order_ifood_cfm: true, orderId: orderId },
+            dataType: 'json',
+            beforeSend: function() {
+                
+            },
+            success :  function(retorno){
+                if(retorno.error == false){
+                    $.ajax({
+                        type : 'POST',
+                        url  : './conexao/ifood_api.php',
+                        data : { polling: true },
+                        dataType: 'json',
+                        beforeSend: function() {
+                            
+                        },
+                        success :  function(retorno){
+                            
+                        },
+                        error: function() {
+                            
+                        },
+                        complete: function() {
+                            listOrders();
+                        }
+                    });
+                }else{
+
+                }                
+            },
+            error: function() {
+                
+            },
+            complete: function() {
+    
+            }
+        });
+    });
+
+    $(document).on('click', '.btnOrderRej', function(){
+        
+    });
+
+    $(document).on('click', '.btnOrderDsp', function(){
+        
+    });
+
+    $(document).on('click', '.btnOrderCan', function(){
+        
     });
 });
 

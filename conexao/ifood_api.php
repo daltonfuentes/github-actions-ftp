@@ -2057,7 +2057,12 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 $btnTop = '
                 <div class="col-xl-12 col-sm-6">
                     <div class="card card-mb-20">
-                        <button type="button" class="btn btn-success btn-lg py-4" data-orderId="'.$orderId.'">ACEITAR</button>
+                        <button type="button" class="btn btn-success btn-lg btnOrderCfm" data-orderId="'.$orderId.'">ACEITAR</button>
+                    </div>
+                </div>
+                <div class="col-xl-12 col-sm-6">
+                    <div class="card card-mb-20">
+                        <button type="button" class="btn btn-danger btn-lg btnOrderRej" data-orderId="'.$orderId.'"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">RECUSAR</span></button>
                     </div>
                 </div>';
             elseif($statusCod == 'CFM'):
@@ -2149,7 +2154,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 $btnTop = '
                 <div class="col-xl-12 col-sm-6">
                     <div class="card card-mb-20">
-                        <button type="button" class="btn btn-success btn-lg" data-orderId="'.$orderId.'"><i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span></button>
+                        <button type="button" class="btn btn-success btn-lg btnOrderDsp" data-orderId="'.$orderId.'"><i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span></button>
                     </div> 
                 </div>'
                 .$btnOnDemand;
@@ -2451,11 +2456,11 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 endif;
             endif;
 
-            if($statusCod == 'PLC' || $statusCod == 'CFM' || $statusCod == 'RTP' || $statusCod == 'DSP'):
+            if($statusCod == 'CFM' || $statusCod == 'RTP' || $statusCod == 'DSP'):
                 $btnEnd = '
                 <div class="col-xl-12 col-sm-6">
                     <div class="card card-mb-20">
-                        <button type="button" class="btn btn-danger btn-lg" data-orderId="'.$orderId.'"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">CANCELAR</span></button>
+                        <button type="button" class="btn btn-danger btn-lg btnOrderCan" data-orderId="'.$orderId.'"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">CANCELAR</span></button>
                     </div>
                 </div>';
             endif;
@@ -2505,6 +2510,35 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
         echo json_encode($retorno);
     else:
         errorLog('error-orders_details_contar');
+        $retorno['error']  = true;
+        echo json_encode($retorno);
+        exit();
+    endif;
+endif;
+
+if(isset($_POST['order_ifood_cfm']) && $_POST['order_ifood_cfm'] == true) :
+    $retorno = array();
+    
+    $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : '' ;
+
+    $outToken = accessToken();
+    $accessToken = $outToken['accessToken'];
+
+    if(empty($orderId) || empty($accessToken)):
+        errorLog('error-order_cfm_empty');
+        $retorno['error']  = true;
+        echo json_encode($retorno);
+        exit();
+    endif;
+
+    $outOrderConfirm = orderConfirm($orderId, $accessToken);
+
+    if($outOrderConfirm['code'] == 202):
+        $retorno['error']  = false;
+        echo json_encode($retorno);
+        exit();
+    else:
+        errorLog('error-order_confirm');
         $retorno['error']  = true;
         echo json_encode($retorno);
         exit();

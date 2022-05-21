@@ -264,6 +264,45 @@ function orderDetails($orderId, $accessToken){
     endif;
 };
 
+function orderConfirm($orderId, $accessToken){
+    $merchantApiHost = 'https://merchant-api.ifood.com.br';
+
+    $out = array();
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => $merchantApiHost.'/order/v1.0/orders/'.$orderId.'/confirm',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_HTTPHEADER => array(
+        "Authorization: Bearer $accessToken"
+    ),
+    ));
+
+    $response = curl_exec($curl);
+    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($httpcode == 202):
+        $out['code'] = $httpcode;
+        return $out;
+    else:
+        $out['mensagem'] = 'Erro inesperado.';
+        $out['code'] = $httpcode;
+        return $out;
+    endif;
+};
+
+
+
+
+
 
 function errorLog($message){
     error_log($message . PHP_EOL, 3, 'myLogError.log');
