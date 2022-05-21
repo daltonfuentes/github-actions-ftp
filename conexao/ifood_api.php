@@ -2380,7 +2380,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 if($payMethod == 'CASH'):
                     $changeFor = $exibe5->methods_cash_changeFor;
 
-                    if($changeFor != null || $changeFor != 0):
+                    if($changeFor != null && $changeFor != 0):
                         $payment = '
                         <div class="col-xl-12 col-sm-6">
                             <div class="card border border-light shadow-sm card-mb-20">
