@@ -2516,6 +2516,9 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
     endif;
 endif;
 
+$_POST['orderId'] = '8ef26f7e-bd56-4bd6-a3b7-cb17c0aebf0b';
+$_POST['order_ifood_cfm'] = true;
+
 if(isset($_POST['order_ifood_cfm']) && $_POST['order_ifood_cfm'] == true) :
     $retorno = array();
     
