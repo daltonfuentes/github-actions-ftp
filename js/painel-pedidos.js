@@ -218,24 +218,6 @@ $(window).on("load", function(){
     $(document).on('click', '.btnOrderCfm', function(){
         var orderId = $(this).attr('data-orderId');
 
-        var settings = {
-            "url": "https://merchant-api.ifood.com.br/order/v1.0/orders/"+orderId+"/confirm",
-            "method": "POST",
-            "timeout": 0,
-            "headers": {
-              "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIyYzk5ZWQ0OS00NzhiLTQ5NTktYjM5Mi00ODgyOGVkYTk5NTQiLCJhdWQiOlsic2hpcHBpbmciLCJjYXRhbG9nIiwiZmluYW5jaWFsIiwicmV2aWV3IiwibWVyY2hhbnQiLCJvcmRlciIsIm9hdXRoLXNlcnZlciJdLCJhcHBfbmFtZSI6ImFkbWluc3dlZXRjb25mZXR0eXRlc3RlYyIsIm93bmVyX25hbWUiOiJhZG1pbnN3ZWV0Y29uZmV0dHkiLCJzY29wZSI6WyJzaGlwcGluZyIsImNhdGFsb2ciLCJyZXZpZXciLCJtZXJjaGFudCIsIm9yZGVyIiwiY29uY2lsaWF0b3IiXSwiaXNzIjoiaUZvb2QiLCJtZXJjaGFudF9zY29wZSI6WyI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6Y29uY2lsaWF0b3IiLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6Y2F0YWxvZyIsIjg2YzM2NGU1LWFhMzAtNDk5ZS1hZWIxLWEyZDNkZGZjMmIzZTpyZXZpZXciLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6c2hpcHBpbmciLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6bWVyY2hhbnQiLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6b3JkZXIiXSwiZXhwIjoxNjUzMTM0OTE3LCJpYXQiOjE2NTMxMjQxMTcsImp0aSI6IjJjOTllZDQ5LTQ3OGItNDk1OS1iMzkyLTQ4ODI4ZWRhOTk1NCIsIm1lcmNoYW50X3Njb3BlZCI6dHJ1ZSwiY2xpZW50X2lkIjoiMmM5OWVkNDktNDc4Yi00OTU5LWIzOTItNDg4MjhlZGE5OTU0In0.Uy0lyHIPoUpazCQI555uL7_9JITRx-wbthjwdZeg0qtpvqegmAzMHrB1aqCFTgcI-Cw_fgNP8jbPJhWWShRTeb5a3leKfy4mvTX5oCraGcrKoa_aFBSKZqY5eZZvVDnUy-eKq0TeAviKsMhYmhz4Kg7UJfK7LNs4VLOXQHa_Seo"
-            },
-        };
-          
-        $.ajax(settings).done(function (response) {
-            console.log(response);
-        });
-
-
-
-        return;
-
-
         $.ajax({
             type : 'POST',
             url  : './conexao/ifood_api.php',

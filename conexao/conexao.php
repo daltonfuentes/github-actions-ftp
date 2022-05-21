@@ -1,5 +1,26 @@
 <?php
- $conexaoAdmin = new PDO(   'mysql:host=localhost; dbname=sweetconfetty', 'root', '', 
+
+$tipo_conexao = $_SERVER['HTTP_HOST'];
+ 
+if (($tipo_conexao == 'localhost') || ($tipo_conexao == '192.168.100.4')):
+	// para uso local
+	$dbHost = 'localhost'; // host
+    $db     = 'sweetconfetty'; // nome do banco
+    $dbUser = 'root'; // usuário
+    $dbPass = ''; // criada aqui a variável para a senha, atribua o valor
+else:
+	// para uso externo
+	$dbHost = 'br376.hostgator.com.br'; // host
+    $db     = 'volca246_dashboard_confeitaria'; // nome do banco
+    $dbUser = 'volca246_dalton'; // usuário
+    $dbPass = '2008caix'; // criada aqui a variável para a senha, atribua o valor
+endif;
+
+$conexao = new PDO("mysql:host=$dbHost;dbname=$db", $dbUser, $dbPass);
+
+
+/*
+$conexaoAdmin = new PDO(   'mysql:host=localhost; dbname=sweetconfetty', 'root', '', 
             array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
                 PDO::ATTR_PERSISTENT => false,
@@ -8,14 +29,14 @@
             )
         );
 
-//$conexao = new PDO(   'mysql:host=br376.hostgator.com.br; dbname=volca246_visualine2', 'volca246_dalton', '3105caix', 
-//            array(
-//                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
-//                PDO::ATTR_PERSISTENT => false,
-//                PDO::ATTR_EMULATE_PREPARES => false,
-//                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-//            )
-//        );
+$conexao = new PDO(   'mysql:host=br376.hostgator.com.br; dbname=volca246_dashboard_confeitaria', 'volca246_dalton', '2008caix', 
+            array(
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, 
+                PDO::ATTR_PERSISTENT => false,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+            )
+        );
 
 class database extends PDO
 {
@@ -26,6 +47,7 @@ class database extends PDO
         parent::__construct($dsn, $user, $pass);
     }
 }
+*/
 
 date_default_timezone_set('America/Sao_Paulo');
 
