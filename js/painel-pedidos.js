@@ -217,7 +217,7 @@ $(window).on("load", function(){
 
     $(document).on('click', '.btnOrderCfm', function(){
         var orderId = $(this).attr('data-orderId');
-        
+
         console.log(orderId);
 
         $.ajax({
@@ -250,10 +250,11 @@ $(window).on("load", function(){
                     });
                 }else{
 
-                }                
+                }     
+                console.log(retorno.error);      
             },
             error: function() {
-                
+                console.log('Erro');
             },
             complete: function() {
     
