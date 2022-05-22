@@ -2619,7 +2619,7 @@ if(isset($_POST['order_ifood_can']) && $_POST['order_ifood_can'] == true) :
     $accessToken = $outToken['accessToken'];
 
     if(empty($orderId) || empty($accessToken) || empty($cancellationCode) || empty($reason)):
-        errorLog('error-order_can_empty');
+        errorLog('error-order_can_empty_'.$cancellationCode.'_'.$reason);
         $retorno['error']  = true;
         echo json_encode($retorno);
         exit();
