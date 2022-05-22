@@ -357,7 +357,8 @@ function orderCancel($orderId, $accessToken, $cancellationCode, $reason){
         "reason": "'.$reason.'"
     }',
     CURLOPT_HTTPHEADER => array(
-        "Authorization: Bearer $accessToken"
+        "Authorization: Bearer $accessToken",
+        "Content-Type: application/json"
     ),
     ));
 
