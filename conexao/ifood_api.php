@@ -2583,7 +2583,7 @@ if(isset($_POST['order_ifood_dsp']) && $_POST['order_ifood_dsp'] == true) :
     $accessToken = $outToken['accessToken'];
 
     if(empty($orderId) || empty($accessToken)):
-        errorLog('error-order_cfm_empty');
+        errorLog('error-order_dsp_empty');
         $retorno['error']  = true;
         echo json_encode($retorno);
         exit();
@@ -2592,6 +2592,42 @@ if(isset($_POST['order_ifood_dsp']) && $_POST['order_ifood_dsp'] == true) :
     $outOrderDespatched = orderDespatched($orderId, $accessToken);
 
     if($outOrderDespatched['code'] == 202):
+        $retorno['error']  = false;
+        echo json_encode($retorno);
+        exit();
+    else:
+        errorLog('error-order_confirm');
+        $retorno['error']  = true;
+        echo json_encode($retorno);
+        exit();
+    endif;
+endif;
+
+if(isset($_POST['order_ifood_can']) && $_POST['order_ifood_can'] == true) :
+    $tipo_conexao = $_SERVER['HTTP_HOST'];
+    if (($tipo_conexao == 'localhost') || ($tipo_conexao == '192.168.100.4')):
+        exit();
+    endif;
+    
+    $retorno = array();
+    
+    $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : '' ;
+    $cancellationCode = (isset($_POST['cancellationCode'])) ? $_POST['cancellationCode'] : '' ;
+    $reason = (isset($_POST['reason'])) ? $_POST['reason'] : '' ;
+
+    $outToken = accessToken();
+    $accessToken = $outToken['accessToken'];
+
+    if(empty($orderId) || empty($accessToken) || empty($cancellationCode) || empty($reason)):
+        errorLog('error-order_can_empty');
+        $retorno['error']  = true;
+        echo json_encode($retorno);
+        exit();
+    endif;
+
+    $outOrderCancel = orderCancel($orderId, $accessToken, $cancellationCode, $reason);
+
+    if($outOrderCancel['code'] == 202):
         $retorno['error']  = false;
         echo json_encode($retorno);
         exit();

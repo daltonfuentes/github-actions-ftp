@@ -269,12 +269,6 @@ $(window).on("load", function(){
         });
     });
 
-    $(document).on('click', '.btnOrderRej', function(){
-        var orderId = $(this).attr('data-orderId');
-
-
-    });
-
     $(document).on('click', '.btnOrderDsp', function(){
         var orderId = $(this).attr('data-orderId');
         var origin = $(this);
@@ -329,11 +323,151 @@ $(window).on("load", function(){
         });
     });
 
+    $(document).on('click', '.btnOrderRej', function(){
+        $('#modalOrderCancel').modal('show');
+        $('#modalOrderCancel .question_cancel').text('Selecione o motivo pelo qual você não pode aceitar esse pedido:');
+
+        var origin = $(this);
+
+        if(origin.hasClass('disabled') == true){
+            return;
+        }else{
+            origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
+            origin.addClass('disabled');
+        }
+    });
+
     $(document).on('click', '.btnOrderCan', function(){
+        $('#modalOrderCancel').modal('show');
+        $('#modalOrderCancel .question_cancel').text('Selecione o motivo pelo qual você quer cancelar esse pedido:');
+
+        var origin = $(this);
+
+        if(origin.hasClass('disabled') == true){
+            return;
+        }else{
+            origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
+            origin.addClass('disabled');
+        }
+    });
+
+    $('#modalOrderCancel').on('hide.bs.modal', function (event) {
+        $('.btnOrderRej').html('<i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">RECUSAR</span>');
+        $('.btnOrderRej').removeClass('disabled');
+
+        $('.btnOrderCan').html('<i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">CANCELAR</span>');
+        $('.btnOrderCan').removeClass('disabled');
+    });
+
+    $(document).on('change', '#modalOrderCancel input[name="cancel_code"]', function () {
+        if($(this).val() == '501'){
+            $('#cancel_code_other').removeClass('d-none');
+
+            var valor = $('#cancel_code_other .cancel_reason').val();
+
+            if(valor.length > 3){
+                $('#cancel_code_other .invalid-feedback').removeClass('d-block');
+                $('#modalOrderCancel .btnOrderCanFinish').removeClass('btn-outline-dark disabled');
+                $('#modalOrderCancel .btnOrderCanFinish').addClass('btn-danger');
+            }else{
+                $('#cancel_code_other .invalid-feedback').addClass('d-block');
+                $('#modalOrderCancel .btnOrderCanFinish').addClass('btn-outline-dark disabled');
+                $('#modalOrderCancel .btnOrderCanFinish').removeClass('btn-danger');
+            }
+        }else{
+            $('#cancel_code_other').addClass('d-none');
+            $('#modalOrderCancel .btnOrderCanFinish').removeClass('btn-outline-dark disabled');
+            $('#modalOrderCancel .btnOrderCanFinish').addClass('btn-danger');
+        }
+    });
+
+    $(document).on('keyup', '#cancel_code_other .cancel_reason', function () {
+        var valor = $(this).val();
+        
+        if(valor.length > 3){
+            $('#cancel_code_other .invalid-feedback').removeClass('d-block');
+            $('#modalOrderCancel .btnOrderCanFinish').removeClass('btn-outline-dark disabled');
+            $('#modalOrderCancel .btnOrderCanFinish').addClass('btn-danger');
+        }else{
+            $('#cancel_code_other .invalid-feedback').addClass('d-block');
+            $('#modalOrderCancel .btnOrderCanFinish').addClass('btn-outline-dark disabled');
+            $('#modalOrderCancel .btnOrderCanFinish').removeClass('btn-danger');
+        }
+    });
+
+    $(document).on('click', '.btnOrderCanFinish', function(){
         var orderId = $(this).attr('data-orderId');
 
+        var cancel_code = $('#modalOrderCancel input[name="cancel_code"]:checked').val();
+        var cancel_reason = $('#cancel_code_other .cancel_reason').val();
 
-        
+        if(cancel_code != '501'){
+            cancel_reason = $('#modalOrderCancel input[name="cancel_code"]:checked').closest('label').find('.checkmark').text();
+        }
+
+        if(!cancel_code || !cancel_reason){
+            console.log('Erro');
+            return;
+        }
+
+        var origin = $(this);
+
+        if(origin.hasClass('disabled') == true){
+            return;
+        }else{
+            origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
+            origin.addClass('disabled');
+        }
+
+        $.ajax({
+            type : 'POST',
+            url  : './conexao/ifood_api.php',
+            data : { order_ifood_can: true, orderId: orderId, cancellationCode: cancel_code, reason: cancel_reason },
+            dataType: 'json',
+            beforeSend: function() {
+                
+            },
+            success :  function(retorno){
+                if(retorno.error == false){
+                    $.ajax({
+                        type : 'POST',
+                        url  : './conexao/ifood_api.php',
+                        data : { polling: true },
+                        dataType: 'json',
+                        beforeSend: function() {
+                            
+                        },
+                        success :  function(retorno){
+                            
+                        },
+                        error: function() {
+                            
+                        },
+                        complete: function() {
+                            listOrders();
+                        }
+                    });
+                    $('#modalOrderCancel').modal('toggle');
+                }else{
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Tivemos um problema!',
+                        text: 'Atualize a pagina e tente novamente. Caso o problema persista, entre em contato com o suporte.',
+                        showConfirmButton: false,
+                        timer: 15000
+                    });
+                    origin.html('Cancelar pedido');
+                    origin.removeClass('disabled');
+                }          
+            },
+            error: function() {
+                origin.html('Cancelar pedido');
+                origin.removeClass('disabled');
+            },
+            complete: function() {
+    
+            }
+        });
     });
 });
 

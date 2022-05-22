@@ -528,6 +528,14 @@
     font-size: 17px !important;
 }
 
+.fs-17 {
+    font-size: 17px !important;
+}
+
+.fs-15 {
+    font-size: 15px !important;
+}
+
 .desc_valor {
     font-size: 11px;
     color: #959db4 !important;
@@ -1086,4 +1094,10 @@ button:focus {
 
 .text-sub-grey-2 {
     color: #3e3e3e !important;
+}
+
+.radio1_5x {
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+    transform: scale(1.5);
 }

@@ -406,6 +406,11 @@ session_start();
                                     </div>
                                     <div class="col-xl-12 col-sm-6">
                                         <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-danger btn-lg btnOrderRej"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">RECUSAR</span></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card card-mb-20">
                                             <button type="button" class="btn btn-success btn-lg py-4 disabled"><i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i></button>
                                         </div>
                                     </div>
@@ -548,7 +553,7 @@ session_start();
                                     </div>
                                     <div class="col-xl-12 col-sm-6">
                                         <div class="card card-mb-20">
-                                            <button type="button" class="btn btn-danger btn-lg"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">CANCELAR</span></button>
+                                            <button type="button" class="btn btn-danger btn-lg btnOrderCan"><i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">CANCELAR</span></button>
                                         </div>
                                     </div>
 
