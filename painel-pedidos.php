@@ -2,6 +2,52 @@
 ob_start();
 session_start();
 
+
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://merchant-api.ifood.com.br/order/v1.0/orders/5ed9455b-e9ea-4b43-94cf-3701df984118/requestCancellation',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS =>'{
+    "cancellationCode": "504",
+    "reason": "Restaurante sem entregador"
+}',
+  CURLOPT_HTTPHEADER => array(
+    'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzUxMiJ9.eyJzdWIiOiIyYzk5ZWQ0OS00NzhiLTQ5NTktYjM5Mi00ODgyOGVkYTk5NTQiLCJhdWQiOlsic2hpcHBpbmciLCJjYXRhbG9nIiwiZmluYW5jaWFsIiwicmV2aWV3IiwibWVyY2hhbnQiLCJvcmRlciIsIm9hdXRoLXNlcnZlciJdLCJhcHBfbmFtZSI6ImFkbWluc3dlZXRjb25mZXR0eXRlc3RlYyIsIm93bmVyX25hbWUiOiJhZG1pbnN3ZWV0Y29uZmV0dHkiLCJzY29wZSI6WyJzaGlwcGluZyIsImNhdGFsb2ciLCJyZXZpZXciLCJtZXJjaGFudCIsIm9yZGVyIiwiY29uY2lsaWF0b3IiXSwiaXNzIjoiaUZvb2QiLCJtZXJjaGFudF9zY29wZSI6WyI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6Y29uY2lsaWF0b3IiLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6Y2F0YWxvZyIsIjg2YzM2NGU1LWFhMzAtNDk5ZS1hZWIxLWEyZDNkZGZjMmIzZTpyZXZpZXciLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6c2hpcHBpbmciLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6bWVyY2hhbnQiLCI4NmMzNjRlNS1hYTMwLTQ5OWUtYWViMS1hMmQzZGRmYzJiM2U6b3JkZXIiXSwiZXhwIjoxNjUzMjE5NjU2LCJpYXQiOjE2NTMyMDg4NTYsImp0aSI6IjJjOTllZDQ5LTQ3OGItNDk1OS1iMzkyLTQ4ODI4ZWRhOTk1NCIsIm1lcmNoYW50X3Njb3BlZCI6dHJ1ZSwiY2xpZW50X2lkIjoiMmM5OWVkNDktNDc4Yi00OTU5LWIzOTItNDg4MjhlZGE5OTU0In0.ePk3xJTro1sVjcrOQKBWl-u1JP0pw8RIKaW_Ii9A-4EdHqx94hY93ZDipTC_fvjYS-1JHn13FWj2qVlRNymIV8Jb2mUYWMpDRBHyRNawWNbitSZJePEjd2MMh9ZNZQSOyj3FIDou7E-K1C6GhX9t7UW179C3VLIToi_qdve0seg',
+    'Content-Type: application/json'
+  ),
+));
+
+$response = curl_exec($curl);
+$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+curl_close($curl);
+
+if($httpcode == 202):
+    $out['code'] = $httpcode;
+else:
+    $out['mensagem'] = 'Erro inesperado.';
+    $out['code'] = $httpcode;
+endif;
+
+echo json_encode($out);
+exit();
+
+
+
+
+
+
+
+
+
+
 require("./conexao/functions.php");
 
 $outToken = accessToken();
