@@ -406,6 +406,11 @@ session_start();
                                     </div>
                                     <div class="col-xl-12 col-sm-6">
                                         <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-success btn-lg py-4 disabled"><i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card card-mb-20">
                                             <button type="button" class="btn btn-success btn-lg"><i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span></button>
                                         </div> 
                                     </div>

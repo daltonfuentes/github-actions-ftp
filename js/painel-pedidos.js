@@ -218,13 +218,18 @@ $(window).on("load", function(){
     $(document).on('click', '.btnOrderCfm', function(){
         var orderId = $(this).attr('data-orderId');
 
+        if($(this).hasClass('disabled') == true){
+            return;
+        }
+
         $.ajax({
             type : 'POST',
             url  : './conexao/ifood_api.php',
             data : { order_ifood_cfm: true, orderId: orderId },
             dataType: 'json',
             beforeSend: function() {
-                
+                $(this).html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
+                $(this).addClass('disabled');
             },
             success :  function(retorno){
                 if(retorno.error == false){
@@ -247,12 +252,13 @@ $(window).on("load", function(){
                         }
                     });
                 }else{
-
-                }     
-                console.log(retorno.code);      
+                    $(this).html('ACEITAR');
+                    $(this).removeClass('disabled');
+                }          
             },
             error: function() {
-                console.log('Erro');
+                $(this).html('ACEITAR');
+                $(this).removeClass('disabled');
             },
             complete: function() {
     
@@ -261,14 +267,21 @@ $(window).on("load", function(){
     });
 
     $(document).on('click', '.btnOrderRej', function(){
-        
+        var orderId = $(this).attr('data-orderId');
+
+
     });
 
     $(document).on('click', '.btnOrderDsp', function(){
-        
+        var orderId = $(this).attr('data-orderId');
+
+
     });
 
     $(document).on('click', '.btnOrderCan', function(){
+        var orderId = $(this).attr('data-orderId');
+
+
         
     });
 });
