@@ -2632,7 +2632,7 @@ if(isset($_POST['order_ifood_can']) && $_POST['order_ifood_can'] == true) :
         echo json_encode($retorno);
         exit();
     else:
-        errorLog('error-order_confirm');
+        errorLog('error-order_can');
         $retorno['error']  = true;
         echo json_encode($retorno);
         exit();
