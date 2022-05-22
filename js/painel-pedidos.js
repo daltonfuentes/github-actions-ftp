@@ -324,6 +324,9 @@ $(window).on("load", function(){
     });
 
     $(document).on('click', '.btnOrderRej', function(){
+        var orderId = $(this).attr('data-orderId');
+        $('#modalOrderCancel .btnOrderCanFinish').attr('data-orderId', orderId);
+
         $('#modalOrderCancel').modal('show');
         $('#modalOrderCancel .question_cancel').text('Selecione o motivo pelo qual você não pode aceitar esse pedido:');
 
@@ -338,6 +341,9 @@ $(window).on("load", function(){
     });
 
     $(document).on('click', '.btnOrderCan', function(){
+        var orderId = $(this).attr('data-orderId');
+        $('#modalOrderCancel .btnOrderCanFinish').attr('data-orderId', orderId);
+
         $('#modalOrderCancel').modal('show');
         $('#modalOrderCancel .question_cancel').text('Selecione o motivo pelo qual você quer cancelar esse pedido:');
 

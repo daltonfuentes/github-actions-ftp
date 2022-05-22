@@ -106,7 +106,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger light" data-dismiss="modal">Voltar</button>
-                <button type="button" class="btn btn-outline-dark btnOrderCanFinish disabled">Cancelar pedido</button>
+                <button type="button" class="btn btn-outline-dark btnOrderCanFinish disabled" data-orderId="">Cancelar pedido</button>
             </div>
         </div>
     </div>
