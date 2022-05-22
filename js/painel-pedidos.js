@@ -221,6 +221,9 @@ $(window).on("load", function(){
 
         if(origin.hasClass('disabled') == true){
             return;
+        }else{
+            origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
+            origin.addClass('disabled');
         }
 
         $.ajax({
@@ -229,8 +232,7 @@ $(window).on("load", function(){
             data : { order_ifood_cfm: true, orderId: orderId },
             dataType: 'json',
             beforeSend: function() {
-                origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
-                origin.addClass('disabled');
+                
             },
             success :  function(retorno){
                 if(retorno.error == false){
