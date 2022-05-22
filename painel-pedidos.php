@@ -401,7 +401,7 @@ session_start();
                                 <div class="row row-customer">
                                     <div class="col-xl-12 col-sm-6">
                                         <div class="card card-mb-20">
-                                            <button type="button" class="btn btn-success btn-lg py-4">ACEITAR</button>
+                                            <button type="button" class="btn btn-success btn-lg py-4 btnOrderCfm">ACEITAR</button>
                                         </div>
                                     </div>
                                     <div class="col-xl-12 col-sm-6">

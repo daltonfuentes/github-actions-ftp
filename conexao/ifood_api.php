@@ -5,7 +5,11 @@ session_start();
 require("functions.php");
 //$_POST['status_ifood'] = true;
 
-if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true) :
+if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
+    $tipo_conexao = $_SERVER['HTTP_HOST'];
+    if (($tipo_conexao == 'localhost') || ($tipo_conexao == '192.168.100.4')):
+        exit();
+    endif;
 
     $retorno = array();
 
@@ -235,7 +239,12 @@ endif;
 
 //$_POST['polling'] = true;
 
-if (isset($_POST['polling']) && $_POST['polling'] == true) :
+if (isset($_POST['polling']) && $_POST['polling'] == true):
+    $tipo_conexao = $_SERVER['HTTP_HOST'];
+    if (($tipo_conexao == 'localhost') || ($tipo_conexao == '192.168.100.4')):
+        exit();
+    endif;
+
     require("conexao_hostgator.php");
 
     $retorno = array();
@@ -1415,7 +1424,12 @@ endif;
 
 //$_POST['orders_list'] = true;
 
-if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
+if(isset($_POST['orders_list']) && $_POST['orders_list'] == true):
+    $tipo_conexao = $_SERVER['HTTP_HOST'];
+    if (($tipo_conexao == 'localhost') || ($tipo_conexao == '192.168.100.4')):
+        exit();
+    endif;
+
     require("conexao_hostgator.php");
 
     $retorno = array();
@@ -1686,6 +1700,11 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true) :
 endif;
 
 if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == true) :
+    $tipo_conexao = $_SERVER['HTTP_HOST'];
+    if (($tipo_conexao == 'localhost') || ($tipo_conexao == '192.168.100.4')):
+        exit();
+    endif;
+
     require("conexao_hostgator.php");
 
     function numeroParaReal($n){
@@ -2517,6 +2536,11 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 endif;
 
 if(isset($_POST['order_ifood_cfm']) && $_POST['order_ifood_cfm'] == true) :
+    $tipo_conexao = $_SERVER['HTTP_HOST'];
+    if (($tipo_conexao == 'localhost') || ($tipo_conexao == '192.168.100.4')):
+        exit();
+    endif;
+    
     $retorno = array();
     
     $orderId = (isset($_POST['orderId'])) ? $_POST['orderId'] : '' ;

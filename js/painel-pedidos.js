@@ -99,8 +99,8 @@ $(window).on("load", function(){
     };
     fazPolling();
 
-    const errorConnectionStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-red fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-red mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Verifique sua conexão</span></h4></div><hr><h4 class="fs-14 font-w500 text-black">Atualize a pagina e verifique novamente. Caso o problema persista, fale com o suporte.</h4>';
-    const errorInternStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-warning fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-warning mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Passando por problemas internos</span></h4></div><hr><h4 class="fs-14 font-w500 text-black">Atualize a pagina e verifique novamente. Caso o problema persista, fale com o suporte.</h4>';
+    const errorConnectionStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-red fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-red mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Verifique sua conexão</span></h4></div><hr><h4 class="fs-14 font-w500 text-black">Atualize a pagina e verifique novamente. Caso o problema persista, entre em contato com o suporte.</h4>';
+    const errorInternStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-warning fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-warning mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Passando por problemas internos</span></h4></div><hr><h4 class="fs-14 font-w500 text-black">Atualize a pagina e verifique novamente. Caso o problema persista, entre em contato com o suporte.</h4>';
     const errorStatus = '<div class="media align-items-center"><i class="fa-solid fa-circle-exclamation text-warning fs-24 mr-3"></i><h4 class="fs-16 font-w600 text-warning mb-0">Erro ao carregar status<br><span class="fs-14 font-w400">Tentando reconectar</span></h4></div>';
 
     var nStatusIfood = 0;
@@ -217,8 +217,9 @@ $(window).on("load", function(){
 
     $(document).on('click', '.btnOrderCfm', function(){
         var orderId = $(this).attr('data-orderId');
+        var origin = $(this);
 
-        if($(this).hasClass('disabled') == true){
+        if(origin.hasClass('disabled') == true){
             return;
         }
 
@@ -228,8 +229,8 @@ $(window).on("load", function(){
             data : { order_ifood_cfm: true, orderId: orderId },
             dataType: 'json',
             beforeSend: function() {
-                $(this).html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
-                $(this).addClass('disabled');
+                origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
+                origin.addClass('disabled');
             },
             success :  function(retorno){
                 if(retorno.error == false){
@@ -252,13 +253,13 @@ $(window).on("load", function(){
                         }
                     });
                 }else{
-                    $(this).html('ACEITAR');
-                    $(this).removeClass('disabled');
+                    origin.html('ACEITAR');
+                    origin.removeClass('disabled');
                 }          
             },
             error: function() {
-                $(this).html('ACEITAR');
-                $(this).removeClass('disabled');
+                origin.html('ACEITAR');
+                origin.removeClass('disabled');
             },
             complete: function() {
     
