@@ -449,6 +449,7 @@ $(window).on("load", function(){
             },
             success :  function(retorno){
                 if(retorno.error == false){
+                    console.log('Pedido de can enviado');
                     $.ajax({
                         type : 'POST',
                         url  : './conexao/ifood_api.php',
@@ -457,13 +458,14 @@ $(window).on("load", function(){
                         beforeSend: function() {
                             
                         },
-                        success :  function(retorno){
-                            
+                        success :  function(retornoPolling){
+                            console.log(retornoPolling.cod);
                         },
                         error: function() {
                             
                         },
-                        complete: function() {
+                        complete: function(){
+                            console.log('Vai fazer listOrders');
                             listOrders();
                         }
                     });
