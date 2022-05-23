@@ -86,7 +86,7 @@ $(window).on("load", function(){
                 
             },
             success :  function(retorno){
-                
+                console.log('Origin: '+retorno.cod);
             },
             error: function() {
                 
@@ -458,8 +458,8 @@ $(window).on("load", function(){
                         beforeSend: function() {
                             
                         },
-                        success :  function(retornoPolling){
-                            console.log(retornoPolling.cod);
+                        success :  function(retorno){
+                            console.log(retorno.cod);
                         },
                         error: function() {
                             
