@@ -247,6 +247,8 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
 
     require("conexao_hostgator.php");
 
+    $fuso = 3;
+
     $retorno = array();
 
     $merchantId = '86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e';
@@ -888,16 +890,20 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     $cancelUser        = $metadata['CANCEL_USER'];
                     $cancelCode         = $metadata['CANCEL_CODE'];
 
-                    $sql = 'INSERT INTO ifood_cancel_customer (orderId, cancelReason, cancelUser, cancelCode) VALUES (:orderId, :cancelReason, :cancelUser, :cancelCode)';
+                    $dateCcrLimited = date_format(date_sub(date_create($polCreatedAt),date_interval_create_from_date_string("$fuso hours")), 'YmdHis');
+                    $dateCcrLimited = date_format(date_add(date_create($dateCcrLimited),date_interval_create_from_date_string("5 minutes")), "YmdHis");
+
+                    $sql = 'INSERT INTO ifood_cancel_customer (orderId, cancelReason, cancelUser, cancelCode, dateCcrLimited) VALUES (:orderId, :cancelReason, :cancelUser, :cancelCode, :dateCcrLimited)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':cancelReason', $cancelReason);
                     $stmt->bindParam(':cancelUser', $cancelUser);
                     $stmt->bindParam(':cancelCode', $cancelCode);
+                    $stmt->bindParam(':dateCcrLimited', $dateCcrLimited);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
-                        errorLog('error-ifood_cancel_merchant-101-Erro interno BD.');
+                        errorLog('error-ifood_cancel_customer-101-Erro interno BD.');
                     endif;
 
                     $originCancellation = 'customer';
@@ -958,7 +964,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
-                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                        errorLog('error-ifood_cancel_merchant-101-Erro interno BD.');
                     endif;
                     //
                     //  ENVIA EVENTRO PARA BD
@@ -1007,7 +1013,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
-                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                        errorLog('error-ifood_cancel_customer-101-Erro interno BD.');
                     endif;
                     //
                     //  ENVIA EVENTRO PARA BD
@@ -2486,8 +2492,58 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
             $btnEnd = (isset($btnEnd)) ? $btnEnd : '' ;
 
+            // ANALIZA SE PEDIDO ESTA COM CANCELAMENTO OU RECUSA EM PROCESSO, CASO ESTEJA ALTERA "ALERT" E "BTN-TOP-END"
 
+            // MERCHANT
+            $sql9 = "SELECT * FROM ifood_cancel_merchant WHERE orderId=:orderId";
+            $stmt9 = $conexao->prepare($sql9);
+            $stmt9->bindParam(':orderId', $orderId);	
+            $stmt9->execute();
+            $conta9 = $stmt9->rowCount();
 
+            if($conta9 != 0):
+                //CANCELAMENTO SOLICITADO PELO MERCHANT
+                $exibe9 = $stmt9->fetch(PDO::FETCH_OBJ);
+                $reason = $exibe9->details;
+
+                $reason = (isset($reason)) ? $reason : "-" ;
+                $motivo = trim(str_replace(' - ', '', (str_replace(strtok($reason, " - "), '', $reason))));
+
+                $alert = '
+                <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3">
+                    <h4 class="fs-16 font-w600 mb-0">Solicitação de cancelamento feita pelo restaurante.</h4>
+                    <h4 class="fs-14 font-w400 mb-0">Motivo: '.$motivo.'</h4>
+                </div>';
+
+                $btnTop = '';
+                $btnEnd = '';
+            endif;
+
+            $null = null;
+
+            // CLIENTE
+            $sql10 = "SELECT * FROM ifood_cancel_customer WHERE orderId=:orderId && result=:result && dateCcrLimited<:dateAtual";
+            $stmt10 = $conexao->prepare($sql10);
+            $stmt10->bindParam(':orderId', $orderId);
+            $stmt10->bindParam(':result', $null);
+            $stmt10->bindParam(':dateAtual', $dateAtual);	
+            $stmt10->execute();
+            $conta10 = $stmt10->rowCount();
+
+            if($conta10 != 0):
+                //CANCELAMENTO SOLICITADO PELO MERCHANT
+                $exibe10 = $stmt10->fetch(PDO::FETCH_OBJ);
+                $motivo = $exibe10->cancelReason;
+
+                $alert = '
+                <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3">
+                    <h4 class="fs-16 font-w600 mb-0">O cliente pediu o cancelamento desse pedido.</h4>
+                    <h4 class="fs-14 font-w400 mb-0">Motivo: '.$motivo.'</h4>
+                </div>';
+
+                $btnTop = '';
+                $btnEnd = '';
+            endif;
 
             $col_left = '
             <div class="col-xxl-12 col-xl-8">

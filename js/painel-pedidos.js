@@ -86,7 +86,7 @@ $(window).on("load", function(){
                 
             },
             success :  function(retorno){
-                console.log('Origin: '+retorno.code);
+                
             },
             error: function() {
                 
@@ -459,13 +459,11 @@ $(window).on("load", function(){
                             
                         },
                         success :  function(retorno){
-                            console.log(retorno.code);
                         },
                         error: function() {
                             
                         },
                         complete: function(){
-                            console.log('Vai fazer listOrders');
                             listOrders();
                         }
                     });
