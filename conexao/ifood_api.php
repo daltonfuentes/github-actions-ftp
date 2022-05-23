@@ -2501,7 +2501,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
             $stmt9->execute();
             $conta9 = $stmt9->rowCount();
 
-            if($conta9 != 0):
+            if($conta9 != 0 && $statusCod != 'CAN'):
                 //CANCELAMENTO SOLICITADO PELO MERCHANT
                 $exibe9 = $stmt9->fetch(PDO::FETCH_OBJ);
                 $reason = $exibe9->details;
@@ -2530,7 +2530,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
             $stmt10->execute();
             $conta10 = $stmt10->rowCount();
 
-            if($conta10 != 0):
+            if($conta10 != 0 && $statusCod != 'CAN'):
                 //CANCELAMENTO SOLICITADO PELO MERCHANT
                 $exibe10 = $stmt10->fetch(PDO::FETCH_OBJ);
                 $motivo = $exibe10->cancelReason;
