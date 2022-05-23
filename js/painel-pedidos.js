@@ -377,6 +377,12 @@ $(window).on("load", function(){
         $('.btnOrderCfm').removeClass('disabled');
         $('.btnOrderDsp').removeClass('disabled');
         $('.btnOrderOnDemand').removeClass('disabled');
+
+        $('#modalOrderCancel input[name="cancel_code"]').prop('checked', false);
+        $('#cancel_code_other .cancel_reason').val('');
+        $('#cancel_code_other').addClass('d-none');
+        $('#modalOrderCancel .btnOrderCanFinish').addClass('btn-outline-dark disabled');
+        $('#modalOrderCancel .btnOrderCanFinish').removeClass('btn-danger');
     });
 
     $(document).on('change', '#modalOrderCancel input[name="cancel_code"]', function () {
@@ -398,6 +404,7 @@ $(window).on("load", function(){
             $('#cancel_code_other').addClass('d-none');
             $('#modalOrderCancel .btnOrderCanFinish').removeClass('btn-outline-dark disabled');
             $('#modalOrderCancel .btnOrderCanFinish').addClass('btn-danger');
+            $('#cancel_code_other .cancel_reason').val('');
         }
     });
 
@@ -426,7 +433,6 @@ $(window).on("load", function(){
         }
 
         if(!cancel_code || !cancel_reason){
-            console.log('Erro');
             return;
         }
 
@@ -449,7 +455,6 @@ $(window).on("load", function(){
             },
             success :  function(retorno){
                 if(retorno.error == false){
-                    console.log('Pedido de can enviado');
                     $.ajax({
                         type : 'POST',
                         url  : './conexao/ifood_api.php',
@@ -472,6 +477,9 @@ $(window).on("load", function(){
                     $('.btnOrderCfm').addClass('disabled');
                     $('.btnOrderDsp').addClass('disabled');
                     $('.btnOrderOnDemand').addClass('disabled');
+
+                    origin.html('Cancelar pedido');
+                    origin.removeClass('disabled');
                 }else{
                     Swal.fire({
                         icon: 'error',
