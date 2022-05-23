@@ -224,6 +224,7 @@ $(window).on("load", function(){
         }else{
             origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
             origin.addClass('disabled');
+            $('.btnOrderCan').addClass('disabled');
         }
 
         $.ajax({
@@ -257,11 +258,13 @@ $(window).on("load", function(){
                 }else{
                     origin.html('ACEITAR');
                     origin.removeClass('disabled');
+                    $('.btnOrderCan').removeClass('disabled');
                 }          
             },
             error: function() {
                 origin.html('ACEITAR');
                 origin.removeClass('disabled');
+                $('.btnOrderCan').removeClass('disabled');
             },
             complete: function() {
     
@@ -278,6 +281,7 @@ $(window).on("load", function(){
         }else{
             origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
             origin.addClass('disabled');
+            $('.btnOrderCan').addClass('disabled');
         }
 
         $.ajax({
@@ -311,11 +315,13 @@ $(window).on("load", function(){
                 }else{
                     origin.html('<i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span>');
                     origin.removeClass('disabled');
+                    $('.btnOrderCan').removeClass('disabled');
                 }          
             },
             error: function() {
                 origin.html('<i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span>');
                 origin.removeClass('disabled');
+                $('.btnOrderCan').removeClass('disabled');
             },
             complete: function() {
     
@@ -337,6 +343,7 @@ $(window).on("load", function(){
         }else{
             origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
             origin.addClass('disabled');
+            $('.btnOrderCfm').addClass('disabled');
         }
     });
 
@@ -354,6 +361,9 @@ $(window).on("load", function(){
         }else{
             origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
             origin.addClass('disabled');
+            $('.btnOrderCfm').addClass('disabled');
+            $('.btnOrderDsp').addClass('disabled');
+            $('.btnOrderOnDemand').addClass('disabled');
         }
     });
 
@@ -363,6 +373,10 @@ $(window).on("load", function(){
 
         $('.btnOrderCan').html('<i class="fa-solid fa-ban fs-16 text-white"></i><span class="ml-2 fs-16">CANCELAR</span>');
         $('.btnOrderCan').removeClass('disabled');
+
+        $('.btnOrderCfm').removeClass('disabled');
+        $('.btnOrderDsp').removeClass('disabled');
+        $('.btnOrderOnDemand').removeClass('disabled');
     });
 
     $(document).on('change', '#modalOrderCancel input[name="cancel_code"]', function () {
@@ -454,6 +468,10 @@ $(window).on("load", function(){
                         }
                     });
                     $('#modalOrderCancel').modal('toggle');
+                    
+                    $('.btnOrderCfm').addClass('disabled');
+                    $('.btnOrderDsp').addClass('disabled');
+                    $('.btnOrderOnDemand').addClass('disabled');
                 }else{
                     Swal.fire({
                         icon: 'error',
