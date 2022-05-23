@@ -86,7 +86,7 @@ $(window).on("load", function(){
                 
             },
             success :  function(retorno){
-                console.log('Origin: '+retorno.cod);
+                console.log('Origin: '+retorno.code);
             },
             error: function() {
                 
@@ -459,7 +459,7 @@ $(window).on("load", function(){
                             
                         },
                         success :  function(retorno){
-                            console.log(retorno.cod);
+                            console.log(retorno.code);
                         },
                         error: function() {
                             
