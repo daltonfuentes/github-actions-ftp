@@ -2568,7 +2568,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     </div>';
                 elseif($statusDelivery == 'AAO'  && ($statusCod == 'CFM' || $statusCod == 'RTP')): // ENTREGADOR CHEGOU PARA RETIRAR PEDIDO
                     $btnTop = '';
-                    
+
                     $alert = '
                     <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
                         <h4 class="fs-16 font-w600 mb-0">Entregador chegou</h4>
