@@ -2594,7 +2594,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                                 <div class="card-body rounded px-5" style="background:#3f4953;">
                                     <div class="row mx-0 align-items-center">
                                         <div class="media align-items-center col px-0 mb-3 mb-md-0">
-                                            <img class="mr-3 img-fluid rounded-circle" width="80" src="'.$exibe11->workerPhotoUrl.'" alt="DexignZone">
+                                            <img class="mr-3 img-fluid rounded-circle avatar_delivery_ifood" src="'.$exibe11->workerPhotoUrl.'">
                                             <div class="media-body">
                                                 <h3 class="fs-14 font-w600 mb-0 text-white">Entregador</h3>
                                                 <h3 class="fs-20 font-w400 mb-0 text-white">'.$exibe11->workerName.'</h3>

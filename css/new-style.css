@@ -1106,3 +1106,9 @@ button:focus {
     -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
     transform: scale(1.5);
 }
+
+.avatar_delivery_ifood {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
