@@ -2556,7 +2556,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         <h4 class="fs-16 font-w600 mb-0">Entrega parceira cancelada</h4>
                         <h4 class="fs-14 font-w400 mb-0">O restaurante é responsavel pela entrega desse pedido, não esqueça de despachar.</h4>
                     </div>';
-                elseif($statusDelivery == 'GTO'  && ($statusCod == 'CFM' || $statusCod == 'RTP')): // ENTREGADOR A CAMINHO PARA RETIRAR PEDIDO
+                elseif(($statusDelivery == 'ADR' || $statusDelivery == 'GTO')  && ($statusCod == 'CFM' || $statusCod == 'RTP')): // ENTREGADOR A CAMINHO PARA RETIRAR PEDIDO
                     if($statusCod == 'RTP'):
                         $btnTop = '';
                     else:
