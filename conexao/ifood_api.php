@@ -2526,7 +2526,14 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
             // DELIVERY - START
             //
             if($statusCod == 'CFM' || $statusCod == 'RTP' || $statusCod == 'DSP'):
-                if($statusDelivery == 'RDS' && ($statusCod == 'CFM' || $statusCod == 'RTP')): // ON DEMAND ACEITO
+                if($statusDelivery == 'RDR' && $statusCod == 'CFM'): // ON DEMAND SOLICITADO
+                    $alert = '
+                    <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
+                        <h4 class="fs-16 font-w600 mb-0">Solicitando entrega parceira</h4>
+                    </div>';
+
+                    $btnTop = '';
+                elseif($statusDelivery == 'RDS' && ($statusCod == 'CFM' || $statusCod == 'RTP')): // ON DEMAND ACEITO
                     $alert = '
                     <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
                         <h4 class="fs-16 font-w600 mb-0">Procurando entregador</h4>
