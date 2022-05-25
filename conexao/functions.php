@@ -376,6 +376,41 @@ function orderCancel($orderId, $accessToken, $cancellationCode, $reason){
     endif;
 };
 
+function orderRequestDriver($orderId, $accessToken){
+    $merchantApiHost = 'https://merchant-api.ifood.com.br';
+
+    $out = array();
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => $merchantApiHost.'/order/v1.0/orders/'.$orderId.'/requestDriver',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'POST',
+    CURLOPT_POSTFIELDS => 'grantType=client_credentials',
+    CURLOPT_HTTPHEADER => array(
+        "Authorization: Bearer $accessToken",
+    ),
+    ));
+
+    $response = curl_exec($curl);
+    $httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    curl_close($curl);
+
+    if($httpcode == 202):
+        $out['code'] = $httpcode;
+        return $out;
+    else:
+        $out['mensagem'] = 'Erro inesperado.';
+        $out['code'] = $httpcode;
+        return $out;
+    endif;
+};
 
 
 

@@ -329,6 +329,66 @@ $(window).on("load", function(){
         });
     });
 
+    $(document).on('click', '.btnOrderOnDemand', function(){
+        var orderId = $(this).attr('data-orderId');
+        var origin = $(this);
+
+        if(origin.hasClass('disabled') == true){
+            return;
+        }else{
+            origin.html('<i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i>');
+            origin.addClass('disabled');
+            $('.btnOrderCan').addClass('disabled');
+            $('.btnOrderCfm').addClass('disabled');
+        }
+
+        $.ajax({
+            type : 'POST',
+            url  : './conexao/ifood_api.php',
+            data : { order_ifood_rdr: true, orderId: orderId },
+            dataType: 'json',
+            beforeSend: function() {
+                
+            },
+            success :  function(retorno){
+                if(retorno.error == false){
+                    $.ajax({
+                        type : 'POST',
+                        url  : './conexao/ifood_api.php',
+                        data : { polling: true },
+                        dataType: 'json',
+                        beforeSend: function() {
+                            
+                        },
+                        success :  function(retorno){
+                            
+                        },
+                        error: function() {
+                            
+                        },
+                        complete: function() {
+                            listOrders();
+                        }
+                    });
+                }else{
+                    origin.html('<i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span>');
+                    origin.removeClass('disabled');
+                    $('.btnOrderCan').removeClass('disabled');
+                    $('.btnOrderCfm').removeClass('disabled');
+                }          
+            },
+            error: function() {
+                origin.html('<i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span>');
+                origin.removeClass('disabled');
+                $('.btnOrderCan').removeClass('disabled');
+                $('.btnOrderCfm').removeClass('disabled');
+            },
+            complete: function() {
+    
+            }
+        });
+    });
+
     $(document).on('click', '.btnOrderRej', function(){
         var orderId = $(this).attr('data-orderId');
         $('#modalOrderCancel .btnOrderCanFinish').attr('data-orderId', orderId);
