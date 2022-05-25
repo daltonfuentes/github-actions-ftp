@@ -1261,6 +1261,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                         $value    = (isset($final['value'])) ? $final['value'] : '';
                         $rejectReason = null;
                     else:
+                        $available == 'no';
                         $value = null;
                         $rejectReason = (isset($metadata['rejectReason'])) ? $metadata['rejectReason'] : null;
                     endif;
@@ -2149,14 +2150,21 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     </div>';
                 endif;
 
-                if($onDemandAvailable != null):
+                if($onDemandAvailable == true):
                     $btnOnDemand = '
                     <div class="col-xl-12 col-sm-6">
                         <div class="card card-mb-20">
                             <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2 btnOrderOnDemand" data-orderId="'.$orderId.'"><span class="ml-2 fs-14">SOLICITAR ENTREGADOR '.numeroParaReal(substr_replace($onDemandValue, '.', -2, 0)).'</span></button>
                         </div> 
                     </div>';
-                else:
+                elseif($onDemandAvailable == null):
+                    $btnOnDemand = '
+                    <div class="col-xl-12 col-sm-6">
+                        <div class="card card-mb-20">
+                            <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2"><i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i></button>
+                        </div> 
+                    </div>';
+                elseif($onDemandAvailable == 'no'):
                     if($onDemandRejectReason == ''):
                         $rejectReason = 'Fora do horário de atendimento dos entregadores parceiros do iFood.';
                     elseif($onDemandRejectReason == ''):
