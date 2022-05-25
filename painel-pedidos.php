@@ -136,8 +136,8 @@ session_start();
                     </div>
                     <div class="shadow-sm bg-order-details-02 pt-5 pb-4 px-5 vh-100 overflow-auto" style="width: calc(100% - 409px);">
                         <div id="order_details" class="row justify-content-center">
-                            <div class="col-xxl-12 col-11">
-                                <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #5231<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às 14:17h</span></h4>
+                            <div class="col-xxl-12 col-11 mb-4">
+                                <h4 class="fs-26 text-black mb-0 font-gilroy-semibold">Pedido #5231<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às 14:17h</span></h4>
                             </div>
                             <div class="customer-xl col-12">
                                 
@@ -157,16 +157,10 @@ session_start();
                                                             </div>
                                                             <div class="col-xl-10">
                                                                 <div class="row align-items-center justify-content-center">
-                                                                    <div class="col-xl-7">
+                                                                    <div class="col-12">
                                                                         <div class="media align-items-center">
-                                                                            <i class="fa-light fa-location-dot fs-30 text-black mr-2"></i>
-                                                                            <span class="text-black font-w500">Rua Padre Cicero, 567 - Jardim Guaira</span>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-xl-5">
-                                                                        <div class="media align-items-center">
-                                                                            <i class="fa-light fa-phone fs-30 text-black mr-2"></i>
-                                                                            <span class="text-black font-w500">0800 242 8347 <span class="text-secondary">: 99527477</span></span>
+                                                                            <i class="fa-light fa-location-dot fs-30 text-black mr-3"></i>
+                                                                            <span class="text-black font-w500">Rua dos Jasmins, 1237 - Jardim das Flores - Foz do Iguaçu ● CEP 858551<br>Apartamento 302 ● Chamar por Itamara</span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -178,29 +172,79 @@ session_start();
                                         </div>
                                     </div>
                                     <div class="col-xl-12">
+                                        <div class="card">
+                                            <div class="card-body rounded px-5" style="background:#3f4953;">
+                                                <div class="row mx-0 align-items-center">
+                                                    <div class="media align-items-center col px-0 mb-3 mb-md-0">
+                                                        <img class="mr-3 img-fluid rounded-circle" width="80" src="images/avatar/man_3.png" alt="DexignZone">
+                                                        <div class="media-body">
+                                                            <h3 class="fs-14 font-w600 mb-0 text-white">Entregador</h3>
+                                                            <h3 class="fs-20 font-w400 mb-0 text-white">Rainold Hawkins</h3>
+                                                            <small class="text-white">Moto</small>
+                                                        </div>
+                                                        <div class="media-footer rounded bg-body-painel text-right d-inline-block py-2 px-4">
+                                                            <h4 class="fs-16 font-w600 mb-0">
+                                                                <span class="align-middle">
+                                                                    <i class="fa-light fa-phone fs-30 text-black mr-2"></i>
+                                                                </span>
+                                                                <span>+45 99900-1122</span>
+                                                            </h4>
+                                                        </div>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <div class="col-xl-12">
                                         <div class="card border border-light shadow-sm">
-                                            <div class="card-body rounded-top faixa-aviso-order-details atraso py-3">
+                                            <div class="card-body rounded-top faixa-aviso-order-details preparo py-3 d-none">
+                                                <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há 25 minutos</span></h4>
+                                            </div>
+                                            <div class="card-body  faixa-aviso-order-details atraso py-3 d-none">
                                                 <h4 class="fs-16 font-w600 mb-0">Atraso há 6 minuto</h4>
                                                 <h4 class="fs-14 font-w400 mb-0">Não esqueça de despachar este pedido, já está em preparo há mais de 40 min.</h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details pendente py-3">
+                                            <div class="card-body rounded-top faixa-aviso-order-details pendente py-3 d-none">
                                                 <h4 class="fs-16 font-w600 mb-0">Pendente</h4>
                                                 <h4 class="fs-14 font-w400 mb-0">5 minutos para aceitar</h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
+                                            <div class="card-body rounded-top faixa-aviso-order-details entrega py-3 d-none">
                                                 <h4 class="fs-16 font-w600 mb-0">Saiu para entrega</h4>
                                                 <h4 class="fs-14 font-w400 mb-0">há 3 minutos</h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details preparo py-3">
-                                                <h4 class="fs-16 font-w600 mb-0">Em preparo <span class="fs-14 font-w400">há 25 minutos</span></h4>
+
+                                            <div class="card-body rounded-top faixa-aviso-order-details entrega py-3 d-none">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="fs-16 font-w600 mb-0">Entregador a caminho</h4>
+                                                        <h4 class="fs-14 font-w400 mb-0">Fernando Rocha chega ao restaurante em 3min</h4>
+                                                    </div>
+                                                    <div class="media-footer text-right">
+                                                        <h4 class="fs-14 font-w600 mb-0">Fernando Rocha</h4>
+                                                        <h4 class="fs-14 font-w400 mb-0">+45 99900-1122<span class="font-w600 px-2">&bull;</i></span>Moto</h4>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details concluido py-3">
+
+                                            <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="fs-16 font-w600 mb-0">Entregador a caminho</h4>
+                                                        <h4 class="fs-14 font-w400 mb-0">Chega ao restaurante em 3 minutos</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="card-body rounded-top faixa-aviso-order-details concluido py-3 d-none">
                                                 <h4 class="fs-16 font-w600 mb-0">Concluído <span class="fs-14 font-w400">há 3 horas</span></h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3">
+                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3 d-none">
                                                 <h4 class="fs-16 font-w600 mb-0">Pedido cancelado</h4>
                                             </div>
-                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3">
+                                            <div class="card-body rounded-top faixa-aviso-order-details cancelado py-3 d-none">
                                                 <h4 class="fs-16 font-w600 mb-0">Pedido cancelado pelo restaurante <span class="fs-14 font-w400">há 1 minutos</span></h4>
                                                 <h4 class="fs-14 font-w400 mb-0">Motivo: A loja está passando por dificuldades internas</h4>
                                             </div>
@@ -416,6 +460,11 @@ session_start();
                                     </div>
                                     <div class="col-xl-12 col-sm-6">
                                         <div class="card card-mb-20">
+                                            <button type="button" class="btn btn-success btn-lg btnOrderRtp"><span class="fs-16">AVISAR PEDIDO PRONTO</span></button>
+                                        </div> 
+                                    </div>
+                                    <div class="col-xl-12 col-sm-6">
+                                        <div class="card card-mb-20">
                                             <button type="button" class="btn btn-success btn-lg"><i class="fa-solid fa-motorcycle fs-16"></i> <span class="ml-2 fs-16">DESPACHAR</span></button>
                                         </div> 
                                     </div>
@@ -443,6 +492,15 @@ session_start();
                                                 <img src="images/avatar/man_3.png" alt="" width="120"
                                                     class="rounded-circle mb-4">
                                                 <h3 class="fs-22 text-black font-w600 mb-0">José Nascimento</h3>
+                                            </div>
+                                            <hr class="my-0">
+                                            <div class="card-body py-3 px-4">
+                                                <div class="media align-items-center">
+                                                    <i class="fa-light fa-phone fs-28 mr-3"></i>
+                                                    <div class="media-body">
+                                                    <span class="text-black font-w500">0800 242 8347 <span class="text-secondary">: 99527477</span></span>
+                                                    </div>
+                                                </div>  
                                             </div>
                                             <div class="card-body bg-dark-panel rounded-top rounded-bottom py-4 ">
                                                 <div class="media align-items-center text-center justify-content-center">

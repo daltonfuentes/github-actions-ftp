@@ -885,6 +885,11 @@ button:focus {
     border-color: #5e5e6e;
 }
 
+.bg-custom-2 {
+    background-color: #5e5e6e !important;
+    border-color: #5e5e6e;
+}
+
 .btn-custom-2:hover, .btn-custom-2:focus, .btn-custom-2:active {
     color: #fff;
     background-color: #51515f;

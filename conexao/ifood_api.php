@@ -1751,13 +1751,16 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
         $onDemandValue = $exibe->onDemandValue;
         $onDemandRejectReason = $exibe->onDemandRejectReason;
 
+        $statusDelivery = $exibe->statusDelivery;
+        $statusTekeout = $exibe->statusTekeout;
+
         $dateCreated = date_format(date_sub(date_create($exibe->dateCreated),date_interval_create_from_date_string("$fuso hours")),"YmdHis");
         $hourCreated = date_format(date_create($dateCreated), 'H:i');
 
         if($type == 'IMMEDIATE'):
             $html_head = '
-            <div class="col-xxl-12 col-11">
-                <h4 class="fs-26 text-black mb-3 font-gilroy-semibold">Pedido #'.$exibe->displayId.'<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às '.$hourCreated.'h</span></h4>
+            <div class="col-xxl-12 col-11 mb-4">
+                <h4 class="fs-26 text-black mb-0 font-gilroy-semibold">Pedido #'.$exibe->displayId.'<span class="fs-18"><i class="fa-regular fa-clock fs-16 ml-3 mr-1"></i> Feito às '.$hourCreated.'h</span></h4>
             </div>';
 
             if($orderType == 'DELIVERY'):
@@ -1770,11 +1773,21 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 if($contar2 != 0):
                     $exibe2 = $stmt2->fetch(PDO::FETCH_OBJ);
                     
+                    if($exibe2->complement != null && $exibe2->reference != null):
+                        $addressComplement = $exibe2->complement.' ● '.$exibe2->reference;
+                    elseif($exibe2->complement != null && $exibe2->reference == null):
+                        $addressComplement = $exibe2->complement;
+                    elseif($exibe2->complement == null && $exibe2->reference != null):
+                        $addressComplement = $exibe2->reference;
+                    else:
+                        $addressComplement = '';
+                    endif;
+
                     $address = '
-                    <div class="col-xl-7">
+                    <div class="col-12">
                         <div class="media align-items-center">
-                            <i class="fa-light fa-location-dot fs-30 text-black mr-2"></i>
-                            <span class="text-black font-w500">'.$exibe2->formattedAddress.'</span>
+                            <i class="fa-light fa-location-dot fs-30 text-black mr-3"></i>
+                            <span class="text-black font-w500">'.$exibe2->formattedAddress.' - '.$exibe2->neighborhood.' - '.$exibe2->city.' ● CEP '.$exibe2->postalCode.'<br>'.$addressComplement.'</span>
                         </div>
                     </div>';
                 endif;
@@ -1806,12 +1819,6 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                                     <div class="col-xl-10">
                                         <div class="row align-items-center justify-content-center">
                                             '.$address.'
-                                            <div class="col-xl-5">
-                                                <div class="media align-items-center">
-                                                    <i class="fa-light fa-phone fs-30 text-black mr-2"></i>
-                                                    <span class="text-black font-w500">'.$exibe->customerNumber.' <span class="text-secondary">: '.$exibe->customerLocalizer.'</span></span>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2203,16 +2210,18 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 $diff = diffMinutos($dateAtual, $hourDelivered);
                 $minutes = (isset($diff)) ? $diff : "-" ;
 
-                if($minutes == 0 || $minutes == 1):
-                    $tempoDespachado = '1 minuto';
+                if($minutes == 0):
+                    $text = "há menos de 1 minuto";
+                elseif($minutes == 1):
+                    $text = "há 1 minuto";
                 else:
-                    $tempoDespachado = $minutes.' minutos';
+                    $text = "há $minutes minutos";
                 endif;
 
                 $alert = '
                 <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
                     <h4 class="fs-16 font-w600 mb-0">Saiu para entrega</h4>
-                    <h4 class="fs-14 font-w400 mb-0">há '.$tempoDespachado.'</h4>
+                    <h4 class="fs-14 font-w400 mb-0">'.$text.'</h4>
                 </div>';
             elseif($statusCod == 'CON'):
                 $sql7 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
@@ -2239,7 +2248,13 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     $text = "há $tempoConcluidoHoras horas";
                 else:
                     $tempoConcluidoMin = (isset($tempoConcluidoMin)) ? $tempoConcluidoMin : "-" ;
-                    $text = "há $tempoConcluidoMin minutos";
+                    if($tempoConcluidoMin == 0):
+                        $text = "há menos de 1 minuto";
+                    elseif($tempoConcluidoMin == 1):
+                        $text = "há 1 minuto";
+                    else:
+                        $text = "há $tempoConcluidoMin minutos";
+                    endif;
                 endif;
 
                 $alert = '
@@ -2271,7 +2286,13 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     $text = "há $tempoCanHoras horas";
                 else:
                     $tempoCanMin = (isset($tempoCanMin)) ? $tempoCanMin : "-" ;
-                    $text = "há $tempoCanMin minutos";
+                    if($tempoCanMin == 0):
+                        $text = "há menos de 1 minuto";
+                    elseif($tempoCanMin == 1):
+                        $text = "há 1 minuto";
+                    else:
+                        $text = "há $tempoCanMin minutos";
+                    endif;
                 endif;
 
                 if($originCancellation == 'merchant' || $originCancellation == 'RESTAURANT' || $originCancellation == 'MERCHANT'):
@@ -2363,6 +2384,15 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         <img src="images/avatar/man_3.png" alt="" width="120"
                             class="rounded-circle mb-4">
                         <h3 class="fs-22 text-black font-w600 mb-0">'.$exibe->customerName.'</h3>
+                    </div>
+                    <hr class="my-0">
+                    <div class="card-body py-3 px-4">
+                        <div class="media align-items-center">
+                            <i class="fa-light fa-phone fs-28 mr-3"></i>
+                            <div class="media-body">
+                            <span class="text-black font-w500">'.$exibe->customerNumber.' <span class="text-secondary">: '.$exibe->customerLocalizer.'</span></span>
+                            </div>
+                        </div>  
                     </div>
                     '.$pedidos.'
                 </div>
@@ -2492,6 +2522,110 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
             $btnEnd = (isset($btnEnd)) ? $btnEnd : '' ;
 
+            //
+            // DELIVERY - START
+            //
+            if($statusCod == 'CFM' || $statusCod == 'RTP' || $statusCod == 'DSP'):
+                if($statusDelivery == 'RDS' && ($statusCod == 'CFM' || $statusCod == 'RTP')): // ON DEMAND ACEITO
+                    $alert = '
+                    <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
+                        <h4 class="fs-16 font-w600 mb-0">Procurando entregador</h4>
+                        <h4 class="fs-14 font-w400 mb-0">Em instantes, as informações sobre o entregador estarão disponiveis</h4>
+                    </div>';
+
+                    if($statusCod == 'RTP'):
+                        $btnTop = '';
+                    else:
+                        $btnTop = '
+                            <div class="col-xl-12 col-sm-6">
+                                <div class="card card-mb-20">
+                                    <button type="button" class="btn btn-success btn-lg btnOrderRtp" data-orderId="'.$orderId.'"><span class="fs-16">AVISAR PEDIDO PRONTO</span></button>
+                                </div> 
+                            </div>';
+                    endif;
+                elseif($statusDelivery == 'RDF' && $statusCod == 'CFM'): // ON DEMAND RECUSADO
+                    $alert = $alert.'
+                    <div class="card-body faixa-aviso-order-details atraso py-3">
+                        <h4 class="fs-16 font-w600 mb-0">Entrega parceira cancelada</h4>
+                        <h4 class="fs-14 font-w400 mb-0">O restaurante é responsavel pela entrega desse pedido, não esqueça de despachar.</h4>
+                    </div>';
+                elseif($statusDelivery == 'GTO'  && ($statusCod == 'CFM' || $statusCod == 'RTP')): // ENTREGADOR A CAMINHO PARA RETIRAR PEDIDO
+                    if($statusCod == 'RTP'):
+                        $btnTop = '';
+                    else:
+                        $btnTop = '
+                            <div class="col-xl-12 col-sm-6">
+                                <div class="card card-mb-20">
+                                    <button type="button" class="btn btn-success btn-lg btnOrderRtp" data-orderId="'.$orderId.'"><span class="fs-16">AVISAR PEDIDO PRONTO</span></button>
+                                </div> 
+                            </div>';
+                    endif;
+
+                    $alert = '
+                    <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
+                        <h4 class="fs-16 font-w600 mb-0">Entregador a caminho</h4>
+                        <h4 class="fs-14 font-w400 mb-0">Chega ao restaurante em *</h4>
+                    </div>';
+                elseif($statusDelivery == 'AAO'  && ($statusCod == 'CFM' || $statusCod == 'RTP')): // ENTREGADOR CHEGOU PARA RETIRAR PEDIDO
+                    $btnTop = '';
+                    
+                    $alert = '
+                    <div class="card-body rounded-top faixa-aviso-order-details entrega py-3">
+                        <h4 class="fs-16 font-w600 mb-0">Entregador chegou</h4>
+                        <h4 class="fs-14 font-w400 mb-0">Entregue o pedido para o entregador.</h4>
+                    </div>';
+                elseif($statusDelivery == 'CLT'  && ($statusCod == 'CFM' || $statusCod == 'RTP' || $statusCod == 'DSP')): // ENTREGADOR COLETOU PEDIDO
+                    
+                endif;
+
+                if(($statusDelivery == 'GTO' || $statusDelivery == 'AAO' || $statusDelivery == 'CLT')  && ($statusCod == 'CFM' || $statusCod == 'RTP')):
+                    $sql11 = "SELECT * FROM ifood_delivery_ifood WHERE orderId=:orderId";
+                    $stmt11 = $conexao->prepare($sql11);
+                    $stmt11->bindParam(':orderId', $orderId);
+                    $stmt11->execute();
+                    $conta11 = $stmt11->rowCount();
+
+                    if($conta11 != 0):
+                        $exibe11 = $stmt11->fetch(PDO::FETCH_OBJ);
+
+                        $entregadorInfo = '
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-body rounded px-5" style="background:#3f4953;">
+                                    <div class="row mx-0 align-items-center">
+                                        <div class="media align-items-center col px-0 mb-3 mb-md-0">
+                                            <img class="mr-3 img-fluid rounded-circle" width="80" src="'.$exibe11->workerPhotoUrl.'" alt="DexignZone">
+                                            <div class="media-body">
+                                                <h3 class="fs-14 font-w600 mb-0 text-white">Entregador</h3>
+                                                <h3 class="fs-20 font-w400 mb-0 text-white">'.$exibe11->workerName.'</h3>
+                                                <small class="text-white">Moto</small>
+                                            </div>
+                                            <div class="media-footer rounded bg-body-painel text-right d-inline-block py-2 px-4">
+                                                <h4 class="fs-16 font-w600 mb-0">
+                                                    <span class="align-middle">
+                                                        <i class="fa-light fa-phone fs-30 text-black mr-2"></i>
+                                                    </span>
+                                                    <span>'.$exibe11->workerPhone.'</span>
+                                                </h4>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+                    endif;
+                endif;
+            endif;
+
+            $entregadorInfo = (isset($entregadorInfo)) ? $entregadorInfo : '' ;
+            //
+            // DELIVERY - END
+            //
+
+            //
+            // CANCEL - START
+            //
+
             // ANALIZA SE PEDIDO ESTA COM CANCELAMENTO OU RECUSA EM PROCESSO, CASO ESTEJA ALTERA "ALERT" E "BTN-TOP-END"
 
             // MERCHANT
@@ -2545,10 +2679,14 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                 $btnEnd = '';
             endif;
 
+            //
+            // CANCEL - END
+            //
+
             $col_left = '
             <div class="col-xxl-12 col-xl-8">
                 <div class="row">
-                    '.$col_info_1.'
+                    '.$col_info_1.$entregadorInfo.'
                     <div class="col-xl-12">
                         <div class="card border border-light shadow-sm">
                             '.$alert.'
