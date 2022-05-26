@@ -1261,6 +1261,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                         $value    = (isset($final['value'])) ? $final['value'] : '';
                         $rejectReason = null;
                     else:
+                        $available = 0;
                         $value = null;
                         $rejectReason = (isset($metadata['rejectReason'])) ? $metadata['rejectReason'] : null;
                     endif;
