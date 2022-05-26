@@ -2165,10 +2165,18 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         </div> 
                     </div>';
                 elseif($onDemandAvailable == 0):
-                    if($onDemandRejectReason == ''):
+                    if($onDemandRejectReason == 'OFF_WORKING_SHIFT' || $onDemandRejectReason == 'OFF_WORKING_SHIFT_POST'):
                         $rejectReason = 'Fora do horário de atendimento dos entregadores parceiros do iFood.';
                     elseif($onDemandRejectReason == ''):
                         $rejectReason = 'Endereço de entrega não atendido por entregadores parceiros do iFood.';
+                    elseif($onDemandAvailable == 'PAYMENT_MISMATCH'):
+                        $rejectReason = 'Forma de pagamento não suportada pelos entregadores parceiros do iFood.';
+                    elseif($onDemandAvailable == 'SAFE_MODE_ON'):
+                        $rejectReason = 'Serviço indisponivel no momento.';
+                    elseif($onDemandAvailable == 'CLOSED_REGION'):
+                        $rejectReason = 'Serviço indisponivel no momento.';
+                    elseif($onDemandAvailable == 'SATURATED_REGION'):
+                        $rejectReason = 'Todos os nossos entregadores estão ocupados no momeno.';
                     else:
                         $rejectReason = 'Serviço indisponivel no momento.';
                     endif;
