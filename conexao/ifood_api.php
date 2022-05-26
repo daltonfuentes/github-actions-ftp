@@ -1252,7 +1252,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     // RDA - Indica se o pedido é elegível para requisitar o serviço de entrega sob demanda e o custo do serviço caso seja elegível
                     //
                     $metadata       = (array) $in['metadata'];
-                    $available    = (isset($metadata['available'])) ? $metadata['available'] : 0;
+                    $available    = (isset($metadata['available'])) ? $metadata['available'] : false;
 
                     if($available == true):
                         $quote = (array) $metadata['quote'];
@@ -1261,7 +1261,6 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                         $value    = (isset($final['value'])) ? $final['value'] : '';
                         $rejectReason = null;
                     else:
-                        $available == 'no';
                         $value = null;
                         $rejectReason = (isset($metadata['rejectReason'])) ? $metadata['rejectReason'] : null;
                     endif;
@@ -2164,7 +2163,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                             <button type="button" class="btn btn-outline-success btn-lg bg-order-details-02 px-2"><i class="fa-duotone fa-spinner-third fs-18 fa-spin"></i></button>
                         </div> 
                     </div>';
-                elseif($onDemandAvailable == 'no'):
+                elseif($onDemandAvailable == false):
                     if($onDemandRejectReason == ''):
                         $rejectReason = 'Fora do horário de atendimento dos entregadores parceiros do iFood.';
                     elseif($onDemandRejectReason == ''):
