@@ -2169,13 +2169,13 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         $rejectReason = 'Fora do horário de atendimento dos entregadores parceiros do iFood.';
                     elseif($onDemandRejectReason == ''):
                         $rejectReason = 'Endereço de entrega não atendido por entregadores parceiros do iFood.';
-                    elseif($onDemandAvailable == 'PAYMENT_MISMATCH'):
+                    elseif($onDemandRejectReason == 'PAYMENT_MISMATCH'):
                         $rejectReason = 'Forma de pagamento não suportada pelos entregadores parceiros do iFood.';
-                    elseif($onDemandAvailable == 'SAFE_MODE_ON'):
+                    elseif($onDemandRejectReason == 'SAFE_MODE_ON'):
                         $rejectReason = 'Serviço indisponivel no momento.';
-                    elseif($onDemandAvailable == 'CLOSED_REGION'):
+                    elseif($onDemandRejectReason == 'CLOSED_REGION'):
                         $rejectReason = 'Serviço indisponivel no momento.';
-                    elseif($onDemandAvailable == 'SATURATED_REGION'):
+                    elseif($onDemandRejectReason == 'SATURATED_REGION'):
                         $rejectReason = 'Todos os nossos entregadores estão ocupados no momeno.';
                     else:
                         $rejectReason = 'Serviço indisponivel no momento.';
@@ -2190,7 +2190,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                             </div>
                             <hr class="hr-full-16 hr-price m-0">
                             <div class="card-body py-4">
-                                <h4 class="fs-16 text-sub-grey-2 font-w600">Indisponível para este pedido: '.$onDemandRejectReason.'</h4>
+                                <h4 class="fs-16 text-sub-grey-2 font-w600">Indisponível para este pedido</h4>
                                 <p class="text-justify fs-14 mb-0 text-sub-grey-2">'.$rejectReason.'</p>
                             </div>
                         </div> 
