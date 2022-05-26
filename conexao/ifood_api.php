@@ -2190,7 +2190,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                             </div>
                             <hr class="hr-full-16 hr-price m-0">
                             <div class="card-body py-4">
-                                <h4 class="fs-16 text-sub-grey-2 font-w600">Indisponível para este pedido</h4>
+                                <h4 class="fs-16 text-sub-grey-2 font-w600">Indisponível para este pedido: '.$onDemandRejectReason.'</h4>
                                 <p class="text-justify fs-14 mb-0 text-sub-grey-2">'.$rejectReason.'</p>
                             </div>
                         </div> 
