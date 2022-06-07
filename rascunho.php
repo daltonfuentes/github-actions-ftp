@@ -292,3 +292,87 @@
         ]
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[
+    {
+        "id": "96f2c7c1-5004-43cf-9061-0c53c47b1e17",
+        "code": "PLC",
+        "fullCode": "PLACED",
+        "orderId": "18dc0f48-3729-4e35-8388-406bd7633abe",
+        "merchantId": "86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e",
+        "createdAt": "2022-06-07T14:20:27.57Z"
+    },
+    {
+        "id": "0d48c4c6-62a1-4e1a-b4e2-5461ba528d31",
+        "code": "CFM",
+        "fullCode": "CONFIRMED",
+        "orderId": "18dc0f48-3729-4e35-8388-406bd7633abe",
+        "merchantId": "86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e",
+        "createdAt": "2022-06-07T14:20:41.511Z",
+        "metadata": {
+            "ORIGIN": "ORDER_API",
+            "ownerName": "ifood",
+            "CLIENT_ID": "ifood:iconnect_v3_homologation",
+            "appName": "iconnect_v3_homologation"
+        }
+    },
+    {
+        "id": "119eaab5-0aa0-42ee-9379-29260a3498d5",
+        "code": "ADR",
+        "fullCode": "ASSIGN_DRIVER",
+        "orderId": "7fd336a6-03ff-4eb3-a17a-527d010366de",
+        "merchantId": "86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e",
+        "createdAt": "2022-06-07T14:22:07.58Z",
+        "metadata": {
+            "workerPhone": "+3099980100154",
+            "workerVehicleType": "MOTORCYCLE",
+            "workerName": "Testworkerbujari",
+            "workerExternalUuid": "119cddac-1b51-465f-b569-7f2268893742",
+            "workerPhotoUrl": "https://s3.amazonaws.com/nv-logistics-data.ifood.com.br/attributes/IMAGE/WORKER/entity-uuid-119cddac-1b51-465f-b569-7f2268893742/attribute-key-WORKER_PHOTO/sampledriverslicense.jpg?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEN7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIA%2BDXbKehGkw1QQTjAxZHg7vRhiU9DXCVCDwDCWnaoFfAiEAwLzeG7Lg%2BB2v2dPFO58hxfRS2Ozd7SEeJtDzDwEFjO0q2wQI1v%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwzNzg0OTcwMjk3MDkiDDERUZ0EKaQXQUZD%2FSqvBN%2BcaYiS3rF4vSq%2Bnw2gwST17h8CZzrC3DcGa9Lh%2BIwMn9Kv8BPxFlCDIp1C05Q9p2vdhiSnhokmw92mDUJEymnLHxNwt%2BM1F0pn6iQk7TH3RaFjV%2BE6XXE4svL8Aj2iBbOfTC5pUBjtdO2sE5QVeiGrZqHu0IEe4msTGPaxd5wPshmMI%2BvbiyUT52KOEQ%2FYhf5TsQi0yZCEsFmim1tSz1c6%2FYTrkfVLBdKHyw2tsvgYal3A9My6YXMlVNB4qFPXYVpQC7azyVVUlk4ii5%2BH33GqE8UK3bFG7F598qpRASPxyeZoYgzU%2FZIEWIQ0dhmBDSTWBHEyq9M0qzE3pmQgg2CKr%2F%2BX11yZDwGfm4QKFXv53XbrLxY89kTfDQMJ%2B2BHbNGZYeHrbtim0A7JX%2B8qq16nA1NKEX5GfQJYYU33uoh6WaHt5TwkngH4b9lzRS7g5UrZfdzvpbRldWhy07vtD2tT2kmsxMQfr3WubogJMROTvu5lsoxTlG3p8A35CqnyNJqOUe4j08VWk7bHQ2dovwYSpSh%2BFuXna537TPHy%2FbaLliEgXac5%2F3uMByN5%2Fk%2BQxCCackduEJ5AKjECexpbWz7GJsk70eBSbjiiaFZOpWpBuCPWaX8z1Oi2d%2Bu7Da0EvX7j9CVOUPYk64asWoFeGkmCsjHi7MX3ymbQF3DGGjCp3MAZJU2YFZjESKHMcdHWB9eR039s89pUl%2Bw0U8%2B3mo2O8MpCICKTmrcBZvxRme8wkqH9lAY6qQHLM5gyScZ9V9THptu5VzOTDQmuE86FW3VF6WhmGAJX9zKsMHVs7mvD%2Bt2rvFGzDGfH9WgSWK%2FapltQP4ioYZDRUOnETsMTFNbrYztmcQ6k9kUcoq8do1aj%2BPPj1ppKL77FucDFftiaMLeinVUBeZZBfiJ%2FIWHn3%2FzQZ9LTY6zDmIg398fx82aD29fRj%2BZIRfXUZzmjeB7H5BKgKWwCJvCyX5uPH3H0co6%2F&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220607T142207Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=ASIAVQIBOKZGZDQQZAXS%2F20220607%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=ac21b5e92d7ed4be5b6958c9caa865a71b48865a64ab7e11447a39805117c0d7"
+        }
+    },
+    {
+        "id": "80d1315d-836a-4bb7-b446-b9b9fe71e212",
+        "code": "GTO",
+        "fullCode": "GOING_TO_ORIGIN",
+        "orderId": "7fd336a6-03ff-4eb3-a17a-527d010366de",
+        "merchantId": "86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e",
+        "createdAt": "2022-06-07T14:22:07.589Z"
+    },
+    {
+        "id": "f8f3cc7b-a4e2-474a-96f9-d7192a287205",
+        "code": "ADR",
+        "fullCode": "ASSIGN_DRIVER",
+        "orderId": "18dc0f48-3729-4e35-8388-406bd7633abe",
+        "merchantId": "86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e",
+        "createdAt": "2022-06-07T14:22:07.618Z",
+        "metadata": {
+            "workerPhone": "+3099980100154",
+            "workerVehicleType": "MOTORCYCLE",
+            "workerName": "Testworkerbujari",
+            "workerExternalUuid": "119cddac-1b51-465f-b569-7f2268893742",
+            "workerPhotoUrl": "https://s3.amazonaws.com/nv-logistics-data.ifood.com.br/attributes/IMAGE/WORKER/entity-uuid-119cddac-1b51-465f-b569-7f2268893742/attribute-key-WORKER_PHOTO/sampledriverslicense.jpg?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEN7%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJHMEUCIA%2BDXbKehGkw1QQTjAxZHg7vRhiU9DXCVCDwDCWnaoFfAiEAwLzeG7Lg%2BB2v2dPFO58hxfRS2Ozd7SEeJtDzDwEFjO0q2wQI1v%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARAAGgwzNzg0OTcwMjk3MDkiDDERUZ0EKaQXQUZD%2FSqvBN%2BcaYiS3rF4vSq%2Bnw2gwST17h8CZzrC3DcGa9Lh%2BIwMn9Kv8BPxFlCDIp1C05Q9p2vdhiSnhokmw92mDUJEymnLHxNwt%2BM1F0pn6iQk7TH3RaFjV%2BE6XXE4svL8Aj2iBbOfTC5pUBjtdO2sE5QVeiGrZqHu0IEe4msTGPaxd5wPshmMI%2BvbiyUT52KOEQ%2FYhf5TsQi0yZCEsFmim1tSz1c6%2FYTrkfVLBdKHyw2tsvgYal3A9My6YXMlVNB4qFPXYVpQC7azyVVUlk4ii5%2BH33GqE8UK3bFG7F598qpRASPxyeZoYgzU%2FZIEWIQ0dhmBDSTWBHEyq9M0qzE3pmQgg2CKr%2F%2BX11yZDwGfm4QKFXv53XbrLxY89kTfDQMJ%2B2BHbNGZYeHrbtim0A7JX%2B8qq16nA1NKEX5GfQJYYU33uoh6WaHt5TwkngH4b9lzRS7g5UrZfdzvpbRldWhy07vtD2tT2kmsxMQfr3WubogJMROTvu5lsoxTlG3p8A35CqnyNJqOUe4j08VWk7bHQ2dovwYSpSh%2BFuXna537TPHy%2FbaLliEgXac5%2F3uMByN5%2Fk%2BQxCCackduEJ5AKjECexpbWz7GJsk70eBSbjiiaFZOpWpBuCPWaX8z1Oi2d%2Bu7Da0EvX7j9CVOUPYk64asWoFeGkmCsjHi7MX3ymbQF3DGGjCp3MAZJU2YFZjESKHMcdHWB9eR039s89pUl%2Bw0U8%2B3mo2O8MpCICKTmrcBZvxRme8wkqH9lAY6qQHLM5gyScZ9V9THptu5VzOTDQmuE86FW3VF6WhmGAJX9zKsMHVs7mvD%2Bt2rvFGzDGfH9WgSWK%2FapltQP4ioYZDRUOnETsMTFNbrYztmcQ6k9kUcoq8do1aj%2BPPj1ppKL77FucDFftiaMLeinVUBeZZBfiJ%2FIWHn3%2FzQZ9LTY6zDmIg398fx82aD29fRj%2BZIRfXUZzmjeB7H5BKgKWwCJvCyX5uPH3H0co6%2F&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20220607T142207Z&X-Amz-SignedHeaders=host&X-Amz-Expires=86400&X-Amz-Credential=ASIAVQIBOKZGZDQQZAXS%2F20220607%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=ac21b5e92d7ed4be5b6958c9caa865a71b48865a64ab7e11447a39805117c0d7"
+        }
+    },
+    {
+        "id": "c5fbf7d7-0abc-4c80-97e5-f36f4dfb2044",
+        "code": "GTO",
+        "fullCode": "GOING_TO_ORIGIN",
+        "orderId": "18dc0f48-3729-4e35-8388-406bd7633abe",
+        "merchantId": "86c364e5-aa30-499e-aeb1-a2d3ddfc2b3e",
+        "createdAt": "2022-06-07T14:22:07.637Z"
+    }
+]

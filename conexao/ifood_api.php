@@ -677,11 +677,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     //
                     //  ENVIA EVENTRO PARA BD
                     //
-                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt, code) VALUES (:id, :orderId, :createdAt, :code)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':id', $polId);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $stmt->bindParam(':code', $polCode);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -921,11 +922,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     //
                     //  ENVIA EVENTRO PARA BD
                     //
-                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt, code) VALUES (:id, :orderId, :createdAt, :code)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':id', $polId);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $stmt->bindParam(':code', $polCode);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -969,11 +971,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     //
                     //  ENVIA EVENTRO PARA BD
                     //
-                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt, code) VALUES (:id, :orderId, :createdAt, :code)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':id', $polId);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $stmt->bindParam(':code', $polCode);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -1018,11 +1021,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     //
                     //  ENVIA EVENTRO PARA BD
                     //
-                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt, code) VALUES (:id, :orderId, :createdAt, :code)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':id', $polId);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $stmt->bindParam(':code', $polCode);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -1072,7 +1076,7 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
-                        errorLog('error-ifood_events-101-Erro interno BD.');
+                        errorLog('error-ifood_takeout-101-Erro interno BD.');
                     endif;
 
                     $sql = 'UPDATE ifood_orders SET statusTekeout=:statusTekeout WHERE orderId=:orderId && merchantId=:merchantId';
@@ -1088,11 +1092,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     //
                     //  ENVIA EVENTRO PARA BD
                     //
-                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt, code) VALUES (:id, :orderId, :createdAt, :code)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':id', $polId);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $stmt->bindParam(':code', $polCode);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -1163,11 +1168,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     //
                     //  ENVIA EVENTRO PARA BD
                     //
-                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt, code) VALUES (:id, :orderId, :createdAt, :code)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':id', $polId);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $stmt->bindParam(':code', $polCode);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -1215,11 +1221,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     //
                     //  ENVIA EVENTRO PARA BD
                     //
-                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt, code) VALUES (:id, :orderId, :createdAt, :code)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':id', $polId);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $stmt->bindParam(':code', $polCode);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -1281,11 +1288,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     //
                     //  ENVIA EVENTRO PARA BD
                     //
-                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt, code) VALUES (:id, :orderId, :createdAt, :code)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':id', $polId);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $stmt->bindParam(':code', $polCode);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -1331,11 +1339,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     //
                     //  ENVIA EVENTRO PARA BD
                     //
-                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt, code) VALUES (:id, :orderId, :createdAt, :code)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':id', $polId);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $stmt->bindParam(':code', $polCode);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -1386,11 +1395,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     //
                     //  ENVIA EVENTRO PARA BD
                     //
-                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt) VALUES (:id, :orderId, :createdAt)';
+                    $sql = 'INSERT INTO ifood_events (id, orderId, createdAt, code) VALUES (:id, :orderId, :createdAt, :code)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':id', $polId);
                     $stmt->bindParam(':orderId', $polOrderId);
                     $stmt->bindParam(':createdAt', $polCreatedAt);
+                    $stmt->bindParam(':code', $polCode);
                     $resposta = $stmt->execute();
 
                     if(!$resposta):
@@ -1792,13 +1802,6 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         </div>
                     </div>';
                 endif;
-
-                
-
-                
-    
-    
-    
             elseif($orderType == 'TAKEOUT'):
 
             elseif($orderType == 'INDOOR'):
