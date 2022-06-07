@@ -1769,6 +1769,8 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
         $onDemandValue = $exibe->onDemandValue;
         $onDemandRejectReason = $exibe->onDemandRejectReason;
 
+        $deliveredBy = $exibe->deliveredBy;
+
         $statusDelivery = $exibe->statusDelivery;
         $statusTekeout = $exibe->statusTekeout;
 
@@ -2220,10 +2222,16 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
                 $alert = '';
             elseif($statusCod == 'DSP'):
+                if($deliveredBy == 'IFOOD'):
+                    $statusConsult = 'CLT';
+                elseif($deliveredBy == 'MERCHANT'):
+                    $statusConsult = $statusCod;
+                endif;
+
                 $sql7 = "SELECT * FROM ifood_events WHERE orderId=:orderId AND code=:code";
                 $stmt7 = $conexao->prepare($sql7);
                 $stmt7->bindParam(':orderId', $orderId);	
-                $stmt7->bindParam(':code', $statusCod);	
+                $stmt7->bindParam(':code', $statusConsult);	
                 $stmt7->execute();
                 $conta7 = $stmt7->rowCount();
 
