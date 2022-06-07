@@ -1483,6 +1483,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true):
             $orderId = $exibe->orderId;
             $customerName = $exibe->customerName;
             $displayId = $exibe->displayId;
+            $salesChannel = $exibe->salesChannel;
 
             if($orderIdAtivo == $orderId):
                 $active = 'active';
@@ -1491,7 +1492,7 @@ if(isset($_POST['orders_list']) && $_POST['orders_list'] == true):
             endif;
     
             if($timing == 'IMMEDIATE' || ($timing == 'SCHEDULED' && $preparationStart <= $dateAtual)): //APARECE EM IMEDIATE
-                if($status == 'PLC'):
+                if($status == 'PLC' && $salesChannel != 'POS'):
                     $immediate = $immediate.'
                     <div class="col-12 mb-3">
                         <div class="card shadow  mb-0 d-block">
