@@ -2642,7 +2642,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
 
                 endif;
 
-                if(($statusDelivery == 'ADR' || $statusDelivery == 'GTO' || $statusDelivery == 'AAO' || $statusDelivery == 'CLT')  && ($statusCod == 'CFM' || $statusCod == 'RTP' || $statusCod == 'DSP')):
+                if(($statusDelivery == 'ADR' || $statusDelivery == 'GTO' || $statusDelivery == 'AAO' || $statusDelivery == 'CLT' || $statusDelivery == 'AAD')  && ($statusCod == 'CFM' || $statusCod == 'RTP' || $statusCod == 'DSP')):
                     $sql11 = "SELECT * FROM ifood_delivery_ifood WHERE orderId=:orderId";
                     $stmt11 = $conexao->prepare($sql11);
                     $stmt11->bindParam(':orderId', $orderId);
