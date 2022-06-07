@@ -1214,15 +1214,31 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     // CLT - Entregador coletou o pedido
                     // AAD - Entregador chegou no endereço de destino
                     //
-                    $sql = 'UPDATE ifood_orders SET statusDelivery=:statusDelivery WHERE orderId=:orderId && merchantId=:merchantId';
-                    $stmt = $conexao->prepare($sql);
-                    $stmt->bindParam(':statusDelivery', $polCode);
-                    $stmt->bindParam(':orderId', $polOrderId);
-                    $stmt->bindParam(':merchantId', $merchantId);
-                    $resposta = $stmt->execute();
+                    if($polCode == 'GTO' || $polCode == 'AAO' || $polCode == 'AAD'):
+                        $sql = 'UPDATE ifood_orders SET statusDelivery=:statusDelivery WHERE orderId=:orderId && merchantId=:merchantId';
+                        $stmt = $conexao->prepare($sql);
+                        $stmt->bindParam(':statusDelivery', $polCode);
+                        $stmt->bindParam(':orderId', $polOrderId);
+                        $stmt->bindParam(':merchantId', $merchantId);
+                        $resposta = $stmt->execute();
 
-                    if(!$resposta):
-                        errorLog('error-ifood_orders-101-Erro interno BD.');
+                        if(!$resposta):
+                            errorLog('error-ifood_orders-101-Erro interno BD.');
+                        endif;
+                    elseif($polCode == 'CLT'):
+                        $statusDSP = 'DSP';
+
+                        $sql = 'UPDATE ifood_orders SET statusDelivery=:statusDelivery, statusCod=:statusCod WHERE orderId=:orderId && merchantId=:merchantId';
+                        $stmt = $conexao->prepare($sql);
+                        $stmt->bindParam(':statusDelivery', $polCode);
+                        $stmt->bindParam(':statusCod', $statusDSP);
+                        $stmt->bindParam(':orderId', $polOrderId);
+                        $stmt->bindParam(':merchantId', $merchantId);
+                        $resposta = $stmt->execute();
+
+                        if(!$resposta):
+                            errorLog('error-ifood_orders-101-Erro interno BD.');
+                        endif;
                     endif;
                     //
                     //  ENVIA EVENTRO PARA BD
@@ -2623,7 +2639,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         <h4 class="fs-14 font-w400 mb-0">Entregue o pedido para o entregador.</h4>
                     </div>';
                 elseif($statusDelivery == 'CLT'  && ($statusCod == 'CFM' || $statusCod == 'RTP' || $statusCod == 'DSP')): // ENTREGADOR COLETOU PEDIDO
-                    
+
                 endif;
 
                 if(($statusDelivery == 'ADR' || $statusDelivery == 'GTO' || $statusDelivery == 'AAO' || $statusDelivery == 'CLT')  && ($statusCod == 'CFM' || $statusCod == 'RTP' || $statusCod == 'DSP')):
