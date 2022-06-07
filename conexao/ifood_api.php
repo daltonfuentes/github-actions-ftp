@@ -632,6 +632,12 @@ if (isset($_POST['polling']) && $_POST['polling'] == true):
                     $dateStatus = date_format(date_create(),"YmdHis");
                     $dateDelay = date_format(date_create((isset($deliveryDateTime)) ? $deliveryDateTime : $takeoutDateTime),"YmdHis");
 
+                    if($salesChannel == 'POS'):
+                        $statusDelivery = 'RDS';
+                        //BUSCA VALORES DE ENTREGA
+
+                    endif;
+
                     $sql = 'INSERT INTO ifood_orders (orderId, displayId, orderType, orderTiming, salesChannel, dateCreated, preparationStartDateTime, merchantId, merchantName, customerId, customerName, customerDocument, customerCountOnMerchant, customerNumber, customerLocalizer, customerLocalizerExpiration, isTest, extraInfo, originCancellation, statusTekeout, statusDelivery, onDemandAvailable, onDemandValue, mode, deliveredBy, deliveryDateTime, takeoutDateTime, tableIndoor, observations, deliveryDateTimeStart, deliveryDateTimeEnd, statusCod, dateStatus, dateDelay, dateDisplay) VALUES (:orderId, :displayId, :orderType, :orderTiming, :salesChannel, :dateCreated, :preparationStartDateTime, :merchantId, :merchantName, :customerId, :customerName, :customerDocument, :customerCountOnMerchant, :customerNumber, :customerLocalizer, :customerLocalizerExpiration, :isTest, :extraInfo, :originCancellation, :statusTekeout, :statusDelivery, :onDemandAvailable, :onDemandValue, :mode, :deliveredBy, :deliveryDateTime, :takeoutDateTime, :tableIndoor, :observations, :deliveryDateTimeStart, :deliveryDateTimeEnd, :statusCod, :dateStatus, :dateDelay, :dateDisplay)';
                     $stmt = $conexao->prepare($sql);
                     $stmt->bindParam(':orderId', $polOrderId);
