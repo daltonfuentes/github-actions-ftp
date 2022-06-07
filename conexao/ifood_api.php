@@ -1770,6 +1770,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
         $onDemandRejectReason = $exibe->onDemandRejectReason;
 
         $deliveredBy = $exibe->deliveredBy;
+        $salesChannel = $exibe->salesChannel;
 
         $statusDelivery = $exibe->statusDelivery;
         $statusTekeout = $exibe->statusTekeout;
@@ -2410,6 +2411,12 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                     </div> 
                 </div>';
             endif;
+
+            if($salesChannel == 'POS'):
+                $numeroCustomer = '<span class="text-black font-w500">'.$exibe->customerNumber.'</span>';
+            elseif($salesChannel == 'IFOOD'):
+                $numeroCustomer = '<span class="text-black font-w500">'.$exibe->customerNumber.' <span class="text-secondary">: '.$exibe->customerLocalizer.'</span></span>';
+            endif;
             
             $customerDetails = '
             <div class="col-xl-12 col-sm-6">
@@ -2424,7 +2431,7 @@ if(isset($_POST['orders_details_ifood']) && $_POST['orders_details_ifood'] == tr
                         <div class="media align-items-center">
                             <i class="fa-light fa-phone fs-28 mr-3"></i>
                             <div class="media-body">
-                            <span class="text-black font-w500">'.$exibe->customerNumber.' <span class="text-secondary">: '.$exibe->customerLocalizer.'</span></span>
+                            '.$numeroCustomer.'
                             </div>
                         </div>  
                     </div>
