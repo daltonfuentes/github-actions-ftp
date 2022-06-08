@@ -79,6 +79,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
         $radiusRestrictionStatus = $outState['validations']['radius-restriction']['state'];
         $payoutBlockedStatus = $outState['validations']['payout-blocked']['state'];
         $logisticsBlockedStatus = $outState['validations']['logistics-blocked']['state'];
+        $logisticsBlockedStatus2 = $outState['validations']['region-logistics-blocked']['state'];
         $termsServiceViolationStatus = $outState['validations']['terms-service-violation']['state'];
         $statusAvailabilityStatus = $outState['validations']['status-availability']['state'];
 
@@ -128,6 +129,12 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
         else:
             $linhaLogisticsBlocked = '';
         endif;
+        
+        if(!empty($logisticsBlockedStatus2)):
+            $linhaLogisticsBlocked2 = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['region-logistics-blocked']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['region-logistics-blocked']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['region-logistics-blocked']['message']['description'].'</span></h4>';
+        else:
+            $linhaLogisticsBlocked2 = '';
+        endif;
 
         if(!empty($termsServiceViolationStatus)):
             $linhaTermsServiceViolation = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['terms-service-violation']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['terms-service-violation']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['terms-service-violation']['message']['description'].'</span></h4>';
@@ -161,7 +168,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
             </div>
             <hr>
-            '.$linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$linhaTermsServiceViolation.$linhaStatusAvailability.'
+            '.$linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$logisticsBlockedStatus2.$linhaTermsServiceViolation.$linhaStatusAvailability.'
             <hr>
             <div class="media py-2">
                 <i class="'.$iconConnected.' fs-16 mr-3"></i>
