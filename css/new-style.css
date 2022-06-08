@@ -925,7 +925,7 @@ button:focus {
     animation: pulse_open 2s infinite;
 }
 
-.pulse.merchant-fail {
+.pulse.merchant-warning {
     border-radius: 50%;
     box-shadow: 0 0 0 rgba(255,109,77, 0.4);
     animation: pulse_fail 2s infinite;
@@ -1040,11 +1040,11 @@ button:focus {
     display: block !important;
 }
 
-.merchant-fail img.platform-dark {
+.merchant-warning img.platform-dark {
     display: none !important;
 }
 
-.merchant-fail img.platform-white {
+.merchant-warning img.platform-white {
     display: block !important;
 }
 
@@ -1070,12 +1070,12 @@ button:focus {
     border-color: #cbd0e3;
 }
 
-.merchant-fail {
+.merchant-warning {
     background-color: #FF6D4D;
     border-color: #FF6D4D;
 }
 
-.merchant-fail:hover, .merchant-fail:active {
+.merchant-warning:hover, .merchant-warning:active {
     background-color: #e95f40;
     border-color: #e95f40;
 }

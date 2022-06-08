@@ -51,16 +51,16 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
 
         $html = '
             <div class="media align-items-center">
-                <i class="fa-solid fa-circle-check text-success fs-16 mr-3"></i>
+                <i class="fa-solid fa-circle-check text-success fs-18 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
             </div>
             <hr class="">
             <div class="media py-2">
-                <i class="'.$iconConnected.' fs-16 mr-3"></i>
+                <i class="'.$iconConnected.' fs-18 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['is-connected']['message']['title'].'</h4>
             </div>
             <div class="media py-2">
-                <i class="'.$iconOpen.' fs-16 mr-3"></i>
+                <i class="'.$iconOpen.' fs-18 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['opening-hours']['message']['title'].' <br>
                     <span class="fs-12 font-w400">'.$outState['validations']['opening-hours']['message']['subtitle'].'</span>
                 </h4>
@@ -86,7 +86,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
         if(!empty($unavailabilitiesStatus)):
             $linhaUnavailabilities = '
             <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
-                <i class="fa-regular fa-clock text-black mr-3 fs-16"></i>
+                <i class="fa-regular fa-clock text-black mr-3 fs-18"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['unavailabilities']['message']['title'].'<br>
                     <span class="fs-12 font-w400">'.$outState['validations']['unavailabilities']['message']['subtitle'].'</span><br>
                     <span class="fs-12 font-w400">'.$outState['validations']['unavailabilities']['message']['description'].'</span>
@@ -101,7 +101,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
         if(!empty($radiusRestrictionStatus)):
             $linhaRadiusRestriction = '
             <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
-                <i class="fa-regular fa-circle-exclamation text-black mr-3 fs-16"></i>
+                <i class="fa-regular fa-circle-exclamation text-black mr-3 fs-18"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['radius-restriction']['message']['title'].'<br>
                     <span class="fs-12 font-w400">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br>
                     <span class="fs-12 font-w400">'.$outState['validations']['radius-restriction']['message']['description'].'</span>
@@ -113,27 +113,35 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
 
         if(!empty($payoutBlockedStatus)):
             $linhaPayoutBlocked = '
-            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
-                <i class="fa-regular fa-circle-exclamation text-black mr-3 fs-16"></i>
-                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['payout-blocked']['message']['title'].'<br>
-                    <span class="fs-12 font-w400">'.$outState['validations']['payout-blocked']['message']['subtitle'].'</span><br>
-                    <span class="fs-12 font-w400">'.$outState['validations']['payout-blocked']['message']['description'].'</span>
-                </h4>
-            </div>';
+                <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
+                    <i class="fa-regular fa-circle-exclamation text-black mr-3 fs-18"></i>
+                    <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['payout-blocked']['message']['title'].'<br>
+                        <span class="fs-12 font-w400">'.$outState['validations']['payout-blocked']['message']['subtitle'].'</span><br>
+                        <span class="fs-12 font-w400">'.$outState['validations']['payout-blocked']['message']['description'].'</span>
+                    </h4>
+                </div>';
         else:
             $linhaPayoutBlocked = '';
         endif;
 
         if(!empty($logisticsBlockedStatus)):
-            $linhaLogisticsBlocked = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-circle-exclamation text-black mr-2 fs-16"></i>'.$outState['validations']['logistics-blocked']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['logistics-blocked']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['logistics-blocked']['message']['description'].'</span></h4>';
+            $linhaLogisticsBlocked = '
+                <div class="media py-2 p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
+                    <i class="fa-solid fa-circle-exclamation text-warning mr-2 fs-18"></i>
+                    <h4 class="fs-14 font-w600 text-black mb-0">
+                        '.$outState['validations']['logistics-blocked']['message']['title'].'<br>
+                        <span class="fs-12 font-w400">'.$outState['validations']['logistics-blocked']['message']['subtitle'].'</span><br>
+                        <span class="fs-12 font-w400">'.$outState['validations']['logistics-blocked']['message']['description'].'</span>
+                    </h4>
+                </div>';
         else:
             $linhaLogisticsBlocked = '';
         endif;
         
         if(!empty($logisticsBlockedStatus2)):
             $linhaLogisticsBlocked2 = '
-                <div class="media py-2 p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
-                    <i class="fa-solid fa-circle-exclamation text-warning mr-2 fs-16"></i>
+                <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
+                    <i class="fa-solid fa-circle-exclamation text-warning mr-2 fs-18"></i>
                     <h4 class="fs-14 font-w600 text-black mb-0">
                         '.$outState['validations']['region-logistics-blocked']['message']['title'].'<br>
                         <span class="fs-12 font-w400">'.$outState['validations']['region-logistics-blocked']['message']['subtitle'].'</span><br>
@@ -145,13 +153,29 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
         endif;
 
         if(!empty($termsServiceViolationStatus)):
-            $linhaTermsServiceViolation = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-circle-exclamation text-black mr-2 fs-16"></i>'.$outState['validations']['terms-service-violation']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['terms-service-violation']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['terms-service-violation']['message']['description'].'</span></h4>';
+            $linhaTermsServiceViolation = '
+                <div class="media py-2 p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
+                    <i class="fa-solid fa-circle-exclamation text-warning mr-2 fs-18"></i>
+                    <h4 class="fs-14 font-w600 text-black mb-0">
+                        '.$outState['validations']['terms-service-violation']['message']['title'].'<br>
+                        <span class="fs-12 font-w400">'.$outState['validations']['terms-service-violation']['message']['subtitle'].'</span><br>
+                        <span class="fs-12 font-w400">'.$outState['validations']['terms-service-violation']['message']['description'].'</span>
+                    </h4>
+                </div>';
         else:
             $linhaTermsServiceViolation = '';
         endif;
 
         if(!empty($statusAvailabilityStatus)):
-            $linhaStatusAvailability = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order"  ><i class="fa-regular fa-circle-exclamation text-black mr-2 fs-16"></i>'.$outState['validations']['status-availability']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['status-availability']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['status-availability']['message']['description'].'</span></h4>';
+            $linhaStatusAvailability = '
+                <div class="media py-2 p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
+                    <i class="fa-solid fa-circle-exclamation text-warning mr-2 fs-18"></i>
+                    <h4 class="fs-14 font-w600 text-black mb-0">
+                        '.$outState['validations']['status-availability']['message']['title'].'<br>
+                        <span class="fs-12 font-w400">'.$outState['validations']['status-availability']['message']['subtitle'].'</span><br>
+                        <span class="fs-12 font-w400">'.$outState['validations']['status-availability']['message']['description'].'</span>
+                    </h4>
+                </div>';
         else:
             $linhaStatusAvailability = '';
         endif;
@@ -172,7 +196,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
 
         $html = '
             <div class="media align-items-center">
-                <i class="fa-solid fa-circle-check text-success fs-16 mr-3"></i>
+                <i class="fa-solid fa-circle-check text-success fs-18 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'<br><span class="fs-14 font-w400">'.$subtitle.'</span></h4>
             </div>
             <hr>
