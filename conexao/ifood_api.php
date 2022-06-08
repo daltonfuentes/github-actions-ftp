@@ -133,7 +133,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
         if(!empty($logisticsBlockedStatus2)):
             $linhaLogisticsBlocked2 = '
                 <div class="media py-2 p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
-                    <i class="fa-regular fa-circle-exclamation text-black mr-2 fs-16"></i>
+                    <i class="fa-solid fa-circle-exclamation text-warning mr-2 fs-16"></i>
                     <h4 class="fs-14 font-w600 text-black mb-0">
                         '.$outState['validations']['region-logistics-blocked']['message']['title'].'<br>
                         <span class="fs-12 font-w400">'.$outState['validations']['region-logistics-blocked']['message']['subtitle'].'</span><br>
