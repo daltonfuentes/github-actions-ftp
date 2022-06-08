@@ -49,8 +49,6 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
             $iconConnected = 'fa-regular fa-circle-exclamation text-black';
         endif;
 
-        $retorno['merchantStatus']  = 'open';
-
         $html = '
             <div class="media align-items-center">
                 <i class="fa-solid fa-circle-check text-success fs-16 mr-3"></i>
@@ -76,6 +74,74 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
         //
         $isConnectedStatus = $outState['validations']['is-connected']['state'];
         $openingHoursStatus = $outState['validations']['opening-hours']['state'];
+        
+        $unavailabilitiesStatus = $outState['validations']['unavailabilities']['state'];
+        $radiusRestrictionStatus = $outState['validations']['radius-restriction']['state'];
+        $payoutBlockedStatus = $outState['validations']['payout-blocked']['state'];
+        $logisticsBlockedStatus = $outState['validations']['logistics-blocked']['state'];
+        $termsServiceViolationStatus = $outState['validations']['terms-service-violation']['state'];
+        $statusAvailabilityStatus = $outState['validations']['status-availability']['state'];
+
+        if(!empty($unavailabilitiesStatus)):
+            $linhaUnavailabilities = '
+            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
+                <i class="fa-regular fa-clock text-black mr-3 fs-16"></i>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['unavailabilities']['message']['title'].'<br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['unavailabilities']['message']['subtitle'].'</span><br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['unavailabilities']['message']['description'].'</span>
+                </h4>
+            </div>';
+            $button = '<button type="button" class="btn btn-success btn-sm btn-block mt-4 disabled" disabled><span class="ml-2 fs-16">Abrir agora</span></button>';
+        else:
+            $linhaUnavailabilities = '';
+            $button = '<button type="button" class="btn btn-success btn-sm btn-block mt-4"><span class="ml-2 fs-16">Abrir agora</span></button>';
+        endif;
+
+        if(!empty($radiusRestrictionStatus)):
+            $linhaRadiusRestriction = '
+            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
+                <i class="fa-regular fa-clock text-black mr-3 fs-16"></i>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['radius-restriction']['message']['title'].'<br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['radius-restriction']['message']['description'].'</span>
+                </h4>
+            </div>';
+        else:
+            $linhaRadiusRestriction = '';
+        endif;
+
+        if(!empty($payoutBlockedStatus)):
+            $linhaPayoutBlocked = '
+            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
+                <i class="fa-regular fa-clock text-black mr-3 fs-16"></i>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['payout-blocked']['message']['title'].'<br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['payout-blocked']['message']['subtitle'].'</span><br>
+                    <span class="fs-12 font-w400">'.$outState['validations']['payout-blocked']['message']['description'].'</span>
+                </h4>
+            </div>';
+        else:
+            $linhaPayoutBlocked = '';
+        endif;
+
+        if(!empty($logisticsBlockedStatus)):
+            $linhaLogisticsBlocked = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['logistics-blocked']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['logistics-blocked']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['logistics-blocked']['message']['description'].'</span></h4>';
+        else:
+            $linhaLogisticsBlocked = '';
+        endif;
+
+        if(!empty($termsServiceViolationStatus)):
+            $linhaTermsServiceViolation = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order" style="margin-left: -16px;margin-right: -16px;"><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['terms-service-violation']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['terms-service-violation']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['terms-service-violation']['message']['description'].'</span></h4>';
+        else:
+            $linhaTermsServiceViolation = '';
+        endif;
+
+        if(!empty($statusAvailabilityStatus)):
+            $linhaStatusAvailability = '<h4 class="fs-14 font-w600 text-black p-3 bg-observation-order"  ><i class="fa-regular fa-clock text-black mr-2 fs-16"></i>'.$outState['validations']['status-availability']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['status-availability']['message']['subtitle'].'</span><br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['status-availability']['message']['description'].'</span></h4>';
+        else:
+            $linhaStatusAvailability = '';
+        endif;
+
+
 
         if($openingHoursStatus == 'OK' || $openingHoursStatus == 'WARNING'):
             $iconOpen = 'fa-solid fa-check text-success';
@@ -89,20 +155,13 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
             $iconConnected = 'fa-regular fa-circle-exclamation text-black';
         endif;
 
-        $retorno['merchantStatus']  = 'open';
-
         $html = '
             <div class="media align-items-center">
                 <i class="fa-solid fa-circle-check text-success fs-16 mr-3"></i>
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
             </div>
             <hr>
-            <div class="media align-items-center pt-2 p-3 my-2 bg-observation-order" style="margin-left: -16px;margin-right: -16px;">
-                <i class="fa-regular fa-clock text-black mr-3 fs-16"></i>
-                <h4 class="fs-14 font-w600 text-black mb-0">'.$outState['validations']['radius-restriction']['message']['title'].'  <br><span class="fs-12 font-w400 ml-4">'.$outState['validations']['radius-restriction']['message']['subtitle'].'</span><br>
-                    <span class="fs-12 font-w400 ml-4">Muitos pedidos (alterado no Gestor de Pedidos)</span>
-                </h4>
-            </div>
+            '.$linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$linhaTermsServiceViolation.$linhaStatusAvailability.'
             <hr>
             <div class="media py-2">
                 <i class="'.$iconConnected.' fs-16 mr-3"></i>
@@ -130,8 +189,6 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
         $logisticsBlockedStatus = $outState['validations']['logistics-blocked']['state'];
         $termsServiceViolationStatus = $outState['validations']['terms-service-violation']['state'];
         $statusAvailabilityStatus = $outState['validations']['status-availability']['state'];
-
-        $retorno['merchantStatus']  = 'open';
 
         if(!empty($unavailabilitiesStatus)):
             $linhaUnavailabilities = '
