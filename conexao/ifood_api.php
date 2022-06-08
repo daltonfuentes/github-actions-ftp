@@ -173,7 +173,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
         $html = '
             <div class="media align-items-center">
                 <i class="fa-solid fa-circle-check text-success fs-16 mr-3"></i>
-                <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
+                <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'<br><span class="fs-14 font-w400">'.$subtitle.'</span></h4>
             </div>
             <hr>
             '.$linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$linhaLogisticsBlocked2.$linhaTermsServiceViolation.$linhaStatusAvailability.'
