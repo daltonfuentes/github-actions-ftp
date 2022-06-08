@@ -168,7 +168,7 @@ if (isset($_POST['status_ifood']) && $_POST['status_ifood'] == true):
                 <h4 class="fs-14 font-w600 text-black mb-0">'.$title.'</h4>
             </div>
             <hr>
-            '.$linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$logisticsBlockedStatus2.$linhaTermsServiceViolation.$linhaStatusAvailability.'
+            '.$linhaUnavailabilities.$linhaRadiusRestriction.$linhaPayoutBlocked.$linhaLogisticsBlocked.$linhaLogisticsBlocked2.$linhaTermsServiceViolation.$linhaStatusAvailability.'
             <hr>
             <div class="media py-2">
                 <i class="'.$iconConnected.' fs-16 mr-3"></i>
