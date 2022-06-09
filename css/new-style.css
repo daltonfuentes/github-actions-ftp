@@ -925,7 +925,7 @@ button:focus {
     animation: pulse_open 2s infinite;
 }
 
-.pulse.merchant-warning {
+.pulse.merchant-warning, .pulse.merchant-fail {
     border-radius: 50%;
     box-shadow: 0 0 0 rgba(255,109,77, 0.4);
     animation: pulse_fail 2s infinite;
@@ -1040,11 +1040,11 @@ button:focus {
     display: block !important;
 }
 
-.merchant-warning img.platform-dark {
+.merchant-warning img.platform-dark, .merchant-fail img.platform-dark {
     display: none !important;
 }
 
-.merchant-warning img.platform-white {
+.merchant-warning img.platform-white, .merchant-fail img.platform-white {
     display: block !important;
 }
 
@@ -1070,14 +1070,26 @@ button:focus {
     border-color: #cbd0e3;
 }
 
-.merchant-warning {
+.merchant-fail {
     background-color: #FF6D4D;
     border-color: #FF6D4D;
 }
 
-.merchant-warning:hover, .merchant-warning:active {
+.merchant-fail:hover, .merchant-fail:active {
     background-color: #e95f40;
     border-color: #e95f40;
+}
+
+.merchant-warning {
+    background-color: #2BC155;
+    border-color: #ff6d4d;
+    border-width: 4px;
+}
+
+.merchant-warning:hover, .merchant-warning:active {
+    background-color: #2BC155;
+    border-color: #ff6d4d;
+    border-width: 4px;
 }
 
 .hr-full-16 {

@@ -142,17 +142,17 @@ $(window).on("load", function(){
 
     function changeStyleButtonStatus(status, plataform) {
         if(status == 'OK'){
-            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-close merchant-warning');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-close merchant-warning merchant-fail');
             $('.merchant-status-'+plataform+' button.btn-merchant-circle').addClass('merchant-open');
         }else if(status == 'WARNING'){
-            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-open merchant-close');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-open merchant-close merchant-fail');
             $('.merchant-status-'+plataform+' button.btn-merchant-circle').addClass('merchant-warning');
         }else if(status == 'CLOSED' || status == 'ERROR'){
-            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-open merchant-warning');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-open merchant-warning merchant-fail');
             $('.merchant-status-'+plataform+' button.btn-merchant-circle').addClass('merchant-close');
         }else if(status == 'FAIL'){
-            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-open merchant-close');
-            $('.merchant-status-'+plataform+' button.btn-merchant-circle').addClass('merchant-warning');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').removeClass('merchant-open merchant-close merchant-warning');
+            $('.merchant-status-'+plataform+' button.btn-merchant-circle').addClass('merchant-fail');
         }
     }
 
